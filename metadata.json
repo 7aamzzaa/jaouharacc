@@ -1,0 +1,6 @@
+{
+  "name": "ccjaouhara",
+  "description": "An elegant, luxurious women's bracelet e-commerce store sharing curated fine jewelry, cuffs, and beaded bangles with high-end typography and interactive flows.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

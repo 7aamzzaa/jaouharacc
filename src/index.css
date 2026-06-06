@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", Georgia, serif;
+
+  /* Premium Luxury Soft Editorial Aesthetic Theme */
+  --color-warm-cream: #FFF9F8;
+  --color-luxe-pink-50: #FFF9F8;
+  --color-luxe-pink-100: #FCE4EC;
+  --color-luxe-pink-200: #FAD3DF;
+  --color-luxe-pink-300: #F6BAD0;
+  --color-luxe-pink-400: #EE95B5;
+  --color-luxe-pink-500: #C5A059;
+  --color-luxe-pink-600: #2D2D2D;
+
+  /* Editorial Royal Gold Finish & Accent Colors */
+  --color-champagne-50: #FFF9F8;
+  --color-champagne-100: #F4E8E5;
+  --color-champagne-105: #EEDCD9;
+  --color-champagne-150: #E2CDC8;
+  --color-champagne-200: #DFC0B5;
+  --color-champagne-300: #C5A059;
+  --color-champagne-400: #D4AF37;
+  --color-champagne-500: #C5A059; /* Atelier Gold */
+  --color-champagne-600: #B58F49;
+  --color-champagne-700: #8C6A2F;
+
+  --color-charcoal-800: #3D3D3D;
+  --color-charcoal-900: #2D2D2D; /* Beautiful soft dark */
+}
+
+/* Custom premium styles for an elegant touch */
+body {
+  background-color: var(--color-champagne-50);
+  color: var(--color-charcoal-900);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Subtle image zoom animation with golden shadow */
+.zoom-frame {
+  overflow: hidden;
+  position: relative;
+}
+
+.zoom-image {
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.zoom-frame:hover .zoom-image {
+  transform: scale(1.08);
+}
+
+/* Scrollbar styling for pure visual premium flow */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-champagne-50);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-champagne-200);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-champagne-300);
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+@keyframes floatGlow {
+  0% {
+    box-shadow: 0 10px 20px rgba(197, 160, 89, 0.3);
+  }
+  100% {
+    box-shadow: 0 10px 25px rgba(197, 160, 89, 0.65), 0 0 15px rgba(197, 160, 89, 0.4);
+  }
+}
+
+@keyframes floatBtnFadeIn {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, 1rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@keyframes floatBtnFadeInDesktop {
+  0% {
+    opacity: 0;
+    transform: translate(0, 1rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
+.animate-floating-btn {
+  opacity: 0;
+  animation: floatBtnFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) 1.5s forwards, floatGlow 2s infinite alternate ease-in-out;
+}
+
+@media (min-width: 768px) {
+  .animate-floating-btn {
+    animation: floatBtnFadeInDesktop 1s cubic-bezier(0.16, 1, 0.3, 1) 1.5s forwards, floatGlow 2s infinite alternate ease-in-out;
+  }
+}
+
