@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import { ShoppingBag, ArrowRight, X, ShieldCheck, Gem } from 'lucide-react';
 
 // Models & Schemas
@@ -54,13 +54,16 @@ export default function App() {
   const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
   const [activeCategoryFilter, setActiveCategoryFilter] = useState<string | null>(null);
 
-  // Synchronize cart with localStorage upon modification
+  // Synchronize cart with localStorage upon modification (deferred via rAF for non-blocking writes)
   useEffect(() => {
-    try {
-      localStorage.setItem('ccjaouhara_cart', JSON.stringify(cart));
-    } catch (err) {
-      console.error('[Cart Sync Error]', err);
-    }
+    const timer = requestAnimationFrame(() => {
+      try {
+        localStorage.setItem('ccjaouhara_cart', JSON.stringify(cart));
+      } catch (err) {
+        console.error('[Cart Sync Error]', err);
+      }
+    });
+    return () => cancelAnimationFrame(timer);
   }, [cart]);
 
   // Decode search queries upon initialization (handles Stripe success callback redirect parameters!)
@@ -211,39 +214,7 @@ export default function App() {
   return (
     <div className="flex flex-col min-h-screen bg-champagne-50/20 selection:bg-champagne-200">
       
-      {/* Upper announcements strip */}
-      <div className="bg-stone-900 border-b border-stone-850 text-stone-200 text-[11px] uppercase font-semibold font-sans py-2.5 overflow-hidden relative w-full" dir="rtl">
-        <div className="flex whitespace-nowrap select-none" style={{ width: 'max-content' }}>
-          <div className="animate-marquee flex items-center shrink-0 pr-8 gap-8 font-sans">
-            <span>⭐ أسوارتك كاتحكي عليك</span>
-            <span className="text-champagne-500 font-bold">•</span>
-            <span>🚚 توصيل لباب الدار</span>
-            <span className="text-champagne-500 font-bold">•</span>
-            <span>✅ الدفع عند الاستلام</span>
-            <span className="text-champagne-500 font-bold">•</span>
-            <span>💎 لأن كل مرأة تستاهل الأحسن</span>
-            <span className="text-champagne-500 font-bold">•</span>
-            <span>🌸 جودة مضمونة 100%</span>
-            <span className="text-champagne-500 font-bold">•</span>
-            <span>🇲🇦 توصيل لجميع مدن المغرب</span>
-            <span className="text-champagne-500 font-bold">•</span>
-          </div>
-          <div className="animate-marquee flex items-center shrink-0 pr-8 gap-8 font-sans" aria-hidden="true">
-            <span>⭐ أسوارتك كاتحكي عليك</span>
-            <span className="text-champagne-500 font-bold">•</span>
-            <span>🚚 توصيل لباب الدار</span>
-            <span className="text-champagne-500 font-bold">•</span>
-            <span>✅ الدفع عند الاستلام</span>
-            <span className="text-champagne-500 font-bold">•</span>
-            <span>💎 لأن كل مرأة تستاهل الأحسن</span>
-            <span className="text-champagne-500 font-bold">•</span>
-            <span>🌸 جودة مضمونة 100%</span>
-            <span className="text-champagne-500 font-bold">•</span>
-            <span>🇲🇦 توصيل لجميع مدن المغرب</span>
-            <span className="text-champagne-500 font-bold">•</span>
-          </div>
-        </div>
-      </div>
+      <Marquee />
 
       {/* Primary Brand Navbar */}
       <Navbar
@@ -466,3 +437,40 @@ export default function App() {
     </div>
   );
 }
+
+const Marquee = memo(function Marquee() {
+  return (
+    <div className="bg-stone-900 border-b border-stone-850 text-stone-200 text-[11px] uppercase font-semibold font-sans py-2.5 overflow-hidden relative w-full" dir="rtl">
+      <div className="flex whitespace-nowrap select-none" style={{ width: 'max-content' }}>
+        <div className="animate-marquee flex items-center shrink-0 pr-8 gap-8 font-sans">
+          <span>⭐ أسوارتك كاتحكي عليك</span>
+          <span className="text-champagne-500 font-bold">•</span>
+          <span>🚚 توصيل لباب الدار</span>
+          <span className="text-champagne-500 font-bold">•</span>
+          <span>✅ الدفع عند الاستلام</span>
+          <span className="text-champagne-500 font-bold">•</span>
+          <span>💎 لأن كل مرأة تستاهل الأحسن</span>
+          <span className="text-champagne-500 font-bold">•</span>
+          <span>🌸 جودة مضمونة 100%</span>
+          <span className="text-champagne-500 font-bold">•</span>
+          <span>🇲🇦 توصيل لجميع مدن المغرب</span>
+          <span className="text-champagne-500 font-bold">•</span>
+        </div>
+        <div className="animate-marquee flex items-center shrink-0 pr-8 gap-8 font-sans" aria-hidden="true">
+          <span>⭐ أسوارتك كاتحكي عليك</span>
+          <span className="text-champagne-500 font-bold">•</span>
+          <span>🚚 توصيل لباب الدار</span>
+          <span className="text-champagne-500 font-bold">•</span>
+          <span>✅ الدفع عند الاستلام</span>
+          <span className="text-champagne-500 font-bold">•</span>
+          <span>💎 لأن كل مرأة تستاهل الأحسن</span>
+          <span className="text-champagne-500 font-bold">•</span>
+          <span>🌸 جودة مضمونة 100%</span>
+          <span className="text-champagne-500 font-bold">•</span>
+          <span>🇲🇦 توصيل لجميع مدن المغرب</span>
+          <span className="text-champagne-500 font-bold">•</span>
+        </div>
+      </div>
+    </div>
+  );
+});

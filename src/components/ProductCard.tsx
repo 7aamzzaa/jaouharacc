@@ -1,3 +1,4 @@
+import React, { memo, useCallback } from 'react';
 import { Eye, Handbag } from 'lucide-react';
 import { Product } from '../types';
 import LazyImage from './LazyImage';
@@ -10,8 +11,18 @@ interface ProductCardProps {
   currency?: 'USD' | 'MAD';
 }
 
-export default function ProductCard({ product, onViewDetails, onAddToCartDirect, currency = 'USD' }: ProductCardProps) {
+const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToCartDirect, currency = 'USD' }: ProductCardProps) {
   const isOutOfStock = product.stock === 0;
+
+  const handleViewClick = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    onViewDetails(product.id);
+  }, [onViewDetails, product.id]);
+
+  const handleAddClick = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+    onAddToCartDirect(product, 'Medium (7.0")');
+  }, [onAddToCartDirect, product]);
 
   return (
     <div className="group bg-white rounded-sm overflow-hidden border border-champagne-150 shadow-xs hover:shadow-sm hover:border-champagne-300 transition-all duration-300">
@@ -41,10 +52,7 @@ export default function ProductCard({ product, onViewDetails, onAddToCartDirect,
         {/* Floating Quick Action Overlay */}
         <div className="absolute inset-0 bg-stone-900/30 opacity-0 group-hover:opacity-100 flex items-center justify-center space-x-3 transition-opacity duration-300 z-10">
           <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onViewDetails(product.id);
-            }}
+            onClick={handleViewClick}
             className="cursor-pointer bg-white hover:bg-[#FFF9F8] hover:text-champagne-500 text-stone-900 p-3 rounded-full shadow-md hover:scale-105 transition-all text-sm font-medium"
             title="View Details"
           >
@@ -52,10 +60,7 @@ export default function ProductCard({ product, onViewDetails, onAddToCartDirect,
           </button>
           {!isOutOfStock && (
             <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onAddToCartDirect(product, 'Medium (7.0")'); // Add standard medium size on quick add
-              }}
+              onClick={handleAddClick}
               className="cursor-pointer bg-stone-900 hover:bg-champagne-500 text-white p-3 rounded-full shadow-md hover:scale-105 transition-all text-sm font-semibold"
               title="Quick Add to Cart (Medium)"
             >
@@ -97,4 +102,6 @@ export default function ProductCard({ product, onViewDetails, onAddToCartDirect,
 
     </div>
   );
-}
+});
+
+export default ProductCard;

@@ -126,13 +126,14 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             
             {/* Left/Text Column */}
-            <div className="lg:col-span-6 space-y-6 text-center lg:text-right flex flex-col items-center lg:items-end justify-center" dir="rtl">
-
-              
+            <motion.div 
+              initial="hidden"
+              animate="visible"
+              variants={{ visible: { transition: { staggerChildren: 0.2 } } }}
+              className="lg:col-span-6 space-y-6 text-center lg:text-right flex flex-col items-center lg:items-end justify-center" dir="rtl"
+            >
               <motion.h1 
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}
                 className="font-serif text-[42px] sm:text-5xl md:text-6xl lg:text-[70px] leading-[1.1] font-black text-stone-900 tracking-tight"
               >
                 لأن كل امرأة تستاهل <br />
@@ -140,18 +141,14 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
               </motion.h1>
               
               <motion.p 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}
                 className="text-stone-600 text-sm sm:text-base leading-relaxed max-w-xl font-medium font-sans"
               >
                 اكتشفي مجوهرات راقية صُنعت خصيصاً للمرأة العصرية — أساور، قلادات، خواتم، وأكثر، مصممة بعناية فائقة لتبرزي أناقتك وتألقك في كل المناسبات.
               </motion.p>
               
               <motion.div 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}
                 className="flex flex-col sm:flex-row items-center gap-4 pt-4 w-full sm:w-auto"
               >
                 <button
@@ -168,7 +165,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
                   اكتشفي المجموعة
                 </button>
               </motion.div>
-            </div>
+            </motion.div>
 
             {/* Right/Image Column */}
             <div className="lg:col-span-6 relative flex items-center justify-center h-[350px] sm:h-[480px]">
@@ -187,6 +184,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
                   src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=800"
                   alt="High Luxury Fine Jewelry"
                   className="w-full h-full object-cover scale-100 transition-transform duration-700 ease-out group-hover/hero:scale-110"
+                  loading="lazy"
                 />
                 
                 {/* Embedded Floating Glassmorphism Badge */}
@@ -341,13 +339,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
             ))}
           </div>
         ) : (
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.8 }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
-          >
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {bestSellers.map((product) => (
               <ProductCard
                 key={product.id}
@@ -357,7 +349,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
                 currency={currency}
               />
             ))}
-          </motion.div>
+          </div>
         )}
       </section>
 
@@ -422,13 +414,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
             ))}
           </div>
         ) : (
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.8 }}
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
-          >
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {newArrivals.map((product) => (
               <ProductCard
                 key={product.id}
@@ -438,7 +424,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
                 currency={currency}
               />
             ))}
-          </motion.div>
+          </div>
         )}
       </section>
 

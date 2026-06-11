@@ -13,7 +13,6 @@ interface NavbarProps {
 
 export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, currency, onCurrencyToggle }: NavbarProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileCollectionsOpen, setMobileCollectionsOpen] = useState(false);
   
   const totalItemsCount = cart.reduce((acc, item) => acc + item.quantity, 0);
@@ -77,64 +76,52 @@ export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, cu
             </button>
 
             {/* Collections Dropdown Mega-Menu */}
-            <div 
-              className="relative"
-              onMouseEnter={() => setDropdownOpen(true)}
-              onMouseLeave={() => setDropdownOpen(false)}
-            >
+            <div className="relative group">
               <button
                 className={`cursor-pointer text-[11px] tracking-[0.25em] uppercase transition-colors duration-300 font-medium flex items-center gap-1.5 pb-1 ${
-                  currentPage === 'shop' && !dropdownOpen
+                  currentPage === 'shop'
                     ? 'text-champagne-500'
                     : 'text-stone-600 hover:text-champagne-500'
                 }`}
               >
                 Collections
-                <ChevronDown size={11} className={`transition-transform duration-300 ${dropdownOpen ? 'rotate-180 text-champagne-500' : ''}`} />
+                <ChevronDown size={11} className="transition-transform duration-300 group-hover:rotate-180" />
               </button>
 
-              {dropdownOpen && (
-                <div className="absolute top-full left-0 mt-0 pt-3 w-[280px] bg-white border border-champagne-150 rounded-lg shadow-xl animate-fade-in z-50">
-                  <div className="p-2 space-y-1">
-                    {categories.map((cat) => {
-                      const CatIcon = cat.icon;
-                      return (
-                        <button
-                          key={cat.id}
-                          onClick={() => {
-                            onPageChange('shop', { filterCategory: cat.id });
-                            setDropdownOpen(false);
-                          }}
-                          className="w-full text-left flex items-start gap-3 p-2.5 rounded-md hover:bg-champagne-50/50 transition-colors group"
-                        >
-                          <div className="mt-0.5 p-1.5 bg-champagne-50 border border-champagne-100 rounded-md text-champagne-500 group-hover:bg-champagne-500 group-hover:text-white transition-all">
-                            <CatIcon size={14} />
-                          </div>
-                          <div>
-                            <span className="font-serif text-xs font-semibold text-stone-800 block group-hover:text-champagne-600 transition-colors">
-                              {cat.name}
-                            </span>
-                            <span className="text-[10px] text-stone-400 block mt-0.5">
-                              {cat.desc}
-                            </span>
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
-                  <div className="bg-stone-50 p-2.5 rounded-b-lg border-t border-champagne-105 flex justify-center">
-                    <button
-                      onClick={() => {
-                        onPageChange('shop');
-                        setDropdownOpen(false);
-                      }}
-                      className="text-[10px] tracking-widest uppercase font-bold text-champagne-600 hover:text-champagne-700"
-                    >
-                      Explore All Collections →
-                    </button>
-                  </div>
+              <div className="absolute top-full left-0 mt-0 pt-3 w-[280px] bg-white border border-champagne-150 rounded-lg shadow-xl z-50 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity duration-200">
+                <div className="p-2 space-y-1">
+                  {categories.map((cat) => {
+                    const CatIcon = cat.icon;
+                    return (
+                      <button
+                        key={cat.id}
+                        onClick={() => onPageChange('shop', { filterCategory: cat.id })}
+                        className="w-full text-left flex items-start gap-3 p-2.5 rounded-md hover:bg-champagne-50/50 transition-colors group"
+                      >
+                        <div className="mt-0.5 p-1.5 bg-champagne-50 border border-champagne-100 rounded-md text-champagne-500 group-hover:bg-champagne-500 group-hover:text-white transition-all">
+                          <CatIcon size={14} />
+                        </div>
+                        <div>
+                          <span className="font-serif text-xs font-semibold text-stone-800 block group-hover:text-champagne-600 transition-colors">
+                            {cat.name}
+                          </span>
+                          <span className="text-[10px] text-stone-400 block mt-0.5">
+                            {cat.desc}
+                          </span>
+                        </div>
+                      </button>
+                    );
+                  })}
                 </div>
-              )}
+                <div className="bg-stone-50 p-2.5 rounded-b-lg border-t border-champagne-105 flex justify-center">
+                  <button
+                    onClick={() => onPageChange('shop')}
+                    className="text-[10px] tracking-widest uppercase font-bold text-champagne-600 hover:text-champagne-700"
+                  >
+                    Explore All Collections →
+                  </button>
+                </div>
+              </div>
             </div>
 
             <button
