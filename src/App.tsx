@@ -19,6 +19,8 @@ import CheckoutSimulation from './pages/CheckoutSimulation';
 import OrderConfirmation from './pages/OrderConfirmation';
 import AdminDashboard from './pages/AdminDashboard';
 import NotFound from './pages/NotFound';
+import Blog from './pages/Blog';
+import BlogArticle from './pages/BlogArticle';
 
 export default function App() {
   // Navigation State
@@ -287,19 +289,34 @@ export default function App() {
                   currency={currency}
                 />
               );
-            case 'admin':
-              return (
-                <AdminDashboard
-                  products={allProducts}
-                  orders={allOrders}
-                  isLoadingProducts={loadingProducts}
-                  isLoadingOrders={loadingOrders}
-                  onRefreshProducts={fetchProductsList}
-                  onRefreshOrders={fetchOrdersLogs}
-                  currency={currency}
-                />
-              );
-            default:
+      case 'blog':
+        return (
+          <Blog
+            onPageChange={handlePageChange}
+            currency={currency}
+          />
+        );
+      case 'blog-article':
+        return (
+          <BlogArticle
+            slug={pageParams.slug}
+            onPageChange={handlePageChange}
+            currency={currency}
+          />
+        );
+      case 'admin':
+        return (
+          <AdminDashboard
+            products={allProducts}
+            orders={allOrders}
+            isLoadingProducts={loadingProducts}
+            isLoadingOrders={loadingOrders}
+            onRefreshProducts={fetchProductsList}
+            onRefreshOrders={fetchOrdersLogs}
+            currency={currency}
+          />
+        );
+      default:
               return (
                 <NotFound onPageChange={handlePageChange} />
               );

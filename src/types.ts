@@ -29,6 +29,19 @@ export interface Order {
   created_at: string;
 }
 
+export interface BlogPost {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  content: string;
+  image: string;
+  category: string;
+  author: string;
+  date: string;
+  tags: string[];
+}
+
 export interface CartItem {
   id: string; // combination of product_id + selected_size
   product_id: string;

@@ -145,6 +145,17 @@ export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, cu
             >
               Admin Portal
             </button>
+
+            <button
+              onClick={() => onPageChange('blog')}
+              className={`cursor-pointer text-[11px] tracking-[0.25em] uppercase transition-colors duration-300 font-medium ${
+                currentPage === 'blog' || currentPage === 'blog-article'
+                  ? 'text-champagne-500 border-b border-champagne-400 pb-1 font-semibold'
+                  : 'text-stone-600 hover:text-champagne-500 pb-1'
+              }`}
+            >
+              Blog
+            </button>
           </nav>
 
           {/* Cart triggers section */}
@@ -247,6 +258,20 @@ export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, cu
             }`}
           >
             Admin Portal
+          </button>
+
+          <button
+            onClick={() => {
+              onPageChange('blog');
+              setMobileMenuOpen(false);
+            }}
+            className={`block w-full text-left py-2.5 px-4 rounded-md text-sm tracking-widest uppercase font-medium ${
+              currentPage === 'blog' || currentPage === 'blog-article'
+                ? 'bg-luxe-pink-50 text-champagne-500 font-semibold'
+                : 'text-stone-700 hover:bg-champagne-50/50'
+            }`}
+          >
+            Blog
           </button>
         </div>
       )}
