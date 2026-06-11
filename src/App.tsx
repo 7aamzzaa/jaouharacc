@@ -1,16 +1,14 @@
 import { useState, useEffect, memo } from 'react';
+import { Routes, Route, useNavigate, useLocation, useSearchParams, useParams } from 'react-router-dom';
 import { ShoppingBag, ArrowRight, X, ShieldCheck, Gem } from 'lucide-react';
 
-// Models & Schemas
 import { Product, Order, CartItem } from './types';
 import { defaultProducts } from './data/defaultProducts';
 
-// Components
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ToastContainer, { showToast } from './components/ToastContainer';
 
-// Pages / Views
 import Home from './pages/Home';
 import Shop from './pages/Shop';
 import ProductDetail from './pages/ProductDetail';
@@ -21,28 +19,22 @@ import AdminDashboard from './pages/AdminDashboard';
 import NotFound from './pages/NotFound';
 import Blog from './pages/Blog';
 import BlogArticle from './pages/BlogArticle';
+import Contact from './pages/Contact';
 
 export default function App() {
-  // Navigation State
-  const [currentPage, setCurrentPage] = useState<string>('home');
-  const [pageParams, setPageParams] = useState<any>({});
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  // Currency fixed to MAD for local Moroccan customers
   const [currency] = useState<'USD' | 'MAD'>('MAD');
 
-  const handleCurrencyToggle = () => {
-    // Fixed to MAD - USD selection is removed
-  };
+  const handleCurrencyToggle = () => {};
 
-  // Core Database States
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [allOrders, setAllOrders] = useState<Order[]>([]);
-  
-  // Loading & Sync States
-  const [loadingProducts, setLoadingProducts] = useState<boolean>(true);
-  const [loadingOrders, setLoadingOrders] = useState<boolean>(true);
 
-  // Cart State (stored in localStorage)
+  const [loadingProducts, setLoadingProducts] = useState(true);
+  const [loadingOrders, setLoadingOrders] = useState(true);
+
   const [cart, setCart] = useState<CartItem[]>(() => {
     try {
       const stored = localStorage.getItem('ccjaouhara_cart');
@@ -52,11 +44,13 @@ export default function App() {
     }
   });
 
-  // UI Drawer State
-  const [isCartOpen, setIsCartOpen] = useState<boolean>(false);
-  const [activeCategoryFilter, setActiveCategoryFilter] = useState<string | null>(null);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
-  // Synchronize cart with localStorage upon modification (deferred via rAF for non-blocking writes)
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    setIsCartOpen(false);
+  }, [location.pathname]);
+
   useEffect(() => {
     const timer = requestAnimationFrame(() => {
       try {
@@ -68,66 +62,43 @@ export default function App() {
     return () => cancelAnimationFrame(timer);
   }, [cart]);
 
-  // Decode search queries upon initialization (handles Stripe success callback redirect parameters!)
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const status = urlParams.get('status');
     const orderId = urlParams.get('orderId');
-    const name = urlParams.get('name');
-    const email = urlParams.get('email');
-    const total = urlParams.get('total');
-    const itemsRaw = urlParams.get('items');
-
-    // If simulating order-redirect or returning from a Stripe Checkout session success page
     if (status === 'success' || orderId) {
-      // Navigate to order-confirmation screen passing query attributes as route parameters
-      setCurrentPage('order-confirmation');
-      setPageParams({
-        orderId,
-        email,
-        name,
-        total,
-        status
-      });
-      // Clear the cart on successful checkout redirect
       setCart([]);
-    } else {
-      // Read initial paths (supports local simulation URL callbacks)
-      const pathName = window.location.pathname.replace(/^\//, '');
-      if (pathName === 'checkout-simulation') {
-        setCurrentPage('checkout-simulation');
-      }
+      const params = new URLSearchParams();
+      if (orderId) params.set('orderId', orderId);
+      if (urlParams.get('name')) params.set('name', urlParams.get('name')!);
+      if (urlParams.get('email')) params.set('email', urlParams.get('email')!);
+      if (urlParams.get('total')) params.set('total', urlParams.get('total')!);
+      if (status) params.set('status', status);
+      navigate(`/order-confirmation?${params.toString()}`, { replace: true });
     }
   }, []);
 
-  // Fetch precious jewelry products list on mount
   const fetchProductsList = async () => {
     setLoadingProducts(true);
     try {
       const response = await fetch('/api/products');
-      if (!response.ok) {
-        throw new Error('Server returned error status on products scan');
-      }
+      if (!response.ok) throw new Error('Server returned error status on products scan');
       const data = await response.json();
       setAllProducts(data);
     } catch (err) {
       console.warn('[API Fetch Warn] Operating products list on fallback data catalog:', err);
       showToast('Backend offline. Loaded local design sheets.', true);
-      // Resilience fallback: Prefill client grid to protect preview iframe on initial configurations
       setAllProducts(defaultProducts);
     } finally {
       setLoadingProducts(false);
     }
   };
 
-  // Fetch historic orders placed logs on dev backend mount
   const fetchOrdersLogs = async () => {
     setLoadingOrders(true);
     try {
       const response = await fetch('/api/orders');
-      if (!response.ok) {
-        throw new Error('Server returned error status on orders query');
-      }
+      if (!response.ok) throw new Error('Server returned error status on orders query');
       const data = await response.json();
       setAllOrders(data);
     } catch (err) {
@@ -143,22 +114,6 @@ export default function App() {
     fetchOrdersLogs();
   }, []);
 
-  // Core router change handler (restores scroll position instantly)
-  const handlePageChange = (pageName: string, params: any = {}) => {
-    setCurrentPage(pageName);
-    setPageParams(params);
-    setIsCartOpen(false); // Close sliding drawer on redirection
-    
-    // Smooth scroll back to display top
-    window.scrollTo({ top: 0, behavior: 'instant' });
-
-    // Handle home curation banner category click
-    if (pageName === 'shop' && params?.filterCategory) {
-      setActiveCategoryFilter(params.filterCategory);
-    }
-  };
-
-  // Cart operations
   const handleAddToCart = (product: Product, quantity: number, size: string) => {
     const compositeId = `${product.id}-${size}`;
     setCart((prev) => {
@@ -183,15 +138,10 @@ export default function App() {
         ];
       }
     });
-
-    // Notify user of positive interaction
     showToast('Added to bag ✓');
-
-    // Toggle slide-open drawer for premium interaction
     setIsCartOpen(true);
   };
 
-  // Direct quick-add action from catalog rows
   const handleQuickAdd = (product: Product, size: string) => {
     handleAddToCart(product, 1, size);
   };
@@ -210,17 +160,65 @@ export default function App() {
     setCart([]);
   };
 
-  // Total cart pricing
   const cartSubtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  const getCurrentPage = (pathname: string): string => {
+    if (pathname === '/' || pathname === '') return 'home';
+    if (pathname.startsWith('/shop')) return 'shop';
+    if (pathname.startsWith('/product')) return 'product';
+    if (pathname.startsWith('/blog')) return pathname.startsWith('/blog/') ? 'blog-article' : 'blog';
+    if (pathname.startsWith('/admin')) return 'admin';
+    if (pathname.startsWith('/cart')) return 'cart';
+    if (pathname.startsWith('/checkout')) return 'checkout';
+    if (pathname.startsWith('/contact')) return 'contact';
+    return '';
+  };
+
+  const handlePageChange = (pageName: string, params?: any) => {
+    switch (pageName) {
+      case 'home':
+        navigate('/');
+        break;
+      case 'shop':
+        if (params?.filterCategory) {
+          navigate(`/shop?category=${params.filterCategory}`);
+        } else {
+          navigate('/shop');
+        }
+        break;
+      case 'product':
+        if (params?.id) navigate(`/product/${params.id}`);
+        break;
+      case 'blog':
+        navigate('/blog');
+        break;
+      case 'blog-article':
+        if (params?.slug) navigate(`/blog/${params.slug}`);
+        break;
+      case 'admin':
+        navigate('/admin');
+        break;
+      case 'cart':
+        navigate('/cart');
+        break;
+      case 'checkout':
+        navigate('/checkout');
+        break;
+      case 'contact':
+        navigate('/contact');
+        break;
+      default:
+        navigate('/');
+    }
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-champagne-50/20 selection:bg-champagne-200">
-      
+
       <Marquee />
 
-      {/* Primary Brand Navbar */}
       <Navbar
-        currentPage={currentPage}
+        currentPage={getCurrentPage(location.pathname)}
         onPageChange={handlePageChange}
         cart={cart}
         onOpenCart={() => setIsCartOpen(true)}
@@ -228,131 +226,34 @@ export default function App() {
         onCurrencyToggle={handleCurrencyToggle}
       />
 
-      {/* Main viewport area */}
       <main className="flex-1 py-12 md:py-16">
-        {(() => {
-          switch (currentPage) {
-            case 'home':
-              return (
-                <Home
-                  products={allProducts}
-                  isLoading={loadingProducts}
-                  onPageChange={handlePageChange}
-                  onAddToCartDirect={handleQuickAdd}
-                  currency={currency}
-                />
-              );
-            case 'shop':
-              return (
-                <Shop
-                  products={allProducts}
-                  isLoading={loadingProducts}
-                  initialCategory={activeCategoryFilter}
-                  onPageChange={handlePageChange}
-                  onAddToCartDirect={handleQuickAdd}
-                  onClearInitialCategory={() => setActiveCategoryFilter(null)}
-                  currency={currency}
-                />
-              );
-            case 'product':
-              return (
-                <ProductDetail
-                  productId={pageParams.id}
-                  allProducts={allProducts}
-                  onAddToCart={handleAddToCart}
-                  onPageChange={handlePageChange}
-                  currency={currency}
-                />
-              );
-            case 'cart':
-              return (
-                <Cart
-                  cart={cart}
-                  onUpdateQuantity={handleUpdateCartQuantity}
-                  onRemoveItem={handleRemoveCartItem}
-                  onPageChange={handlePageChange}
-                  currency={currency}
-                />
-              );
-            case 'checkout-simulation':
-              return (
-                <CheckoutSimulation
-                  onPageChange={handlePageChange}
-                  onClearCart={handleClearCart}
-                  currency={currency}
-                />
-              );
-            case 'order-confirmation':
-              return (
-                <OrderConfirmation
-                  onPageChange={handlePageChange}
-                  currency={currency}
-                />
-              );
-      case 'blog':
-        return (
-          <Blog
-            onPageChange={handlePageChange}
-            currency={currency}
-          />
-        );
-      case 'blog-article':
-        return (
-          <BlogArticle
-            slug={pageParams.slug}
-            onPageChange={handlePageChange}
-            currency={currency}
-          />
-        );
-      case 'admin':
-        return (
-          <AdminDashboard
-            products={allProducts}
-            orders={allOrders}
-            isLoadingProducts={loadingProducts}
-            isLoadingOrders={loadingOrders}
-            onRefreshProducts={fetchProductsList}
-            onRefreshOrders={fetchOrdersLogs}
-            currency={currency}
-          />
-        );
-      default:
-              return (
-                <NotFound onPageChange={handlePageChange} />
-              );
-          }
-        })()}
+        <Routes>
+          <Route path="/" element={<Home products={allProducts} isLoading={loadingProducts} onAddToCartDirect={handleQuickAdd} onPageChange={handlePageChange} currency={currency} />} />
+          <Route path="/shop" element={<ShopWithParams products={allProducts} isLoading={loadingProducts} onAddToCartDirect={handleQuickAdd} onPageChange={handlePageChange} currency={currency} />} />
+          <Route path="/product/:id" element={<ProductDetailWithParams allProducts={allProducts} onAddToCart={handleAddToCart} onPageChange={handlePageChange} currency={currency} />} />
+          <Route path="/cart" element={<Cart cart={cart} onUpdateQuantity={handleUpdateCartQuantity} onRemoveItem={handleRemoveCartItem} onPageChange={handlePageChange} currency={currency} />} />
+          <Route path="/checkout" element={<CheckoutSimulation onClearCart={handleClearCart} onPageChange={handlePageChange} currency={currency} />} />
+          <Route path="/order-confirmation" element={<OrderConfirmation onPageChange={handlePageChange} currency={currency} />} />
+          <Route path="/blog" element={<Blog onPageChange={handlePageChange} currency={currency} />} />
+          <Route path="/blog/:slug" element={<BlogArticleWithParams onPageChange={handlePageChange} currency={currency} />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/admin" element={<AdminDashboard products={allProducts} orders={allOrders} isLoadingProducts={loadingProducts} isLoadingOrders={loadingOrders} onRefreshProducts={fetchProductsList} onRefreshOrders={fetchOrdersLogs} currency={currency} />} />
+          <Route path="*" element={<NotFound onPageChange={handlePageChange} />} />
+        </Routes>
       </main>
 
-      {/* Sliding Luxury Cart Drawer Panel overlays */}
       {isCartOpen && (
         <div className="fixed inset-0 z-50 overflow-hidden" aria-modal="true" role="dialog">
-          
-          {/* Backdrop screen */}
-          <div
-            onClick={() => setIsCartOpen(false)}
-            className="absolute inset-0 bg-stone-900/40 backdrop-blur-xs transition-opacity duration-500 ease-in-out"
-          ></div>
-
+          <div onClick={() => setIsCartOpen(false)} className="absolute inset-0 bg-stone-900/40 backdrop-blur-xs transition-opacity duration-500 ease-in-out"></div>
           <div className="fixed inset-y-0 right-0 max-w-full flex pl-10">
             <div className="w-screen max-w-md bg-white border-l border-champagne-105 shadow-2xl flex flex-col justify-between h-full">
-              
-              {/* Header Drawer */}
               <div className="px-6 py-6 border-b border-champagne-100 flex justify-between items-center">
                 <div className="flex items-center gap-2">
                   <ShoppingBag className="text-champagne-500" size={18} />
                   <h2 className="font-serif text-lg text-stone-950 font-semibold tracking-wide">Selected Jewelry</h2>
                 </div>
-                <button
-                  onClick={() => setIsCartOpen(false)}
-                  className="p-1 text-stone-400 hover:text-stone-900 cursor-pointer"
-                  title="Close sidebar"
-                >
-                  <X size={20} />
-                </button>
+                <button onClick={() => setIsCartOpen(false)} className="p-1 text-stone-400 hover:text-stone-900 cursor-pointer" title="Close sidebar"><X size={20} /></button>
               </div>
-
-              {/* Line items details selection */}
               <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
                 {cart.length === 0 ? (
                   <div className="text-center py-20 text-stone-400 space-y-3 font-sans">
@@ -368,9 +269,7 @@ export default function App() {
                         <div className="flex justify-between items-baseline text-[10px] text-stone-400">
                           <span>Qty: {item.quantity} • {item.selected_size.split(' ')[0]}</span>
                           <span className="font-serif font-semibold text-stone-900">
-                            {currency === 'MAD' 
-                              ? `${((item.price * item.quantity) * 10).toLocaleString()} درهم` 
-                              : `$${(item.price * item.quantity).toLocaleString()}`}
+                            {currency === 'MAD' ? `${((item.price * item.quantity) * 10).toLocaleString()} درهم` : `$${(item.price * item.quantity).toLocaleString()}`}
                           </span>
                         </div>
                       </div>
@@ -378,49 +277,35 @@ export default function App() {
                   ))
                 )}
               </div>
-
-              {/* Subtotal & Call to actions */}
               {cart.length > 0 && (
                 <div className="p-6 border-t border-champagne-100 bg-stone-50/50 space-y-4 font-sans">
-                  
                   <div className="flex justify-between items-baseline text-xs pb-2">
                     <span className="text-stone-500">Subtotal:</span>
                     <span className="font-serif text-base font-bold text-stone-900">
-                      {currency === 'MAD' 
-                        ? `${(cartSubtotal * 10).toLocaleString()} درهم` 
-                        : `$${cartSubtotal.toLocaleString()}`}
+                      {currency === 'MAD' ? `${(cartSubtotal * 10).toLocaleString()} درهم` : `$${cartSubtotal.toLocaleString()}`}
                     </span>
                   </div>
-
                   <button
-                    onClick={() => handlePageChange('cart')}
+                    onClick={() => { setIsCartOpen(false); navigate('/cart'); }}
                     className="cursor-pointer w-full bg-stone-900 hover:bg-champagne-600 text-white tracking-widest text-[10px] uppercase font-semibold py-4 rounded-sm transition-colors flex items-center justify-center gap-1.5 focus:outline-hidden"
                   >
                     Enter Shopping Bag
                     <ArrowRight size={12} />
                   </button>
-
                   <div className="flex items-center justify-center gap-1 text-[9px] text-stone-400">
                     <ShieldCheck size={10} className="text-champagne-500" />
                     <span>Insured Courier Deliveries Scheduled</span>
                   </div>
-
                 </div>
               )}
-
             </div>
           </div>
-
         </div>
       )}
 
-      {/* Global standard brand footer */}
       <Footer />
-
-      {/* Elegant floating status notifications toast platform */}
       <ToastContainer />
 
-      {/* Floating WhatsApp Button */}
       <a
         id="floating-whatsapp-button"
         href={`https://wa.me/212605091987?text=${encodeURIComponent('مرحبا، بغيت نطلب من ccjaouhara 🌸')}`}
@@ -434,14 +319,13 @@ export default function App() {
         </svg>
       </a>
 
-      {/* Floating Action Order Button "اطلب الآن" */}
       <button
         id="floating-checkout-btn"
         onClick={() => {
-          if (currentPage === 'product') {
-            handlePageChange('cart');
+          if (location.pathname.startsWith('/product')) {
+            navigate('/cart');
           } else {
-            handlePageChange('shop');
+            navigate('/shop');
           }
         }}
         className="fixed bottom-6 left-1/2 -translate-x-1/2 md:bottom-24 md:right-6 md:left-auto md:translate-x-0 z-50 bg-[#C5A059] text-white font-serif text-sm font-semibold tracking-widest uppercase rounded-full px-7 py-3.5 shadow-lg flex items-center gap-2 justify-center hover:scale-105 hover:brightness-110 active:scale-95 transition-all duration-300 cursor-pointer animate-floating-btn min-w-[160px] md:min-w-0"
@@ -453,6 +337,32 @@ export default function App() {
 
     </div>
   );
+}
+
+function ShopWithParams(props: any) {
+  const [sp] = useSearchParams();
+  const [initCat, setInitCat] = useState<string | null>(sp.get('category') || null);
+  useEffect(() => {
+    setInitCat(sp.get('category') || null);
+  }, [sp]);
+  return (
+    <Shop
+      {...props}
+      initialCategory={initCat}
+      onPageChange={props.onPageChange}
+      onClearInitialCategory={() => setInitCat(null)}
+    />
+  );
+}
+
+function ProductDetailWithParams(props: any) {
+  const { id } = useParams();
+  return <ProductDetail {...props} productId={id || ''} />;
+}
+
+function BlogArticleWithParams(props: any) {
+  const { slug } = useParams();
+  return <BlogArticle {...props} slug={slug || ''} />;
 }
 
 const Marquee = memo(function Marquee() {

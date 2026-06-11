@@ -136,14 +136,14 @@ export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, cu
             </button>
 
             <button
-              onClick={() => onPageChange('admin')}
+              onClick={() => onPageChange('contact')}
               className={`cursor-pointer text-[11px] tracking-[0.25em] uppercase transition-colors duration-300 font-medium ${
-                currentPage === 'admin'
+                currentPage === 'contact'
                   ? 'text-champagne-500 border-b border-champagne-400 pb-1 font-semibold'
                   : 'text-stone-600 hover:text-champagne-500 pb-1'
               }`}
             >
-              Admin Portal
+              Contact
             </button>
 
             <button
@@ -248,16 +248,16 @@ export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, cu
 
           <button
             onClick={() => {
-              onPageChange('admin');
+              onPageChange('contact');
               setMobileMenuOpen(false);
             }}
             className={`block w-full text-left py-2.5 px-4 rounded-md text-sm tracking-widest uppercase font-medium ${
-              currentPage === 'admin'
+              currentPage === 'contact'
                 ? 'bg-luxe-pink-50 text-champagne-500 font-semibold'
                 : 'text-stone-700 hover:bg-champagne-50/50'
             }`}
           >
-            Admin Portal
+            Contact
           </button>
 
           <button
