@@ -4,6 +4,7 @@ import { ShoppingBag, ArrowRight, X, ShieldCheck, Gem } from 'lucide-react';
 
 import { Product, Order, CartItem } from './types';
 import { defaultProducts } from './data/defaultProducts';
+import { useTranslation } from './i18n';
 
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
@@ -43,6 +44,8 @@ export default function App() {
       return [];
     }
   });
+
+  const { t } = useTranslation();
 
   const [isCartOpen, setIsCartOpen] = useState(false);
 
@@ -250,15 +253,15 @@ export default function App() {
               <div className="px-6 py-6 border-b border-champagne-100 flex justify-between items-center">
                 <div className="flex items-center gap-2">
                   <ShoppingBag className="text-champagne-500" size={18} />
-                  <h2 className="font-serif text-lg text-stone-950 font-semibold tracking-wide">Selected Jewelry</h2>
+                  <h2 className="font-serif text-lg text-stone-950 font-semibold tracking-wide">{t('app.cart.title')}</h2>
                 </div>
-                <button onClick={() => setIsCartOpen(false)} className="p-1 text-stone-400 hover:text-stone-900 cursor-pointer" title="Close sidebar"><X size={20} /></button>
+                <button onClick={() => setIsCartOpen(false)} className="p-1 text-stone-400 hover:text-stone-900 cursor-pointer" title={t('app.cart.close')}><X size={20} /></button>
               </div>
               <div className="flex-1 overflow-y-auto px-6 py-4 space-y-4">
                 {cart.length === 0 ? (
                   <div className="text-center py-20 text-stone-400 space-y-3 font-sans">
                     <ShoppingBag className="mx-auto text-stone-200" size={32} />
-                    <p className="text-xs">Your bag is currently empty.</p>
+                    <p className="text-xs">{t('app.cart.empty')}</p>
                   </div>
                 ) : (
                   cart.map((item) => (
@@ -280,7 +283,7 @@ export default function App() {
               {cart.length > 0 && (
                 <div className="p-6 border-t border-champagne-100 bg-stone-50/50 space-y-4 font-sans">
                   <div className="flex justify-between items-baseline text-xs pb-2">
-                    <span className="text-stone-500">Subtotal:</span>
+                    <span className="text-stone-500">{t('app.cart.subtotal')}</span>
                     <span className="font-serif text-base font-bold text-stone-900">
                       {currency === 'MAD' ? `${(cartSubtotal * 10).toLocaleString()} درهم` : `$${cartSubtotal.toLocaleString()}`}
                     </span>
@@ -289,12 +292,12 @@ export default function App() {
                     onClick={() => { setIsCartOpen(false); navigate('/cart'); }}
                     className="cursor-pointer w-full bg-stone-900 hover:bg-champagne-600 text-white tracking-widest text-[10px] uppercase font-semibold py-4 rounded-sm transition-colors flex items-center justify-center gap-1.5 focus:outline-hidden"
                   >
-                    Enter Shopping Bag
+                    {t('app.cart.cta')}
                     <ArrowRight size={12} />
                   </button>
                   <div className="flex items-center justify-center gap-1 text-[9px] text-stone-400">
                     <ShieldCheck size={10} className="text-champagne-500" />
-                    <span>Insured Courier Deliveries Scheduled</span>
+                    <span>{t('app.cart.security')}</span>
                   </div>
                 </div>
               )}
@@ -308,11 +311,11 @@ export default function App() {
 
       <a
         id="floating-whatsapp-button"
-        href={`https://wa.me/212605091987?text=${encodeURIComponent('مرحبا، بغيت نطلب من ccjaouhara 🌸')}`}
+        href={`https://wa.me/212605091987?text=${encodeURIComponent(t('app.floating.whatsappText'))}`}
         target="_blank"
         rel="noopener noreferrer"
         className="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer"
-        aria-label="Contact us on WhatsApp"
+        aria-label={t('app.floating.whatsappAria')}
       >
         <svg className="w-7 h-7 fill-white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.859-4.407 9.862-9.833.001-2.628-1.02-5.1-2.875-6.958C16.604 1.956 14.135.937 11.999.937 6.561.937 2.14 5.344 2.137 10.77c-.001 1.693.447 3.344 1.3 4.794l-.995 3.633 3.731-.973zm11.367-7.354c-.3-.15-1.77-.875-2.046-.975-.276-.1-.477-.15-.677.15-.2.3-.77.975-.945 1.175-.175.2-.35.225-.65.075-.3-.15-1.265-.467-2.41-1.485-.89-.79-1.49-1.77-1.665-2.07-.175-.3-.019-.463.13-.612.135-.135.3-.35.45-.525.15-.175.2-.3.3-.5.1-.2.05-.375-.025-.525-.075-.15-.677-1.633-.927-2.233-.24-.582-.486-.503-.678-.512-.175-.008-.375-.01-.575-.01-.2 0-.525.075-.8.375-.275.3-1.05 1.025-1.05 2.5s1.075 2.9 1.225 3.1c.15.2 2.11 3.224 5.112 4.52 3.003 1.297 3.003.865 3.541.815.539-.05 1.77-.725 2.02-1.425.25-.7.25-1.3.175-1.425-.075-.1-.275-.2-.575-.35z"/>
@@ -329,10 +332,10 @@ export default function App() {
           }
         }}
         className="fixed bottom-6 left-1/2 -translate-x-1/2 md:bottom-24 md:right-6 md:left-auto md:translate-x-0 z-50 bg-[#C5A059] text-white font-serif text-sm font-semibold tracking-widest uppercase rounded-full px-7 py-3.5 shadow-lg flex items-center gap-2 justify-center hover:scale-105 hover:brightness-110 active:scale-95 transition-all duration-300 cursor-pointer animate-floating-btn min-w-[160px] md:min-w-0"
-        aria-label="اطلب الآن"
+        aria-label={t('app.floating.orderNow')}
       >
         <Gem className="w-4 h-4" />
-        <span className="font-sans font-bold">اطلب الآن</span>
+        <span className="font-sans font-bold">{t('app.floating.orderNow')}</span>
       </button>
 
     </div>
@@ -366,36 +369,20 @@ function BlogArticleWithParams(props: any) {
 }
 
 const Marquee = memo(function Marquee() {
+  const { t } = useTranslation();
+  const items = t('app.marquee') as unknown as string[];
   return (
     <div className="bg-stone-900 border-b border-stone-850 text-stone-200 text-[11px] uppercase font-semibold font-sans py-2.5 overflow-hidden relative w-full" dir="rtl">
       <div className="flex whitespace-nowrap select-none" style={{ width: 'max-content' }}>
         <div className="animate-marquee flex items-center shrink-0 pr-8 gap-8 font-sans">
-          <span>⭐ أسوارتك كاتحكي عليك</span>
-          <span className="text-champagne-500 font-bold">•</span>
-          <span>🚚 توصيل لباب الدار</span>
-          <span className="text-champagne-500 font-bold">•</span>
-          <span>✅ الدفع عند الاستلام</span>
-          <span className="text-champagne-500 font-bold">•</span>
-          <span>💎 لأن كل مرأة تستاهل الأحسن</span>
-          <span className="text-champagne-500 font-bold">•</span>
-          <span>🌸 جودة مضمونة 100%</span>
-          <span className="text-champagne-500 font-bold">•</span>
-          <span>🇲🇦 توصيل لجميع مدن المغرب</span>
-          <span className="text-champagne-500 font-bold">•</span>
+          {items.map((item, i) => (
+            <span key={i} className={item === '•' ? 'text-champagne-500 font-bold' : ''}>{item}</span>
+          ))}
         </div>
         <div className="animate-marquee flex items-center shrink-0 pr-8 gap-8 font-sans" aria-hidden="true">
-          <span>⭐ أسوارتك كاتحكي عليك</span>
-          <span className="text-champagne-500 font-bold">•</span>
-          <span>🚚 توصيل لباب الدار</span>
-          <span className="text-champagne-500 font-bold">•</span>
-          <span>✅ الدفع عند الاستلام</span>
-          <span className="text-champagne-500 font-bold">•</span>
-          <span>💎 لأن كل مرأة تستاهل الأحسن</span>
-          <span className="text-champagne-500 font-bold">•</span>
-          <span>🌸 جودة مضمونة 100%</span>
-          <span className="text-champagne-500 font-bold">•</span>
-          <span>🇲🇦 توصيل لجميع مدن المغرب</span>
-          <span className="text-champagne-500 font-bold">•</span>
+          {items.map((item, i) => (
+            <span key={i} className={item === '•' ? 'text-champagne-500 font-bold' : ''}>{item}</span>
+          ))}
         </div>
       </div>
     </div>

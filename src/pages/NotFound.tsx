@@ -1,3 +1,4 @@
+import { useTranslation } from '../i18n';
 import { Compass, HelpCircle } from 'lucide-react';
 
 interface NotFoundProps {
@@ -5,6 +6,7 @@ interface NotFoundProps {
 }
 
 export default function NotFound({ onPageChange }: NotFoundProps) {
+  const { t } = useTranslation();
   return (
     <div className="max-w-md mx-auto text-center py-24 sm:py-32 px-6 flex flex-col items-center justify-center space-y-6 animate-fade-in">
       
@@ -16,13 +18,13 @@ export default function NotFound({ onPageChange }: NotFoundProps) {
 
       <div className="space-y-2">
         <span className="text-[10px] tracking-[0.3em] font-medium uppercase text-champagne-500 font-sans block">
-          Technical Error 404
+          {t('notFound.label')}
         </span>
         <h1 className="font-serif text-3xl text-stone-900 font-semibold tracking-wide">
-          Untarnished Horizon
+          {t('notFound.heading')}
         </h1>
         <p className="text-stone-500 text-xs sm:text-sm leading-relaxed max-w-xs mx-auto">
-          The fine ornament blueprint or exclusive collection list you requested cannot be located in the guild's current record books.
+          {t('notFound.desc')}
         </p>
       </div>
 
@@ -31,13 +33,13 @@ export default function NotFound({ onPageChange }: NotFoundProps) {
           onClick={() => onPageChange('home')}
           className="cursor-pointer bg-stone-900 hover:bg-champagne-500 text-white text-xs uppercase tracking-widest py-3.5 font-semibold transition-colors font-medium flex-1 rounded-sm"
         >
-          Return to Atelier
+          {t('notFound.atelier')}
         </button>
         <button
           onClick={() => onPageChange('shop')}
           className="cursor-pointer bg-white hover:bg-stone-50 border border-stone-250 text-stone-700 text-xs uppercase tracking-widest py-3.5 font-semibold transition-colors font-medium flex-1 rounded-sm"
         >
-          Explore Collection
+          {t('notFound.explore')}
         </button>
       </div>
 

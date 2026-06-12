@@ -17,6 +17,7 @@ import {
 import { motion } from 'motion/react';
 import { Product } from '../types';
 import ProductCard from '../components/ProductCard';
+import { useTranslation } from '../i18n';
 
 interface HomeProps {
   products: Product[];
@@ -28,11 +29,12 @@ interface HomeProps {
 
 export default function Home({ products, isLoading, onPageChange, onAddToCartDirect, currency }: HomeProps) {
   const [copied, setCopied] = useState<boolean>(false);
+  const { t } = useTranslation();
 
   // Dynamic SEO Meta tags injection
   useEffect(() => {
     const prevTitle = document.title;
-    document.title = "مجوهرات نسائية راقية بالمغرب | ccjaouhara Fine Jewelry";
+    document.title = t('home.seo.title');
     
     // Set meta description
     let metaDescription = document.querySelector('meta[name="description"]');
@@ -42,7 +44,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
       metaDescription.setAttribute('name', 'description');
       document.head.appendChild(metaDescription);
     }
-    metaDescription.setAttribute('content', 'اكتشفي أجمل المجوهرات النسائية الراقية — أساور، خواتم، قلادات، أقراط مطلية بالذهب. توصيل لجميع مدن المغرب والدفع عند الاستلام.');
+    metaDescription.setAttribute('content', t('home.seo.desc'));
 
     // Set meta keywords
     let metaKeywords = document.querySelector('meta[name="keywords"]');
@@ -52,7 +54,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
       metaKeywords.setAttribute('name', 'keywords');
       document.head.appendChild(metaKeywords);
     }
-    metaKeywords.setAttribute('content', 'bijoux maroc, bracelet femme maroc, bague femme maroc, collier femme maroc, مجوهرات المغرب');
+    metaKeywords.setAttribute('content', t('home.seo.keywords'));
 
     return () => {
       document.title = prevTitle;
@@ -74,7 +76,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
   }, []);
 
   const handleCopyCode = () => {
-    navigator.clipboard.writeText('WELCOME15');
+    navigator.clipboard.writeText(t('home.offer.code'));
     setCopied(true);
     setTimeout(() => {
       setCopied(false);
@@ -86,12 +88,12 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
   const newArrivals = products.slice(4, 8);
 
   const categories = [
-    { name: 'أساور', image: 'https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?auto=format&fit=crop&q=80&w=600', id: 'bracelets' },
-    { name: 'خواتم', image: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&q=80&w=600', id: 'rings' },
-    { name: 'أقراط', image: 'https://images.unsplash.com/photo-1635767798638-3e25273a8236?auto=format&fit=crop&q=80&w=600', id: 'earrings' },
-    { name: 'خلاخيل', image: 'https://images.unsplash.com/photo-1543294001-f7cbfe92237e?auto=format&fit=crop&q=80&w=600', id: 'anklets' },
-    { name: 'قلادات', image: 'https://images.unsplash.com/photo-1599643477877-530eb83abc8e?auto=format&fit=crop&q=80&w=600', id: 'necklaces' },
-    { name: 'أطقم مجوهرات', image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=600', id: 'jewelry_sets' },
+    { name: t('home.categories.items')[0], image: 'https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?auto=format&fit=crop&q=80&w=600', id: 'bracelets' },
+    { name: t('home.categories.items')[1], image: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&q=80&w=600', id: 'rings' },
+    { name: t('home.categories.items')[2], image: 'https://images.unsplash.com/photo-1635767798638-3e25273a8236?auto=format&fit=crop&q=80&w=600', id: 'earrings' },
+    { name: t('home.categories.items')[3], image: 'https://images.unsplash.com/photo-1543294001-f7cbfe92237e?auto=format&fit=crop&q=80&w=600', id: 'anklets' },
+    { name: t('home.categories.items')[4], image: 'https://images.unsplash.com/photo-1599643477877-530eb83abc8e?auto=format&fit=crop&q=80&w=600', id: 'necklaces' },
+    { name: t('home.categories.items')[5], image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=600', id: 'jewelry_sets' },
   ];
 
   // Motion variants
@@ -136,15 +138,15 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
                 variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}
                 className="font-serif text-[42px] sm:text-5xl md:text-6xl lg:text-[70px] leading-[1.1] font-black text-stone-900 tracking-tight"
               >
-                لأن كل امرأة تستاهل <br />
-                <span className="text-champagne-600 italic font-medium leading-normal">الأحسن</span>
+                {t('home.hero.title')} <br />
+                <span className="text-champagne-600 italic font-medium leading-normal">{t('home.hero.titleHighlight')}</span>
               </motion.h1>
               
               <motion.p 
                 variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}
                 className="text-stone-600 text-sm sm:text-base leading-relaxed max-w-xl font-medium font-sans"
               >
-                اكتشفي مجوهرات راقية صُنعت خصيصاً للمرأة العصرية — أساور، قلادات، خواتم، وأكثر، مصممة بعناية فائقة لتبرزي أناقتك وتألقك في كل المناسبات.
+                {t('home.hero.desc')}
               </motion.p>
               
               <motion.div 
@@ -155,14 +157,14 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
                   onClick={() => onPageChange('shop')}
                   className="cursor-pointer w-full sm:w-auto bg-stone-900 text-white px-8 py-4 text-xs uppercase tracking-widest font-bold hover:bg-champagne-500 hover:-translate-y-0.5 transition-all shadow-md active:scale-95 flex items-center justify-center gap-2 rounded-xs font-sans"
                 >
-                  تسوقي الآن
+                  {t('home.hero.cta')}
                   <ArrowLeft size={14} />
                 </button>
                 <button
                   onClick={() => onPageChange('shop')}
                   className="cursor-pointer w-full sm:w-auto bg-transparent text-champagne-700 border-2 border-champagne-500/40 hover:border-champagne-500 px-8 py-3.5 text-xs uppercase tracking-widest font-bold hover:bg-champagne-500/5 hover:-translate-y-0.5 transition-all active:scale-95 flex items-center justify-center gap-2 rounded-xs font-sans"
                 >
-                  اكتشفي المجموعة
+                  {t('home.hero.secondaryCta')}
                 </button>
               </motion.div>
             </motion.div>
@@ -189,8 +191,8 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
                 
                 {/* Embedded Floating Glassmorphism Badge */}
                 <div className="absolute bottom-4 right-4 bg-white/80 backdrop-blur-md border border-white/40 p-4 rounded-md shadow-lg z-20 flex flex-col gap-1 items-start text-right max-w-[190px]" dir="rtl">
-                  <span className="text-[9px] uppercase tracking-wider font-bold text-champagne-600 block">عرض خاص</span>
-                  <span className="font-serif text-sm font-bold text-stone-900 leading-tight">مجوهرات مطلية بالذهب عيار 18k</span>
+                  <span className="text-[9px] uppercase tracking-wider font-bold text-champagne-600 block">{t('home.hero.badge')}</span>
+                  <span className="font-serif text-sm font-bold text-stone-900 leading-tight">{t('home.hero.badgeDesc')}</span>
                 </div>
               </motion.div>
             </div>
@@ -208,8 +210,8 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
             <div className="flex items-center gap-4 justify-center py-2 lg:py-0">
               <span className="text-2xl sm:text-3xl filter drop-shadow-xs">🏆</span>
               <div className="text-right">
-                <h4 className="font-sans font-bold text-stone-850 text-xs sm:text-sm">جودة مضمونة 100%</h4>
-                <p className="text-[10px] sm:text-xs text-stone-400 font-medium">قطع ممتازة تدوم وتبهج</p>
+                <h4 className="font-sans font-bold text-stone-850 text-xs sm:text-sm">{t('home.trust')[0].title}</h4>
+                <p className="text-[10px] sm:text-xs text-stone-400 font-medium">{t('home.trust')[0].desc}</p>
               </div>
             </div>
 
@@ -217,8 +219,8 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
             <div className="flex items-center gap-4 justify-center py-2 lg:py-0 pt-4 lg:pt-0">
               <span className="text-2xl sm:text-3xl filter drop-shadow-xs">🚚</span>
               <div className="text-right">
-                <h4 className="font-sans font-bold text-stone-850 text-xs sm:text-sm">توصيل لجميع مدن المغرب</h4>
-                <p className="text-[10px] sm:text-xs text-stone-400 font-medium">سريع وموثوق لباب بيتك</p>
+                <h4 className="font-sans font-bold text-stone-850 text-xs sm:text-sm">{t('home.trust')[1].title}</h4>
+                <p className="text-[10px] sm:text-xs text-stone-400 font-medium">{t('home.trust')[1].desc}</p>
               </div>
             </div>
 
@@ -226,8 +228,8 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
             <div className="flex items-center gap-4 justify-center py-2 lg:py-0 pt-4 lg:pt-0">
               <span className="text-2xl sm:text-3xl filter drop-shadow-xs">🚪</span>
               <div className="text-right">
-                <h4 className="font-sans font-bold text-stone-850 text-xs sm:text-sm">الدفع عند الاستلام</h4>
-                <p className="text-[10px] sm:text-xs text-stone-400 font-medium">تسوق آمن وراحة بال تامة</p>
+                <h4 className="font-sans font-bold text-stone-850 text-xs sm:text-sm">{t('home.trust')[2].title}</h4>
+                <p className="text-[10px] sm:text-xs text-stone-400 font-medium">{t('home.trust')[2].desc}</p>
               </div>
             </div>
 
@@ -235,8 +237,8 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
             <div className="flex items-center gap-4 justify-center py-2 lg:py-0 pt-4 lg:pt-0">
               <span className="text-2xl sm:text-3xl filter drop-shadow-xs">💎</span>
               <div className="text-right">
-                <h4 className="font-sans font-bold text-stone-850 text-xs sm:text-sm">مطلي بالذهب عيار 18k</h4>
-                <p className="text-[10px] sm:text-xs text-stone-400 font-medium">بريق فاخر يدوم طويلاً</p>
+                <h4 className="font-sans font-bold text-stone-850 text-xs sm:text-sm">{t('home.trust')[3].title}</h4>
+                <p className="text-[10px] sm:text-xs text-stone-400 font-medium">{t('home.trust')[3].desc}</p>
               </div>
             </div>
 
@@ -248,10 +250,10 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center space-y-4 mb-12">
           <span className="text-xs tracking-widest font-bold uppercase text-champagne-500 block">
-            مجموعاتنا الراقية
+            {t('home.categories.label')}
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl text-stone-900 font-black">
-            تسوقي حسب الفئة
+            {t('home.categories.heading')}
           </h2>
           <div className="w-16 h-[2px] bg-champagne-500 mx-auto rounded-full"></div>
         </div>
@@ -285,7 +287,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
               {/* Category Typography & Interactive Discover CTA */}
               <div className="absolute inset-0 flex flex-col justify-end p-4 sm:p-6 z-10 text-right" dir="rtl">
                 <span className="text-[10px] tracking-wider text-champagne-300 font-bold mb-1 opacity-90">
-                  تشكيلة فاخرة
+                  {t('home.categories.overlay')}
                 </span>
                 <h3 className="font-sans text-lg sm:text-xl md:text-2xl text-white tracking-wide font-extrabold mb-2">
                   {cat.name}
@@ -296,7 +298,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
                     <ArrowLeft size={11} />
                   </div>
                   <span className="text-[10px] tracking-wider text-champagne-100 font-bold">
-                    اكتشفي الآن
+                    {t('home.categories.cta')}
                   </span>
                 </div>
               </div>
@@ -310,10 +312,10 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
         <div className="flex flex-col md:flex-row justify-between items-center mb-12 border-b border-champagne-105 pb-5" dir="rtl">
           <div className="space-y-1 text-center md:text-right mb-4 md:mb-0">
             <span className="text-xs tracking-widest uppercase font-bold text-champagne-500 block">
-              الأشهر والأنسب لكِ
+              {t('home.bestsellers.label')}
             </span>
             <h2 className="font-serif text-3xl text-stone-900 font-black relative inline-block">
-              الأكثر مبيعاً
+              {t('home.bestsellers.heading')}
               <span className="absolute bottom-0 right-0 left-0 h-[3px] bg-gradient-to-r from-champagne-400 to-transparent rounded-full translate-y-2"></span>
             </h2>
           </div>
@@ -321,7 +323,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
             onClick={() => onPageChange('shop')}
             className="cursor-pointer text-xs uppercase tracking-widest text-champagne-600 hover:text-champagne-700 font-bold flex items-center gap-1.5 group transition-colors"
           >
-            تسوقي جميع المنتجات
+            {t('home.bestsellers.cta')}
             <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
           </button>
         </div>
@@ -370,18 +372,18 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
           </motion.div>
           
           <h3 className="font-serif text-xl sm:text-2xl md:text-3.5xl font-black text-champagne-300 leading-relaxed italic px-4">
-            "المجوهرات ليست مجرد إكسسوار — إنها انعكاس لثقتك بنفسك"
+            {t('home.promo.quote')}
           </h3>
           
           <p className="text-stone-400 text-xs sm:text-sm font-sans max-w-lg leading-relaxed">
-            دعي تفاصيل إكسسواراتك الراقية تحكي قصتك الأنيقة في كل محفل. صُممت بحب وإتقان دقيق.
+            {t('home.promo.desc')}
           </p>
 
           <button
             onClick={() => onPageChange('shop')}
             className="cursor-pointer bg-champagne-500 text-stone-905 font-bold hover:bg-champagne-400 text-xs uppercase tracking-widest px-8 py-3.5 shadow-md hover:shadow-xl transition-all duration-300 rounded-xs font-sans active:scale-95"
           >
-            اكتشفي المجموعة
+            {t('home.promo.cta')}
           </button>
         </div>
       </section>
@@ -390,13 +392,13 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center space-y-4 mb-12">
           <span className="text-xs tracking-widest font-bold uppercase text-champagne-500 block">
-            صيحات جديدة تليق بكِ
+            {t('home.arrivals.label')}
           </span>
           <h2 className="font-serif text-3xl sm:text-4xl text-stone-900 font-extrabold flex items-center justify-center gap-2">
-            وصل جديد
+            {t('home.arrivals.heading')}
           </h2>
           <p className="text-stone-500 text-xs sm:text-sm max-w-sm mx-auto leading-relaxed">
-            اكتشفي آخر صيحات المجوهرات الراقية
+            {t('home.arrivals.desc')}
           </p>
           <div className="w-16 h-[2px] bg-champagne-500 mx-auto rounded-full"></div>
         </div>
@@ -446,9 +448,9 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
               <div className="w-12 h-12 bg-champagne-500/10 border border-champagne-200 rounded-full flex items-center justify-center text-champagne-600 shadow-sm">
                 <Gem size={20} />
               </div>
-              <h3 className="font-sans font-bold text-stone-850 text-base">جودة فاخرة</h3>
+              <h3 className="font-sans font-bold text-stone-850 text-base">{t('home.whyUs.items')[0].title}</h3>
               <p className="text-stone-500 text-xs sm:text-sm leading-relaxed">
-                مجوهراتنا مصممة بدقة ومطلية بالذهب عيار 18k لتمنحك بريقاً ورفاهية تليق بكِ.
+                {t('home.whyUs.items')[0].desc}
               </p>
             </div>
 
@@ -457,9 +459,9 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
               <div className="w-12 h-12 bg-champagne-500/10 border border-champagne-200 rounded-full flex items-center justify-center text-champagne-600 shadow-sm">
                 <Shield size={20} />
               </div>
-              <h3 className="font-sans font-bold text-stone-850 text-base">مقاوم للصدأ</h3>
+              <h3 className="font-sans font-bold text-stone-850 text-base">{t('home.whyUs.items')[1].title}</h3>
               <p className="text-stone-500 text-xs sm:text-sm leading-relaxed">
-                صُنعت القطع بمواد ذات درجة حماية عالية، خالية من النيكل ومقاومة للصدأ لتدوم طويلاً.
+                {t('home.whyUs.items')[1].desc}
               </p>
             </div>
 
@@ -468,9 +470,9 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
               <div className="w-12 h-12 bg-champagne-500/10 border border-champagne-200 rounded-full flex items-center justify-center text-champagne-600 shadow-sm">
                 <Truck size={20} />
               </div>
-              <h3 className="font-sans font-bold text-stone-850 text-base">توصيل سريع</h3>
+              <h3 className="font-sans font-bold text-stone-850 text-base">{t('home.whyUs.items')[2].title}</h3>
               <p className="text-stone-500 text-xs sm:text-sm leading-relaxed">
-                نضمن لك وصول طلبيتك بكل أمان ويسر وسرعة فائقة إلى كافة مدن ومناطق المغرب.
+                {t('home.whyUs.items')[2].desc}
               </p>
             </div>
 
@@ -479,9 +481,9 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
               <div className="w-12 h-12 bg-champagne-500/10 border border-champagne-200 rounded-full flex items-center justify-center text-champagne-600 shadow-sm">
                 <Lock size={20} />
               </div>
-              <h3 className="font-sans font-bold text-stone-850 text-base">دفع آمن</h3>
+              <h3 className="font-sans font-bold text-stone-850 text-base">{t('home.whyUs.items')[3].title}</h3>
               <p className="text-stone-500 text-xs sm:text-sm leading-relaxed">
-                لا قلق بعد الآن، ادفعي نقداً و بكل أمان عند استلامكِ ومعاينتك للمنتج أمام منزلكِ.
+                {t('home.whyUs.items')[3].desc}
               </p>
             </div>
 
@@ -497,16 +499,16 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center relative z-10">
             <div className="md:col-span-8 space-y-4 text-center md:text-right">
               <h3 className="font-serif text-2xl sm:text-3xl font-black text-slate-900 leading-tight">
-                احصلي على 15% خصم على أول طلب 🎁
+                {t('home.offer.heading')}
               </h3>
               <p className="text-stone-600 text-xs sm:text-sm max-w-xl leading-relaxed">
-                استخدمي الكود الترويجي التالي عند إتمام الطلب في سلة المشتريات لتستفيدي فورياً من خصم 15% على مجوهراتك الفاخرة المفضلة.
+                {t('home.offer.desc')}
               </p>
               
               {/* Copy Coupon Box */}
               <div className="flex flex-wrap gap-3 items-center justify-center md:justify-start pt-2">
                 <div className="border-2 border-dashed border-champagne-500 bg-white px-5 py-2.5 rounded-md font-mono text-base font-bold tracking-widest text-champagne-750 inline-flex items-center gap-3">
-                  WELCOME15
+                  {t('home.offer.code')}
                 </div>
                 <button
                   onClick={handleCopyCode}
@@ -515,12 +517,12 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
                   {copied ? (
                     <>
                       <Check size={14} className="text-emerald-400" />
-                      تم نسخ الكود!
+                      {t('home.offer.copied')}
                     </>
                   ) : (
                     <>
                       <Copy size={13} />
-                      نسخ الكود
+                      {t('home.offer.copyBtn')}
                     </>
                   )}
                 </button>
@@ -532,7 +534,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
                 onClick={() => onPageChange('shop')}
                 className="cursor-pointer bg-champagne-600 text-white font-bold hover:bg-champagne-750 text-xs uppercase tracking-widest px-8 py-4.5 shadow-md hover:shadow-xl transition-all duration-300 rounded-sm font-sans active:scale-95"
               >
-                تسوقي الآن
+                {t('home.offer.cta')}
               </button>
             </div>
           </div>
@@ -544,9 +546,9 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-4 mb-16">
             <span className="text-xs tracking-widest font-bold uppercase text-champagne-500 block">
-              رأي عائلتنا الكبيرة
+              {t('home.reviews.label')}
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl text-stone-900 font-extrabold">ماذا يقول عملاؤنا</h2>
+            <h2 className="font-serif text-3xl sm:text-4xl text-stone-900 font-extrabold">{t('home.reviews.heading')}</h2>
             <div className="w-16 h-[2px] bg-champagne-500 mx-auto rounded-full"></div>
           </div>
 
@@ -561,12 +563,12 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
                   ))}
                 </div>
                 <p className="text-stone-700 text-xs sm:text-sm leading-relaxed font-medium">
-                  "والله المنتوج جاء أحسن من التوقع 😍 التوصيل سريع وجودة ممتازة"
+                  {t('home.reviews.items')[0].text}
                 </p>
               </div>
               <div className="border-t border-stone-50 pt-3 mt-4 text-xs">
-                <span className="font-bold text-stone-850">فاطمة</span>
-                <span className="text-stone-400 inline-block mr-1">، الدار البيضاء</span>
+                <span className="font-bold text-stone-850">{t('home.reviews.items')[0].name}</span>
+                <span className="text-stone-400 inline-block mr-1">، {t('home.reviews.items')[0].location}</span>
               </div>
             </div>
 
@@ -579,12 +581,12 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
                   ))}
                 </div>
                 <p className="text-stone-700 text-xs sm:text-sm leading-relaxed font-medium">
-                  "شريت سوار لبنتي وعجبها بزاف! هنشري منكم مرة أخرى"
+                  {t('home.reviews.items')[1].text}
                 </p>
               </div>
               <div className="border-t border-stone-50 pt-3 mt-4 text-xs">
-                <span className="font-bold text-stone-850">خديجة</span>
-                <span className="text-stone-400 inline-block mr-1">، مراكش</span>
+                <span className="font-bold text-stone-850">{t('home.reviews.items')[1].name}</span>
+                <span className="text-stone-400 inline-block mr-1">، {t('home.reviews.items')[1].location}</span>
               </div>
             </div>
 
@@ -597,12 +599,12 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
                   ))}
                 </div>
                 <p className="text-stone-700 text-xs sm:text-sm leading-relaxed font-medium">
-                  "خدمة ممتازة والتغليف راقي جداً 💛 نوصي بيكم"
+                  {t('home.reviews.items')[2].text}
                 </p>
               </div>
               <div className="border-t border-stone-50 pt-3 mt-4 text-xs">
-                <span className="font-bold text-stone-850">سلمى</span>
-                <span className="text-stone-400 inline-block mr-1">، أكادير</span>
+                <span className="font-bold text-stone-850">{t('home.reviews.items')[2].name}</span>
+                <span className="text-stone-400 inline-block mr-1">، {t('home.reviews.items')[2].location}</span>
               </div>
             </div>
 
@@ -618,11 +620,11 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
           </div>
           
           <h2 className="font-serif text-3xl sm:text-4xl font-extrabold text-stone-900 leading-tight">
-            الهدية المثالية لكل مناسبة 🎁
+            {t('home.gift.heading')}
           </h2>
           
           <p className="text-stone-600 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
-            عيد ميلاد، ذكرى سنوية، أو مجرد لأنها تستحق — اجعلي لحظتها لا تُنسى
+            {t('home.gift.desc')}
           </p>
 
           <div className="pt-4">
@@ -630,7 +632,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
               onClick={() => onPageChange('shop', { filterCategory: 'jewelry_sets' })}
               className="cursor-pointer bg-stone-900 text-white font-bold hover:bg-champagne-600 text-xs uppercase tracking-widest px-8 py-4 shadow-md hover:shadow-xl transition-all duration-300 rounded-xs font-sans active:scale-95 flex items-center justify-center gap-2 mx-auto"
             >
-              تسوقي الهدايا
+              {t('home.gift.cta')}
               <ArrowLeft size={14} />
             </button>
           </div>

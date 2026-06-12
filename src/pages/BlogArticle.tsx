@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo } from 'react';
+import { useTranslation } from '../i18n';
 import { Calendar, Clock, User, ArrowLeft, Share2, Link, Check, Facebook, Twitter } from 'lucide-react';
 import { BlogPost } from '../types';
 import { defaultBlogPosts } from '../data/defaultBlogPosts';
@@ -11,6 +12,7 @@ interface BlogArticleProps {
 
 export default function BlogArticle({ slug, onPageChange }: BlogArticleProps) {
   const [copied, setCopied] = useState(false);
+  const { t } = useTranslation();
 
   const post = useMemo(
     () => defaultBlogPosts.find(p => p.slug === slug) || null,
@@ -24,7 +26,7 @@ export default function BlogArticle({ slug, onPageChange }: BlogArticleProps) {
 
   useEffect(() => {
     if (post) {
-      document.title = `${post.title} | ccjaouhara Journal`;
+      document.title = `${post.title} | ${t('blog.seo.title')}`;
       let metaDesc = document.querySelector('meta[name="description"]');
       const prev = metaDesc?.getAttribute('content') || '';
       if (!metaDesc) {
@@ -34,7 +36,7 @@ export default function BlogArticle({ slug, onPageChange }: BlogArticleProps) {
       }
       metaDesc.setAttribute('content', post.excerpt);
       return () => {
-        document.title = 'ccjaouhara | Fine Jewelry';
+        document.title = t('blogArticle.seoTitle');
         if (metaDesc) metaDesc.setAttribute('content', prev);
       };
     }
@@ -65,13 +67,13 @@ export default function BlogArticle({ slug, onPageChange }: BlogArticleProps) {
   if (!post) {
     return (
       <div className="max-w-2xl mx-auto text-center py-24 px-6">
-        <p className="font-serif text-xl text-stone-800 mb-4">Article not found.</p>
+        <p className="font-serif text-xl text-stone-800 mb-4">{t('blogArticle.notFound')}</p>
         <button
           onClick={() => onPageChange('blog')}
           className="cursor-pointer inline-flex items-center gap-1.5 text-xs tracking-widest uppercase font-bold text-champagne-600 hover:text-champagne-700 transition-colors font-sans"
         >
           <ArrowLeft size={12} />
-          Back to Journal
+          {t('blogArticle.back')}
         </button>
       </div>
     );
@@ -85,7 +87,7 @@ export default function BlogArticle({ slug, onPageChange }: BlogArticleProps) {
         className="cursor-pointer inline-flex items-center gap-1.5 text-[10px] tracking-widest uppercase font-bold text-champagne-600 hover:text-champagne-700 transition-colors font-sans"
       >
         <ArrowLeft size={12} />
-        Back to Journal
+        {t('blogArticle.back')}
       </button>
 
       {/* Hero Image */}
@@ -116,7 +118,7 @@ export default function BlogArticle({ slug, onPageChange }: BlogArticleProps) {
           </span>
           <span className="flex items-center gap-1.5">
             <Clock size={11} />
-            {post.content.split(' ').length > 200 ? '5 min read' : '3 min read'}
+            {post.content.split(' ').length > 200 ? t('blogArticle.minRead', { min: '5' }) : t('blogArticle.minRead', { min: '3' })}
           </span>
         </div>
         {/* Tags */}
@@ -148,27 +150,27 @@ export default function BlogArticle({ slug, onPageChange }: BlogArticleProps) {
       {/* Social Sharing */}
       <div className="flex flex-col sm:flex-row items-center gap-4 justify-between" dir="rtl">
         <span className="text-[10px] tracking-widest uppercase font-bold text-stone-500 font-sans">
-          Share this article
+          {t('blogArticle.share')}
         </span>
         <div className="flex items-center gap-2">
           <button
             onClick={() => handleShare('facebook')}
             className="cursor-pointer w-9 h-9 rounded-full bg-stone-100 hover:bg-champagne-500 hover:text-white border border-stone-200 flex items-center justify-center text-stone-600 transition-all"
-            aria-label="Share on Facebook"
+            aria-label={t('blogArticle.shareFacebook')}
           >
             <Facebook size={14} />
           </button>
           <button
             onClick={() => handleShare('twitter')}
             className="cursor-pointer w-9 h-9 rounded-full bg-stone-100 hover:bg-champagne-500 hover:text-white border border-stone-200 flex items-center justify-center text-stone-600 transition-all"
-            aria-label="Share on Twitter"
+            aria-label={t('blogArticle.shareTwitter')}
           >
             <Twitter size={14} />
           </button>
           <button
             onClick={() => handleShare()}
             className="cursor-pointer w-9 h-9 rounded-full bg-stone-100 hover:bg-champagne-500 hover:text-white border border-stone-200 flex items-center justify-center text-stone-600 transition-all"
-            aria-label="Copy link"
+            aria-label={t('blogArticle.copyLink')}
           >
             {copied ? <Check size={14} className="text-emerald-500" /> : <Link size={14} />}
           </button>
@@ -187,9 +189,9 @@ export default function BlogArticle({ slug, onPageChange }: BlogArticleProps) {
         <section className="space-y-6 pt-4">
           <div className="text-center space-y-2">
             <span className="text-[10px] tracking-widest uppercase font-bold text-champagne-500 block font-sans">
-              You May Also Like
+              {t('blogArticle.youMayAlsoLike')}
             </span>
-            <h2 className="font-serif text-2xl text-stone-900 font-bold">Related Articles</h2>
+            <h2 className="font-serif text-2xl text-stone-900 font-bold">{t('blogArticle.related')}</h2>
             <div className="w-12 h-[2px] bg-champagne-500 mx-auto rounded-full"></div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -221,7 +223,7 @@ export default function BlogArticle({ slug, onPageChange }: BlogArticleProps) {
                     onClick={() => onPageChange('blog-article', { slug: rel.slug })}
                     className="cursor-pointer inline-flex items-center gap-1 text-[9px] tracking-widest uppercase font-bold text-champagne-600 hover:text-champagne-700 transition-colors font-sans"
                   >
-                    Read More
+                    {t('blog.readMore')}
                     <ArrowLeft size={10} />
                   </button>
                 </div>

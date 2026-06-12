@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react';
+import { useTranslation } from '../i18n';
 import { Search, Clock, ArrowLeft, Calendar, RefreshCw, ChevronDown } from 'lucide-react';
 import { BlogPost } from '../types';
-import { defaultBlogPosts, blogCategories } from '../data/defaultBlogPosts';
+import { defaultBlogPosts } from '../data/defaultBlogPosts';
 
 interface BlogProps {
   onPageChange: (pageName: string, params?: any) => void;
@@ -14,6 +15,7 @@ export default function Blog({ onPageChange }: BlogProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [visibleCount, setVisibleCount] = useState(POSTS_PER_PAGE);
+  const { t } = useTranslation();
 
   const featured = defaultBlogPosts[0];
 
@@ -53,13 +55,13 @@ export default function Blog({ onPageChange }: BlogProps) {
       {/* Header */}
       <div className="text-center space-y-4 max-w-2xl mx-auto">
         <span className="text-xs tracking-[0.3em] font-medium uppercase text-champagne-500 block font-sans">
-          ccjaouhara Journal
+          {t('blog.header.label')}
         </span>
         <h1 className="font-serif text-4xl sm:text-5xl text-stone-900 font-black tracking-tight">
-          The Art of Fine Jewelry
+          {t('blog.header.title')}
         </h1>
         <p className="text-stone-500 text-sm sm:text-base leading-relaxed max-w-lg mx-auto font-sans">
-          Stories, guides, and insights from our atelier — where tradition meets modern elegance.
+          {t('blog.header.desc')}
         </p>
         <div className="w-16 h-[2px] bg-champagne-500 mx-auto rounded-full"></div>
       </div>
@@ -99,7 +101,7 @@ export default function Blog({ onPageChange }: BlogProps) {
             onClick={() => onPageChange('blog-article', { slug: featured.slug })}
             className="cursor-pointer mt-4 inline-flex items-center gap-1.5 text-[10px] tracking-widest uppercase font-bold text-champagne-400 hover:text-champagne-300 transition-colors font-sans"
           >
-            Read Article
+            {t('blog.readArticle')}
             <ArrowLeft size={12} />
           </button>
         </div>
@@ -112,14 +114,14 @@ export default function Blog({ onPageChange }: BlogProps) {
             <Search size={15} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400 pointer-events-none" />
             <input
               type="text"
-              placeholder="Search articles..."
+              placeholder={t('blog.searchPlaceholder')}
               value={searchQuery}
               onChange={e => { setSearchQuery(e.target.value); setVisibleCount(POSTS_PER_PAGE); }}
               className="w-full pl-10 pr-4 py-3 bg-white border border-champagne-150 rounded-lg text-xs text-stone-800 focus:outline-hidden focus:border-champagne-400 focus:ring-1 focus:ring-champagne-200 transition-all placeholder-stone-400 font-sans"
             />
           </div>
           <div className="flex items-center gap-2 font-sans">
-            <span className="text-[10px] tracking-widest uppercase text-stone-400 font-medium">Filter:</span>
+            <span className="text-[10px] tracking-widest uppercase text-stone-400 font-medium">{t('blog.filterLabel')}</span>
             <div className="flex flex-wrap gap-1.5">
               <button
                 onClick={() => { setSelectedCategory('All'); setVisibleCount(POSTS_PER_PAGE); }}
@@ -129,9 +131,9 @@ export default function Blog({ onPageChange }: BlogProps) {
                     : 'bg-stone-100 text-stone-600 hover:bg-champagne-50 hover:text-champagne-600'
                 }`}
               >
-                All
-              </button>
-              {blogCategories.map(cat => (
+                  {t('blog.all')}
+                </button>
+                {(t('blog.categories') as string[]).map(cat => (
                 <button
                   key={cat}
                   onClick={() => { setSelectedCategory(cat); setVisibleCount(POSTS_PER_PAGE); }}
@@ -190,7 +192,7 @@ export default function Blog({ onPageChange }: BlogProps) {
                     onClick={() => onPageChange('blog-article', { slug: post.slug })}
                     className="cursor-pointer inline-flex items-center gap-1 text-[10px] tracking-widest uppercase font-bold text-champagne-600 hover:text-champagne-700 transition-colors pt-1 font-sans"
                   >
-                    Read More
+                    {t('blog.readMore')}
                     <ArrowLeft size={11} />
                   </button>
                 </div>
@@ -205,7 +207,7 @@ export default function Blog({ onPageChange }: BlogProps) {
                 onClick={() => setVisibleCount(prev => prev + POSTS_PER_PAGE)}
                 className="cursor-pointer inline-flex items-center gap-2 bg-stone-900 text-white px-8 py-3.5 text-xs uppercase tracking-widest font-bold hover:bg-champagne-500 transition-all rounded-xs shadow-md hover:shadow-lg font-sans"
               >
-                Load More Articles
+                {t('blog.loadMore')}
                 <ChevronDown size={13} />
               </button>
             </div>
@@ -214,13 +216,13 @@ export default function Blog({ onPageChange }: BlogProps) {
       ) : (
         <div className="text-center py-20 bg-white border border-champagne-100 rounded-lg space-y-4">
           <RefreshCw size={40} className="text-stone-300 mx-auto" />
-          <p className="font-serif text-xl text-stone-800 font-medium">No articles match your search.</p>
-          <p className="text-stone-400 text-xs font-sans">Try adjusting your filters or search term.</p>
+          <p className="font-serif text-xl text-stone-800 font-medium">{t('blog.empty.title')}</p>
+          <p className="text-stone-400 text-xs font-sans">{t('blog.empty.desc')}</p>
           <button
             onClick={handleReset}
             className="cursor-pointer bg-champagne-500 text-white px-6 py-3 text-xs uppercase tracking-widest font-bold hover:bg-champagne-600 transition-colors rounded-xs font-sans"
           >
-            Reset All Filters
+{t('blog.empty.reset')}
           </button>
         </div>
       )}

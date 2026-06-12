@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { CreditCard, EyeOff, ShieldCheck, Heart, ArrowRight, CornerDownLeft, RefreshCw } from 'lucide-react';
+import { useTranslation } from '../i18n';
 
 interface CheckoutSimulationProps {
   onPageChange: (pageName: string, params?: any) => void;
@@ -15,11 +16,13 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
     return `$${priceUSD.toLocaleString()}`;
   };
 
+  const { t } = useTranslation();
+
   // Extract details from Query Param string
   const urlParams = new URLSearchParams(window.location.search);
   const orderId = urlParams.get('orderId') || 'ORD-' + Math.random().toString(36).substr(2, 9).toUpperCase();
-  const name = urlParams.get('name') || 'Guest Customer';
-  const email = urlParams.get('email') || 'guest@example.com';
+  const name = urlParams.get('name') || t('checkout.guestName');
+  const email = urlParams.get('email') || t('checkout.guestEmail');
   const total = parseFloat(urlParams.get('total') || '0');
   
   // Parse items safely
@@ -94,7 +97,7 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
       });
 
       if (!response.ok) {
-        throw new Error('Database order registration failed');
+        throw new Error(t('checkout.orderError'));
       }
 
       await response.json();
@@ -115,7 +118,7 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
 
     } catch (err) {
       console.error('Failed to commit simulated order', err);
-      alert('Order tracking server connectivity error. Proceeding directly to success card view.');
+      alert(t('checkout.serverError'));
       // Proceed gracefully anyway for high prototype resilience
       onClearCart();
       onPageChange('order-confirmation', {
@@ -134,13 +137,13 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
       {/* Editorial Title */}
       <div className="text-center space-y-3 pb-4">
         <span className="text-[10px] tracking-[0.3em] font-medium uppercase text-champagne-500 font-sans block">
-          Encryption Vault Simulation
+          {t('checkout.encryptionLabel')}
         </span>
         <h1 className="font-serif text-3xl text-stone-900 font-semibold tracking-wide">
-          ccjaouhara Secure Payment
+          {t('checkout.heading')}
         </h1>
         <p className="text-stone-500 text-xs max-w-md mx-auto">
-          Stripe API key is currently running in test simulation modes. Input any sample details below to experience simulated authorization.
+          {t('checkout.desc')}
         </p>
       </div>
 
@@ -149,7 +152,7 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
         {/* Left Side: Realistic interactive Credit Card visual */}
         <div className="space-y-6">
           <label className="text-[10px] tracking-wider uppercase font-semibold text-stone-500 block">
-            Toggle Card Aesthetics:
+            {t('checkout.toggleAesthetics')}
           </label>
           <div className="flex gap-4 mb-4">
             <button
@@ -158,7 +161,7 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
                 cardStyle === 'gold' ? 'bg-champagne-500 text-stone-950 border-champagne-500' : 'bg-white border-stone-200 hover:border-stone-400'
               }`}
             >
-              Classic Gilded Gold
+              {t('checkout.classicGold')}
             </button>
             <button
               onClick={() => setCardStyle('rose')}
@@ -166,7 +169,7 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
                 cardStyle === 'rose' ? 'bg-rose-400 text-white border-rose-450' : 'bg-white border-stone-200 hover:border-stone-400'
               }`}
             >
-              Exquisite Rose Gold
+              {t('checkout.roseGold')}
             </button>
           </div>
 
@@ -185,7 +188,7 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
               <div className="flex justify-between items-start">
                 <div>
                   <h3 className="font-serif text-lg tracking-widest text-white">AURELIA</h3>
-                  <span className="text-[7px] uppercase tracking-widest text-champagne-300 block font-sans">heirloom collection</span>
+                  <span className="text-[7px] uppercase tracking-widest text-champagne-300 block font-sans">{t('checkout.heirloomCollection')}</span>
                 </div>
                 <div className="w-10 h-7 bg-white/10 rounded-md border border-white/15 flex items-center justify-center text-xs font-mono font-bold italic text-champagne-300">
                   GOLD
@@ -202,19 +205,19 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
               <div className="space-y-4">
                 {/* Dynamically grouped Number */}
                 <p className="font-mono text-base sm:text-lg tracking-widest font-normal">
-                  {cardNumber || '•••• •••• •••• ••••'}
+                  {cardNumber || t('checkout.cardNumberMask')}
                 </p>
 
                 <div className="flex justify-between items-center text-[10px] uppercase font-sans tracking-widest text-stone-300">
                   <div>
-                    <span className="text-[7px] block text-stone-400">Cardholder</span>
+                    <span className="text-[7px] block text-stone-400">{t('checkout.cardholderLabel')}</span>
                     <span className="font-semibold block truncate leading-tight max-w-[150px] text-white">
-                      {cardName || 'YOUR CARD NAME'}
+                      {cardName || t('checkout.defaultCardName')}
                     </span>
                   </div>
                   <div>
-                    <span className="text-[7px] block text-stone-400">Expiry</span>
-                    <span className="font-mono font-semibold block text-white">{cardExpiry || 'MM/YY'}</span>
+                    <span className="text-[7px] block text-stone-400">{t('checkout.expiryLabel')}</span>
+                    <span className="font-mono font-semibold block text-white">{cardExpiry || t('checkout.defaultExpiry')}</span>
                   </div>
                 </div>
               </div>
@@ -227,10 +230,10 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
         <div className="bg-white p-6 border border-champagne-105 rounded-lg space-y-6 shadow-sm">
           <div className="flex justify-between items-center pb-3 border-b border-stone-100">
             <h2 className="font-serif text-base text-stone-900 font-semibold flex items-center gap-1.5 font-bold">
-              💳 Payment Method
+              {t('checkout.paymentMethod')}
             </h2>
             <span className="text-xs text-stone-850 font-serif font-bold">
-              Total: {formatPrice(total)}
+              {t('checkout.total')} {formatPrice(total)}
             </span>
           </div>
 
@@ -246,7 +249,7 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
               }`}
             >
               <CreditCard size={13} />
-              Card
+              {t('checkout.card')}
             </button>
             <button
               type="button"
@@ -257,7 +260,7 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
                   : 'border-stone-200 bg-white text-stone-600 hover:border-stone-400'
               }`}
             >
-              🚚 COD
+              {t('checkout.cod')}
             </button>
           </div>
 
@@ -265,13 +268,13 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
             {paymentMethod === 'cod' ? (
               <div className="p-5 bg-amber-50/50 border border-amber-200/60 rounded-lg space-y-3">
                 <div className="flex items-center gap-2 text-amber-900 font-bold text-xs">
-                  <span>🇲🇦 الدفع عند الاستلام</span>
+                  <span>{t('checkout.codArabic')}</span>
                 </div>
                 <p className="text-[11px] text-stone-600 leading-relaxed font-semibold">
-                  You have chosen Cash on Delivery (COD). We will pack your exclusive jewelry package is package details processed immediately, and you pay directly upon arrival at your doorstep.
+                  {t('checkout.codDescription')}
                 </p>
                 <div className="pt-2 border-t border-amber-200/50 text-[11px] text-amber-900 font-bold flex justify-between">
-                  <span>Total Due on Delivery (المبلغ الإجمالي):</span>
+                  <span>{t('checkout.codTotalLabel')}</span>
                   <span className="font-mono text-xs">{formatPrice(total)}</span>
                 </div>
               </div>
@@ -279,13 +282,13 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
               <>
                 <div className="space-y-1">
                   <label htmlFor="card-name-input" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">
-                    Cardholder Name
+                    {t('checkout.cardholderName')}
                   </label>
                   <input
                     id="card-name-input"
                     type="text"
                     required
-                    placeholder="e.g. Margarethe"
+                    placeholder={t('checkout.cardNamePlaceholder')}
                     className="w-full bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400"
                     value={cardName}
                     onChange={(e) => setCardName(e.target.value)}
@@ -294,13 +297,13 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
 
                 <div className="space-y-1">
                   <label htmlFor="card-num-input" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">
-                    Card Number
+{t('checkout.cardNumber')}
                   </label>
                   <input
                     id="card-num-input"
                     type="text"
                     required
-                    placeholder="4111 2222 3333 4444"
+                    placeholder={t('checkout.cardNumberPlaceholder')}
                     className="w-full bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 font-mono"
                     value={cardNumber}
                     onChange={handleCardNumberChange}
@@ -310,13 +313,13 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1">
                     <label htmlFor="card-expiry-input" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">
-                      Expiration Date
+                      {t('checkout.expirationDate')}
                     </label>
                     <input
                       id="card-expiry-input"
                       type="text"
                       required
-                      placeholder="MM/YY"
+                      placeholder={t('checkout.expiryPlaceholder')}
                       className="w-full bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 font-mono"
                       value={cardExpiry}
                       onChange={handleExpiryChange}
@@ -325,13 +328,13 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
 
                   <div className="space-y-1">
                     <label htmlFor="card-cvv-input" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">
-                      Security CVV Code
+                      {t('checkout.cvv')}
                     </label>
                     <input
                       id="card-cvv-input"
                       type="password"
                       required
-                      placeholder="•••"
+                      placeholder={t('checkout.cvvPlaceholder')}
                       maxLength={3}
                       className="w-full bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 font-mono"
                       value={cardCvv}
@@ -350,11 +353,11 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
               {processing ? (
                 <>
                   <RefreshCw size={14} className="animate-spin" />
-                  {paymentMethod === 'cod' ? 'Processing Cash on Delivery order...' : 'Authorizing transaction with bank...'}
+                  {paymentMethod === 'cod' ? t('checkout.processingCod') : t('checkout.processingCard')}
                 </>
               ) : (
                 <>
-                  {paymentMethod === 'cod' ? `Confirm Order via COD: ${formatPrice(total)}` : `Confirm Secure Payment of ${formatPrice(total)}`}
+                  {paymentMethod === 'cod' ? t('checkout.confirmCod', { total: formatPrice(total) }) : t('checkout.confirmCard', { total: formatPrice(total) })}
                   <ArrowRight size={14} />
                 </>
               )}
@@ -362,7 +365,7 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
 
             <div className="flex items-center justify-center gap-1.5 text-[9px] text-stone-400 pt-2 border-t border-stone-50">
               <ShieldCheck size={12} className="text-champagne-500" />
-              <span>Full compliance under ccjaouhara Luxury Security Covenants.</span>
+              <span>{t('checkout.security')}</span>
             </div>
 
           </form>

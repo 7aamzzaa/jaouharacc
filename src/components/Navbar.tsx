@@ -1,6 +1,7 @@
-import { ShoppingBag, Menu, X, ShieldAlert, ChevronDown, CircleDot, Sparkles, Heart, Crown, Gem, Circle } from 'lucide-react';
+import { ShoppingBag, Menu, X, ChevronDown, CircleDot, Sparkles, Heart, Crown, Gem, Circle, Globe } from 'lucide-react';
 import { useState } from 'react';
 import { CartItem } from '../types';
+import { useTranslation, type Lang } from '../i18n';
 
 interface NavbarProps {
   currentPage: string;
@@ -12,19 +13,21 @@ interface NavbarProps {
 }
 
 export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, currency, onCurrencyToggle }: NavbarProps) {
+  const { t, lang, setLang } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileCollectionsOpen, setMobileCollectionsOpen] = useState(false);
-  
+  const [langOpen, setLangOpen] = useState(false);
+
   const totalItemsCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
-  const categories = [
-    { id: 'bracelets', name: 'Bracelets', icon: CircleDot, desc: 'Bangles, cuffs, and classic chain links' },
-    { id: 'rings', name: 'Rings', icon: Circle, desc: 'Solitaires, classic bands, and wedding stacks' },
-    { id: 'earrings', name: 'Earrings', icon: Sparkles, desc: 'Solitaires, hoops, and chandelier wires' },
-    { id: 'anklets', name: 'Anklets', icon: Heart, desc: 'Double-layered and delicate figaro links' },
-    { id: 'necklaces', name: 'Necklaces', icon: Crown, desc: 'Royal crown-set pendants and chokers' },
-    { id: 'jewelry_sets', name: 'Jewelry Sets', icon: Gem, desc: 'Artisanal heirloom collections and bridal sets' },
+  const languages: { code: Lang; label: string }[] = [
+    { code: 'en', label: 'EN' },
+    { code: 'fr', label: 'FR' },
+    { code: 'ar', label: 'AR' },
   ];
+
+  const categoryIds = ['bracelets', 'rings', 'earrings', 'anklets', 'necklaces', 'jewelry_sets'] as const;
+  const categoryIcons: Record<string, typeof CircleDot> = { bracelets: CircleDot, rings: Circle, earrings: Sparkles, anklets: Heart, necklaces: Crown, jewelry_sets: Gem };
 
   return (
     <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-champagne-100 shadow-xs">
@@ -37,7 +40,7 @@ export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, cu
               id="mobile-menu-toggle"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="text-stone-700 hover:text-champagne-500 p-2 focus:outline-hidden"
-              aria-label="Toggle menu"
+              aria-label={t('nav.toggleMenu')}
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -57,7 +60,7 @@ export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, cu
                 ccjaouhara
               </span>
               <span className="text-[8px] tracking-[0.4em] uppercase text-stone-400 font-sans -mt-0.5 font-semibold">
-                fine jewelry
+                {t('nav.fineJewelry')}
               </span>
             </button>
           </div>
@@ -72,7 +75,7 @@ export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, cu
                   : 'text-stone-600 hover:text-champagne-500 pb-1'
               }`}
             >
-              Home
+              {t('nav.home')}
             </button>
 
             {/* Collections Dropdown Mega-Menu */}
@@ -84,18 +87,18 @@ export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, cu
                     : 'text-stone-600 hover:text-champagne-500'
                 }`}
               >
-                Collections
+                {t('nav.collections')}
                 <ChevronDown size={11} className="transition-transform duration-300 group-hover:rotate-180" />
               </button>
 
               <div className="absolute top-full left-0 mt-0 pt-3 w-[280px] bg-white border border-champagne-150 rounded-lg shadow-xl z-50 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity duration-200">
                 <div className="p-2 space-y-1">
-                  {categories.map((cat) => {
-                    const CatIcon = cat.icon;
+                  {categoryIds.map((id) => {
+                    const CatIcon = categoryIcons[id];
                     return (
                       <button
-                        key={cat.id}
-                        onClick={() => onPageChange('shop', { filterCategory: cat.id })}
+                        key={id}
+                        onClick={() => onPageChange('shop', { filterCategory: id })}
                         className="w-full text-left flex items-start gap-3 p-2.5 rounded-md hover:bg-champagne-50/50 transition-colors group"
                       >
                         <div className="mt-0.5 p-1.5 bg-champagne-50 border border-champagne-100 rounded-md text-champagne-500 group-hover:bg-champagne-500 group-hover:text-white transition-all">
@@ -103,10 +106,10 @@ export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, cu
                         </div>
                         <div>
                           <span className="font-serif text-xs font-semibold text-stone-800 block group-hover:text-champagne-600 transition-colors">
-                            {cat.name}
+                            {t(`nav.categories.${id}.name`)}
                           </span>
                           <span className="text-[10px] text-stone-400 block mt-0.5">
-                            {cat.desc}
+                            {t(`nav.categories.${id}.desc`)}
                           </span>
                         </div>
                       </button>
@@ -118,7 +121,7 @@ export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, cu
                     onClick={() => onPageChange('shop')}
                     className="text-[10px] tracking-widest uppercase font-bold text-champagne-600 hover:text-champagne-700"
                   >
-                    Explore All Collections →
+                    {t('nav.exploreAll')}
                   </button>
                 </div>
               </div>
@@ -132,7 +135,7 @@ export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, cu
                   : 'text-stone-600 hover:text-champagne-500 pb-1'
               }`}
             >
-              Shop All
+              {t('nav.shopAll')}
             </button>
 
             <button
@@ -143,7 +146,7 @@ export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, cu
                   : 'text-stone-600 hover:text-champagne-500 pb-1'
               }`}
             >
-              Contact
+              {t('nav.contact')}
             </button>
 
             <button
@@ -154,18 +157,50 @@ export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, cu
                   : 'text-stone-600 hover:text-champagne-500 pb-1'
               }`}
             >
-              Blog
+              {t('nav.blog')}
             </button>
           </nav>
 
-          {/* Cart triggers section */}
-          <div className="flex items-center space-x-3">
-            
+          {/* Cart + Language Switcher */}
+          <div className="flex items-center space-x-2">
+            {/* Language Switcher */}
+            <div className="relative">
+              <button
+                onClick={() => setLangOpen(!langOpen)}
+                className="cursor-pointer p-2 text-stone-700 hover:text-champagne-500 transition-colors duration-300 focus:outline-hidden flex items-center gap-1"
+                aria-label="Switch language"
+              >
+                <Globe size={18} strokeWidth={1.5} />
+                <span className="text-[11px] font-semibold uppercase">{lang.toUpperCase()}</span>
+              </button>
+
+              {langOpen && (
+                <>
+                  <div className="fixed inset-0 z-40" onClick={() => setLangOpen(false)} />
+                  <div className="absolute right-0 top-full mt-2 bg-white border border-champagne-150 rounded-lg shadow-xl z-50 min-w-[120px] py-1">
+                    {languages.map((l) => (
+                      <button
+                        key={l.code}
+                        onClick={() => { setLang(l.code); setLangOpen(false); }}
+                        className={`w-full text-left px-4 py-2 text-xs tracking-widest uppercase font-medium transition-colors ${
+                          lang === l.code
+                            ? 'text-champagne-500 bg-champagne-50 font-semibold'
+                            : 'text-stone-600 hover:bg-champagne-50 hover:text-champagne-500'
+                        }`}
+                      >
+                        {l.label}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+
             <button
               id="desktop-cart-trigger"
               onClick={onOpenCart}
               className="cursor-pointer relative p-2 text-stone-700 hover:text-champagne-500 transition-colors duration-300 focus:outline-hidden"
-              aria-label="View shopping bag"
+              aria-label={t('nav.viewBag')}
             >
               <ShoppingBag size={22} strokeWidth={1.5} />
               {totalItemsCount > 0 && (
@@ -193,7 +228,7 @@ export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, cu
                 : 'text-stone-700 hover:bg-champagne-50/50 hover:text-champagne-500'
             }`}
           >
-            Home
+            {t('nav.home')}
           </button>
 
           {/* Mobile Collapsible Collections */}
@@ -202,19 +237,19 @@ export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, cu
               onClick={() => setMobileCollectionsOpen(!mobileCollectionsOpen)}
               className="w-full flex justify-between items-center py-2.5 px-4 rounded-md text-sm tracking-widest uppercase font-medium text-stone-700 hover:bg-champagne-50/50 hover:text-champagne-500"
             >
-              <span>Collections</span>
+              <span>{t('nav.collections')}</span>
               <ChevronDown size={14} className={`transition-transform duration-300 ${mobileCollectionsOpen ? 'rotate-180 text-champagne-500' : ''}`} />
             </button>
 
             {mobileCollectionsOpen && (
               <div className="bg-stone-50/60 rounded-lg p-2 space-y-1 ml-4 border-l border-champagne-150">
-                {categories.map((cat) => {
-                  const CatIcon = cat.icon;
+                {categoryIds.map((id) => {
+                  const CatIcon = categoryIcons[id];
                   return (
                     <button
-                      key={cat.id}
+                      key={id}
                       onClick={() => {
-                        onPageChange('shop', { filterCategory: cat.id });
+                        onPageChange('shop', { filterCategory: id });
                         setMobileMenuOpen(false);
                       }}
                       className="w-full text-left flex items-center gap-3 py-2 px-3 hover:bg-champagne-50/50 rounded-md group"
@@ -223,7 +258,7 @@ export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, cu
                         <CatIcon size={12} />
                       </span>
                       <span className="font-serif text-xs font-semibold text-stone-800">
-                        {cat.name}
+                        {t(`nav.categories.${id}.name`)}
                       </span>
                     </button>
                   );
@@ -243,7 +278,7 @@ export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, cu
                 : 'text-stone-700 hover:bg-champagne-50/50'
             }`}
           >
-            Shop All
+            {t('nav.shopAll')}
           </button>
 
           <button
@@ -257,7 +292,7 @@ export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, cu
                 : 'text-stone-700 hover:bg-champagne-50/50'
             }`}
           >
-            Contact
+            {t('nav.contact')}
           </button>
 
           <button
@@ -271,8 +306,27 @@ export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, cu
                 : 'text-stone-700 hover:bg-champagne-50/50'
             }`}
           >
-            Blog
+            {t('nav.blog')}
           </button>
+
+          {/* Mobile Language Switcher */}
+          <div className="border-t border-champagne-100 pt-3 mt-3">
+            <div className="flex gap-2">
+              {languages.map((l) => (
+                <button
+                  key={l.code}
+                  onClick={() => { setLang(l.code); setMobileMenuOpen(false); }}
+                  className={`flex-1 py-2 px-3 rounded-md text-xs tracking-widest uppercase font-bold text-center transition-colors ${
+                    lang === l.code
+                      ? 'bg-champagne-500 text-white'
+                      : 'bg-stone-100 text-stone-600 hover:bg-champagne-50 hover:text-champagne-600'
+                  }`}
+                >
+                  {l.label}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       )}
     </header>

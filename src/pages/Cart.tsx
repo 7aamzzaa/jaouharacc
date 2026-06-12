@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Trash2, ShoppingBag, ArrowRight, ShieldCheck, Ticket, RefreshCw } from 'lucide-react';
 import { CartItem } from '../types';
+import { useTranslation } from '../i18n';
 
 interface CartProps {
   cart: CartItem[];
@@ -17,6 +18,7 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
     }
     return `$${priceUSD.toLocaleString()}`;
   };
+  const { t } = useTranslation();
   const [promoCode, setPromoCode] = useState<string>('');
   const [appliedDiscount, setAppliedDiscount] = useState<{ code: string; percent: number } | null>(null);
   const [promoError, setPromoError] = useState<string>('');
@@ -45,7 +47,7 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
       setAppliedDiscount({ code: 'HERITAGE15', percent: 15 });
       setPromoCode('');
     } else {
-      setPromoError('Bespoke coupon invalid or already fully redeemed.');
+      setPromoError(t('cart.couponInvalid'));
     }
   };
 
@@ -55,11 +57,11 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
     setFormError('');
 
     if (cart.length === 0) {
-      setFormError('Your checkout basket is completely empty.');
+      setFormError(t('cart.errorEmpty'));
       return;
     }
     if (!customerName || !customerEmail) {
-      setFormError('Please fill out your billing full name and valid email.');
+      setFormError(t('cart.errorNameEmail'));
       return;
     }
 
@@ -79,7 +81,7 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
 
       const session = await response.json();
       if (!response.ok) {
-        throw new Error(session.error || 'Checkout initialization protocol failed');
+        throw new Error(session.error || t('cart.errorInit'));
       }
 
       // If simulated checkout or real Stripe. redirect to session.url
@@ -88,7 +90,7 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
       }
     } catch (err: any) {
       console.error('[Cart Checkout Error]', err);
-      setFormError(err.message || 'Payment server failed to respond.');
+      setFormError(err.message || t('cart.errorPayment'));
       setCheckoutLoading(false);
     }
   };
@@ -99,15 +101,15 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
         <div className="w-16 h-16 bg-champagne-50 border border-champagne-150 rounded-full flex items-center justify-center text-champagne-500 mx-auto">
           <ShoppingBag size={24} strokeWidth={1.5} />
         </div>
-        <h1 className="font-serif text-2xl text-stone-900 font-medium">Your Shopping Bag is Empty</h1>
+        <h1 className="font-serif text-2xl text-stone-900 font-medium">{t('cart.empty.title')}</h1>
         <p className="text-stone-500 text-xs sm:text-sm leading-relaxed">
-          Embark on an interactive journey through ccjaouhara's curated lists to find fine ornaments fitting your specific wrist sizes.
+          {t('cart.empty.desc')}
         </p>
         <button
           onClick={() => onPageChange('shop')}
           className="cursor-pointer bg-stone-900 hover:bg-champagne-500 text-white text-xs uppercase tracking-widest px-8 py-3.5 font-semibold transition-colors font-medium mt-2"
         >
-          Explore Catalog Floor
+          {t('cart.empty.cta')}
         </button>
       </div>
     );
@@ -119,10 +121,10 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
       {/* Editorial Title */}
       <div className="border-b border-champagne-100 pb-5">
         <h1 className="font-serif text-3xl sm:text-4xl text-stone-950 font-medium">
-          Your Shopping Bag
+          {t('cart.heading')}
         </h1>
         <p className="text-stone-500 text-xs mt-1">
-          Review your handpicked bespoke accessories before moving to our secure encryption gateway.
+          {t('cart.desc')}
         </p>
       </div>
 
@@ -151,15 +153,15 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
                     <button
                       onClick={() => onRemoveItem(item.id)}
                       className="text-stone-400 hover:text-rose-500 transition-colors cursor-pointer p-1"
-                      title="Remove product"
+                      title={t('cart.remove')}
                     >
                       <Trash2 size={16} />
                     </button>
                   </div>
                   
                   <div className="flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-stone-450">
-                    <span>Size: <strong className="text-stone-700">{item.selected_size}</strong></span>
-                    <span>Item Price: <strong className="text-stone-700">{formatPrice(item.price)}</strong></span>
+                    <span>{t('cart.size')} <strong className="text-stone-700">{item.selected_size}</strong></span>
+                    <span>{t('cart.itemPrice')} <strong className="text-stone-700">{formatPrice(item.price)}</strong></span>
                   </div>
 
                 </div>
@@ -170,7 +172,7 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
                     <button
                       onClick={() => onUpdateQuantity(item.id, Math.max(1, item.quantity - 1))}
                       className="p-1 px-2 text-stone-500 hover:text-stone-950 font-semibold focus:outline-hidden"
-                      aria-label="Reduce quantity"
+                      aria-label={t('cart.reduceQty')}
                     >
                       -
                     </button>
@@ -179,7 +181,7 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
                       onClick={() => onUpdateQuantity(item.id, Math.min(item.max_stock, item.quantity + 1))}
                       disabled={item.quantity >= item.max_stock}
                       className="p-1 px-2 text-stone-500 hover:text-stone-950 font-semibold disabled:opacity-25 focus:outline-hidden"
-                      aria-label="Increase quantity"
+                      aria-label={t('cart.increaseQty')}
                     >
                       +
                     </button>
@@ -201,34 +203,34 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
           {/* Billing Breakdown Card */}
           <div className="bg-white border border-champagne-100 rounded-lg p-6 space-y-6">
             <h2 className="font-serif text-xl font-medium text-stone-900 pb-4 border-b border-stone-100">
-              Billing Breakdown
+              {t('cart.billing')}
             </h2>
 
             {/* Calculations rows */}
             <div className="space-y-3.5 text-xs font-sans pb-4 border-b border-stone-50">
               <div className="flex justify-between text-stone-500">
-                <span>Subtotal Items:</span>
+                <span>{t('cart.subtotal')}</span>
                 <span className="text-stone-850 font-semibold">{formatPrice(subtotal)}</span>
               </div>
               
               {appliedDiscount && (
                 <div className="flex justify-between text-emerald-600 font-medium">
-                  <span>Discount ({appliedDiscount.code} - {appliedDiscount.percent}%):</span>
+                  <span>{t('cart.discount', { code: appliedDiscount.code, percent: appliedDiscount.percent })}</span>
                   <span>-{formatPrice(discountAmount)}</span>
                 </div>
               )}
 
               <div className="flex justify-between text-stone-500">
-                <span>Estimated Sales Tax (8%):</span>
+                <span>{t('cart.tax')}</span>
                 <span className="text-stone-850 font-semibold">{formatPrice(estimatedTax)}</span>
               </div>
 
               <div className="flex justify-between text-stone-500">
-                <span>Insured Gold Freight:</span>
+                <span>{t('cart.freight')}</span>
                 <span className="text-stone-850 font-semibold text-right">
                   {shipping === 0 ? (
                     <strong className="text-emerald-600">
-                      {currency === 'MAD' ? 'FREE OVER 2,000 درهم' : 'FREE OVER $200'}
+                      {t('cart.freeFreight')}
                     </strong>
                   ) : (
                     formatPrice(shipping)
@@ -238,7 +240,7 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
             </div>
 
             <div className="flex justify-between items-baseline pt-2">
-              <span className="font-serif text-lg text-stone-900 font-semibold">Grand Total:</span>
+              <span className="font-serif text-lg text-stone-900 font-semibold">{t('cart.grandTotal')}</span>
               <span className="font-serif text-2xl text-stone-900 font-bold">
                 {formatPrice(grandTotal)}
               </span>
@@ -247,13 +249,13 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
             {/* Promo code entry input */}
             <form onSubmit={handleApplyPromo} className="space-y-2 pt-2">
               <label htmlFor="promo-input" className="text-[11px] uppercase tracking-wider text-stone-500 font-semibold block">
-                Apply Private Promo Code
+                {t('cart.promoHeading')}
               </label>
               <div className="flex gap-2">
                 <input
                   id="promo-input"
                   type="text"
-                  placeholder="e.g. AURELIA10"
+                  placeholder={t('cart.promoPlaceholder')}
                   value={promoCode}
                   onChange={(e) => setPromoCode(e.target.value)}
                   className="flex-1 bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 placeholder-stone-400 font-mono"
@@ -262,7 +264,7 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
                   type="submit"
                   className="cursor-pointer bg-champagne-100 hover:bg-champagne-200 text-champagne-700 px-4 text-xs font-semibold py-3 transition-colors flex items-center gap-1 shrink-0"
                 >
-                  <Ticket size={12} /> Apply code
+                  <Ticket size={12} /> {t('cart.promoApply')}
                 </button>
               </div>
               
@@ -271,9 +273,9 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
                 <p className="text-[10px] text-rose-500 font-sans">{promoError}</p>
               ) : (
                 <div className="bg-champagne-50/50 p-2.5 rounded-sm border border-champagne-100/50 text-[10px] text-stone-550 space-y-0.5">
-                  <p className="font-semibold text-champagne-700 uppercase tracking-wider">Available Active Codes:</p>
-                  <p>🎟️ <strong className="text-stone-700 font-mono">CCJAOUHARA10</strong>: 10% Off ccjaouhara Jewels</p>
-                  <p>🎟️ <strong className="text-stone-700 font-mono">HERITAGE15</strong>: 15% Off Heritage Bangles</p>
+                  <p className="font-semibold text-champagne-700 uppercase tracking-wider">{t('cart.activeCodes')}</p>
+                  <p>{t('cart.code1')}</p>
+                  <p>{t('cart.code2')}</p>
                 </div>
               )}
             </form>
@@ -282,20 +284,20 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
           {/* Secure Identity & Gateway Dispatch Form */}
           <div className="bg-white border border-champagne-100 rounded-lg p-6 space-y-4">
             <h2 className="font-serif text-lg font-medium text-stone-900 pb-2 border-b border-light-pink-100">
-              Dispatch Secure Gateway
+              {t('cart.dispatchHeading')}
             </h2>
 
             <form onSubmit={handleCheckoutSubmit} className="space-y-4">
               
               <div className="space-y-1">
                 <label htmlFor="billing-name" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">
-                  Full Billing Name
+                  {t('cart.billingName')}
                 </label>
                 <input
                   id="billing-name"
                   type="text"
                   required
-                  placeholder="e.g. Lady Margarethe"
+                  placeholder={t('cart.billingPlaceholder')}
                   className="w-full bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 placeholder-stone-450"
                   value={customerName}
                   onChange={(e) => setCustomerName(e.target.value)}
@@ -304,13 +306,13 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
 
               <div className="space-y-1">
                 <label htmlFor="billing-email" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">
-                  Email Address for Receipt
+                  {t('cart.emailLabel')}
                 </label>
                 <input
                   id="billing-email"
                   type="email"
                   required
-                  placeholder="e.g. margarethe@elegance.com"
+                  placeholder={t('cart.emailPlaceholder')}
                   className="w-full bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 placeholder-stone-450"
                   value={customerEmail}
                   onChange={(e) => setCustomerEmail(e.target.value)}
@@ -329,11 +331,11 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
                 {checkoutLoading ? (
                   <>
                     <RefreshCw size={14} className="animate-spin" />
-                    Dispatching Secure Encryption...
+                    {t('cart.processing')}
                   </>
                 ) : (
                   <>
-                    Checkout with Stripe Or Simulator
+                    {t('cart.checkout')}
                     <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
                   </>
                 )}
@@ -341,7 +343,7 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
 
               <div className="flex items-center justify-center gap-1.5 text-[10px] text-stone-400 pt-2 border-t border-stone-50">
                 <ShieldCheck size={12} className="text-champagne-500" />
-                <span>PCI-DSS Secured 128-Bit Encryption Standard</span>
+                <span>{t('cart.security')}</span>
               </div>
 
             </form>

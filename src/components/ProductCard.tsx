@@ -2,6 +2,7 @@ import React, { memo, useCallback } from 'react';
 import { Eye, Handbag } from 'lucide-react';
 import { Product } from '../types';
 import LazyImage from './LazyImage';
+import { useTranslation } from '../i18n';
 
 interface ProductCardProps {
   key?: any;
@@ -12,6 +13,7 @@ interface ProductCardProps {
 }
 
 const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToCartDirect, currency = 'USD' }: ProductCardProps) {
+  const { t } = useTranslation();
   const isOutOfStock = product.stock === 0;
 
   const handleViewClick = useCallback((e: React.MouseEvent) => {
@@ -41,11 +43,11 @@ const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToC
         {/* Dynamic Badges */}
         {isOutOfStock ? (
           <span className="absolute top-3 left-3 bg-stone-900 border border-champagne-400 text-white text-[9px] tracking-widest uppercase font-semibold py-1 px-3 rounded-none z-10">
-            Out of Stock
+            {t('productCard.outOfStock')}
           </span>
         ) : product.stock <= 4 ? (
           <span className="absolute top-3 left-3 bg-stone-900 border border-champagne-400 text-champagne-400 text-[9px] tracking-widest uppercase font-bold py-1 px-3 rounded-none z-10">
-            Only {product.stock} Left
+            {t('productCard.onlyLeft', { stock: product.stock })}
           </span>
         ) : null}
 
@@ -54,7 +56,7 @@ const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToC
           <button
             onClick={handleViewClick}
             className="cursor-pointer bg-white hover:bg-[#FFF9F8] hover:text-champagne-500 text-stone-900 p-3 rounded-full shadow-md hover:scale-105 transition-all text-sm font-medium"
-            title="View Details"
+            title={t('productCard.viewDetails')}
           >
             <Eye size={16} />
           </button>
@@ -62,7 +64,7 @@ const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToC
             <button
               onClick={handleAddClick}
               className="cursor-pointer bg-stone-900 hover:bg-champagne-500 text-white p-3 rounded-full shadow-md hover:scale-105 transition-all text-sm font-semibold"
-              title="Quick Add to Cart (Medium)"
+              title={t('productCard.quickAdd')}
             >
               <Handbag size={16} />
             </button>

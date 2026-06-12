@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { useTranslation } from '../i18n';
 import { 
   Database, Plus, Edit, Trash2, ShoppingBag, DollarSign, ListOrdered, 
   Layers, Hammer, Archive, Sparkles, RefreshCw, X, Loader2, LogOut, Lock, Upload
@@ -25,6 +26,7 @@ export default function AdminDashboard({
   onRefreshOrders,
   currency
 }: AdminDashboardProps) {
+  const { t } = useTranslation();
   // Session Authentication state
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
     return localStorage.getItem('ccjaouhara_admin_session') === 'authenticated';
@@ -61,17 +63,17 @@ export default function AdminDashboard({
     if (correctPassword && passcode === correctPassword) {
       localStorage.setItem('ccjaouhara_admin_session', 'authenticated');
       setIsAuthenticated(true);
-      showToast('Admin authorization granted! ✓');
+      showToast(t('admin.login.successToast'));
     } else {
-      setLoginError('Incorrect artisan passcode. Access blocked.');
-      showToast('Login failed ✗', true);
+      setLoginError(t('admin.login.error'));
+      showToast(t('admin.login.errorToast'), true);
     }
   };
 
   const handleLogoutClick = () => {
     localStorage.removeItem('ccjaouhara_admin_session');
     setIsAuthenticated(false);
-    showToast('Securely logged out.');
+    showToast(t('admin.dashboard.logoutToast'));
   };
 
   // Image upload stream to Supabase Storage
@@ -103,12 +105,12 @@ export default function AdminDashboard({
 
         if (data.url) {
           setFormImagesInput(prev => prev ? `${prev}, ${data.url}` : data.url);
-          showToast('Image uploaded successfully! ✓');
+          showToast(t('admin.form.uploadSuccess'));
         }
       } catch (err: any) {
         console.error('[Upload trigger error]', err);
         setActionError(err.message || 'Image upload failed. Is your Supabase client properly initialized?');
-        showToast('Storage upload failed ✗', true);
+        showToast(t('admin.form.uploadError'), true);
       } finally {
         setUploadLoading(false);
       }
@@ -180,14 +182,14 @@ export default function AdminDashboard({
       }
 
       await response.json();
-      showToast('Product settings successfully recorded! ✓');
+      showToast(t('admin.form.saveSuccess'));
       onRefreshProducts(); // hydratate clients list
       setShowProductForm(false);
       setEditingProduct(null);
     } catch (err: any) {
       console.error(err);
       setActionError(err.message || 'Server connectivity errors. Failed to save product criteria.');
-      showToast('Failed to save product ✗', true);
+      showToast(t('admin.form.saveError'), true);
     } finally {
       setSubmitLoading(false);
     }
@@ -195,7 +197,7 @@ export default function AdminDashboard({
 
   // Delete product action trigger
   const handleDeleteProduct = async (id: string) => {
-    if (!confirm('Are you absolutely sure you want to retire this product from circulation? This operation is tarnish-permanent.')) {
+    if (!confirm(t('admin.form.deleteConfirm'))) {
       return;
     }
 
@@ -208,7 +210,7 @@ export default function AdminDashboard({
         throw new Error('Retirement failed');
       }
 
-      showToast('Product successfully retired.');
+      showToast(t('admin.form.deleteSuccess'));
       onRefreshProducts(); // refresh products list
     } catch (err: any) {
       showToast(err.message || 'Failed to retire product', true);
@@ -228,10 +230,10 @@ export default function AdminDashboard({
         throw new Error('Database order modification status code error');
       }
 
-      showToast(`Order status updated to "${status.toUpperCase()}"! ✓`);
+      showToast(t('admin.form.orderStatusUpdate', { status: status.toUpperCase() }));
       onRefreshOrders(); // refresh order listings
     } catch (err: any) {
-      showToast(err.message || 'Failed to commit state of delivery', true);
+      showToast(err.message || t('admin.form.orderStatusError'), true);
     }
   };
 
@@ -278,22 +280,22 @@ export default function AdminDashboard({
               <Lock size={22} strokeWidth={1.5} />
             </div>
             <span className="text-[10px] uppercase font-bold text-champagne-500 block font-sans tracking-widest">
-              Security Protocol
+              {t('admin.login.label')}
             </span>
-            <h1 className="font-serif text-2xl text-stone-900 font-semibold">ccjaouhara Atelier</h1>
+            <h1 className="font-serif text-2xl text-stone-900 font-semibold">{t('admin.login.heading')}</h1>
             <p className="text-stone-500 text-[11px] leading-relaxed max-w-[280px] mx-auto">
-              Please enter the master artisan passcode to access administrative control logs & inventory.
+              {t('admin.login.desc')}
             </p>
           </div>
 
           <form onSubmit={handleLoginSubmit} className="space-y-4">
             <div className="space-y-1">
-              <label htmlFor="passcode-field" className="text-[9px] uppercase tracking-widest text-stone-400 font-bold block">Artisan Passcode</label>
+              <label htmlFor="passcode-field" className="text-[9px] uppercase tracking-widest text-stone-400 font-bold block">{t('admin.login.passcodeLabel')}</label>
               <input
                 id="passcode-field"
                 type="password"
                 required
-                placeholder="••••••••••••"
+                placeholder={t('admin.login.passcodePlaceholder')}
                 className="w-full bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 font-mono text-center tracking-widest"
                 value={passcode}
                 onChange={(e) => setPasscode(e.target.value)}
@@ -308,13 +310,13 @@ export default function AdminDashboard({
               type="submit"
               className="cursor-pointer w-full bg-stone-900 duration-300 hover:bg-champagne-500 text-white text-xs uppercase tracking-widest py-3.5 font-semibold transition-colors font-medium rounded-sm"
             >
-              Authorize Locker
+              {t('admin.login.button')}
             </button>
           </form>
 
-          <p className="text-center text-[9px] text-stone-400 italic">
-            Enter administrative passcode configured via environment variable.
-          </p>
+            <p className="text-center text-[9px] text-stone-400 italic">
+              {t('admin.login.footnote')}
+            </p>
         </div>
       </div>
     );
@@ -328,16 +330,16 @@ export default function AdminDashboard({
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-baseline border-b border-champagne-100 pb-5 gap-4">
         <div>
           <div className="flex items-center gap-3">
-            <h1 className="font-serif text-3xl sm:text-4xl text-stone-950 font-medium">Bespoke Admin Center</h1>
+            <h1 className="font-serif text-3xl sm:text-4xl text-stone-950 font-medium">{t('admin.dashboard.heading')}</h1>
             <button
               onClick={handleLogoutClick}
               className="cursor-pointer bg-stone-50 hover:bg-rose-50 border border-stone-200 hover:border-rose-200 text-stone-500 hover:text-rose-600 px-2.5 py-1.5 rounded-sm transition-all text-[10px] uppercase font-bold tracking-wider flex items-center gap-1.5"
-              title="Logout session"
+              title={t('admin.dashboard.logout')}
             >
-              <LogOut size={10} /> Logout
+              <LogOut size={10} /> {t('admin.dashboard.logout')}
             </button>
           </div>
-          <p className="text-stone-500 text-xs mt-1">Configure and manage active inventories, edit technical sheets, and fulfill placed shipments.</p>
+          <p className="text-stone-500 text-xs mt-1">{t('admin.dashboard.desc')}</p>
         </div>
 
         {/* Action controllers */}
@@ -348,17 +350,17 @@ export default function AdminDashboard({
               onRefreshOrders();
             }}
             className="cursor-pointer bg-white text-stone-700 hover:text-champagne-600 font-sans border border-stone-200 hover:border-champagne-300 p-3 rounded-md transition-colors text-xs font-semibold flex items-center gap-1"
-            title="Reload items"
+            title={t('admin.dashboard.refresh')}
           >
             <RefreshCw size={14} className={isLoadingProducts || isLoadingOrders ? 'animate-spin' : ''} />
-            Refresh Files
+            {t('admin.dashboard.refresh')}
           </button>
           
           <button
             onClick={handleOpenAddNew}
             className="cursor-pointer bg-stone-900 hover:bg-champagne-600 text-white font-sans tracking-widest text-xs uppercase px-5 py-3 rounded-md transition-all flex items-center gap-2 font-medium"
           >
-            <Plus size={14} /> Add Bracelet
+            <Plus size={14} /> {t('admin.dashboard.addProduct')}
           </button>
         </div>
       </div>
@@ -372,7 +374,7 @@ export default function AdminDashboard({
             <DollarSign size={20} />
           </div>
           <div>
-            <span className="text-[10px] uppercase font-semibold text-stone-400 block font-sans">Active Revenue</span>
+            <span className="text-[10px] uppercase font-semibold text-stone-400 block font-sans">{t('admin.kpi.revenue')}</span>
             <span className="font-serif text-lg sm:text-xl font-bold text-stone-900">
               {currency === 'MAD' 
                 ? `${(stats.grossSales * 10).toLocaleString()} درهم`
@@ -387,8 +389,8 @@ export default function AdminDashboard({
             <ListOrdered size={20} />
           </div>
           <div>
-            <span className="text-[10px] uppercase font-semibold text-stone-400 block font-sans">Lifetime Orders</span>
-            <span className="font-serif text-lg sm:text-xl font-bold text-stone-900">{stats.ordersQty} orders</span>
+            <span className="text-[10px] uppercase font-semibold text-stone-400 block font-sans">{t('admin.kpi.orders')}</span>
+            <span className="font-serif text-lg sm:text-xl font-bold text-stone-900">{t('admin.kpi.ordersValue', { count: stats.ordersQty })}</span>
           </div>
         </div>
 
@@ -398,8 +400,8 @@ export default function AdminDashboard({
             <Layers size={20} />
           </div>
           <div>
-            <span className="text-[10px] uppercase font-semibold text-stone-400 block font-sans">Unique Designs</span>
-            <span className="font-serif text-lg sm:text-xl font-bold text-stone-900">{stats.uniquesQty} styles</span>
+            <span className="text-[10px] uppercase font-semibold text-stone-400 block font-sans">{t('admin.kpi.designs')}</span>
+            <span className="font-serif text-lg sm:text-xl font-bold text-stone-900">{t('admin.kpi.designsValue', { count: stats.uniquesQty })}</span>
           </div>
         </div>
 
@@ -409,8 +411,8 @@ export default function AdminDashboard({
             <Archive size={20} />
           </div>
           <div>
-            <span className="text-[10px] uppercase font-semibold text-stone-400 block font-sans">Total Inventory</span>
-            <span className="font-serif text-lg sm:text-xl font-bold text-stone-900">{stats.inventoryStock} items</span>
+            <span className="text-[10px] uppercase font-semibold text-stone-400 block font-sans">{t('admin.kpi.inventory')}</span>
+            <span className="font-serif text-lg sm:text-xl font-bold text-stone-900">{t('admin.kpi.inventoryValue', { count: stats.inventoryStock })}</span>
           </div>
         </div>
 
@@ -419,20 +421,20 @@ export default function AdminDashboard({
       {/* Category Breakdown Cards */}
       <div className="bg-stone-50/50 border border-champagne-105 p-5 rounded-lg">
         <h3 className="text-xs font-serif uppercase tracking-[0.2em] font-semibold text-stone-700 mb-4 flex items-center gap-2">
-          <span>✧</span> Live Catalog Curation breakdown
+          <span>✧</span> {t('admin.catalog.heading')}
         </h3>
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
           {[
-            { key: 'bracelets', label: 'Bracelets' },
-            { key: 'rings', label: 'Rings' },
-            { key: 'earrings', label: 'Earrings' },
-            { key: 'anklets', label: 'Anklets' },
-            { key: 'necklaces', label: 'Necklaces' },
-            { key: 'jewelry_sets', label: 'Jewelry Sets' }
+            { key: 'bracelets', label: t('admin.catalog.bracelets') },
+            { key: 'rings', label: t('admin.catalog.rings') },
+            { key: 'earrings', label: t('admin.catalog.earrings') },
+            { key: 'anklets', label: t('admin.catalog.anklets') },
+            { key: 'necklaces', label: t('admin.catalog.necklaces') },
+            { key: 'jewelry_sets', label: t('admin.catalog.jewelry_sets') }
           ].map((cat) => (
             <div key={cat.key} className="bg-white p-3.5 border border-champagne-100/40 rounded-md text-center shadow-2xs hover:border-champagne-300 transition-all duration-300">
               <span className="text-[10px] tracking-widest uppercase text-stone-400 font-sans block font-semibold">{cat.label}</span>
-              <span className="font-serif text-lg font-bold text-champagne-600 block mt-1">{categoryCounts[cat.key] || 0} styles</span>
+              <span className="font-serif text-lg font-bold text-champagne-600 block mt-1">{t('admin.catalog.styles', { count: categoryCounts[cat.key] || 0 })}</span>
             </div>
           ))}
         </div>
@@ -448,7 +450,7 @@ export default function AdminDashboard({
               setEditingProduct(null);
             }}
             className="absolute top-4 right-4 text-stone-400 hover:text-stone-900 cursor-pointer"
-            title="Close Drawer"
+            title={t('admin.form.close')}
           >
             <X size={20} />
           </button>
@@ -456,9 +458,9 @@ export default function AdminDashboard({
           <div className="pb-4 border-b border-stone-100">
             <h2 className="font-serif text-xl font-medium text-stone-900 flex items-center gap-1.5">
               <Sparkles size={18} className="text-champagne-500" />
-              {editingProduct ? `Edit Sheet: ${editingProduct.name}` : 'Introduce a Bespoke Assembly Draft'}
+              {editingProduct ? t('admin.form.editTitle', { name: editingProduct.name }) : t('admin.form.newTitle')}
             </h2>
-            <p className="text-stone-500 text-xs mt-0.5">Please define technical metrics, fine metals, and photo URLs for standard catalog hydration.</p>
+            <p className="text-stone-500 text-xs mt-0.5">{t('admin.form.desc')}</p>
           </div>
 
           <form onSubmit={handleProductSubmit} className="space-y-6">
@@ -466,12 +468,12 @@ export default function AdminDashboard({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               
               <div className="space-y-1">
-                <label htmlFor="product-title" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">Bracelet Title Name *</label>
+                <label htmlFor="product-title" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">{t('admin.form.name')}</label>
                 <input
                   id="product-title"
                   type="text"
                   required
-                  placeholder="e.g. Florentine Gold Chain"
+                  placeholder={t('admin.form.namePlaceholder')}
                   className="w-full bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 font-sans"
                   value={formName}
                   onChange={(e) => setFormName(e.target.value)}
@@ -480,7 +482,7 @@ export default function AdminDashboard({
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label htmlFor="product-price" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">Retail Price (USD) *</label>
+                  <label htmlFor="product-price" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">{t('admin.form.price')}</label>
                   <input
                     id="product-price"
                     type="number"
@@ -492,7 +494,7 @@ export default function AdminDashboard({
                   />
                 </div>
                 <div className="space-y-1">
-                  <label htmlFor="product-stock" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">Initial Stock *</label>
+                  <label htmlFor="product-stock" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">{t('admin.form.stock')}</label>
                   <input
                     id="product-stock"
                     type="number"
@@ -508,11 +510,11 @@ export default function AdminDashboard({
             </div>
 
             <div className="space-y-1">
-              <label htmlFor="product-description" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">Craftsman Narrative Description</label>
+              <label htmlFor="product-description" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">{t('admin.form.description')}</label>
               <textarea
                 id="product-description"
                 rows={3}
-                placeholder="Narrate the heritage story, gemstone quality, and clasp structures of this piece..."
+                placeholder={t('admin.form.descriptionPlaceholder')}
                 className="w-full bg-stone-50 text-xs p-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 font-sans"
                 value={formDescription}
                 onChange={(e) => setFormDescription(e.target.value)}
@@ -522,29 +524,29 @@ export default function AdminDashboard({
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               
               <div className="space-y-1">
-                <label htmlFor="product-category" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">Category Group *</label>
+                <label htmlFor="product-category" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">{t('admin.form.category')}</label>
                 <select
                   id="product-category"
                   className="w-full bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 font-sans"
                   value={formCategory}
                   onChange={(e) => setFormCategory(e.target.value)}
                 >
-                  <option value="bracelets">Bracelets</option>
-                  <option value="rings">Rings</option>
-                  <option value="earrings">Earrings</option>
-                  <option value="anklets">Anklets</option>
-                  <option value="necklaces">Necklaces</option>
-                  <option value="jewelry_sets">Jewelry Sets</option>
+                  <option value="bracelets">{t('admin.catalog.bracelets')}</option>
+                  <option value="rings">{t('admin.catalog.rings')}</option>
+                  <option value="earrings">{t('admin.catalog.earrings')}</option>
+                  <option value="anklets">{t('admin.catalog.anklets')}</option>
+                  <option value="necklaces">{t('admin.catalog.necklaces')}</option>
+                  <option value="jewelry_sets">{t('admin.catalog.jewelry_sets')}</option>
                 </select>
               </div>
 
               <div className="space-y-1">
-                <label htmlFor="product-material" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">Core Material *</label>
+                <label htmlFor="product-material" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">{t('admin.form.material')}</label>
                 <input
                   id="product-material"
                   type="text"
                   required
-                  placeholder="e.g. 18k Rose Gold"
+                  placeholder={t('admin.form.materialPlaceholder')}
                   className="w-full bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 font-sans"
                   value={formMaterial}
                   onChange={(e) => setFormMaterial(e.target.value)}
@@ -552,12 +554,12 @@ export default function AdminDashboard({
               </div>
 
               <div className="space-y-1">
-                <label htmlFor="product-color" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">Color Option *</label>
+                <label htmlFor="product-color" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">{t('admin.form.color')}</label>
                 <input
                   id="product-color"
                   type="text"
                   required
-                  placeholder="e.g. Rose Gold / Silver"
+                  placeholder={t('admin.form.colorPlaceholder')}
                   className="w-full bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 font-sans"
                   value={formColor}
                   onChange={(e) => setFormColor(e.target.value)}
@@ -575,7 +577,7 @@ export default function AdminDashboard({
                 <input
                   id="product-images"
                   type="text"
-                  placeholder="https://images.unsplash.com/..., https://images.unsplash.com/..."
+                  placeholder={t('admin.form.imagesPlaceholder')}
                   className="w-full bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 font-mono flex-1"
                   value={formImagesInput}
                   onChange={(e) => setFormImagesInput(e.target.value)}
@@ -587,7 +589,7 @@ export default function AdminDashboard({
                   ) : (
                     <Upload size={12} />
                   )}
-                  <span>{uploadLoading ? 'Uploading...' : 'Upload File'}</span>
+                  <span>{uploadLoading ? t('admin.form.uploading') : t('admin.form.upload')}</span>
                   <input
                     type="file"
                     accept="image/*"
@@ -598,7 +600,7 @@ export default function AdminDashboard({
                 </label>
               </div>
               <p className="text-[9px] text-stone-400">
-                Please reference high-resolution Unsplash URLs OR click 'Upload File' to host images on Supabase Storage bucket. Separate multiple frames with commas.
+                {t('admin.form.uploadNote')}
               </p>
             </div>
 
@@ -615,7 +617,7 @@ export default function AdminDashboard({
                 }}
                 className="cursor-pointer bg-white text-stone-700 hover:bg-stone-50 border border-stone-200 px-5 py-3 text-xs uppercase tracking-widest font-semibold transition-colors"
               >
-                Cancel Draft
+                {t('admin.form.cancel')}
               </button>
               
               <button
@@ -624,7 +626,7 @@ export default function AdminDashboard({
                 className="cursor-pointer bg-stone-900 hover:bg-champagne-600 disabled:bg-stone-200 text-white font-sans tracking-widest text-xs uppercase px-7 py-3 font-semibold transition-all flex items-center gap-2 font-medium"
               >
                 {submitLoading && <Loader2 size={12} className="animate-spin" />}
-                {editingProduct ? 'Commit Changes' : 'Introduce to Catalog'}
+                {editingProduct ? t('admin.form.commit') : t('admin.form.introduce')}
               </button>
             </div>
 
@@ -642,7 +644,7 @@ export default function AdminDashboard({
               : 'text-stone-400 hover:text-stone-750'
           }`}
         >
-          Active Jewelry Products ({products.length})
+          {t('admin.tabs.products', { count: products.length })}
         </button>
         <button
           onClick={() => setActiveTab('orders')}
@@ -652,7 +654,7 @@ export default function AdminDashboard({
               : 'text-stone-400 hover:text-stone-750'
           }`}
         >
-          Customer Order Logs ({orders.length})
+          {t('admin.tabs.orders', { count: orders.length })}
         </button>
       </div>
 
@@ -662,23 +664,23 @@ export default function AdminDashboard({
           {isLoadingProducts ? (
             <div className="text-center py-16 text-xs text-stone-405 flex flex-col items-center justify-center gap-2">
               <Loader2 className="animate-spin text-champagne-500" />
-              <span>Retrieving current precious catalog entries...</span>
+              <span>{t('admin.productsTable.loading')}</span>
             </div>
           ) : products.length === 0 ? (
             <div className="text-center py-12 text-stone-400 text-xs">
-              No products available in the database registry. Click 'Add Bracelet' to begin building the closet.
+              {t('admin.productsTable.empty')}
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse font-sans text-xs">
                 <thead>
                   <tr className="bg-champagne-50/50 text-stone-500 border-b border-champagne-100 uppercase tracking-wider text-[10px]">
-                    <th className="p-4 font-semibold">Bracelet Details</th>
-                    <th className="p-4 font-semibold">Category</th>
-                    <th className="p-4 font-semibold">Material</th>
-                    <th className="p-4 font-semibold">Stock</th>
-                    <th className="p-4 font-semibold">Retail Price</th>
-                    <th className="p-4 text-right font-semibold">Action Control</th>
+                    <th className="p-4 font-semibold">{t('admin.productsTable.name')}</th>
+                    <th className="p-4 font-semibold">{t('admin.productsTable.category')}</th>
+                    <th className="p-4 font-semibold">{t('admin.productsTable.material')}</th>
+                    <th className="p-4 font-semibold">{t('admin.productsTable.stock')}</th>
+                    <th className="p-4 font-semibold">{t('admin.productsTable.price')}</th>
+                    <th className="p-4 text-right font-semibold">{t('admin.productsTable.actions')}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-stone-105">
@@ -694,19 +696,19 @@ export default function AdminDashboard({
                           </div>
                         </td>
                         <td className="p-4 text-stone-600 font-medium whitespace-nowrap capitalize">
-                          {{
-                            bracelets: 'Bracelets',
-                            rings: 'Rings',
-                            earrings: 'Earrings',
-                            anklets: 'Anklets',
-                            necklaces: 'Necklaces',
-                            jewelry_sets: 'Jewelry Sets'
-                          }[p.category.toLowerCase()] || p.category}
+                          {({
+                            bracelets: t('admin.catalog.bracelets'),
+                            rings: t('admin.catalog.rings'),
+                            earrings: t('admin.catalog.earrings'),
+                            anklets: t('admin.catalog.anklets'),
+                            necklaces: t('admin.catalog.necklaces'),
+                            jewelry_sets: t('admin.catalog.jewelry_sets')
+                          }[p.category.toLowerCase()] || p.category)}
                         </td>
                         <td className="p-4 text-stone-600 font-medium">{p.material}</td>
                         <td className="p-4 font-mono font-medium">
                           <span className={isLowStock ? 'text-rose-500 font-semibold' : 'text-stone-705'}>
-                            {p.stock} units {isLowStock && '⚠️'}
+                            {t('admin.productsTable.units', { count: p.stock })} {isLowStock && t('admin.productsTable.lowStock')}
                           </span>
                         </td>
                         <td className="p-4 font-serif font-bold text-stone-900 text-sm">
@@ -717,14 +719,14 @@ export default function AdminDashboard({
                             <button
                               onClick={() => handleEditClick(p)}
                               className="bg-white border border-stone-200 text-stone-600 hover:text-champagne-600 hover:border-champagne-300 p-2 rounded-md transition-colors font-semibold"
-                              title="Edit specifications"
+                              title={t('admin.form.edit')}
                             >
                               <Edit size={12} />
                             </button>
                             <button
                               onClick={() => handleDeleteProduct(p.id)}
                               className="bg-white border border-stone-200 text-stone-600 hover:text-rose-500 hover:border-rose-350 p-2 rounded-md transition-colors font-semibold"
-                              title="Delete sheet"
+                              title={t('admin.form.delete')}
                             >
                               <Trash2 size={12} />
                             </button>
@@ -744,25 +746,25 @@ export default function AdminDashboard({
           {isLoadingOrders ? (
             <div className="text-center py-16 text-xs text-stone-405 flex flex-col items-center justify-center gap-2">
               <Loader2 className="animate-spin text-champagne-500" />
-              <span>Scanning transactions logs stream...</span>
+              <span>{t('admin.ordersTable.loading')}</span>
             </div>
           ) : orders.length === 0 ? (
             <div className="text-center py-16 text-stone-400 text-xs leading-relaxed space-y-2">
               <ShoppingBag className="mx-auto text-stone-200" size={32} />
-              <p>No transactions registered in database yet.</p>
-              <p className="text-[10px]">Add items elements to shopping cart, process and checkout to populate logs.</p>
+              <p>{t('admin.ordersTable.empty')}</p>
+              <p className="text-[10px]">{t('admin.ordersTable.emptyDesc')}</p>
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse font-sans text-xs">
                 <thead>
                   <tr className="bg-champagne-50/50 text-stone-500 border-b border-champagne-100 uppercase tracking-wider text-[10px]">
-                    <th className="p-4 font-semibold">Reference & Buyer</th>
-                    <th className="p-4 font-semibold">Date Placed</th>
-                    <th className="p-4 font-semibold">Line Items Details</th>
-                    <th className="p-4 font-semibold">Grand Total</th>
-                    <th className="p-4 font-semibold">Fulfillment status</th>
-                    <th className="p-4 text-right font-semibold">Actions</th>
+                    <th className="p-4 font-semibold">{t('admin.ordersTable.ref')}</th>
+                    <th className="p-4 font-semibold">{t('admin.ordersTable.date')}</th>
+                    <th className="p-4 font-semibold">{t('admin.ordersTable.items')}</th>
+                    <th className="p-4 font-semibold">{t('admin.ordersTable.total')}</th>
+                    <th className="p-4 font-semibold">{t('admin.ordersTable.status')}</th>
+                    <th className="p-4 text-right font-semibold">{t('admin.ordersTable.actions')}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-stone-105">
@@ -782,7 +784,7 @@ export default function AdminDashboard({
                           <span className="text-stone-400 block font-mono text-[9px] truncate max-w-[150px]">{o.customer_email}</span>
                         </td>
                         <td className="p-4 text-stone-500 font-mono">
-                          {o.created_at ? new Date(o.created_at).toLocaleDateString(undefined, { dateStyle: 'medium' }) : 'N/A'}
+                          {o.created_at ? new Date(o.created_at).toLocaleDateString(undefined, { dateStyle: 'medium' }) : t('admin.ordersTable.na')}
                         </td>
                         <td className="p-4">
                           <div className="space-y-1 max-w-sm">
@@ -810,10 +812,10 @@ export default function AdminDashboard({
                             onChange={(e) => handleStatusUpdate(o.id, e.target.value as Order['status'])}
                             className="bg-transparent border border-stone-200 text-[10px] text-stone-700 font-semibold py-1 px-2 focus:outline-hidden focus:border-champagne-400 rounded-sm uppercase tracking-wider"
                           >
-                            <option value="pending">PENDING</option>
-                            <option value="completed">COMPLETED</option>
-                            <option value="shipped">SHIPPED</option>
-                            <option value="cancelled">CANCELLED</option>
+                            <option value="pending">{t('admin.ordersTable.pending')}</option>
+                            <option value="completed">{t('admin.ordersTable.completed')}</option>
+                            <option value="shipped">{t('admin.ordersTable.shipped')}</option>
+                            <option value="cancelled">{t('admin.ordersTable.cancelled')}</option>
                           </select>
                         </td>
                       </tr>

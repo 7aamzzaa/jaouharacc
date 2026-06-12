@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { CheckCircle, Printer, Star, Heart, Loader2 } from 'lucide-react';
 import { showToast } from '../components/ToastContainer';
+import { useTranslation } from '../i18n';
 
 interface OrderConfirmationProps {
   onPageChange: (pageName: string, params?: any) => void;
@@ -14,13 +15,14 @@ export default function OrderConfirmation({ onPageChange, currency }: OrderConfi
     }
     return `$${priceUSD.toLocaleString()}`;
   };
+  const { t } = useTranslation();
   // Extract details from Query Param string or direct router params
   const urlParams = new URLSearchParams(window.location.search);
   
   // Look both in URL query search string OR in state of the custom router
   const orderId = urlParams.get('orderId') || 'ORD-' + Math.random().toString(36).substr(2, 9).toUpperCase();
-  const name = urlParams.get('name') || 'Valued ccjaouhara Customer';
-  const email = urlParams.get('email') || 'margarethe@elegance.com';
+  const name = urlParams.get('name') || t('orderConfirmation.defaultName');
+  const email = urlParams.get('email') || t('orderConfirmation.defaultEmail');
   const total = parseFloat(urlParams.get('total') || '295');
   
   // Parse items safely
@@ -46,7 +48,7 @@ export default function OrderConfirmation({ onPageChange, currency }: OrderConfi
 
   useEffect(() => {
     // Dynamically update document title for SEO on page mount
-    document.title = "Order Confirmed | ccjaouhara fine jewelry";
+    document.title = t('orderConfirmation.seoTitle');
 
     if (syncInitiated.current) return;
     syncInitiated.current = true;
@@ -67,13 +69,13 @@ export default function OrderConfirmation({ onPageChange, currency }: OrderConfi
         });
 
         if (!res.ok) {
-          throw new Error('API server returned error on checkout save sequence');
+          throw new Error(t('orderConfirmation.saveError'));
         }
         
-        showToast('Purchase persisted safely in Supabase. ✓', false);
+        showToast(t('orderConfirmation.successToast'), false);
       } catch (err: any) {
         console.error('[Supabase Save Error]', err);
-        showToast('Database offline sync failure. order local backup made.', true);
+        showToast(t('orderConfirmation.errorToast'), true);
       } finally {
         setIsSyncing(false);
       }
@@ -96,10 +98,10 @@ export default function OrderConfirmation({ onPageChange, currency }: OrderConfi
         </div>
         
         <h1 className="font-serif text-3xl sm:text-4xl text-stone-900 font-semibold tracking-wide border-b border-champagne-100 pb-3">
-          Your Order is Confirmed
+          {t('orderConfirmation.heading')}
         </h1>
         <p className="text-stone-500 text-xs max-w-md mx-auto leading-relaxed">
-          Thank you for choosing elegance, <strong className="text-stone-850">{name}</strong>. A master jeweler has been assigned to prepare and polish your curated selection.
+          {t('orderConfirmation.descPart1')} <strong className="text-stone-850">{name}</strong>{t('orderConfirmation.descPart2')}
         </p>
       </div>
 
@@ -107,7 +109,7 @@ export default function OrderConfirmation({ onPageChange, currency }: OrderConfi
       {isSyncing && (
         <div className="text-center bg-stone-50 border border-stone-200 py-2.5 rounded-sm flex items-center justify-center gap-2">
           <Loader2 size={12} className="animate-spin text-stone-400" />
-          <span className="font-mono text-[9px] uppercase tracking-widest text-stone-400">Synchronizing secure vault locks...</span>
+          <span className="font-mono text-[9px] uppercase tracking-widest text-stone-400">{t('orderConfirmation.syncing')}</span>
         </div>
       )}
 
@@ -117,21 +119,21 @@ export default function OrderConfirmation({ onPageChange, currency }: OrderConfi
         {/* Header Block of Receipt */}
         <div className="p-6 bg-champagne-50/50 border-b border-champagne-100 flex flex-col sm:flex-row justify-between items-start gap-4">
           <div className="space-y-1">
-            <span className="text-[10px] tracking-wider uppercase text-stone-400 font-semibold block">Order Reference ID</span>
+            <span className="text-[10px] tracking-wider uppercase text-stone-400 font-semibold block">{t('orderConfirmation.orderId')}</span>
             <span className="font-mono text-xs sm:text-sm font-bold text-stone-900 bg-white border border-champagne-150 px-3 py-1.5 rounded-sm">
               {orderId}
             </span>
           </div>
 
           <div className="text-left sm:text-right space-y-1">
-            <span className="text-[10px] tracking-wider uppercase text-stone-400 font-semibold block">Shipping Notification Email</span>
+            <span className="text-[10px] tracking-wider uppercase text-stone-400 font-semibold block">{t('orderConfirmation.shippingEmail')}</span>
             <span className="text-xs font-semibold text-stone-800 font-mono {email}">{email}</span>
           </div>
         </div>
 
         {/* List Items Purchased */}
         <div className="p-6 space-y-4 division-y border-b border-champagne-100">
-          <h3 className="text-xs tracking-widest uppercase font-semibold text-stone-800">Your Handpicked Selection</h3>
+          <h3 className="text-xs tracking-widest uppercase font-semibold text-stone-800">{t('orderConfirmation.selection')}</h3>
           
           <div className="space-y-4">
             {items.map((item, index) => (
@@ -139,7 +141,7 @@ export default function OrderConfirmation({ onPageChange, currency }: OrderConfi
                 <img src={item.image} alt={item.name} className="w-12 h-12 rounded-sm object-cover border border-stone-150" />
                 <div className="flex-1">
                   <h4 className="font-serif text-xs sm:text-sm text-stone-950 font-medium leading-tight">{item.name}</h4>
-                  <p className="text-[10px] text-stone-500 mt-0.5">Size: {item.selected_size} • Qty: {item.quantity}</p>
+                  <p className="text-[10px] text-stone-500 mt-0.5">{t('orderConfirmation.sizeQty', { size: item.selected_size, qty: item.quantity })}</p>
                 </div>
                 <span className="font-serif text-sm text-stone-900 font-semibold">
                   {formatPrice(item.price * item.quantity)}
@@ -151,7 +153,7 @@ export default function OrderConfirmation({ onPageChange, currency }: OrderConfi
 
         {/* Pricing Summary Breakdown Footer */}
         <div className="p-6 bg-stone-50/50 flex justify-between items-baseline">
-          <span className="font-serif text-base text-stone-900 font-semibold">Grand Total:</span>
+          <span className="font-serif text-base text-stone-900 font-semibold">{t('orderConfirmation.grandTotal')}</span>
           <span className="font-serif text-xl sm:text-2xl text-stone-900 font-bold">
             {formatPrice(total)}
           </span>
@@ -165,9 +167,9 @@ export default function OrderConfirmation({ onPageChange, currency }: OrderConfi
           <Star size={18} className="fill-champagne-500" />
         </div>
         <div className="space-y-1 text-xs font-sans leading-relaxed">
-          <h4 className="font-serif text-sm font-semibold text-stone-900">Bespoke Guild Assurance</h4>
+          <h4 className="font-serif text-sm font-semibold text-stone-900">{t('orderConfirmation.guildAssurance')}</h4>
           <p className="text-stone-500">
-            All elements are packaged inside a signature blush-pink ccjaouhara velvet box, certified under individual jewelry stamps and tarnish policies.
+            {t('orderConfirmation.guildDesc')}
           </p>
         </div>
       </div>
@@ -178,13 +180,13 @@ export default function OrderConfirmation({ onPageChange, currency }: OrderConfi
           onClick={() => onPageChange('shop')}
           className="cursor-pointer w-full sm:w-auto bg-stone-900 hover:bg-champagne-600 text-white font-sans tracking-widest text-xs uppercase font-medium px-8 py-4 transition-colors duration-300"
         >
-          Continue Shopping
+          {t('orderConfirmation.continueShopping')}
         </button>
         <button
           onClick={() => window.print()}
           className="cursor-pointer w-full sm:w-auto bg-white hover:bg-stone-50 text-stone-700 border border-stone-250 font-sans tracking-widest text-xs uppercase font-medium px-8 py-4 transition-colors duration-300 flex items-center justify-center gap-1.5"
         >
-          Print Receipt
+          {t('orderConfirmation.printReceipt')}
         </button>
       </div>
 

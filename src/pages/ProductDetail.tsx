@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Minus, Plus, ShoppingBag, ShieldCheck, Heart, Sparkles, Scale, RefreshCw, ArrowLeft } from 'lucide-react';
 import { Product } from '../types';
+import { useTranslation } from '../i18n';
 
 interface ProductDetailProps {
   productId: string;
@@ -17,6 +18,7 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, onP
   const [quantity, setQuantity] = useState<number>(1);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [addedMessage, setAddedMessage] = useState<boolean>(false);
+  const { t } = useTranslation();
 
   // Load product criteria
   useEffect(() => {
@@ -34,7 +36,7 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, onP
     return (
       <div className="text-center py-24 space-y-4">
         <RefreshCw size={36} className="animate-spin text-champagne-500 mx-auto" />
-        <p className="font-serif text-lg text-stone-700">Polishing the jewelry display...</p>
+        <p className="font-serif text-lg text-stone-700">{t('productDetail.loading')}</p>
       </div>
     );
   }
@@ -43,9 +45,9 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, onP
 
   // Sizes array details
   const sizeOptions = [
-    { label: 'Small (6.5")', desc: 'Petite wrist profile' },
-    { label: 'Medium (7.0")', desc: 'Standard popular fit' },
-    { label: 'Large (7.5")', desc: 'Elegant draped fit' },
+    { label: t('productDetail.sizes.small'), desc: t('productDetail.sizes.smallDesc') },
+    { label: t('productDetail.sizes.medium'), desc: t('productDetail.sizes.mediumDesc') },
+    { label: t('productDetail.sizes.large'), desc: t('productDetail.sizes.largeDesc') },
   ];
 
   // Recommendations: Other bracelets in same category, up to 3
@@ -72,7 +74,7 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, onP
         className="cursor-pointer group flex items-center gap-2 text-xs uppercase tracking-widest text-stone-500 hover:text-champagne-600 font-semibold transition-colors focus:outline-hidden"
       >
         <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
-        Return to Catalog
+        {t('productDetail.back')}
       </button>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
@@ -90,7 +92,7 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, onP
             {isOutOfStock && (
               <div className="absolute inset-0 bg-white/60 backdrop-blur-xs flex items-center justify-center">
                 <span className="bg-stone-950 text-white text-xs tracking-widest uppercase font-semibold py-2 px-6 shadow-xl">
-                  Bespoke Archive — Sold Out
+                  {t('productDetail.soldOutOverlay')}
                 </span>
               </div>
             )}
@@ -126,7 +128,7 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, onP
                 {product.category}
               </span>
               <span className="text-[10px] uppercase font-mono tracking-wider font-semibold text-stone-400 bg-stone-100 px-2 py-1 rounded-sm">
-                In Stock: {product.stock}
+                {t('productDetail.inStock', { count: product.stock })}
               </span>
             </div>
             
@@ -139,14 +141,14 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, onP
                 {currency === 'MAD' ? `${(product.price * 10).toLocaleString()} درهم` : `$${product.price.toLocaleString()}`}
               </p>
               <span className="text-xs text-stone-500 font-semibold">
-                Complimentary tracked premium shipping
+                {t('productDetail.shipping')}
               </span>
             </div>
           </div>
 
           {/* Curated Description */}
           <div className="space-y-2">
-            <h3 className="text-xs tracking-widest uppercase text-stone-800 font-semibold">The artisan story</h3>
+            <h3 className="text-xs tracking-widest uppercase text-stone-800 font-semibold">{t('productDetail.artisanStory')}</h3>
             <p className="text-stone-600 text-xs sm:text-sm leading-relaxed font-sans font-normal">
               {product.description}
             </p>
@@ -155,9 +157,9 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, onP
           {/* Size Form Selector */}
           <div className="space-y-3">
             <div className="flex justify-between items-baseline">
-              <h3 className="text-xs tracking-widest uppercase text-stone-800 font-semibold">Select Length (Inches)</h3>
+              <h3 className="text-xs tracking-widest uppercase text-stone-800 font-semibold">{t('productDetail.sizeHeading')}</h3>
               <a href="#" className="text-[10px] text-champagne-600 hover:underline hover:text-champagne-700 font-semibold">
-                Sizing Instructions Guide
+                {t('productDetail.sizingGuide')}
               </a>
             </div>
 
@@ -190,7 +192,7 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, onP
                   onClick={() => setQuantity(Math.max(1, quantity - 1))}
                   disabled={isOutOfStock}
                   className="p-2 text-stone-500 hover:text-stone-950 disabled:opacity-30 focus:outline-hidden"
-                  aria-label="Decrease quantity"
+                  aria-label={t('productDetail.decreaseQty')}
                 >
                   <Minus size={14} />
                 </button>
@@ -199,7 +201,7 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, onP
                   onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
                   disabled={isOutOfStock || quantity >= product.stock}
                   className="p-2 text-stone-500 hover:text-stone-950 disabled:opacity-30 focus:outline-hidden"
-                  aria-label="Increase quantity"
+                  aria-label={t('productDetail.increaseQty')}
                 >
                   <Plus size={14} />
                 </button>
@@ -216,7 +218,7 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, onP
                 }`}
               >
                 <ShoppingBag size={14} />
-                {isOutOfStock ? 'Sold Out' : 'Place in Shopping Bag'}
+                {isOutOfStock ? t('productDetail.soldOut') : t('productDetail.addToCart')}
               </button>
 
               {/* Add to Wishlist Toggle */}
@@ -225,7 +227,7 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, onP
                 className={`cursor-pointer p-4 border rounded-sm transition-all focus:outline-hidden ${
                   isFavorite ? 'border-rose-300 text-rose-500 bg-rose-50' : 'border-stone-200 hover:border-stone-400 text-stone-500'
                 }`}
-                title="Add to wishlist"
+                title={t('productDetail.addToWishlist')}
               >
                 <Heart size={16} className={isFavorite ? 'fill-rose-500' : ''} />
               </button>
@@ -235,7 +237,7 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, onP
             {/* Micro Add Alert */}
             {addedMessage && (
               <div className="text-center bg-emerald-50 text-emerald-800 text-xs py-2 rounded-sm border border-emerald-100 font-sans tracking-wide">
-                Your custom selection has been added to your luxurious shopping cart.
+                {t('productDetail.added')}
               </div>
             )}
 
@@ -243,23 +245,23 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, onP
 
           {/* Technical Spec List */}
           <div className="border-t border-champagne-100 pt-6 space-y-4">
-            <h3 className="text-xs tracking-widest uppercase text-stone-800 font-semibold">Technical specifications</h3>
+            <h3 className="text-xs tracking-widest uppercase text-stone-800 font-semibold">{t('productDetail.specs')}</h3>
             <div className="grid grid-cols-2 gap-y-3 gap-x-6 text-xs font-sans">
               <div className="flex justify-between border-b border-stone-50 pb-1.5">
-                <span className="text-stone-400">Metal Finish:</span>
+                <span className="text-stone-400">{t('productDetail.metal')}</span>
                 <span className="text-stone-700 font-medium">{product.material}</span>
               </div>
               <div className="flex justify-between border-b border-stone-50 pb-1.5">
-                <span className="text-stone-400">Tonal Hue:</span>
+                <span className="text-stone-400">{t('productDetail.hue')}</span>
                 <span className="text-stone-700 font-medium">{product.color}</span>
               </div>
               <div className="flex justify-between border-b border-stone-50 pb-1.5">
-                <span className="text-stone-400">Design Model:</span>
+                <span className="text-stone-400">{t('productDetail.model')}</span>
                 <span className="text-stone-700 font-medium">{product.id.toUpperCase()}</span>
               </div>
               <div className="flex justify-between border-b border-stone-50 pb-1.5">
-                <span className="text-stone-400">Artisan Class:</span>
-                <span className="text-stone-700 font-medium">Guild Level III</span>
+                <span className="text-stone-400">{t('productDetail.artisanClass')}</span>
+                <span className="text-stone-700 font-medium">{t('productDetail.guildLevel')}</span>
               </div>
             </div>
           </div>
@@ -272,9 +274,9 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, onP
         <section className="space-y-8 border-t border-champagne-100 pt-16">
           <div className="text-center">
             <span className="text-[10px] tracking-[0.2em] uppercase text-champagne-500 font-medium font-sans">
-              Curated styling suggestions
+              {t('productDetail.recommendations')}
             </span>
-            <h2 className="font-serif text-2xl text-stone-950 mt-1 font-medium">You May Also Like</h2>
+            <h2 className="font-serif text-2xl text-stone-950 mt-1 font-medium">{t('productDetail.youMayAlsoLike')}</h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
