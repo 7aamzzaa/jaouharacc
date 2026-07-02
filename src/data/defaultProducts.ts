@@ -81,5 +81,18 @@ export const defaultProducts: Product[] = [
     "category": "necklaces",
     "material": "gold",
     "color": "gold"
+  },
+  {
+    "id": "prod-50",
+    "name": "Luna Crystal Necklace",
+    "description": "Discover the Luna Crystal Necklace, a waterproof stainless steel necklace designed for women who love timeless elegance. Perfect for everyday wear and special occasions",
+    "price": 299,
+    "images": [
+      "/images/sssssssssssssssl.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "inoxidable",
+    "color": "gold"
   }
 ];

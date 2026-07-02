@@ -36,4 +36,9 @@ export const productTranslations: Record<string, { en: ProductTranslation; fr: P
     fr: { name: "Sansla", description: "Belle sansla pour filles", material: "Or", color: "Or" },
     ar: { name: "سنصلة", description: "سنصلة جميلة للبنات", material: "ذهب", color: "ذهبي" },
   },
+  "prod-50": {
+    en: { name: "Luna Crystal Necklace", description: "Discover the Luna Crystal Necklace, a waterproof stainless steel necklace designed for women who love timeless elegance. Perfect for everyday wear and special occasions", material: "inoxidable", color: "gold" },
+    fr: { name: "Luna Crystal Necklace", description: "Discover the Luna Crystal Necklace, a waterproof stainless steel necklace designed for women who love timeless elegance. Perfect for everyday wear and special occasions", material: "inoxidable", color: "Or" },
+    ar: { name: "Luna Crystal Necklace", description: "Discover the Luna Crystal Necklace, a waterproof stainless steel necklace designed for women who love timeless elegance. Perfect for everyday wear and special occasions", material: "inoxidable", color: "ذهبي" },
+  },
 };
