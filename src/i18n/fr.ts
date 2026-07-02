@@ -20,6 +20,10 @@ export const fr: Record<string, any> = {
     },
   },
 
+  common: {
+    currency: 'MAD',
+  },
+
   home: {
     seo: {
       title: '\u0645\u062C\u0648\u0647\u0631\u0627\u062A \u0646\u0633\u0627\u0626\u064A\u0629 \u0631\u0627\u0642\u064A\u0629 \u0628\u0627\u0644\u0645\u063A\u0631\u0628 | ccjaouhara Fine Jewelry',
@@ -39,7 +43,7 @@ export const fr: Record<string, any> = {
       { title: 'Qualit\u00e9 garantie 100%', desc: 'Pi\u00e8ces exceptionnelles qui durent et enchantent' },
       { title: 'Livraison dans tout le Maroc', desc: 'Rapide et fiable, livr\u00e9 chez vous' },
       { title: 'Paiement \u00e0 la livraison', desc: 'Achetez en toute s\u00e9curit\u00e9, l\u2019esprit tranquille' },
-      { title: 'Plaqu\u00e9 or 18 carats', desc: 'Un \u00e9clat luxueux qui dure longtemps' },
+      { title: 'Bijoux Intemporels', desc: 'Des designs \u00e9l\u00e9gants pour chaque occasion' },
     ],
     categories: {
       label: 'Nos collections raffin\u00e9es',
@@ -58,6 +62,12 @@ export const fr: Record<string, any> = {
       desc: 'Laissez les d\u00e9tails de vos accessoires raffin\u00e9s raconter votre histoire \u00e9l\u00e9gante dans chaque occasion. Con\u00e7us avec amour et savoir-faire.',
       cta: 'D\u00e9couvrir la collection',
     },
+    promoBanner: {
+      label: 'Offre Sp\u00e9ciale',
+      title: 'Livraison offerte sur votre premi\u00e8re commande',
+      desc: 'Exp\u00e9dition offerte sur tous les premiers achats.',
+      cta: 'Achetez maintenant',
+    },
     arrivals: {
       label: 'Des nouveaut\u00e9s rien que pour vous',
       heading: 'Nouveaut\u00e9s',
@@ -67,7 +77,7 @@ export const fr: Record<string, any> = {
       label: 'Ce qui nous distingue',
       heading: 'Pourquoi ccjaouhara ?',
       items: [
-        { title: 'Qualit\u00e9 luxueuse', desc: 'Nos bijoux sont con\u00e7us avec pr\u00e9cision et plaqu\u00e9s or 18 carats pour vous offrir un \u00e9clat et une \u00e9l\u00e9gance qui vous accompagnent.' },
+        { title: 'Qualit\u00e9 de Luxe', desc: 'Des bijoux haut de gamme avec des bracelets, colliers, bagues, boucles d\u2019oreilles et ensembles \u00e9l\u00e9gants con\u00e7us pour chaque occasion.' },
         { title: 'R\u00e9sistant aux allergies', desc: 'Les pi\u00e8ces sont fabriqu\u00e9es \u00e0 partir de mat\u00e9riaux de haute qualit\u00e9, sans nickel et r\u00e9sistants aux allergies pour durer longtemps.' },
         { title: 'Livraison rapide', desc: 'Nous assurons la livraison de votre commande en toute s\u00e9curit\u00e9, facilit\u00e9 et rapidit\u00e9 dans toutes les villes et r\u00e9gions du Maroc.' },
         { title: 'Paiement s\u00e9curis\u00e9', desc: 'Plus de soucis, payez \u00e0 l\u2019avance ou en toute s\u00e9curit\u00e9 \u00e0 la r\u00e9ception et \u00e0 l\u2019inspection du produit chez vous.' },
@@ -94,6 +104,14 @@ export const fr: Record<string, any> = {
       heading: 'Le cadeau parfait pour toute occasion \ud83c\udf81',
       desc: 'Anniversaire, date anniversaire ou simplement parce qu\u2019elle le m\u00e9rite \u2014 rendez-lui son inoubliable',
       cta: 'Achetez les cadeaux',
+    },
+    newsletter: {
+      label: 'Newsletter',
+      heading: 'Restez inform\u00e9',
+      desc: 'Abonnez-vous pour recevoir des mises \u00e0 jour.',
+      placeholder: 'Votre email',
+      cta: 'S\u2019abonner',
+      success: 'Merci de vous \u00eatre abonn\u00e9 !',
     },
   },
 
@@ -210,11 +228,14 @@ export const fr: Record<string, any> = {
     addToWishlist: 'Ajouter \u00e0 la liste de souhaits',
     added: 'Votre s\u00e9lection personnalis\u00e9e a \u00e9t\u00e9 ajout\u00e9e \u00e0 votre panier luxueux.',
     specs: 'Sp\u00e9cifications techniques',
-    metal: 'Finition M\u00e9tal :',
-    hue: 'Teinte :',
-    model: 'Mod\u00e8le :',
-    artisanClass: 'Classe Artisanale :',
-    guildLevel: 'Niveau Guide III',
+    material: 'Mat\u00e9riau :',
+    finish: 'Finition :',
+    collection: 'Collection :',
+    style: 'Style :',
+    materialValue: 'Acier Inoxydable Premium',
+    finishValue: 'Polissage Premium',
+    collectionValue: 'Collection CCJaouhara',
+    styleValue: '\u00c9l\u00e9gance Intemporelle',
     recommendations: 'Suggestions de style cur\u00e9es',
     youMayAlsoLike: 'Vous Aimerez Aussi',
     sizes: {
@@ -362,8 +383,8 @@ export const fr: Record<string, any> = {
   },
 
   footer: {
-    column1: { title: '01. Mat\u00e9riau Noble', desc: 'Approvisionn\u00e9 \u00e9thiquement, fini \u00e0 la main avec un placage or massif 18k et des pierres pr\u00e9cieuses haut de gamme sans ternissement.' },
-    column2: { title: '02. Artisanat de Gen\u00e8ve', desc: 'Chaque maillon est inspect\u00e9 pour une perfection sur mesure dans notre atelier patrimonial situ\u00e9 \u00e0 Gen\u00e8ve.' },
+    column1: { title: '01. \u00c9l\u00e9gance Intemporelle', desc: 'Des bijoux raffin\u00e9s con\u00e7us avec une attention exceptionnelle aux d\u00e9tails et une beaut\u00e9 durable' },
+    column2: { title: '02. Artisanat Expert', desc: 'Chaque pi\u00e8ce est soigneusement fabriqu\u00e9e avec pr\u00e9cision, passion et attention \u00e0 chaque d\u00e9tail' },
     newsletter: {
       title: '03. Newsletter',
       subscribed: 'ACC\u00c8S ACCORD\u00c9',
@@ -372,13 +393,38 @@ export const fr: Record<string, any> = {
       note: 'Catalogues Priv\u00e9s Exclusifs ccjaouhara',
     },
     brand: 'ccjaouhara',
-    tagline: 'fine jewelry \u2022 since 1984',
+    tagline: 'fine jewelry \u2022 since 2026',
     copyright: '\u00A9 {year} ccjaouhara fine jewelry. Tous droits de garantie \u00e0 vie r\u00e9serv\u00e9s.',
     sourced: 'Approvisionn\u00e9 \u00c9thiquement',
     finished: 'Fini avec amour \u00e0 la main',
     instagram: 'Instagram',
     facebook: 'Facebook',
     pinterest: 'Pinterest',
+    links: {
+      shop: {
+        title: 'Boutique',
+        necklaces: 'Colliers',
+        bracelets: 'Bracelets',
+        rings: 'Bagues',
+        earrings: "Boucles d'oreilles",
+        sets: 'Ensembles',
+      },
+      support: {
+        title: 'Assistance',
+        faq: 'FAQ',
+        shipping: 'Livraison & Retours',
+        sizeGuide: 'Guide des Tailles',
+        contact: 'Contact',
+        track: 'Suivi de Commande',
+      },
+      about: {
+        title: '\u00c0 Propos',
+        story: 'Notre Histoire',
+        blog: 'Blog',
+        press: 'Presse',
+      },
+    },
+    payment: 'Paiement S\u00e9curis\u00e9',
   },
 
   productCard: {
@@ -394,17 +440,17 @@ export const fr: Record<string, any> = {
 
   app: {
     marquee: [
-      '\u2B50 \u0623\u0633\u0627\u0648\u0631\u062A\u0643 \u0643\u0627\u062A\u0634\u0643\u064A \u0639\u0644\u064A\u0643',
+      '\u2B50 Vos bijoux, votre d\u00e9claration',
       '\u2022',
-      '\ud83d\ude9a \u062A\u0648\u0635\u064A\u0644 \u0644\u0628\u0627\u0628 \u0627\u0644\u062F\u0627\u0631',
+      '\ud83d\ude9a Livraison gratuite \u00e0 domicile',
       '\u2022',
-      '\u2705 \u0627\u0644\u062F\u0641\u0639 \u0639\u0646\u062F \u0627\u0644\u0627\u0633\u062A\u0644\u0627\u0645',
+      '\u2705 Paiement \u00e0 la livraison',
       '\u2022',
-      '\ud83d\udc8E \u0644\u0623\u0646 \u0643\u0644 \u0627\u0645\u0631\u0623\u0629 \u062A\u0633\u062A\u0627\u0647\u0644 \u0627\u0644\u0623\u062D\u0633\u0646',
+      '\ud83d\udc8E Chaque femme m\u00e9rite le meilleur',
       '\u2022',
-      '\ud83c\udf38 \u062C\u0648\u062F\u0629 \u0645\u0636\u0645\u0648\u0646\u0629 100%',
+      '\ud83c\udf38 Qualit\u00e9 garantie 100%',
       '\u2022',
-      '\ud83c\uddf2\ud83c\udde6 \u062A\u0648\u0635\u064A\u0644 \u0644\u062C\u0645\u064A\u0639 \u0645\u062F\u0646 \u0627\u0644\u0645\u063A\u0631\u0628',
+      '\ud83c\uddf2\ud83c\udde6 Livraison partout au Maroc',
       '\u2022',
     ],
     cart: {
@@ -418,8 +464,8 @@ export const fr: Record<string, any> = {
     },
     floating: {
       whatsappAria: 'Contactez-nous sur WhatsApp',
-      orderNow: '\u0627\u0637\u0644\u0628 \u0627\u0644\u0622\u0646',
-      whatsappText: '\u0645\u0631\u062D\u0628\u0627\u060C \u0628\u063A\u064A\u062A \u0646\u0637\u0644\u0628 \u0645\u0646 ccjaouhara \ud83c\udf38',
+      orderNow: 'Commandez maintenant',
+      whatsappText: 'Bonjour, je souhaite commander chez ccjaouhara \ud83c\udf38',
     },
   },
 

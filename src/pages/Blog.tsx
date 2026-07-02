@@ -1,6 +1,6 @@
 import { useState, useMemo } from 'react';
 import { useTranslation } from '../i18n';
-import { Search, Clock, ArrowLeft, Calendar, RefreshCw, ChevronDown } from 'lucide-react';
+import { Search, Clock, ArrowLeft, ArrowRight, Calendar, RefreshCw, ChevronDown } from 'lucide-react';
 import { BlogPost } from '../types';
 import { defaultBlogPosts } from '../data/defaultBlogPosts';
 
@@ -15,7 +15,7 @@ export default function Blog({ onPageChange }: BlogProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [visibleCount, setVisibleCount] = useState(POSTS_PER_PAGE);
-  const { t } = useTranslation();
+  const { t, dir } = useTranslation();
 
   const featured = defaultBlogPosts[0];
 
@@ -77,7 +77,7 @@ export default function Blog({ onPageChange }: BlogProps) {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-stone-950/95 via-stone-950/50 to-transparent"></div>
         </div>
-        <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10 md:p-14 text-right" dir="rtl">
+        <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10 md:p-14 text-start" dir={dir}>
           <span className="inline-block text-[9px] tracking-widest uppercase font-bold text-champagne-400 bg-stone-900/80 border border-champagne-400/30 px-3 py-1.5 rounded-sm mb-3 font-sans">
             {featured.category}
           </span>
@@ -102,7 +102,7 @@ export default function Blog({ onPageChange }: BlogProps) {
             className="cursor-pointer mt-4 inline-flex items-center gap-1.5 text-[10px] tracking-widest uppercase font-bold text-champagne-400 hover:text-champagne-300 transition-colors font-sans"
           >
             {t('blog.readArticle')}
-            <ArrowLeft size={12} />
+            {dir === 'ltr' ? <ArrowRight size={12} /> : <ArrowLeft size={12} />}
           </button>
         </div>
       </section>
@@ -174,7 +174,7 @@ export default function Blog({ onPageChange }: BlogProps) {
                     {post.category}
                   </span>
                 </div>
-                <div className="p-5 space-y-3 text-right" dir="rtl">
+                <div className="p-5 space-y-3 text-start" dir={dir}>
                   <time className="text-[10px] text-stone-400 font-sans flex items-center gap-1.5 justify-end">
                     <Calendar size={10} />
                     {formatDate(post.date)}
@@ -193,7 +193,7 @@ export default function Blog({ onPageChange }: BlogProps) {
                     className="cursor-pointer inline-flex items-center gap-1 text-[10px] tracking-widest uppercase font-bold text-champagne-600 hover:text-champagne-700 transition-colors pt-1 font-sans"
                   >
                     {t('blog.readMore')}
-                    <ArrowLeft size={11} />
+                    {dir === 'ltr' ? <ArrowRight size={11} /> : <ArrowLeft size={11} />}
                   </button>
                 </div>
               </article>

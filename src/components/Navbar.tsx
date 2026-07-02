@@ -13,7 +13,7 @@ interface NavbarProps {
 }
 
 export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, currency, onCurrencyToggle }: NavbarProps) {
-  const { t, lang, setLang } = useTranslation();
+  const { t, lang, setLang, dir } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileCollectionsOpen, setMobileCollectionsOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
@@ -99,7 +99,7 @@ export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, cu
                       <button
                         key={id}
                         onClick={() => onPageChange('shop', { filterCategory: id })}
-                        className="w-full text-left flex items-start gap-3 p-2.5 rounded-md hover:bg-champagne-50/50 transition-colors group"
+                        className="w-full text-start flex items-start gap-3 p-2.5 rounded-md hover:bg-champagne-50/50 transition-colors group"
                       >
                         <div className="mt-0.5 p-1.5 bg-champagne-50 border border-champagne-100 rounded-md text-champagne-500 group-hover:bg-champagne-500 group-hover:text-white transition-all">
                           <CatIcon size={14} />
@@ -182,7 +182,7 @@ export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, cu
                       <button
                         key={l.code}
                         onClick={() => { setLang(l.code); setLangOpen(false); }}
-                        className={`w-full text-left px-4 py-2 text-xs tracking-widest uppercase font-medium transition-colors ${
+                        className={`w-full text-start px-4 py-2 text-xs tracking-widest uppercase font-medium transition-colors ${
                           lang === l.code
                             ? 'text-champagne-500 bg-champagne-50 font-semibold'
                             : 'text-stone-600 hover:bg-champagne-50 hover:text-champagne-500'
@@ -222,7 +222,7 @@ export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, cu
               onPageChange('home');
               setMobileMenuOpen(false);
             }}
-            className={`block w-full text-left py-2.5 px-4 rounded-md text-sm tracking-widest uppercase font-medium ${
+            className={`block w-full text-start py-2.5 px-4 rounded-md text-sm tracking-widest uppercase font-medium ${
               currentPage === 'home'
                 ? 'bg-luxe-pink-50 text-champagne-500 font-semibold'
                 : 'text-stone-700 hover:bg-champagne-50/50 hover:text-champagne-500'
@@ -242,7 +242,7 @@ export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, cu
             </button>
 
             {mobileCollectionsOpen && (
-              <div className="bg-stone-50/60 rounded-lg p-2 space-y-1 ml-4 border-l border-champagne-150">
+              <div className="bg-stone-50/60 rounded-lg p-2 space-y-1 ms-4 border-s border-champagne-150">
                 {categoryIds.map((id) => {
                   const CatIcon = categoryIcons[id];
                   return (
@@ -252,7 +252,7 @@ export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, cu
                         onPageChange('shop', { filterCategory: id });
                         setMobileMenuOpen(false);
                       }}
-                      className="w-full text-left flex items-center gap-3 py-2 px-3 hover:bg-champagne-50/50 rounded-md group"
+                      className="w-full text-start flex items-center gap-3 py-2 px-3 hover:bg-champagne-50/50 rounded-md group"
                     >
                       <span className="text-champagne-500">
                         <CatIcon size={12} />
@@ -272,7 +272,7 @@ export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, cu
               onPageChange('shop');
               setMobileMenuOpen(false);
             }}
-            className={`block w-full text-left py-2.5 px-4 rounded-md text-sm tracking-widest uppercase font-medium ${
+            className={`block w-full text-start py-2.5 px-4 rounded-md text-sm tracking-widest uppercase font-medium ${
               currentPage === 'shop'
                 ? 'bg-luxe-pink-50 text-champagne-500 font-semibold'
                 : 'text-stone-700 hover:bg-champagne-50/50'
@@ -286,7 +286,7 @@ export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, cu
               onPageChange('contact');
               setMobileMenuOpen(false);
             }}
-            className={`block w-full text-left py-2.5 px-4 rounded-md text-sm tracking-widest uppercase font-medium ${
+            className={`block w-full text-start py-2.5 px-4 rounded-md text-sm tracking-widest uppercase font-medium ${
               currentPage === 'contact'
                 ? 'bg-luxe-pink-50 text-champagne-500 font-semibold'
                 : 'text-stone-700 hover:bg-champagne-50/50'
@@ -300,7 +300,7 @@ export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, cu
               onPageChange('blog');
               setMobileMenuOpen(false);
             }}
-            className={`block w-full text-left py-2.5 px-4 rounded-md text-sm tracking-widest uppercase font-medium ${
+            className={`block w-full text-start py-2.5 px-4 rounded-md text-sm tracking-widest uppercase font-medium ${
               currentPage === 'blog' || currentPage === 'blog-article'
                 ? 'bg-luxe-pink-50 text-champagne-500 font-semibold'
                 : 'text-stone-700 hover:bg-champagne-50/50'

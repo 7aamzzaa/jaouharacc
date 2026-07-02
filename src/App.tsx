@@ -1,6 +1,6 @@
 import { useState, useEffect, memo } from 'react';
 import { Routes, Route, useNavigate, useLocation, useSearchParams, useParams } from 'react-router-dom';
-import { ShoppingBag, ArrowRight, X, ShieldCheck, Gem } from 'lucide-react';
+import { ShoppingBag, ArrowRight, ArrowLeft, X, ShieldCheck, Gem } from 'lucide-react';
 
 import { Product, Order, CartItem } from './types';
 import { defaultProducts } from './data/defaultProducts';
@@ -45,7 +45,7 @@ export default function App() {
     }
   });
 
-  const { t } = useTranslation();
+  const { t, dir } = useTranslation();
 
   const [isCartOpen, setIsCartOpen] = useState(false);
 
@@ -272,7 +272,7 @@ export default function App() {
                         <div className="flex justify-between items-baseline text-[10px] text-stone-400">
                           <span>Qty: {item.quantity} • {item.selected_size.split(' ')[0]}</span>
                           <span className="font-serif font-semibold text-stone-900">
-                            {currency === 'MAD' ? `${((item.price * item.quantity) * 10).toLocaleString()} درهم` : `$${(item.price * item.quantity).toLocaleString()}`}
+                            {currency === 'MAD' ? `${((item.price * item.quantity) * 10).toLocaleString()} ${t('common.currency')}` : `$${(item.price * item.quantity).toLocaleString()}`}
                           </span>
                         </div>
                       </div>
@@ -285,7 +285,7 @@ export default function App() {
                   <div className="flex justify-between items-baseline text-xs pb-2">
                     <span className="text-stone-500">{t('app.cart.subtotal')}</span>
                     <span className="font-serif text-base font-bold text-stone-900">
-                      {currency === 'MAD' ? `${(cartSubtotal * 10).toLocaleString()} درهم` : `$${cartSubtotal.toLocaleString()}`}
+                      {currency === 'MAD' ? `${(cartSubtotal * 10).toLocaleString()} ${t('common.currency')}` : `$${cartSubtotal.toLocaleString()}`}
                     </span>
                   </div>
                   <button
@@ -293,7 +293,7 @@ export default function App() {
                     className="cursor-pointer w-full bg-stone-900 hover:bg-champagne-600 text-white tracking-widest text-[10px] uppercase font-semibold py-4 rounded-sm transition-colors flex items-center justify-center gap-1.5 focus:outline-hidden"
                   >
                     {t('app.cart.cta')}
-                    <ArrowRight size={12} />
+                    {dir === 'ltr' ? <ArrowRight size={12} /> : <ArrowLeft size={12} />}
                   </button>
                   <div className="flex items-center justify-center gap-1 text-[9px] text-stone-400">
                     <ShieldCheck size={10} className="text-champagne-500" />
@@ -369,10 +369,10 @@ function BlogArticleWithParams(props: any) {
 }
 
 const Marquee = memo(function Marquee() {
-  const { t } = useTranslation();
+  const { t, dir } = useTranslation();
   const items = t('app.marquee') as unknown as string[];
   return (
-    <div className="bg-stone-900 border-b border-stone-850 text-stone-200 text-[11px] uppercase font-semibold font-sans py-2.5 overflow-hidden relative w-full" dir="rtl">
+    <div className="bg-stone-900 border-b border-stone-850 text-stone-200 text-[11px] uppercase font-semibold font-sans py-2.5 overflow-hidden relative w-full" dir={dir}>
       <div className="flex whitespace-nowrap select-none" style={{ width: 'max-content' }}>
         <div className="animate-marquee flex items-center shrink-0 pr-8 gap-8 font-sans">
           {items.map((item, i) => (

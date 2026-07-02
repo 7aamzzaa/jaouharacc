@@ -12,7 +12,7 @@ const dictionaries: Record<Lang, TranslationDict> = { en, fr, ar };
 interface TranslationContextValue {
   lang: Lang;
   setLang: (lang: Lang) => void;
-  t: (key: string, params?: Record<string, string | number>) => string;
+  t: (key: string, params?: Record<string, string | number>) => any;
   dir: 'ltr' | 'rtl';
 }
 
@@ -31,12 +31,16 @@ function detectBrowserLang(): Lang {
     if (lang.startsWith('ar')) return 'ar';
     if (lang.startsWith('fr')) return 'fr';
   } catch {}
-  return 'en';
+  return 'ar';
 }
+
+const STORAGE_KEY = 'ccjaouhara_lang_v2';
+
+try { localStorage.removeItem('ccjaouhara_lang'); } catch {}
 
 function loadInitialLang(): Lang {
   try {
-    const stored = localStorage.getItem('ccjaouhara_lang') as Lang | null;
+    const stored = localStorage.getItem(STORAGE_KEY) as Lang | null;
     if (stored && stored in dictionaries) return stored;
   } catch {}
   return detectBrowserLang();
@@ -47,7 +51,7 @@ export function TranslationProvider({ children }: { children: ReactNode }) {
 
   const setLang = (newLang: Lang) => {
     setLangState(newLang);
-    try { localStorage.setItem('ccjaouhara_lang', newLang); } catch {}
+    try { localStorage.setItem(STORAGE_KEY, newLang); } catch {}
   };
 
   useEffect(() => {
@@ -78,10 +82,10 @@ export function TranslationProvider({ children }: { children: ReactNode }) {
       xDefault.hreflang = 'x-default';
       document.head.appendChild(xDefault);
     }
-    xDefault.href = `${baseUrl}?lang=en`;
+    xDefault.href = `${baseUrl}?lang=ar`;
   }, [lang]);
 
-  const t = (key: string, params?: Record<string, string | number>): string => {
+  const t = (key: string, params?: Record<string, string | number>): any => {
     const dict = dictionaries[lang];
     let val = getNestedValue(dict, key);
     if (val === undefined) {

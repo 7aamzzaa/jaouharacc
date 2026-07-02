@@ -11,7 +11,7 @@ interface OrderConfirmationProps {
 export default function OrderConfirmation({ onPageChange, currency }: OrderConfirmationProps) {
   const formatPrice = (priceUSD: number) => {
     if (currency === 'MAD') {
-      return `${(priceUSD * 10).toLocaleString()} درهم`;
+      return `${(priceUSD * 10).toLocaleString()} ${t('common.currency')}`;
     }
     return `$${priceUSD.toLocaleString()}`;
   };
@@ -125,7 +125,7 @@ export default function OrderConfirmation({ onPageChange, currency }: OrderConfi
             </span>
           </div>
 
-          <div className="text-left sm:text-right space-y-1">
+          <div className="text-start sm:text-end space-y-1">
             <span className="text-[10px] tracking-wider uppercase text-stone-400 font-semibold block">{t('orderConfirmation.shippingEmail')}</span>
             <span className="text-xs font-semibold text-stone-800 font-mono {email}">{email}</span>
           </div>

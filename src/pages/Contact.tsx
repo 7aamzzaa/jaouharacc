@@ -1,11 +1,11 @@
 import { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MapPin, Phone, Mail, Clock, Send, Check, ArrowLeft } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Send, Check, ArrowLeft, ArrowRight } from 'lucide-react';
 import { useTranslation } from '../i18n';
 
 export default function Contact() {
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, dir } = useTranslation();
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
 
@@ -44,7 +44,7 @@ export default function Contact() {
               <p className="text-stone-500 text-sm font-sans">{t('contact.successDesc')}</p>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="bg-white border border-champagne-150 rounded-xl p-8 md:p-10 space-y-5 shadow-xs" dir="rtl">
+            <form onSubmit={handleSubmit} className="bg-white border border-champagne-150 rounded-xl p-8 md:p-10 space-y-5 shadow-xs" dir={dir}>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div className="space-y-1.5">
                   <label className="block text-[10px] tracking-widest uppercase font-bold text-stone-600 font-sans">{t('contact.fullName')}</label>
@@ -119,38 +119,38 @@ export default function Contact() {
           <div className="bg-white border border-champagne-150 rounded-xl p-8 shadow-xs space-y-6">
             <h3 className="font-serif text-lg text-stone-900 font-bold">{t('contact.atelier')}</h3>
             <div className="space-y-5">
-              <div className="flex items-start gap-4" dir="rtl">
+              <div className="flex items-start gap-4" dir={dir}>
                 <div className="w-10 h-10 bg-champagne-50 border border-champagne-100 rounded-lg flex items-center justify-center text-champagne-600 shrink-0">
                   <MapPin size={16} />
                 </div>
-                <div className="text-right">
+                <div className="text-start">
                   <p className="text-[10px] tracking-widest uppercase font-bold text-stone-500 font-sans">{t('contact.address')}</p>
                   <p className="text-sm text-stone-800 font-sans">{t('contact.addressValue')}</p>
                 </div>
               </div>
-              <div className="flex items-start gap-4" dir="rtl">
+              <div className="flex items-start gap-4" dir={dir}>
                 <div className="w-10 h-10 bg-champagne-50 border border-champagne-100 rounded-lg flex items-center justify-center text-champagne-600 shrink-0">
                   <Phone size={16} />
                 </div>
-                <div className="text-right">
+                <div className="text-start">
                   <p className="text-[10px] tracking-widest uppercase font-bold text-stone-500 font-sans">{t('contact.phoneLabel')}</p>
                   <p className="text-sm text-stone-800 font-sans">{t('contact.phoneValue')}</p>
                 </div>
               </div>
-              <div className="flex items-start gap-4" dir="rtl">
+              <div className="flex items-start gap-4" dir={dir}>
                 <div className="w-10 h-10 bg-champagne-50 border border-champagne-100 rounded-lg flex items-center justify-center text-champagne-600 shrink-0">
                   <Mail size={16} />
                 </div>
-                <div className="text-right">
+                <div className="text-start">
                   <p className="text-[10px] tracking-widest uppercase font-bold text-stone-500 font-sans">{t('contact.emailLabel')}</p>
                   <p className="text-sm text-stone-800 font-sans">{t('contact.emailValue')}</p>
                 </div>
               </div>
-              <div className="flex items-start gap-4" dir="rtl">
+              <div className="flex items-start gap-4" dir={dir}>
                 <div className="w-10 h-10 bg-champagne-50 border border-champagne-100 rounded-lg flex items-center justify-center text-champagne-600 shrink-0">
                   <Clock size={16} />
                 </div>
-                <div className="text-right">
+                <div className="text-start">
                   <p className="text-[10px] tracking-widest uppercase font-bold text-stone-500 font-sans">{t('contact.hours')}</p>
                   <p className="text-sm text-stone-800 font-sans">{t('contact.hoursValue')}</p>
                 </div>
@@ -172,7 +172,7 @@ export default function Contact() {
             onClick={() => navigate('/')}
             className="cursor-pointer w-full flex items-center justify-center gap-2 py-3 text-[10px] tracking-widest uppercase font-bold text-champagne-600 hover:text-champagne-700 border border-champagne-200 rounded-lg hover:bg-champagne-50/50 transition-all font-sans"
           >
-            <ArrowLeft size={12} />
+            {dir === 'ltr' ? <ArrowLeft size={12} /> : <ArrowRight size={12} />}
             {t('contact.backHome')}
           </button>
         </div>

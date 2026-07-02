@@ -377,7 +377,7 @@ export default function AdminDashboard({
             <span className="text-[10px] uppercase font-semibold text-stone-400 block font-sans">{t('admin.kpi.revenue')}</span>
             <span className="font-serif text-lg sm:text-xl font-bold text-stone-900">
               {currency === 'MAD' 
-                ? `${(stats.grossSales * 10).toLocaleString()} درهم`
+                ? `${(stats.grossSales * 10).toLocaleString()} ${t('common.currency')}`
                 : `$${stats.grossSales.toLocaleString()}`}
             </span>
           </div>
@@ -672,7 +672,7 @@ export default function AdminDashboard({
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse font-sans text-xs">
+              <table className="w-full text-start border-collapse font-sans text-xs">
                 <thead>
                   <tr className="bg-champagne-50/50 text-stone-500 border-b border-champagne-100 uppercase tracking-wider text-[10px]">
                     <th className="p-4 font-semibold">{t('admin.productsTable.name')}</th>
@@ -680,7 +680,7 @@ export default function AdminDashboard({
                     <th className="p-4 font-semibold">{t('admin.productsTable.material')}</th>
                     <th className="p-4 font-semibold">{t('admin.productsTable.stock')}</th>
                     <th className="p-4 font-semibold">{t('admin.productsTable.price')}</th>
-                    <th className="p-4 text-right font-semibold">{t('admin.productsTable.actions')}</th>
+                    <th className="p-4 text-end font-semibold">{t('admin.productsTable.actions')}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-stone-105">
@@ -712,9 +712,9 @@ export default function AdminDashboard({
                           </span>
                         </td>
                         <td className="p-4 font-serif font-bold text-stone-900 text-sm">
-                          {currency === 'MAD' ? `${(p.price * 10).toLocaleString()} درهم` : `$${p.price.toLocaleString()}`}
+                          {currency === 'MAD' ? `${(p.price * 10).toLocaleString()} ${t('common.currency')}` : `$${p.price.toLocaleString()}`}
                         </td>
-                        <td className="p-4 text-right">
+                        <td className="p-4 text-end">
                           <div className="flex items-center justify-end gap-2">
                             <button
                               onClick={() => handleEditClick(p)}
@@ -756,7 +756,7 @@ export default function AdminDashboard({
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse font-sans text-xs">
+              <table className="w-full text-start border-collapse font-sans text-xs">
                 <thead>
                   <tr className="bg-champagne-50/50 text-stone-500 border-b border-champagne-100 uppercase tracking-wider text-[10px]">
                     <th className="p-4 font-semibold">{t('admin.ordersTable.ref')}</th>
@@ -764,7 +764,7 @@ export default function AdminDashboard({
                     <th className="p-4 font-semibold">{t('admin.ordersTable.items')}</th>
                     <th className="p-4 font-semibold">{t('admin.ordersTable.total')}</th>
                     <th className="p-4 font-semibold">{t('admin.ordersTable.status')}</th>
-                    <th className="p-4 text-right font-semibold">{t('admin.ordersTable.actions')}</th>
+                    <th className="p-4 text-end font-semibold">{t('admin.ordersTable.actions')}</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-stone-105">
@@ -798,7 +798,7 @@ export default function AdminDashboard({
                         </td>
                         <td className="p-4 font-serif font-bold text-stone-900 text-sm">
                           {currency === 'MAD' 
-                            ? `${((o.total || 0) * 10).toLocaleString()} درهم` 
+                            ? `${((o.total || 0) * 10).toLocaleString()} ${t('common.currency')}` 
                             : `$${(o.total || 0).toLocaleString()}`}
                         </td>
                         <td className="p-4">
@@ -806,7 +806,7 @@ export default function AdminDashboard({
                             {o.status}
                           </span>
                         </td>
-                        <td className="p-4 text-right">
+                        <td className="p-4 text-end">
                           <select
                             value={o.status}
                             onChange={(e) => handleStatusUpdate(o.id, e.target.value as Order['status'])}

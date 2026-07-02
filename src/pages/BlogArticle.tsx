@@ -1,6 +1,6 @@
 import { useEffect, useState, useMemo } from 'react';
 import { useTranslation } from '../i18n';
-import { Calendar, Clock, User, ArrowLeft, Share2, Link, Check, Facebook, Twitter } from 'lucide-react';
+import { Calendar, Clock, User, ArrowLeft, ArrowRight, Share2, Link, Check, Facebook, Twitter } from 'lucide-react';
 import { BlogPost } from '../types';
 import { defaultBlogPosts } from '../data/defaultBlogPosts';
 
@@ -12,7 +12,7 @@ interface BlogArticleProps {
 
 export default function BlogArticle({ slug, onPageChange }: BlogArticleProps) {
   const [copied, setCopied] = useState(false);
-  const { t } = useTranslation();
+  const { t, dir } = useTranslation();
 
   const post = useMemo(
     () => defaultBlogPosts.find(p => p.slug === slug) || null,
@@ -86,7 +86,7 @@ export default function BlogArticle({ slug, onPageChange }: BlogArticleProps) {
         onClick={() => onPageChange('blog')}
         className="cursor-pointer inline-flex items-center gap-1.5 text-[10px] tracking-widest uppercase font-bold text-champagne-600 hover:text-champagne-700 transition-colors font-sans"
       >
-        <ArrowLeft size={12} />
+        {dir === 'ltr' ? <ArrowLeft size={12} /> : <ArrowRight size={12} />}
         {t('blogArticle.back')}
       </button>
 
@@ -100,7 +100,7 @@ export default function BlogArticle({ slug, onPageChange }: BlogArticleProps) {
       </div>
 
       {/* Article Header */}
-      <div className="space-y-4 text-right" dir="rtl">
+      <div className="space-y-4 text-start" dir={dir}>
         <span className="inline-block text-[9px] tracking-widest uppercase font-bold text-champagne-600 bg-champagne-50 border border-champagne-200 px-3 py-1.5 rounded-sm font-sans">
           {post.category}
         </span>
@@ -139,8 +139,8 @@ export default function BlogArticle({ slug, onPageChange }: BlogArticleProps) {
 
       {/* Article Content */}
       <article
-        className="prose prose-stone prose-sm max-w-none text-right font-sans leading-relaxed text-stone-700 space-y-4 [&_p]:text-sm [&_p]:leading-[1.9] [&_strong]:text-stone-900 [&_strong]:font-bold"
-        dir="rtl"
+        className="prose prose-stone prose-sm max-w-none text-start font-sans leading-relaxed text-stone-700 space-y-4 [&_p]:text-sm [&_p]:leading-[1.9] [&_strong]:text-stone-900 [&_strong]:font-bold"
+        dir={dir}
         dangerouslySetInnerHTML={{ __html: post.content }}
       />
 
@@ -148,7 +148,7 @@ export default function BlogArticle({ slug, onPageChange }: BlogArticleProps) {
       <div className="w-full h-[1px] bg-champagne-150"></div>
 
       {/* Social Sharing */}
-      <div className="flex flex-col sm:flex-row items-center gap-4 justify-between" dir="rtl">
+      <div className="flex flex-col sm:flex-row items-center gap-4 justify-between" dir={dir}>
         <span className="text-[10px] tracking-widest uppercase font-bold text-stone-500 font-sans">
           {t('blogArticle.share')}
         </span>
@@ -211,7 +211,7 @@ export default function BlogArticle({ slug, onPageChange }: BlogArticleProps) {
                     loading="lazy"
                   />
                 </div>
-                <div className="p-4 space-y-2 text-right" dir="rtl">
+                <div className="p-4 space-y-2 text-start" dir={dir}>
                   <time className="text-[9px] text-stone-400 font-sans">{formatDate(rel.date)}</time>
                   <h3
                     onClick={() => onPageChange('blog-article', { slug: rel.slug })}
@@ -224,7 +224,7 @@ export default function BlogArticle({ slug, onPageChange }: BlogArticleProps) {
                     className="cursor-pointer inline-flex items-center gap-1 text-[9px] tracking-widest uppercase font-bold text-champagne-600 hover:text-champagne-700 transition-colors font-sans"
                   >
                     {t('blog.readMore')}
-                    <ArrowLeft size={10} />
+                    {dir === 'ltr' ? <ArrowRight size={10} /> : <ArrowLeft size={10} />}
                   </button>
                 </div>
               </article>

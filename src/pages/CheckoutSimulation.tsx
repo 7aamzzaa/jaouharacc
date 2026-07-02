@@ -11,7 +11,7 @@ interface CheckoutSimulationProps {
 export default function CheckoutSimulation({ onPageChange, onClearCart, currency }: CheckoutSimulationProps) {
   const formatPrice = (priceUSD: number) => {
     if (currency === 'MAD') {
-      return `${(priceUSD * 10).toLocaleString()} درهم`;
+      return `${(priceUSD * 10).toLocaleString()} ${t('common.currency')}`;
     }
     return `$${priceUSD.toLocaleString()}`;
   };

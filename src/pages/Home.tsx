@@ -29,7 +29,7 @@ interface HomeProps {
 
 export default function Home({ products, isLoading, onPageChange, onAddToCartDirect, currency }: HomeProps) {
   const [copied, setCopied] = useState<boolean>(false);
-  const { t } = useTranslation();
+  const { t, dir } = useTranslation();
 
   // Dynamic SEO Meta tags injection
   useEffect(() => {
@@ -102,7 +102,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
     visible: { 
       opacity: 1, 
       y: 0,
-      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
+      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }
     }
   };
 
@@ -132,10 +132,10 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
               initial="hidden"
               animate="visible"
               variants={{ visible: { transition: { staggerChildren: 0.2 } } }}
-              className="lg:col-span-6 space-y-6 text-center lg:text-right flex flex-col items-center lg:items-end justify-center" dir="rtl"
+              className="lg:col-span-6 space-y-6 text-center lg:text-start flex flex-col items-center lg:items-start justify-center" dir={dir}
             >
               <motion.h1 
-                variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}
+                variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const } } }}
                 className="font-serif text-[42px] sm:text-5xl md:text-6xl lg:text-[70px] leading-[1.1] font-black text-stone-900 tracking-tight"
               >
                 {t('home.hero.title')} <br />
@@ -143,14 +143,14 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
               </motion.h1>
               
               <motion.p 
-                variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}
+                variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const } } }}
                 className="text-stone-600 text-sm sm:text-base leading-relaxed max-w-xl font-medium font-sans"
               >
                 {t('home.hero.desc')}
               </motion.p>
               
               <motion.div 
-                variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } } }}
+                variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const } } }}
                 className="flex flex-col sm:flex-row items-center gap-4 pt-4 w-full sm:w-auto"
               >
                 <button
@@ -158,7 +158,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
                   className="cursor-pointer w-full sm:w-auto bg-stone-900 text-white px-8 py-4 text-xs uppercase tracking-widest font-bold hover:bg-champagne-500 hover:-translate-y-0.5 transition-all shadow-md active:scale-95 flex items-center justify-center gap-2 rounded-xs font-sans"
                 >
                   {t('home.hero.cta')}
-                  <ArrowLeft size={14} />
+                  {dir === 'ltr' ? <ArrowRight size={14} /> : <ArrowLeft size={14} />}
                 </button>
                 <button
                   onClick={() => onPageChange('shop')}
@@ -169,31 +169,24 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
               </motion.div>
             </motion.div>
 
-            {/* Right/Image Column */}
+            {/* Right/Image Column — Placeholder */}
             <div className="lg:col-span-6 relative flex items-center justify-center h-[350px] sm:h-[480px]">
               
               {/* Back elegant geometry outline */}
               <div className="absolute -inset-4 border border-champagne-300/20 rounded-2xl scale-95 md:scale-100 -rotate-3 transition-transform duration-700 pointer-events-none"></div>
 
-              {/* Main Premium Illustration Image */}
+              {/* Hero Placeholder Container */}
               <motion.div 
-                initial={{ opacity: 0, scale: 0.95, rotate: 2 }}
-                animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                className="w-full h-full max-w-lg border border-champagne-150 bg-white relative z-10 overflow-hidden shadow-2xl rounded-lg group/hero"
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] as const }}
+                className="w-full h-full max-w-lg relative z-10 overflow-hidden rounded-lg"
               >
                 <img
-                  src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=800"
-                  alt="High Luxury Fine Jewelry"
-                  className="w-full h-full object-cover scale-100 transition-transform duration-700 ease-out group-hover/hero:scale-110"
-                  loading="lazy"
+                  src="/images/hero.png"
+                  alt="Hero"
+                  className="w-full h-full object-cover rounded-lg"
                 />
-                
-                {/* Embedded Floating Glassmorphism Badge */}
-                <div className="absolute bottom-4 right-4 bg-white/80 backdrop-blur-md border border-white/40 p-4 rounded-md shadow-lg z-20 flex flex-col gap-1 items-start text-right max-w-[190px]" dir="rtl">
-                  <span className="text-[9px] uppercase tracking-wider font-bold text-champagne-600 block">{t('home.hero.badge')}</span>
-                  <span className="font-serif text-sm font-bold text-stone-900 leading-tight">{t('home.hero.badgeDesc')}</span>
-                </div>
               </motion.div>
             </div>
 
@@ -202,14 +195,14 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
       </section>
 
       {/* 2. TRUST BAR */}
-      <section className="bg-white border-y border-champagne-105 py-8 md:py-10 shadow-3xs" dir="rtl">
+      <section className="bg-white border-y border-champagne-105 py-8 md:py-10 shadow-3xs" dir={dir}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 divide-y lg:divide-y-0 lg:divide-x lg:divide-x-reverse divide-[#FAF1E6]">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 divide-y lg:divide-y-0 lg:divide-x divide-[#FAF1E6]">
             
             {/* Trust item 1 */}
             <div className="flex items-center gap-4 justify-center py-2 lg:py-0">
               <span className="text-2xl sm:text-3xl filter drop-shadow-xs">🏆</span>
-              <div className="text-right">
+              <div className="text-start">
                 <h4 className="font-sans font-bold text-stone-850 text-xs sm:text-sm">{t('home.trust')[0].title}</h4>
                 <p className="text-[10px] sm:text-xs text-stone-400 font-medium">{t('home.trust')[0].desc}</p>
               </div>
@@ -218,7 +211,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
             {/* Trust item 2 */}
             <div className="flex items-center gap-4 justify-center py-2 lg:py-0 pt-4 lg:pt-0">
               <span className="text-2xl sm:text-3xl filter drop-shadow-xs">🚚</span>
-              <div className="text-right">
+              <div className="text-start">
                 <h4 className="font-sans font-bold text-stone-850 text-xs sm:text-sm">{t('home.trust')[1].title}</h4>
                 <p className="text-[10px] sm:text-xs text-stone-400 font-medium">{t('home.trust')[1].desc}</p>
               </div>
@@ -227,7 +220,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
             {/* Trust item 3 */}
             <div className="flex items-center gap-4 justify-center py-2 lg:py-0 pt-4 lg:pt-0">
               <span className="text-2xl sm:text-3xl filter drop-shadow-xs">🚪</span>
-              <div className="text-right">
+              <div className="text-start">
                 <h4 className="font-sans font-bold text-stone-850 text-xs sm:text-sm">{t('home.trust')[2].title}</h4>
                 <p className="text-[10px] sm:text-xs text-stone-400 font-medium">{t('home.trust')[2].desc}</p>
               </div>
@@ -236,7 +229,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
             {/* Trust item 4 */}
             <div className="flex items-center gap-4 justify-center py-2 lg:py-0 pt-4 lg:pt-0">
               <span className="text-2xl sm:text-3xl filter drop-shadow-xs">💎</span>
-              <div className="text-right">
+              <div className="text-start">
                 <h4 className="font-sans font-bold text-stone-850 text-xs sm:text-sm">{t('home.trust')[3].title}</h4>
                 <p className="text-[10px] sm:text-xs text-stone-400 font-medium">{t('home.trust')[3].desc}</p>
               </div>
@@ -246,7 +239,28 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
         </div>
       </section>
 
-      {/* 3. SHOP BY CATEGORY */}
+      {/* 3. PROMOTIONAL BANNER */}
+      <section className="bg-gradient-to-r from-champagne-100/40 via-white to-champagne-100/20 border-y border-champagne-105 py-12 md:py-14" dir={dir}>
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center space-y-5 flex flex-col items-center">
+          <span className="text-[10px] tracking-[0.25em] font-bold uppercase text-champagne-500 block">
+            {t('home.promoBanner.label')}
+          </span>
+          <h3 className="font-serif text-2xl sm:text-3xl md:text-4xl font-black text-stone-900 leading-tight">
+            {t('home.promoBanner.title')}
+          </h3>
+          <p className="text-stone-500 text-xs sm:text-sm max-w-md leading-relaxed">
+            {t('home.promoBanner.desc')}
+          </p>
+          <button
+            onClick={() => onPageChange('shop')}
+            className="cursor-pointer bg-stone-900 text-white font-bold hover:bg-champagne-500 text-xs uppercase tracking-widest px-8 py-3.5 shadow-md hover:shadow-xl transition-all duration-300 rounded-xs font-sans active:scale-95 mt-1"
+          >
+            {t('home.promoBanner.cta')}
+          </button>
+        </div>
+      </section>
+
+      {/* 4. SHOP BY CATEGORY */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center space-y-4 mb-12">
           <span className="text-xs tracking-widest font-bold uppercase text-champagne-500 block">
@@ -285,7 +299,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
               <div className="absolute inset-0 bg-gradient-to-t from-stone-950/90 via-stone-900/10 to-transparent group-hover:from-amber-950/95 transition-all duration-500" />
               
               {/* Category Typography & Interactive Discover CTA */}
-              <div className="absolute inset-0 flex flex-col justify-end p-4 sm:p-6 z-10 text-right" dir="rtl">
+              <div className="absolute inset-0 flex flex-col justify-end p-4 sm:p-6 z-10 text-start" dir={dir}>
                 <span className="text-[10px] tracking-wider text-champagne-300 font-bold mb-1 opacity-90">
                   {t('home.categories.overlay')}
                 </span>
@@ -295,7 +309,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
                 
                 <div className="pt-2 border-t border-white/10 flex items-center justify-between opacity-80 group-hover:opacity-100 transition-opacity">
                   <div className="w-6 h-6 rounded-full bg-white/15 flex items-center justify-center text-white group-hover:bg-champagne-500 group-hover:text-white group-hover:-translate-x-1 transition-all duration-300">
-                    <ArrowLeft size={11} />
+                    {dir === 'ltr' ? <ArrowRight size={11} /> : <ArrowLeft size={11} />}
                   </div>
                   <span className="text-[10px] tracking-wider text-champagne-100 font-bold">
                     {t('home.categories.cta')}
@@ -307,10 +321,10 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
         </motion.div>
       </section>
 
-      {/* 4. BEST SELLERS SECTION */}
+      {/* 5. BEST SELLERS SECTION */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row justify-between items-center mb-12 border-b border-champagne-105 pb-5" dir="rtl">
-          <div className="space-y-1 text-center md:text-right mb-4 md:mb-0">
+        <div className="flex flex-col md:flex-row justify-between items-center mb-12 border-b border-champagne-105 pb-5" dir={dir}>
+          <div className="space-y-1 text-center md:text-start mb-4 md:mb-0">
             <span className="text-xs tracking-widest uppercase font-bold text-champagne-500 block">
               {t('home.bestsellers.label')}
             </span>
@@ -324,7 +338,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
             className="cursor-pointer text-xs uppercase tracking-widest text-champagne-600 hover:text-champagne-700 font-bold flex items-center gap-1.5 group transition-colors"
           >
             {t('home.bestsellers.cta')}
-            <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
+            {dir === 'ltr' ? <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" /> : <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />}
           </button>
         </div>
 
@@ -355,7 +369,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
         )}
       </section>
 
-      {/* 5. LUXURY PROMOTIONAL BANNER */}
+      {/* 6. LUXURY PROMOTIONAL BANNER */}
       <section className="bg-stone-900 text-white relative py-20 px-4 md:px-8 overflow-hidden border-y border-champagne-400/25">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(197,160,89,0.1),transparent_50%)]"></div>
         <div className="absolute inset-0 bg-stone-950/20"></div>
@@ -388,7 +402,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
         </div>
       </section>
 
-      {/* 6. NEW ARRIVALS SECTION */}
+      {/* 7. NEW ARRIVALS SECTION */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center space-y-4 mb-12">
           <span className="text-xs tracking-widest font-bold uppercase text-champagne-500 block">
@@ -430,14 +444,14 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
         )}
       </section>
 
-      {/* 7. WHY CHOOSE US */}
-      <section className="bg-white border-y border-champagne-100 py-16 md:py-20" dir="rtl">
+      {/* 8. WHY CHOOSE US */}
+      <section className="bg-white border-y border-champagne-100 py-16 md:py-20" dir={dir}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-4 mb-16">
             <span className="text-xs tracking-widest font-bold uppercase text-champagne-500 block">
-              ما يميزنا
+              {t('home.whyUs.label')}
             </span>
-            <h2 className="font-serif text-3xl sm:text-4xl text-stone-900 font-extrabold">لماذا ccjaouhara؟</h2>
+            <h2 className="font-serif text-3xl sm:text-4xl text-stone-900 font-extrabold">{t('home.whyUs.heading')}</h2>
             <div className="w-16 h-[2px] bg-champagne-500 mx-auto rounded-full"></div>
           </div>
 
@@ -491,13 +505,13 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
         </div>
       </section>
 
-      {/* 8. SPECIAL OFFER BANNER */}
+      {/* 9. SPECIAL OFFER BANNER */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-gradient-to-r from-champagne-100/30 to-[#FFEFE5] border border-champagne-200 rounded-2xl p-8 md:p-12 shadow-sm relative overflow-hidden" dir="rtl">
+        <div className="bg-gradient-to-r from-champagne-100/30 to-[#FFEFE5] border border-champagne-200 rounded-2xl p-8 md:p-12 shadow-sm relative overflow-hidden" dir={dir}>
           <div className="absolute top-0 left-0 w-24 h-24 bg-champagne-300/10 rounded-full -translate-x-6 -translate-y-6"></div>
           
           <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center relative z-10">
-            <div className="md:col-span-8 space-y-4 text-center md:text-right">
+            <div className="md:col-span-8 space-y-4 text-center md:text-start">
               <h3 className="font-serif text-2xl sm:text-3xl font-black text-slate-900 leading-tight">
                 {t('home.offer.heading')}
               </h3>
@@ -541,8 +555,8 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
         </div>
       </section>
 
-      {/* 9. CUSTOMER REVIEWS */}
-      <section className="bg-[#FAF7F2]/50 border-y border-champagne-100 py-16 md:py-20" dir="rtl">
+      {/* 10. CUSTOMER REVIEWS */}
+      <section className="bg-[#FAF7F2]/50 border-y border-champagne-100 py-16 md:py-20" dir={dir}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center space-y-4 mb-16">
             <span className="text-xs tracking-widest font-bold uppercase text-champagne-500 block">
@@ -555,7 +569,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             
             {/* Review 1 */}
-            <div className="bg-white border border-champagne-105 p-6 rounded-lg shadow-2xs hover:shadow-md transition-all duration-300 space-y-4 flex flex-col justify-between text-right">
+            <div className="bg-white border border-champagne-105 p-6 rounded-lg shadow-2xs hover:shadow-md transition-all duration-300 space-y-4 flex flex-col justify-between text-start">
               <div className="space-y-3">
                 <div className="flex gap-1 justify-start">
                   {[1, 2, 3, 4, 5].map((i) => (
@@ -568,12 +582,12 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
               </div>
               <div className="border-t border-stone-50 pt-3 mt-4 text-xs">
                 <span className="font-bold text-stone-850">{t('home.reviews.items')[0].name}</span>
-                <span className="text-stone-400 inline-block mr-1">، {t('home.reviews.items')[0].location}</span>
+                <span className="text-stone-400 inline-block me-1">، {t('home.reviews.items')[0].location}</span>
               </div>
             </div>
 
             {/* Review 2 */}
-            <div className="bg-white border border-champagne-105 p-6 rounded-lg shadow-2xs hover:shadow-md transition-all duration-300 space-y-4 flex flex-col justify-between text-right">
+            <div className="bg-white border border-champagne-105 p-6 rounded-lg shadow-2xs hover:shadow-md transition-all duration-300 space-y-4 flex flex-col justify-between text-start">
               <div className="space-y-3">
                 <div className="flex gap-1 justify-start">
                   {[1, 2, 3, 4, 5].map((i) => (
@@ -586,12 +600,12 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
               </div>
               <div className="border-t border-stone-50 pt-3 mt-4 text-xs">
                 <span className="font-bold text-stone-850">{t('home.reviews.items')[1].name}</span>
-                <span className="text-stone-400 inline-block mr-1">، {t('home.reviews.items')[1].location}</span>
+                <span className="text-stone-400 inline-block me-1">، {t('home.reviews.items')[1].location}</span>
               </div>
             </div>
 
             {/* Review 3 */}
-            <div className="bg-white border border-champagne-105 p-6 rounded-lg shadow-2xs hover:shadow-md transition-all duration-300 space-y-4 flex flex-col justify-between text-right">
+            <div className="bg-white border border-champagne-105 p-6 rounded-lg shadow-2xs hover:shadow-md transition-all duration-300 space-y-4 flex flex-col justify-between text-start">
               <div className="space-y-3">
                 <div className="flex gap-1 justify-start">
                   {[1, 2, 3, 4, 5].map((i) => (
@@ -604,7 +618,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
               </div>
               <div className="border-t border-stone-50 pt-3 mt-4 text-xs">
                 <span className="font-bold text-stone-850">{t('home.reviews.items')[2].name}</span>
-                <span className="text-stone-400 inline-block mr-1">، {t('home.reviews.items')[2].location}</span>
+                <span className="text-stone-400 inline-block me-1">، {t('home.reviews.items')[2].location}</span>
               </div>
             </div>
 
@@ -612,8 +626,8 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
         </div>
       </section>
 
-      {/* 10. GIFT SECTION */}
-      <section className="bg-gradient-to-tr from-[#FFF7F3] via-white to-[#FFFAF7] border-y border-champagne-105 py-20 px-4" dir="rtl">
+      {/* 11. GIFT SECTION */}
+      <section className="bg-gradient-to-tr from-[#FFF7F3] via-white to-[#FFFAF7] border-y border-champagne-105 py-20 px-4" dir={dir}>
         <div className="max-w-5xl mx-auto text-center space-y-6">
           <div className="w-14 h-14 bg-champagne-500/10 border border-champagne-200 rounded-full flex items-center justify-center text-champagne-600 shadow-sm mx-auto mb-2">
             <Gift size={24} />
@@ -633,9 +647,46 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
               className="cursor-pointer bg-stone-900 text-white font-bold hover:bg-champagne-600 text-xs uppercase tracking-widest px-8 py-4 shadow-md hover:shadow-xl transition-all duration-300 rounded-xs font-sans active:scale-95 flex items-center justify-center gap-2 mx-auto"
             >
               {t('home.gift.cta')}
-              <ArrowLeft size={14} />
+              {dir === 'ltr' ? <ArrowRight size={14} /> : <ArrowLeft size={14} />}
             </button>
           </div>
+        </div>
+      </section>
+
+      {/* 12. NEWSLETTER */}
+      <section className="bg-white border-t border-champagne-105 py-16 md:py-20" dir={dir}>
+        <div className="max-w-lg mx-auto px-4 sm:px-6 text-center space-y-6 flex flex-col items-center">
+          <div className="w-11 h-11 rounded-full border border-champagne-300/30 flex items-center justify-center text-champagne-500">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 17a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v10Z"/><path d="M22 7 12 13 2 7"/></svg>
+          </div>
+          <div className="space-y-2">
+            <span className="text-[10px] tracking-[0.25em] font-bold uppercase text-champagne-500 block">
+              {t('home.newsletter.label')}
+            </span>
+            <h3 className="font-serif text-2xl sm:text-3xl font-black text-stone-900">
+              {t('home.newsletter.heading')}
+            </h3>
+            <p className="text-stone-500 text-xs sm:text-sm max-w-xs mx-auto leading-relaxed">
+              {t('home.newsletter.desc')}
+            </p>
+          </div>
+          <form
+            onSubmit={(e) => { e.preventDefault(); const input = e.currentTarget.querySelector('input'); if (input) { input.value = ''; } }}
+            className="flex flex-col sm:flex-row items-center gap-3 w-full max-w-sm"
+          >
+            <input
+              type="email"
+              required
+              placeholder={t('home.newsletter.placeholder')}
+              className="w-full border border-champagne-200 bg-[#FFFDFB] px-4 py-3 text-xs sm:text-sm text-stone-800 placeholder:text-stone-400 focus:outline-none focus:border-champagne-500 focus:ring-1 focus:ring-champagne-500/20 transition-all rounded-xs font-sans"
+            />
+            <button
+              type="submit"
+              className="cursor-pointer w-full sm:w-auto bg-stone-900 text-white font-bold hover:bg-champagne-500 text-xs uppercase tracking-widest px-6 py-3 shadow-md hover:shadow-xl transition-all duration-300 rounded-xs font-sans active:scale-95 shrink-0"
+            >
+              {t('home.newsletter.cta')}
+            </button>
+          </form>
         </div>
       </section>
 

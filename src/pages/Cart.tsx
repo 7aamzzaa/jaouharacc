@@ -14,7 +14,7 @@ interface CartProps {
 export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChange, currency }: CartProps) {
   const formatPrice = (priceUSD: number) => {
     if (currency === 'MAD') {
-      return `${(priceUSD * 10).toLocaleString()} درهم`;
+      return `${(priceUSD * 10).toLocaleString()} ${t('common.currency')}`;
     }
     return `$${priceUSD.toLocaleString()}`;
   };
@@ -227,7 +227,7 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
 
               <div className="flex justify-between text-stone-500">
                 <span>{t('cart.freight')}</span>
-                <span className="text-stone-850 font-semibold text-right">
+                <span className="text-stone-850 font-semibold text-end">
                   {shipping === 0 ? (
                     <strong className="text-emerald-600">
                       {t('cart.freeFreight')}

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Minus, Plus, ShoppingBag, ShieldCheck, Heart, Sparkles, Scale, RefreshCw, ArrowLeft } from 'lucide-react';
+import { Minus, Plus, ShoppingBag, ShieldCheck, Heart, Sparkles, Scale, RefreshCw, ArrowLeft, ArrowRight } from 'lucide-react';
 import { Product } from '../types';
 import { useTranslation } from '../i18n';
 
@@ -18,7 +18,7 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, onP
   const [quantity, setQuantity] = useState<number>(1);
   const [isFavorite, setIsFavorite] = useState<boolean>(false);
   const [addedMessage, setAddedMessage] = useState<boolean>(false);
-  const { t } = useTranslation();
+  const { t, dir } = useTranslation();
 
   // Load product criteria
   useEffect(() => {
@@ -73,7 +73,7 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, onP
         onClick={() => onPageChange('shop')}
         className="cursor-pointer group flex items-center gap-2 text-xs uppercase tracking-widest text-stone-500 hover:text-champagne-600 font-semibold transition-colors focus:outline-hidden"
       >
-        <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
+        {dir === 'ltr' ? <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" /> : <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />}
         {t('productDetail.back')}
       </button>
 
@@ -138,7 +138,7 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, onP
             
             <div className="flex items-center justify-between pt-2">
               <p className="font-serif text-2xl text-stone-900 font-medium font-bold">
-                {currency === 'MAD' ? `${(product.price * 10).toLocaleString()} درهم` : `$${product.price.toLocaleString()}`}
+                {currency === 'MAD' ? `${(product.price * 10).toLocaleString()} ${t('common.currency')}` : `$${product.price.toLocaleString()}`}
               </p>
               <span className="text-xs text-stone-500 font-semibold">
                 {t('productDetail.shipping')}
@@ -248,20 +248,20 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, onP
             <h3 className="text-xs tracking-widest uppercase text-stone-800 font-semibold">{t('productDetail.specs')}</h3>
             <div className="grid grid-cols-2 gap-y-3 gap-x-6 text-xs font-sans">
               <div className="flex justify-between border-b border-stone-50 pb-1.5">
-                <span className="text-stone-400">{t('productDetail.metal')}</span>
-                <span className="text-stone-700 font-medium">{product.material}</span>
+                <span className="text-stone-400">{t('productDetail.material')}</span>
+                <span className="text-stone-700 font-medium">{t('productDetail.materialValue')}</span>
               </div>
               <div className="flex justify-between border-b border-stone-50 pb-1.5">
-                <span className="text-stone-400">{t('productDetail.hue')}</span>
-                <span className="text-stone-700 font-medium">{product.color}</span>
+                <span className="text-stone-400">{t('productDetail.finish')}</span>
+                <span className="text-stone-700 font-medium">{t('productDetail.finishValue')}</span>
               </div>
               <div className="flex justify-between border-b border-stone-50 pb-1.5">
-                <span className="text-stone-400">{t('productDetail.model')}</span>
-                <span className="text-stone-700 font-medium">{product.id.toUpperCase()}</span>
+                <span className="text-stone-400">{t('productDetail.collection')}</span>
+                <span className="text-stone-700 font-medium">{t('productDetail.collectionValue')}</span>
               </div>
               <div className="flex justify-between border-b border-stone-50 pb-1.5">
-                <span className="text-stone-400">{t('productDetail.artisanClass')}</span>
-                <span className="text-stone-700 font-medium">{t('productDetail.guildLevel')}</span>
+                <span className="text-stone-400">{t('productDetail.style')}</span>
+                <span className="text-stone-700 font-medium">{t('productDetail.styleValue')}</span>
               </div>
             </div>
           </div>
@@ -294,7 +294,7 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, onP
                     {p.name}
                   </h3>
                   <p className="font-serif text-sm text-stone-900 font-semibold mt-1 font-bold">
-                    {currency === 'MAD' ? `${(p.price * 10).toLocaleString()} درهم` : `$${p.price.toLocaleString()}`}
+                    {currency === 'MAD' ? `${(p.price * 10).toLocaleString()} ${t('common.currency')}` : `$${p.price.toLocaleString()}`}
                   </p>
                 </div>
               </div>

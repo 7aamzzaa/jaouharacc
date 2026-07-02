@@ -48,9 +48,6 @@ export default function Shop({
 
   // Filters State
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
-  const [selectedMaterial, setSelectedMaterial] = useState<string>('All');
-  const [selectedColor, setSelectedColor] = useState<string>('All');
-  const [priceRange, setPriceRange] = useState<string>('All');
   const [sortBy, setSortBy] = useState<string>('default');
   const [showMobileFilters, setShowMobileFilters] = useState<boolean>(false);
 
@@ -80,9 +77,7 @@ export default function Shop({
   // Derive unique materials and colors from existing database list
   const filterOptions = useMemo(() => {
     const categories = ['All', ...new Set(products.map(p => p.category))];
-    const materials = ['All', ...new Set(products.map(p => p.material))];
-    const colors = ['All', ...new Set(products.map(p => p.color))];
-    return { categories, materials, colors };
+    return { categories };
   }, [products]);
 
   // Apply Filter Logic
@@ -92,27 +87,6 @@ export default function Shop({
     // Category Filter
     if (selectedCategory !== 'All') {
       list = list.filter(p => p.category.toLowerCase() === selectedCategory.toLowerCase());
-    }
-
-    // Material Filter
-    if (selectedMaterial !== 'All') {
-      list = list.filter(p => p.material.toLowerCase() === selectedMaterial.toLowerCase());
-    }
-
-    // Color Filter
-    if (selectedColor !== 'All') {
-      list = list.filter(p => p.color.toLowerCase() === selectedColor.toLowerCase());
-    }
-
-    // Price Filter Range Helper
-    if (priceRange !== 'All') {
-      if (priceRange === 'under-200') {
-        list = list.filter(p => p.price < 200);
-      } else if (priceRange === '200-350') {
-        list = list.filter(p => p.price >= 200 && p.price <= 350);
-      } else if (priceRange === 'over-350') {
-        list = list.filter(p => p.price > 350);
-      }
     }
 
     // Sort Logic
@@ -125,13 +99,10 @@ export default function Shop({
     }
 
     return list;
-  }, [products, selectedCategory, selectedMaterial, selectedColor, priceRange, sortBy]);
+  }, [products, selectedCategory, sortBy]);
 
   const handleResetFilters = () => {
     setSelectedCategory('All');
-    setSelectedMaterial('All');
-    setSelectedColor('All');
-    setPriceRange('All');
     setSortBy('default');
   };
 
@@ -247,77 +218,13 @@ export default function Shop({
                   <button
                     key={cat}
                     onClick={() => setSelectedCategory(cat)}
-                    className={`cursor-pointer text-xs text-left px-3 py-2 rounded-md transition-all duration-300 w-full ${
+                    className={`cursor-pointer text-xs text-start px-3 py-2 rounded-md transition-all duration-300 w-full ${
                       selectedCategory.toLowerCase() === cat.toLowerCase()
-                        ? 'bg-amber-100/30 text-champagne-600 font-semibold border-l-2 border-champagne-500 pl-4 shadow-2xs'
-                        : 'text-stone-600 hover:bg-stone-50 hover:text-stone-900 border-l-2 border-transparent'
+                        ? 'bg-amber-100/30 text-champagne-600 font-semibold border-s-2 border-champagne-500 pl-4 shadow-2xs'
+                        : 'text-stone-600 hover:bg-stone-50 hover:text-stone-900 border-s-2 border-transparent'
                     }`}
                   >
                     {t('shop.header.categories.' + cat.toLowerCase())}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Price Filter Options */}
-            <div className="space-y-3">
-              <h4 className="text-xs tracking-wider uppercase text-stone-800 font-semibold">{t('shop.filters.priceBracket')}</h4>
-              <div className="space-y-2">
-                {[
-                  { label: t('shop.filters.priceAll'), value: 'All' },
-                  { label: t('shop.filters.priceUnder'), value: 'under-200' },
-                  { label: t('shop.filters.priceMid'), value: '200-350' },
-                  { label: t('shop.filters.priceOver'), value: 'over-350' },
-                ].map((opt) => (
-                  <label key={opt.value} className="flex items-center space-x-3 text-xs text-stone-600 hover:text-stone-900 cursor-pointer">
-                    <input
-                      type="radio"
-                      name="price-bracket"
-                      checked={priceRange === opt.value}
-                      onChange={() => setPriceRange(opt.value)}
-                      className="accent-champagne-500"
-                    />
-                    <span>{opt.label}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            {/* Materials Sector */}
-            <div className="space-y-3">
-              <h4 className="text-xs tracking-wider uppercase text-stone-800 font-semibold">{t('shop.filters.material')}</h4>
-              <div className="flex flex-wrap gap-2">
-                {filterOptions.materials.map((mat) => (
-                  <button
-                    key={mat}
-                    onClick={() => setSelectedMaterial(mat)}
-                    className={`cursor-pointer px-3 py-1.5 rounded-full text-xs transition-all border ${
-                      selectedMaterial === mat
-                        ? 'bg-stone-900 border-stone-900 text-white font-medium'
-                        : 'bg-white border-stone-200 text-stone-600 hover:border-stone-400'
-                    }`}
-                  >
-                    {mat}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Color Swatch Filters */}
-            <div className="space-y-3">
-              <h4 className="text-xs tracking-wider uppercase text-stone-800 font-semibold">{t('shop.filters.color')}</h4>
-              <div className="flex flex-wrap gap-2">
-                {filterOptions.colors.map((color) => (
-                  <button
-                    key={color}
-                    onClick={() => setSelectedColor(color)}
-                    className={`cursor-pointer px-3 py-1.5 rounded-full text-xs transition-all border ${
-                      selectedColor === color
-                        ? 'bg-stone-900 border-stone-900 text-white font-medium'
-                        : 'bg-white border-stone-200 text-stone-600 hover:border-stone-400'
-                    }`}
-                  >
-                    {color}
                   </button>
                 ))}
               </div>

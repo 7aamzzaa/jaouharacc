@@ -79,14 +79,12 @@ const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToC
             <span className="text-[10px] tracking-widest uppercase font-medium text-champagne-500">
               {product.category}
             </span>
-            <span className="text-[9px] text-stone-400 uppercase tracking-widest font-sans">
-              {product.material.split(' ')[0]}
-            </span>
+
           </div>
           
           <button 
             onClick={() => onViewDetails(product.id)}
-            className="cursor-pointer font-serif text-base text-stone-800 group-hover:text-champagne-500 transition-colors text-left line-clamp-1 font-semibold focus:outline-hidden"
+            className="cursor-pointer font-serif text-base text-stone-800 group-hover:text-champagne-500 transition-colors text-start line-clamp-1 font-semibold focus:outline-hidden"
           >
             {product.name}
           </button>
@@ -94,11 +92,9 @@ const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToC
 
         <div className="flex items-center justify-between mt-4 pt-4 border-t border-champagne-105">
           <span className="font-serif text-base text-stone-950 font-extrabold">
-            {currency === 'MAD' ? `${(product.price * 10).toLocaleString()} درهم` : `$${product.price.toLocaleString()}`}
+            {currency === 'MAD' ? `${(product.price * 10).toLocaleString()} ${t('common.currency')}` : `$${product.price.toLocaleString()}`}
           </span>
-          <span className="text-[10px] text-stone-400 font-sans uppercase tracking-widest">
-            {product.color}
-          </span>
+
         </div>
       </div>
 
