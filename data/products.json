@@ -92,5 +92,265 @@
     "category": "necklaces",
     "material": "inoxidable",
     "color": "gold"
+  },
+  {
+    "id": "prod-51",
+    "name": "Snsla Necklace",
+    "description": "Discover the Snsla Necklace, a premium stainless steel necklace with a brilliant gold finish. Designed for women who appreciate timeless beauty and everyday elegance.",
+    "price": 15,
+    "images": [
+      "/images/snsla.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-52",
+    "name": "Snasl Db Necklace",
+    "description": "Discover the Snasl Db Necklace, a premium stainless steel necklace with an elegant gold finish. Perfect for daily wear and special occasions alike.",
+    "price": 15,
+    "images": [
+      "/images/snasl_db.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-53",
+    "name": "Snasl Sss Necklace",
+    "description": "Discover the Snasl Sss Necklace, a premium stainless steel necklace with a brilliant gold finish. Designed for women who appreciate timeless beauty and everyday elegance.",
+    "price": 18,
+    "images": [
+      "/images/snasl_sss.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-54",
+    "name": "Bb Snsla Necklace",
+    "description": "Discover the Bb Snsla Necklace, a premium stainless steel necklace with a stunning gold finish. Designed for women who love timeless elegance and everyday sophistication.",
+    "price": 17,
+    "images": [
+      "/images/bb_snsla.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-55",
+    "name": "Sensllaa Necklace",
+    "description": "Discover the Sensllaa Necklace, a premium stainless steel necklace with a radiant gold finish. Designed for women who appreciate timeless beauty and everyday elegance.",
+    "price": 17,
+    "images": [
+      "/images/sensllaa.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-56",
+    "name": "Senslalalaaa Necklace",
+    "description": "Discover the Senslalalaaa Necklace, a premium stainless steel necklace with a brilliant gold finish. Designed for women who appreciate timeless beauty and everyday elegance.",
+    "price": 17,
+    "images": [
+      "/images/senslalalaaa.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-57",
+    "name": "Snasl Necklace",
+    "description": "Discover the Snasl Necklace, a premium stainless steel necklace with a stunning gold finish. Designed for women who love timeless elegance and everyday sophistication.",
+    "price": 10,
+    "images": [
+      "/images/snasl.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-58",
+    "name": "Snslaala Necklace",
+    "description": "Discover the Snslaala Necklace, a premium stainless steel necklace with a radiant gold finish. Designed for women who appreciate timeless beauty and everyday elegance.",
+    "price": 25,
+    "images": [
+      "/images/snslaala.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-59",
+    "name": "Smpl Snsla Necklace",
+    "description": "Discover the Smpl Snsla Necklace, a premium stainless steel necklace with a brilliant gold finish. Designed for women who appreciate timeless beauty and everyday elegance.",
+    "price": 25,
+    "images": [
+      "/images/smpl_snsla.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-60",
+    "name": "Snasel Smpl Necklace",
+    "description": "Discover the Snasel Smpl Necklace, a premium stainless steel necklace with a brilliant gold finish. Designed for women who appreciate timeless beauty and everyday elegance.",
+    "price": 25,
+    "images": [
+      "/images/snasel_smpl.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-61",
+    "name": "Senslalala Necklace",
+    "description": "Discover the Senslalala Necklace, a premium stainless steel necklace with a radiant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 37,
+    "images": [
+      "/images/senslalala.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-62",
+    "name": "Snssl Necklace",
+    "description": "Discover the Snssl Necklace, a premium stainless steel necklace with a stunning gold finish. Designed for women who love timeless elegance and everyday sophistication.",
+    "price": 17,
+    "images": [
+      "/images/snssl.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-63",
+    "name": "Snl Necklace",
+    "description": "Discover the Snl Necklace, a premium stainless steel necklace with a brilliant gold finish. Designed for women who appreciate timeless beauty and everyday elegance.",
+    "price": 17,
+    "images": [
+      "/images/snl.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-64",
+    "name": "Sl Necklace",
+    "description": "Discover the Sl Necklace, a premium stainless steel necklace with a brilliant gold finish. Designed for women who appreciate timeless beauty and everyday elegance.",
+    "price": 17,
+    "images": [
+      "/images/sl.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-65",
+    "name": "Snll Necklace",
+    "description": "Discover the Snll Necklace, a premium stainless steel necklace with a stunning gold finish. Designed for women who love timeless elegance and everyday sophistication.",
+    "price": 17,
+    "images": [
+      "/images/snll.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-66",
+    "name": "Ssssssssnl Necklace",
+    "description": "Discover the Ssssssssnl Necklace, a premium stainless steel necklace with a brilliant gold finish. Designed for women who appreciate timeless beauty and everyday elegance.",
+    "price": 34,
+    "images": [
+      "/images/ssssssssnl.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-67",
+    "name": "Send Necklace",
+    "description": "Discover the Send Necklace, a premium stainless steel necklace with a brilliant gold finish. Designed for women who appreciate timeless beauty and everyday elegance.",
+    "price": 26,
+    "images": [
+      "/images/send.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-68",
+    "name": "Sensll Necklace",
+    "description": "Discover the Sensll Necklace, a premium stainless steel necklace with a stunning gold finish. Designed for women who love timeless elegance and everyday sophistication.",
+    "price": 13,
+    "images": [
+      "/images/sensll.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-69",
+    "name": "Snsla Necklace",
+    "description": "Discover the Snsla Necklace, a premium stainless steel necklace with a stunning gold finish. Designed for women who love timeless elegance and everyday sophistication.",
+    "price": 13,
+    "images": [
+      "/images/snsla.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-70",
+    "name": "Snslaaa Necklace",
+    "description": "Discover the Snslaaa Necklace, a premium stainless steel necklace with a brilliant gold finish. Designed for women who appreciate timeless beauty and everyday elegance.",
+    "price": 37,
+    "images": [
+      "/images/snslaaa.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
   }
 ]

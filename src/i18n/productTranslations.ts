@@ -39,6 +39,106 @@ export const productTranslations: Record<string, { en: ProductTranslation; fr: P
   "prod-50": {
     en: { name: "Luna Crystal Necklace", description: "Discover the Luna Crystal Necklace, a waterproof stainless steel necklace designed for women who love timeless elegance. Perfect for everyday wear and special occasions", material: "inoxidable", color: "gold" },
     fr: { name: "Luna Crystal Necklace", description: "Discover the Luna Crystal Necklace, a waterproof stainless steel necklace designed for women who love timeless elegance. Perfect for everyday wear and special occasions", material: "inoxidable", color: "Or" },
-    ar: { name: "Luna Crystal Necklace", description: "Discover the Luna Crystal Necklace, a waterproof stainless steel necklace designed for women who love timeless elegance. Perfect for everyday wear and special occasions", material: "inoxidable", color: "ذهبي" },
+    ar: { name: "Luna Crystal Necklace", description: "Discover the Luna Crystal Necklace, a waterproof stainless steel necklace designed for women who love timeless elegance. Perfect for everyday wear and special occasions", material: "inoxidable", color: "ذهب" },
+  },
+  "prod-51": {
+    en: { name: "Snsla Necklace", description: "Discover the Snsla Necklace, a premium stainless steel necklace with a brilliant gold finish. Designed for women who appreciate timeless beauty and everyday elegance.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Snsla Necklace", description: "Découvrez le collier Snsla, un collier premium en acier inoxydable avec une finition or brillante. Conçu pour les femmes qui apprécient la beauté intemporelle et l'élégance quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة Snsla", description: "اكتشفي قلادة Snsla، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية لامعة. مصممة للنساء اللواتي يقدرن الجمال الخالد والأناقة اليومية.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-52": {
+    en: { name: "Snasl Db Necklace", description: "Discover the Snasl Db Necklace, a premium stainless steel necklace with an elegant gold finish. Perfect for daily wear and special occasions alike.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Snasl Db Necklace", description: "Découvrez le collier Snasl Db, un collier premium en acier inoxydable avec une élégante finition or. Parfait pour le quotidien comme pour les occasions spéciales.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة Snasl Db", description: "اكتشفي قلادة Snasl Db، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية أنيقة. مثالية للارتداء اليومي والمناسبات الخاصة.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-53": {
+    en: { name: "Snasl Sss Necklace", description: "Discover the Snasl Sss Necklace, a premium stainless steel necklace with a brilliant gold finish. Designed for women who appreciate timeless beauty and everyday elegance.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Snasl Sss Necklace", description: "Découvrez le collier Snasl Sss, un collier premium en acier inoxydable avec une finition or brillante. Conçu pour les femmes qui apprécient la beauté intemporelle et l'élégance quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة Snasl Sss", description: "اكتشفي قلادة Snasl Sss، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية لامعة. مصممة للنساء اللواتي يقدرن الجمال الخالد والأناقة اليومية.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-54": {
+    en: { name: "Bb Snsla Necklace", description: "Discover the Bb Snsla Necklace, a premium stainless steel necklace with a stunning gold finish. Designed for women who love timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bb Snsla Necklace", description: "Découvrez le collier Bb Snsla, un collier premium en acier inoxydable avec une superbe finition or. Conçu pour les femmes qui aiment l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة Bb Snsla", description: "اكتشفي قلادة Bb Snsla، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مذهلة. مصممة للنساء اللواتي يعشقن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-55": {
+    en: { name: "Sensllaa Necklace", description: "Discover the Sensllaa Necklace, a premium stainless steel necklace with a radiant gold finish. Designed for women who appreciate timeless beauty and everyday elegance.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Sensllaa Necklace", description: "Découvrez le collier Sensllaa, un collier premium en acier inoxydable avec une finition or éclatante. Conçu pour les femmes qui apprécient la beauté intemporelle et l'élégance quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة Sensllaa", description: "اكتشفي قلادة Sensllaa، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مشرقة. مصممة للنساء اللواتي يقدرن الجمال الخالد والأناقة اليومية.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-56": {
+    en: { name: "Senslalalaaa Necklace", description: "Discover the Senslalalaaa Necklace, a premium stainless steel necklace with a brilliant gold finish. Designed for women who appreciate timeless beauty and everyday elegance.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Senslalalaaa Necklace", description: "Découvrez le collier Senslalalaaa, un collier premium en acier inoxydable avec une finition or brillante. Conçu pour les femmes qui apprécient la beauté intemporelle et l'élégance quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة Senslalalaaa", description: "اكتشفي قلادة Senslalalaaa، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية لامعة. مصممة للنساء اللواتي يقدرن الجمال الخالد والأناقة اليومية.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-57": {
+    en: { name: "Snasl Necklace", description: "Discover the Snasl Necklace, a premium stainless steel necklace with a stunning gold finish. Designed for women who love timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Snasl Necklace", description: "Découvrez le collier Snasl, un collier premium en acier inoxydable avec une superbe finition or. Conçu pour les femmes qui aiment l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة Snasl", description: "اكتشفي قلادة Snasl، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مذهلة. مصممة للنساء اللواتي يعشقن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-58": {
+    en: { name: "Snslaala Necklace", description: "Discover the Snslaala Necklace, a premium stainless steel necklace with a radiant gold finish. Designed for women who appreciate timeless beauty and everyday elegance.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Snslaala Necklace", description: "Découvrez le collier Snslaala, un collier premium en acier inoxydable avec une finition or éclatante. Conçu pour les femmes qui apprécient la beauté intemporelle et l'élégance quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة Snslaala", description: "اكتشفي قلادة Snslaala، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مشرقة. مصممة للنساء اللواتي يقدرن الجمال الخالد والأناقة اليومية.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-59": {
+    en: { name: "Smpl Snsla Necklace", description: "Discover the Smpl Snsla Necklace, a premium stainless steel necklace with a brilliant gold finish. Designed for women who appreciate timeless beauty and everyday elegance.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Smpl Snsla Necklace", description: "Découvrez le collier Smpl Snsla, un collier premium en acier inoxydable avec une finition or brillante. Conçu pour les femmes qui apprécient la beauté intemporelle et l'élégance quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة Smpl Snsla", description: "اكتشفي قلادة Smpl Snsla، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية لامعة. مصممة للنساء اللواتي يقدرن الجمال الخالد والأناقة اليومية.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-60": {
+    en: { name: "Snasel Smpl Necklace", description: "Discover the Snasel Smpl Necklace, a premium stainless steel necklace with a brilliant gold finish. Designed for women who appreciate timeless beauty and everyday elegance.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Snasel Smpl Necklace", description: "Découvrez le collier Snasel Smpl, un collier premium en acier inoxydable avec une finition or brillante. Conçu pour les femmes qui apprécient la beauté intemporelle et l'élégance quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة Snasel Smpl", description: "اكتشفي قلادة Snasel Smpl، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية لامعة. مصممة للنساء اللواتي يقدرن الجمال الخالد والأناقة اليومية.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-61": {
+    en: { name: "Senslalala Necklace", description: "Discover the Senslalala Necklace, a premium stainless steel necklace with a radiant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Senslalala Necklace", description: "Découvrez le collier Senslalala, un collier premium en acier inoxydable avec une finition or éclatante. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة Senslalala", description: "اكتشفي قلادة Senslalala، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مشرقة. مصممة للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-62": {
+    en: { name: "Snssl Necklace", description: "Discover the Snssl Necklace, a premium stainless steel necklace with a stunning gold finish. Designed for women who love timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Snssl Necklace", description: "Découvrez le collier Snssl, un collier premium en acier inoxydable avec une superbe finition or. Conçu pour les femmes qui aiment l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة Snssl", description: "اكتشفي قلادة Snssl، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مذهلة. مصممة للنساء اللواتي يعشقن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-63": {
+    en: { name: "Snl Necklace", description: "Discover the Snl Necklace, a premium stainless steel necklace with a brilliant gold finish. Designed for women who appreciate timeless beauty and everyday elegance.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Snl Necklace", description: "Découvrez le collier Snl, un collier premium en acier inoxydable avec une finition or brillante. Conçu pour les femmes qui apprécient la beauté intemporelle et l'élégance quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة Snl", description: "اكتشفي قلادة Snl، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية لامعة. مصممة للنساء اللواتي يقدرن الجمال الخالد والأناقة اليومية.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-64": {
+    en: { name: "Sl Necklace", description: "Discover the Sl Necklace, a premium stainless steel necklace with a brilliant gold finish. Designed for women who appreciate timeless beauty and everyday elegance.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Sl Necklace", description: "Découvrez le collier Sl, un collier premium en acier inoxydable avec une finition or brillante. Conçu pour les femmes qui apprécient la beauté intemporelle et l'élégance quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة Sl", description: "اكتشفي قلادة Sl، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية لامعة. مصممة للنساء اللواتي يقدرن الجمال الخالد والأناقة اليومية.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-65": {
+    en: { name: "Snll Necklace", description: "Discover the Snll Necklace, a premium stainless steel necklace with a stunning gold finish. Designed for women who love timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Snll Necklace", description: "Découvrez le collier Snll, un collier premium en acier inoxydable avec une superbe finition or. Conçu pour les femmes qui aiment l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة Snll", description: "اكتشفي قلادة Snll، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مذهلة. مصممة للنساء اللواتي يعشقن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-66": {
+    en: { name: "Ssssssssnl Necklace", description: "Discover the Ssssssssnl Necklace, a premium stainless steel necklace with a brilliant gold finish. Designed for women who appreciate timeless beauty and everyday elegance.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Ssssssssnl Necklace", description: "Découvrez le collier Ssssssssnl, un collier premium en acier inoxydable avec une finition or brillante. Conçu pour les femmes qui apprécient la beauté intemporelle et l'élégance quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة Ssssssssnl", description: "اكتشفي قلادة Ssssssssnl، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية لامعة. مصممة للنساء اللواتي يقدرن الجمال الخالد والأناقة اليومية.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-67": {
+    en: { name: "Send Necklace", description: "Discover the Send Necklace, a premium stainless steel necklace with a brilliant gold finish. Designed for women who appreciate timeless beauty and everyday elegance.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Send Necklace", description: "Découvrez le collier Send, un collier premium en acier inoxydable avec une finition or brillante. Conçu pour les femmes qui apprécient la beauté intemporelle et l'élégance quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة Send", description: "اكتشفي قلادة Send، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية لامعة. مصممة للنساء اللواتي يقدرن الجمال الخالد والأناقة اليومية.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-68": {
+    en: { name: "Sensll Necklace", description: "Discover the Sensll Necklace, a premium stainless steel necklace with a stunning gold finish. Designed for women who love timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Sensll Necklace", description: "Découvrez le collier Sensll, un collier premium en acier inoxydable avec une superbe finition or. Conçu pour les femmes qui aiment l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة Sensll", description: "اكتشفي قلادة Sensll، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مذهلة. مصممة للنساء اللواتي يعشقن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-69": {
+    en: { name: "Snsla Necklace", description: "Discover the Snsla Necklace, a premium stainless steel necklace with a stunning gold finish. Designed for women who love timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Snsla Necklace", description: "Découvrez le collier Snsla, un collier premium en acier inoxydable avec une superbe finition or. Conçu pour les femmes qui aiment l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة Snsla", description: "اكتشفي قلادة Snsla، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مذهلة. مصممة للنساء اللواتي يعشقن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-70": {
+    en: { name: "Snslaaa Necklace", description: "Discover the Snslaaa Necklace, a premium stainless steel necklace with a brilliant gold finish. Designed for women who appreciate timeless beauty and everyday elegance.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Snslaaa Necklace", description: "Découvrez le collier Snslaaa, un collier premium en acier inoxydable avec une finition or brillante. Conçu pour les femmes qui apprécient la beauté intemporelle et l'élégance quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة Snslaaa", description: "اكتشفي قلادة Snslaaa، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية لامعة. مصممة للنساء اللواتي يقدرن الجمال الخالد والأناقة اليومية.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
   },
 };
