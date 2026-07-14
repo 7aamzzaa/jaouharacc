@@ -352,5 +352,278 @@
     "category": "necklaces",
     "material": "Premium Stainless Steel",
     "color": "gold"
+  },
+  {
+    "id": "prod-71",
+    "name": "Gold Classic Ring",
+    "description": "Discover the Gold Classic Ring, a premium stainless steel ring with a brilliant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 12,
+    "images": [
+      "/images/1.jpg"
+    ],
+    "stock": 10,
+    "category": "rings",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-72",
+    "name": "Gold Elegance Ring",
+    "description": "Discover the Gold Elegance Ring, a premium stainless steel ring with a stunning gold finish. Designed for women who love timeless beauty and everyday sophistication.",
+    "price": 12,
+    "images": [
+      "/images/2.jpg"
+    ],
+    "stock": 10,
+    "category": "rings",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-73",
+    "name": "Gold Radiance Ring",
+    "description": "Discover the Gold Radiance Ring, a premium stainless steel ring with a brilliant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 12,
+    "images": [
+      "/images/3.jpg"
+    ],
+    "stock": 10,
+    "category": "rings",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-74",
+    "name": "Gold Luxe Ring",
+    "description": "Discover the Gold Luxe Ring, a premium stainless steel ring with a stunning gold finish. Designed for women who love timeless elegance and everyday sophistication.",
+    "price": 12,
+    "images": [
+      "/images/4.jpg"
+    ],
+    "stock": 10,
+    "category": "rings",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-75",
+    "name": "Gold Shine Ring",
+    "description": "Discover the Gold Shine Ring, a premium stainless steel ring with a radiant gold finish. Designed for women who love timeless elegance and everyday sophistication.",
+    "price": 12,
+    "images": [
+      "/images/5.jpg"
+    ],
+    "stock": 10,
+    "category": "rings",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-76",
+    "name": "Gold Sparkle Ring",
+    "description": "Discover the Gold Sparkle Ring, a premium stainless steel ring with a dazzling gold finish. Designed for women who love timeless elegance and everyday sophistication.",
+    "price": 12,
+    "images": [
+      "/images/6.jpg"
+    ],
+    "stock": 10,
+    "category": "rings",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-77",
+    "name": "Gold Dream Ring",
+    "description": "Discover the Gold Dream Ring, a premium stainless steel ring with a beautiful gold finish. Designed for women who love timeless elegance and everyday sophistication.",
+    "price": 12,
+    "images": [
+      "/images/7.jpg"
+    ],
+    "stock": 10,
+    "category": "rings",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-78",
+    "name": "Gold Grace Ring",
+    "description": "Discover the Gold Grace Ring, a premium stainless steel ring with an elegant gold finish. Designed for women who love timeless beauty and everyday sophistication.",
+    "price": 12,
+    "images": [
+      "/images/8.jpg"
+    ],
+    "stock": 10,
+    "category": "rings",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-79",
+    "name": "Gold Royal Ring",
+    "description": "Discover the Gold Royal Ring, a premium stainless steel ring with a regal gold finish. Designed for women who love timeless elegance and everyday sophistication.",
+    "price": 12,
+    "images": [
+      "/images/9.jpg"
+    ],
+    "stock": 10,
+    "category": "rings",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-80",
+    "name": "Gold Bliss Ring",
+    "description": "Discover the Gold Bliss Ring, a premium stainless steel ring with a radiant gold finish. Designed for women who love timeless elegance and everyday sophistication.",
+    "price": 12,
+    "images": [
+      "/images/10.jpg"
+    ],
+    "stock": 10,
+    "category": "rings",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-81",
+    "name": "Gold Pure Ring",
+    "description": "Discover the Gold Pure Ring, a premium stainless steel ring with a brilliant gold finish. Designed for women who love timeless elegance and everyday sophistication.",
+    "price": 12,
+    "images": [
+      "/images/11.jpg"
+    ],
+    "stock": 10,
+    "category": "rings",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-82",
+    "name": "Gold Glory Ring",
+    "description": "Discover the Gold Glory Ring, a premium stainless steel ring with a stunning gold finish. Designed for women who love timeless elegance and everyday sophistication.",
+    "price": 12,
+    "images": [
+      "/images/12.jpg"
+    ],
+    "stock": 10,
+    "category": "rings",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-83",
+    "name": "Gold Jewel Ring",
+    "description": "Discover the Gold Jewel Ring, a premium stainless steel ring with a brilliant gold finish. Designed for women who love timeless elegance and everyday sophistication.",
+    "price": 12,
+    "images": [
+      "/images/13.jpg"
+    ],
+    "stock": 10,
+    "category": "rings",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-84",
+    "name": "Gold Charm Ring",
+    "description": "Discover the Gold Charm Ring, a premium stainless steel ring with a captivating gold finish. Designed for women who love timeless elegance and everyday sophistication.",
+    "price": 12,
+    "images": [
+      "/images/14.jpg"
+    ],
+    "stock": 10,
+    "category": "rings",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-85",
+    "name": "Gold Muse Ring",
+    "description": "Discover the Gold Muse Ring, a premium stainless steel ring with a refined gold finish. Designed for women who love timeless elegance and everyday sophistication.",
+    "price": 12,
+    "images": [
+      "/images/15.jpg"
+    ],
+    "stock": 10,
+    "category": "rings",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-86",
+    "name": "Gold Diva Ring",
+    "description": "Discover the Gold Diva Ring, a premium stainless steel ring with a glamorous gold finish. Designed for women who love timeless elegance and everyday sophistication.",
+    "price": 12,
+    "images": [
+      "/images/16.jpg"
+    ],
+    "stock": 10,
+    "category": "rings",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-87",
+    "name": "Gold Crown Ring",
+    "description": "Discover the Gold Crown Ring, a premium stainless steel ring with a majestic gold finish. Designed for women who love timeless elegance and everyday sophistication.",
+    "price": 12,
+    "images": [
+      "/images/17.jpg"
+    ],
+    "stock": 10,
+    "category": "rings",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-88",
+    "name": "Gold Star Ring",
+    "description": "Discover the Gold Star Ring, a premium stainless steel ring with a luminous gold finish. Designed for women who love timeless elegance and everyday sophistication.",
+    "price": 12,
+    "images": [
+      "/images/18.jpg"
+    ],
+    "stock": 10,
+    "category": "rings",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-89",
+    "name": "Gold Angel Ring",
+    "description": "Discover the Gold Angel Ring, a premium stainless steel ring with a divine gold finish. Designed for women who love timeless elegance and everyday sophistication.",
+    "price": 12,
+    "images": [
+      "/images/19.jpg"
+    ],
+    "stock": 10,
+    "category": "rings",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-90",
+    "name": "Gold Princess Ring",
+    "description": "Discover the Gold Princess Ring, a premium stainless steel ring with a charming gold finish. Designed for women who love timeless elegance and everyday sophistication.",
+    "price": 12,
+    "images": [
+      "/images/20.jpg"
+    ],
+    "stock": 10,
+    "category": "rings",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-91",
+    "name": "Gold Destiny Ring",
+    "description": "Discover the Gold Destiny Ring, a premium stainless steel ring with a radiant gold finish. Designed for women who love timeless elegance and everyday sophistication.",
+    "price": 12,
+    "images": [
+      "/images/21.jpg"
+    ],
+    "stock": 10,
+    "category": "rings",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
   }
 ]

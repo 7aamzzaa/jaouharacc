@@ -141,4 +141,109 @@ export const productTranslations: Record<string, { en: ProductTranslation; fr: P
     fr: { name: "Snslaaa Necklace", description: "Découvrez le collier Snslaaa, un collier premium en acier inoxydable avec une finition or brillante. Conçu pour les femmes qui apprécient la beauté intemporelle et l'élégance quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
     ar: { name: "قلادة Snslaaa", description: "اكتشفي قلادة Snslaaa، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية لامعة. مصممة للنساء اللواتي يقدرن الجمال الخالد والأناقة اليومية.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
   },
+  "prod-71": {
+    en: { name: "Gold Classic Ring", description: "Discover the Gold Classic Ring, a premium stainless steel ring with a brilliant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bague Classique Or", description: "Découvrez la Bague Classique Or, une bague premium en acier inoxydable avec une finition or brillante. Conçue pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خاتم كلاسيك ذهبي", description: "اكتشفي الخاتم الكلاسيكي الذهبي، خاتم ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية لامعة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-72": {
+    en: { name: "Gold Elegance Ring", description: "Discover the Gold Elegance Ring, a premium stainless steel ring with a stunning gold finish. Designed for women who love timeless beauty and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bague Élégance Or", description: "Découvrez la Bague Élégance Or, une bague premium en acier inoxydable avec une superbe finition or. Conçue pour les femmes qui aiment la beauté intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خاتم أناقة ذهبي", description: "اكتشفي خاتم الأناقة الذهبي، خاتم ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مذهلة. مصمم للنساء اللواتي يعشقن الجمال الخالد والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-73": {
+    en: { name: "Gold Radiance Ring", description: "Discover the Gold Radiance Ring, a premium stainless steel ring with a brilliant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bague Rayonnante Or", description: "Découvrez la Bague Rayonnante Or, une bague premium en acier inoxydable avec une finition or brillante. Conçue pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خاتم متألق ذهبي", description: "اكتشفي الخاتم المتألق الذهبي، خاتم ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية لامعة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-74": {
+    en: { name: "Gold Luxe Ring", description: "Discover the Gold Luxe Ring, a premium stainless steel ring with a stunning gold finish. Designed for women who love timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bague Luxe Or", description: "Découvrez la Bague Luxe Or, une bague premium en acier inoxydable avec une superbe finition or. Conçue pour les femmes qui aiment l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خاتم فاخر ذهبي", description: "اكتشفي الخاتم الفاخر الذهبي، خاتم ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مذهلة. مصمم للنساء اللواتي يعشقن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-75": {
+    en: { name: "Gold Shine Ring", description: "Discover the Gold Shine Ring, a premium stainless steel ring with a radiant gold finish. Designed for women who love timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bague Éclat Or", description: "Découvrez la Bague Éclat Or, une bague premium en acier inoxydable avec une finition or rayonnante. Conçue pour les femmes qui aiment l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خاتم بريق ذهبي", description: "اكتشفي خاتم البريق الذهبي، خاتم ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مشعة. مصمم للنساء اللواتي يعشقن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-76": {
+    en: { name: "Gold Sparkle Ring", description: "Discover the Gold Sparkle Ring, a premium stainless steel ring with a dazzling gold finish. Designed for women who love timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bague Scintillante Or", description: "Découvrez la Bague Scintillante Or, une bague premium en acier inoxydable avec une finition or éblouissante. Conçue pour les femmes qui aiment l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خاتم لامع ذهبي", description: "اكتشفي الخاتم اللامع الذهبي، خاتم ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مبهرة. مصمم للنساء اللواتي يعشقن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-77": {
+    en: { name: "Gold Dream Ring", description: "Discover the Gold Dream Ring, a premium stainless steel ring with a beautiful gold finish. Designed for women who love timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bague Rêve Or", description: "Découvrez la Bague Rêve Or, une bague premium en acier inoxydable avec une magnifique finition or. Conçue pour les femmes qui aiment l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خاتم الحلم الذهبي", description: "اكتشفي خاتم الحلم الذهبي، خاتم ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية جميلة. مصمم للنساء اللواتي يعشقن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-78": {
+    en: { name: "Gold Grace Ring", description: "Discover the Gold Grace Ring, a premium stainless steel ring with an elegant gold finish. Designed for women who love timeless beauty and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bague Grâce Or", description: "Découvrez la Bague Grâce Or, une bague premium en acier inoxydable avec une finition or élégante. Conçue pour les femmes qui aiment la beauté intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خاتم الرقي الذهبي", description: "اكتشفي خاتم الرقي الذهبي، خاتم ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية أنيقة. مصمم للنساء اللواتي يعشقن الجمال الخالد والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-79": {
+    en: { name: "Gold Royal Ring", description: "Discover the Gold Royal Ring, a premium stainless steel ring with a regal gold finish. Designed for women who love timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bague Royale Or", description: "Découvrez la Bague Royale Or, une bague premium en acier inoxydable avec une finition or royale. Conçue pour les femmes qui aiment l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خاتم ملكي ذهبي", description: "اكتشفي الخاتم الملكي الذهبي، خاتم ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية ملكية. مصمم للنساء اللواتي يعشقن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-80": {
+    en: { name: "Gold Bliss Ring", description: "Discover the Gold Bliss Ring, a premium stainless steel ring with a radiant gold finish. Designed for women who love timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bague Bonheur Or", description: "Découvrez la Bague Bonheur Or, une bague premium en acier inoxydable avec une finition or rayonnante. Conçue pour les femmes qui aiment l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خاتم السعادة الذهبي", description: "اكتشفي خاتم السعادة الذهبي، خاتم ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مشعة. مصمم للنساء اللواتي يعشقن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-81": {
+    en: { name: "Gold Pure Ring", description: "Discover the Gold Pure Ring, a premium stainless steel ring with a brilliant gold finish. Designed for women who love timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bague Pure Or", description: "Découvrez la Bague Pure Or, une bague premium en acier inoxydable avec une finition or brillante. Conçue pour les femmes qui aiment l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خاتم نقي ذهبي", description: "اكتشفي الخاتم النقي الذهبي، خاتم ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية لامعة. مصمم للنساء اللواتي يعشقن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-82": {
+    en: { name: "Gold Glory Ring", description: "Discover the Gold Glory Ring, a premium stainless steel ring with a stunning gold finish. Designed for women who love timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bague Gloire Or", description: "Découvrez la Bague Gloire Or, une bague premium en acier inoxydable avec une superbe finition or. Conçue pour les femmes qui aiment l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خاتم المجد الذهبي", description: "اكتشفي خاتم المجد الذهبي، خاتم ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مذهلة. مصمم للنساء اللواتي يعشقن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-83": {
+    en: { name: "Gold Jewel Ring", description: "Discover the Gold Jewel Ring, a premium stainless steel ring with a brilliant gold finish. Designed for women who love timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bague Joyau Or", description: "Découvrez la Bague Joyau Or, une bague premium en acier inoxydable avec une finition or brillante. Conçue pour les femmes qui aiment l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خاتم الجوهرة الذهبي", description: "اكتشفي خاتم الجوهرة الذهبي، خاتم ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية لامعة. مصمم للنساء اللواتي يعشقن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-84": {
+    en: { name: "Gold Charm Ring", description: "Discover the Gold Charm Ring, a premium stainless steel ring with a captivating gold finish. Designed for women who love timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bague Charme Or", description: "Découvrez la Bague Charme Or, une bague premium en acier inoxydable avec une finition or captivante. Conçue pour les femmes qui aiment l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خاتم ساحر ذهبي", description: "اكتشفي الخاتم الساحر الذهبي، خاتم ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية آسرة. مصمم للنساء اللواتي يعشقن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-85": {
+    en: { name: "Gold Muse Ring", description: "Discover the Gold Muse Ring, a premium stainless steel ring with a refined gold finish. Designed for women who love timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bague Muse Or", description: "Découvrez la Bague Muse Or, une bague premium en acier inoxydable avec une finition or raffinée. Conçue pour les femmes qui aiment l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خاتم ملهم ذهبي", description: "اكتشفي الخاتم الملهم الذهبي، خاتم ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية راقية. مصمم للنساء اللواتي يعشقن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-86": {
+    en: { name: "Gold Diva Ring", description: "Discover the Gold Diva Ring, a premium stainless steel ring with a glamorous gold finish. Designed for women who love timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bague Diva Or", description: "Découvrez la Bague Diva Or, une bague premium en acier inoxydable avec une finition or glamour. Conçue pour les femmes qui aiment l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خاتم ديفا ذهبي", description: "اكتشفي خاتم ديفا الذهبي، خاتم ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية فاتنة. مصمم للنساء اللواتي يعشقن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-87": {
+    en: { name: "Gold Crown Ring", description: "Discover the Gold Crown Ring, a premium stainless steel ring with a majestic gold finish. Designed for women who love timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bague Couronne Or", description: "Découvrez la Bague Couronne Or, une bague premium en acier inoxydable avec une finition or majestueuse. Conçue pour les femmes qui aiment l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خاتم التاج الذهبي", description: "اكتشفي خاتم التاج الذهبي، خاتم ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مهيبة. مصمم للنساء اللواتي يعشقن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-88": {
+    en: { name: "Gold Star Ring", description: "Discover the Gold Star Ring, a premium stainless steel ring with a luminous gold finish. Designed for women who love timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bague Étoile Or", description: "Découvrez la Bague Étoile Or, une bague premium en acier inoxydable avec une finition or lumineuse. Conçue pour les femmes qui aiment l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خاتم النجمة الذهبي", description: "اكتشفي خاتم النجمة الذهبي، خاتم ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية متألقة. مصمم للنساء اللواتي يعشقن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-89": {
+    en: { name: "Gold Angel Ring", description: "Discover the Gold Angel Ring, a premium stainless steel ring with a divine gold finish. Designed for women who love timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bague Ange Or", description: "Découvrez la Bague Ange Or, une bague premium en acier inoxydable avec une finition or divine. Conçue pour les femmes qui aiment l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خاتم الملاك الذهبي", description: "اكتشفي خاتم الملاك الذهبي، خاتم ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية سماوية. مصمم للنساء اللواتي يعشقن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-90": {
+    en: { name: "Gold Princess Ring", description: "Discover the Gold Princess Ring, a premium stainless steel ring with a charming gold finish. Designed for women who love timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bague Princesse Or", description: "Découvrez la Bague Princesse Or, une bague premium en acier inoxydable avec une finition or charmante. Conçue pour les femmes qui aiment l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خاتم الأميرة الذهبي", description: "اكتشفي خاتم الأميرة الذهبي، خاتم ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية ساحرة. مصمم للنساء اللواتي يعشقن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-91": {
+    en: { name: "Gold Destiny Ring", description: "Discover the Gold Destiny Ring, a premium stainless steel ring with a radiant gold finish. Designed for women who love timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bague Destin Or", description: "Découvrez la Bague Destin Or, une bague premium en acier inoxydable avec une finition or rayonnante. Conçue pour les femmes qui aiment l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خاتم القدر الذهبي", description: "اكتشفي خاتم القدر الذهبي، خاتم ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مشعة. مصمم للنساء اللواتي يعشقن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
 };
