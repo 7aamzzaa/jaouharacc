@@ -6,11 +6,7 @@ export interface ProductTranslation {
 }
 
 export const productTranslations: Record<string, { en: ProductTranslation; fr: ProductTranslation; ar: ProductTranslation }> = {
-  "prod-1": {
-    en: { name: "ccjaouhara Classic 14k Gold Chain", description: "An elegant, timeless chain link bracelet hand-finished in solid 14k gold. Featuring delicate, interlocking oval loops and an exquisite custom toggle closure, this piece brings a soft gold accent to any wrist.", material: "14k Yellow Gold", color: "Gold" },
-    fr: { name: "Chaîne Classique ccjaouhara Or 14k", description: "Un bracelet chaîne élégant et intemporel, fini à la main en or massif 14k. Avec ses maillons ovales délicats entrelacés et sa fermeture à bascule sur mesure, cette pièce apporte une douce touche dorée à chaque poignet.", material: "Or Jaune 14k", color: "Or" },
-    ar: { name: "قلادة ccjaouhara الكلاسيكية ذهب 14k", description: "سوار سلسلة أنيق وخالد، مشغول يدويًا من الذهب الخالص عيار 14k. يتميز بحلقات بيضاوية متداخلة رفيعة ومشبك مخصص راقي، يضفي لمسة ذهبية ناعمة على أي معصم.", material: "ذهب أصفر 14k", color: "ذهبي" },
-  },
+
   "prod-9": {
     en: { name: "Aura Solitaire Diamond Hoops", description: "Elegant 18k yellow gold-plated hoop earrings featuring beautiful micro-pave solitaire diamonds. A radiant, high-contrast set bringing timeless sophistication to standard evening attire.", material: "18k Yellow Gold", color: "Gold" },
     fr: { name: "Créoles Aura Solitaire Diamant", description: "Élégantes créoles plaquées or jaune 18k ornées de magnifiques diamants solitaires micropavés. Un ensemble radieux au contraste saisissant qui apporte une sophistication intemporelle aux tenues de soirée.", material: "Or Jaune 18k", color: "Or" },
@@ -316,11 +312,7 @@ export const productTranslations: Record<string, { en: ProductTranslation; fr: P
     fr: { name: "Collier Reine Or", description: "Découvrez le Collier Reine Or, un collier premium en acier inoxydable avec une finition or royale. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
     ar: { name: "قلادة الملكة الذهبية", description: "اكتشفي قلادة الملكة الذهبية، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية ملكية. مصممة للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
   },
-  "prod-110": {
-    en: { name: "Gold Luster Bracelet", description: "Discover the Gold Luster Bracelet, a premium stainless steel bracelet with a brilliant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
-    fr: { name: "Bracelet Lustre Or", description: "Découvrez le Bracelet Lustre Or, un bracelet premium en acier inoxydable avec une finition or brillante. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
-    ar: { name: "سوار لمعان ذهبي", description: "اكتشفي السوار اللامع الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية لامعة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
-  },
+
   "prod-111": {
     en: { name: "Gold Radiance Anklet", description: "Discover the Gold Radiance Anklet, a premium stainless steel anklet with a brilliant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
     fr: { name: "Chevillère Éclat Or", description: "Découvrez la Chevillère Éclat Or, une chevillère premium en acier inoxydable avec une finition or brillante. Conçue pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
@@ -385,5 +377,185 @@ export const productTranslations: Record<string, { en: ProductTranslation; fr: P
     en: { name: "Gold Mirage Anklet", description: "Discover the Gold Mirage Anklet, a premium stainless steel anklet with a radiant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
     fr: { name: "Chevillère Mirage Or", description: "Découvrez la Chevillère Mirage Or, une chevillère premium en acier inoxydable avec une finition or rayonnante. Conçue pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
     ar: { name: "خلخال السراب الذهبي", description: "اكتشفي خلخال السراب الذهبي، خلخال ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مشعة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-124": {
+    en: { name: "Gold Noble Bracelet", description: "Discover the Gold Noble Bracelet, a premium stainless steel bracelet with a distinguished gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Noble Or", description: "Découvrez le Bracelet Noble Or, un bracelet premium en acier inoxydable avec une finition or distinguée. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار نبيل ذهبي", description: "اكتشفي السوار النبيل الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية راقية. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-125": {
+    en: { name: "Gold Opus Bracelet", description: "Discover the Gold Opus Bracelet, a premium stainless steel bracelet with a masterful gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Opus Or", description: "Découvrez le Bracelet Opus Or, un bracelet premium en acier inoxydable avec une finition or magistrale. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار أوبوس ذهبي", description: "اكتشفي سوار أوبوس الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية متقنة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-126": {
+    en: { name: "Gold Oasis Bracelet", description: "Discover the Gold Oasis Bracelet, a premium stainless steel bracelet with a refreshing gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Oasis Or", description: "Découvrez le Bracelet Oasis Or, un bracelet premium en acier inoxydable avec une finition or rafraîchissante. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار الواحة الذهبي", description: "اكتشفي سوار الواحة الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية منعشة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-127": {
+    en: { name: "Gold Orbit Bracelet", description: "Discover the Gold Orbit Bracelet, a premium stainless steel bracelet with a radiant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Orbite Or", description: "Découvrez le Bracelet Orbite Or, un bracelet premium en acier inoxydable avec une finition or rayonnante. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار المدار الذهبي", description: "اكتشفي سوار المدار الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مشعة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-128": {
+    en: { name: "Gold Onyx Bracelet", description: "Discover the Gold Onyx Bracelet, a premium stainless steel bracelet with a brilliant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Onyx Or", description: "Découvrez le Bracelet Onyx Or, un bracelet premium en acier inoxydable avec une finition or brillante. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار أونيكس ذهبي", description: "اكتشفي سوار أونيكس الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية لامعة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-129": {
+    en: { name: "Gold Oracle Bracelet", description: "Discover the Gold Oracle Bracelet, a premium stainless steel bracelet with a luminous gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Oracle Or", description: "Découvrez le Bracelet Oracle Or, un bracelet premium en acier inoxydable avec une finition or lumineuse. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار أوراكل الذهبي", description: "اكتشفي سوار أوراكل الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية متألقة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-130": {
+    en: { name: "Gold Ovation Bracelet", description: "Discover the Gold Ovation Bracelet, a premium stainless steel bracelet with a brilliant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Ovation Or", description: "Découvrez le Bracelet Ovation Or, un bracelet premium en acier inoxydable avec une finition or brillante. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار التصفيق الذهبي", description: "اكتشفي سوار التصفيق الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية لامعة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-131": {
+    en: { name: "Gold Omega Bracelet", description: "Discover the Gold Omega Bracelet, a premium stainless steel bracelet with a timeless gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Omega Or", description: "Découvrez le Bracelet Omega Or, un bracelet premium en acier inoxydable avec une finition or intemporelle. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار أوميغا الذهبي", description: "اكتشفي سوار أوميغا الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية خالدة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-132": {
+    en: { name: "Gold Origin Bracelet", description: "Discover the Gold Origin Bracelet, a premium stainless steel bracelet with a pure gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Origine Or", description: "Découvrez le Bracelet Origine Or, un bracelet premium en acier inoxydable avec une finition or pure. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار الأصل الذهبي", description: "اكتشفي سوار الأصل الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية نقية. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-133": {
+    en: { name: "Gold Opal Bracelet", description: "Discover the Gold Opal Bracelet, a premium stainless steel bracelet with a luminous gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Opale Or", description: "Découvrez le Bracelet Opale Or, un bracelet premium en acier inoxydable avec une finition or lumineuse. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار أوبال ذهبي", description: "اكتشفي سوار أوبال الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية متألقة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-134": {
+    en: { name: "Gold Oasis Bracelet", description: "Discover the Gold Oasis Bracelet, a premium stainless steel bracelet with a radiant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Oasis Or", description: "Découvrez le Bracelet Oasis Or, un bracelet premium en acier inoxydable avec une finition or rayonnante. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار الواحة الذهبي", description: "اكتشفي سوار الواحة الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مشعة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-135": {
+    en: { name: "Gold Orbit Bracelet", description: "Discover the Gold Orbit Bracelet, a premium stainless steel bracelet with a brilliant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Orbite Or", description: "Découvrez le Bracelet Orbite Or, un bracelet premium en acier inoxydable avec une finition or brillante. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار المدار الذهبي", description: "اكتشفي سوار المدار الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية لامعة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-136": {
+    en: { name: "Gold Onyx Bracelet", description: "Discover the Gold Onyx Bracelet, a premium stainless steel bracelet with a striking gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Onyx Or", description: "Découvrez le Bracelet Onyx Or, un bracelet premium en acier inoxydable avec une finition or saisissante. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار الأونيكس الذهبي", description: "اكتشفي سوار الأونيكس الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية آسرة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-137": {
+    en: { name: "Gold Oracle Bracelet", description: "Discover the Gold Oracle Bracelet, a premium stainless steel bracelet with a captivating gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Oracle Or", description: "Découvrez le Bracelet Oracle Or, un bracelet premium en acier inoxydable avec une finition or captivante. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار الأوراكل الذهبي", description: "اكتشفي سوار الأوراكل الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية آسرة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-138": {
+    en: { name: "Gold Ovation Bracelet", description: "Discover the Gold Ovation Bracelet, a premium stainless steel bracelet with a dazzling gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Ovation Or", description: "Découvrez le Bracelet Ovation Or, un bracelet premium en acier inoxydable avec une finition or éclatante. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار التصفيق الذهبي", description: "اكتشفي سوار التصفيق الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مبهرة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-139": {
+    en: { name: "Gold Odyssey Bracelet", description: "Discover the Gold Odyssey Bracelet, a premium stainless steel bracelet with a magnificent gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Odyssée Or", description: "Découvrez le Bracelet Odyssée Or, un bracelet premium en acier inoxydable avec une finition or magnifique. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار الأوديسة الذهبي", description: "اكتشفي سوار الأوديسة الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية رائعة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-140": {
+    en: { name: "Gold Orchid Bracelet", description: "Discover the Gold Orchid Bracelet, a premium stainless steel bracelet with an elegant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Orchidée Or", description: "Découvrez le Bracelet Orchidée Or, un bracelet premium en acier inoxydable avec une finition or élégante. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار الأوركيد الذهبي", description: "اكتشفي سوار الأوركيد الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية أنيقة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-141": {
+    en: { name: "Gold Ozone Bracelet", description: "Discover the Gold Ozone Bracelet, a premium stainless steel bracelet with a refined gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Ozone Or", description: "Découvrez le Bracelet Ozone Or, un bracelet premium en acier inoxydable avec une finition or raffinée. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار الأوزون الذهبي", description: "اكتشفي سوار الأوزون الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية راقية. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-142": {
+    en: { name: "Gold Obelisk Bracelet", description: "Discover the Gold Obelisk Bracelet, a premium stainless steel bracelet with a bold gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Obélisque Or", description: "Découvrez le Bracelet Obélisque Or, un bracelet premium en acier inoxydable avec une finition or audacieuse. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار المسلة الذهبي", description: "اكتشفي سوار المسلة الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية جريئة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-143": {
+    en: { name: "Gold Oculus Bracelet", description: "Discover the Gold Oculus Bracelet, a premium stainless steel bracelet with a striking gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Oculus Or", description: "Découvrez le Bracelet Oculus Or, un bracelet premium en acier inoxydable avec une finition or saisissante. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار أوكولوس الذهبي", description: "اكتشفي سوار أوكولوس الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية لافتة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-144": {
+    en: { name: "Gold Osmium Bracelet", description: "Discover the Gold Osmium Bracelet, a premium stainless steel bracelet with a brilliant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Osmium Or", description: "Découvrez le Bracelet Osmium Or, un bracelet premium en acier inoxydable avec une finition or brillante. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار الأوزميوم الذهبي", description: "اكتشفي سوار الأوزميوم الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية لامعة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-145": {
+    en: { name: "Gold Opulence Bracelet", description: "Discover the Gold Opulence Bracelet, a premium stainless steel bracelet with a luxurious gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Opulence Or", description: "Découvrez le Bracelet Opulence Or, un bracelet premium en acier inoxydable avec une finition or luxueuse. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار الأوبولنس الذهبي", description: "اكتشفي سوار الأوبولنس الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية فاخرة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-146": {
+    en: { name: "Gold Overture Bracelet", description: "Discover the Gold Overture Bracelet, a premium stainless steel bracelet with a stunning gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Ouverture Or", description: "Découvrez le Bracelet Ouverture Or, un bracelet premium en acier inoxydable avec une finition or magnifique. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار الافتتاحية الذهبي", description: "اكتشفي سوار الافتتاحية الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية رائعة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-147": {
+    en: { name: "Gold Obsidian Bracelet", description: "Discover the Gold Obsidian Bracelet, a premium stainless steel bracelet with a sleek gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Obsidienne Or", description: "Découvrez le Bracelet Obsidienne Or, un bracelet premium en acier inoxydable avec une finition or élégante. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار السبج الذهبي", description: "اكتشفي سوار السبج الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية أنيقة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-148": {
+    en: { name: "Gold Ocean Bracelet", description: "Discover the Gold Ocean Bracelet, a premium stainless steel bracelet with a fluid gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Océan Or", description: "Découvrez le Bracelet Océan Or, un bracelet premium en acier inoxydable avec une finition or fluide. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار المحيط الذهبي", description: "اكتشفي سوار المحيط الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية انسيابية. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-149": {
+    en: { name: "Gold Opera Bracelet", description: "Discover the Gold Opera Bracelet, a premium stainless steel bracelet with a graceful gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Opéra Or", description: "Découvrez le Bracelet Opéra Or, un bracelet premium en acier inoxydable avec une finition or gracieuse. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار الأوبرا الذهبي", description: "اكتشفي سوار الأوبرا الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية رشيقة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-150": {
+    en: { name: "Gold Octave Bracelet", description: "Discover the Gold Octave Bracelet, a premium stainless steel bracelet with a harmonious gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Octave Or", description: "Découvrez le Bracelet Octave Or, un bracelet premium en acier inoxydable avec une finition or harmonieuse. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار الأوكتاف الذهبي", description: "اكتشفي سوار الأوكتاف الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية متناغمة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-151": {
+    en: { name: "Gold Oval Bracelet", description: "Discover the Gold Oval Bracelet, a premium stainless steel bracelet with a smooth gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Ovale Or", description: "Découvrez le Bracelet Ovale Or, un bracelet premium en acier inoxydable avec une finition or lisse. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار البيضاوي الذهبي", description: "اكتشفي سوار البيضاوي الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية ناعمة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-152": {
+    en: { name: "Gold Ornate Bracelet", description: "Discover the Gold Ornate Bracelet, a premium stainless steel bracelet with an intricate gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Orné Or", description: "Découvrez le Bracelet Orné Or, un bracelet premium en acier inoxydable avec une finition or complexe. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار المزخرف الذهبي", description: "اكتشفي سوار المزخرف الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية معقدة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-153": {
+    en: { name: "Gold Ombre Bracelet", description: "Discover the Gold Ombre Bracelet, a premium stainless steel bracelet with a subtle gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Ombre Or", description: "Découvrez le Bracelet Ombre Or, un bracelet premium en acier inoxydable avec une finition or subtile. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار الأمبر الذهبي", description: "اكتشفي سوار الأمبر الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية ناعمة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-154": {
+    en: { name: "Gold Ornament Bracelet", description: "Discover the Gold Ornament Bracelet, a premium stainless steel bracelet with a decorative gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Ornement Or", description: "Découvrez le Bracelet Ornement Or, un bracelet premium en acier inoxydable avec une finition or décorative. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار الزخرفة الذهبي", description: "اكتشفي سوار الزخرفة الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مزخرفة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-155": {
+    en: { name: "Gold Oak Bracelet", description: "Discover the Gold Oak Bracelet, a premium stainless steel bracelet with a sturdy gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Chêne Or", description: "Découvrez le Bracelet Chêne Or, un bracelet premium en acier inoxydable avec une finition or robuste. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار البلوط الذهبي", description: "اكتشفي سوار البلوط الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية متينة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-156": {
+    en: { name: "Gold Olive Bracelet", description: "Discover the Gold Olive Bracelet, a premium stainless steel bracelet with a polished gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Olive Or", description: "Découvrez le Bracelet Olive Or, un bracelet premium en acier inoxydable avec une finition or polie. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار الزيتون الذهبي", description: "اكتشفي سوار الزيتون الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مصقولة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-157": {
+    en: { name: "Gold Oration Bracelet", description: "Discover the Gold Oration Bracelet, a premium stainless steel bracelet with an eloquent gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Oration Or", description: "Découvrez le Bracelet Oration Or, un bracelet premium en acier inoxydable avec une finition or éloquente. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار الخطابة الذهبي", description: "اكتشفي سوار الخطابة الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية بليغة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-158": {
+    en: { name: "Gold Nova Bracelet", description: "Discover the Gold Nova Bracelet, a premium stainless steel bracelet with a radiant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Nova Or", description: "Découvrez le Bracelet Nova Or, un bracelet premium en acier inoxydable avec une finition or rayonnante. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار نوفا الذهبي", description: "اكتشفي سوار نوفا الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مشعة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-159": {
+    en: { name: "Gold Aura Bracelet", description: "Discover the Gold Aura Bracelet, a premium stainless steel bracelet with a luminous gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Aura Or", description: "Découvrez le Bracelet Aura Or, un bracelet premium en acier inoxydable avec une finition or lumineuse. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار الأورا الذهبي", description: "اكتشفي سوار الأورا الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية متألقة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
   },
 };

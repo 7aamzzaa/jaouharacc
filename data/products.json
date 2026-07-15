@@ -1,18 +1,5 @@
 [
-  {
-    "id": "prod-1",
-    "name": "ccjaouhara Classic 14k Gold Chain",
-    "description": "An elegant, timeless chain link bracelet hand-finished in solid 14k gold. Featuring delicate, interlocking oval loops and an exquisite custom toggle closure, this piece brings a soft gold accent to any wrist.",
-    "price": 295,
-    "images": [
-      "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?auto=format&fit=crop&q=80&w=800"
-    ],
-    "stock": 12,
-    "category": "bracelets",
-    "material": "14k Yellow Gold",
-    "color": "Gold"
-  },
+
   {
     "id": "prod-9",
     "name": "Aura Solitaire Diamond Hoops",
@@ -807,19 +794,7 @@
     "material": "Premium Stainless Steel",
     "color": "gold"
   },
-  {
-    "id": "prod-110",
-    "name": "Gold Luster Bracelet",
-    "description": "Discover the Gold Luster Bracelet, a premium stainless steel bracelet with a brilliant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
-    "images": [
-      "/images/A.jpg"
-    ],
-    "stock": 10,
-    "category": "bracelets",
-    "material": "Premium Stainless Steel",
-    "color": "gold"
-  },
+
   {
     "id": "prod-111",
     "name": "Gold Radiance Anklet",
@@ -986,6 +961,448 @@
     ],
     "stock": 10,
     "category": "anklets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-124",
+    "name": "Gold Noble Bracelet",
+    "description": "Discover the Gold Noble Bracelet, a premium stainless steel bracelet with a distinguished gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/01.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-125",
+    "name": "Gold Opus Bracelet",
+    "description": "Discover the Gold Opus Bracelet, a premium stainless steel bracelet with a masterful gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/02.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-126",
+    "name": "Gold Oasis Bracelet",
+    "description": "Discover the Gold Oasis Bracelet, a premium stainless steel bracelet with a refreshing gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/03.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-127",
+    "name": "Gold Orbit Bracelet",
+    "description": "Discover the Gold Orbit Bracelet, a premium stainless steel bracelet with a radiant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/04.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-128",
+    "name": "Gold Onyx Bracelet",
+    "description": "Discover the Gold Onyx Bracelet, a premium stainless steel bracelet with a brilliant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/05.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-129",
+    "name": "Gold Oracle Bracelet",
+    "description": "Discover the Gold Oracle Bracelet, a premium stainless steel bracelet with a luminous gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/06.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-130",
+    "name": "Gold Ovation Bracelet",
+    "description": "Discover the Gold Ovation Bracelet, a premium stainless steel bracelet with a brilliant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/07.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-131",
+    "name": "Gold Omega Bracelet",
+    "description": "Discover the Gold Omega Bracelet, a premium stainless steel bracelet with a timeless gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/08.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-132",
+    "name": "Gold Origin Bracelet",
+    "description": "Discover the Gold Origin Bracelet, a premium stainless steel bracelet with a pure gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/09.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-133",
+    "name": "Gold Opal Bracelet",
+    "description": "Discover the Gold Opal Bracelet, a premium stainless steel bracelet with a luminous gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/010.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-134",
+    "name": "Gold Oasis Bracelet",
+    "description": "Discover the Gold Oasis Bracelet, a premium stainless steel bracelet with a radiant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/011.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-135",
+    "name": "Gold Orbit Bracelet",
+    "description": "Discover the Gold Orbit Bracelet, a premium stainless steel bracelet with a brilliant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/012.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-136",
+    "name": "Gold Onyx Bracelet",
+    "description": "Discover the Gold Onyx Bracelet, a premium stainless steel bracelet with a striking gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/013.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-137",
+    "name": "Gold Oracle Bracelet",
+    "description": "Discover the Gold Oracle Bracelet, a premium stainless steel bracelet with a captivating gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/014.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-138",
+    "name": "Gold Ovation Bracelet",
+    "description": "Discover the Gold Ovation Bracelet, a premium stainless steel bracelet with a dazzling gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/015.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-139",
+    "name": "Gold Odyssey Bracelet",
+    "description": "Discover the Gold Odyssey Bracelet, a premium stainless steel bracelet with a magnificent gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/016.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-140",
+    "name": "Gold Orchid Bracelet",
+    "description": "Discover the Gold Orchid Bracelet, a premium stainless steel bracelet with an elegant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/017.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-142",
+    "name": "Gold Obelisk Bracelet",
+    "description": "Discover the Gold Obelisk Bracelet, a premium stainless steel bracelet with a bold gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/019.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-143",
+    "name": "Gold Oculus Bracelet",
+    "description": "Discover the Gold Oculus Bracelet, a premium stainless steel bracelet with a striking gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/020.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-144",
+    "name": "Gold Osmium Bracelet",
+    "description": "Discover the Gold Osmium Bracelet, a premium stainless steel bracelet with a brilliant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/021.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-146",
+    "name": "Gold Overture Bracelet",
+    "description": "Discover the Gold Overture Bracelet, a premium stainless steel bracelet with a stunning gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/023.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-147",
+    "name": "Gold Obsidian Bracelet",
+    "description": "Discover the Gold Obsidian Bracelet, a premium stainless steel bracelet with a sleek gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/024.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-148",
+    "name": "Gold Ocean Bracelet",
+    "description": "Discover the Gold Ocean Bracelet, a premium stainless steel bracelet with a fluid gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/025.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-149",
+    "name": "Gold Opera Bracelet",
+    "description": "Discover the Gold Opera Bracelet, a premium stainless steel bracelet with a graceful gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/026.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-150",
+    "name": "Gold Octave Bracelet",
+    "description": "Discover the Gold Octave Bracelet, a premium stainless steel bracelet with a harmonious gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/027.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-151",
+    "name": "Gold Oval Bracelet",
+    "description": "Discover the Gold Oval Bracelet, a premium stainless steel bracelet with a smooth gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/028.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-152",
+    "name": "Gold Ornate Bracelet",
+    "description": "Discover the Gold Ornate Bracelet, a premium stainless steel bracelet with an intricate gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/029.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-153",
+    "name": "Gold Ombre Bracelet",
+    "description": "Discover the Gold Ombre Bracelet, a premium stainless steel bracelet with a subtle gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/030.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-154",
+    "name": "Gold Ornament Bracelet",
+    "description": "Discover the Gold Ornament Bracelet, a premium stainless steel bracelet with a decorative gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/031.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-155",
+    "name": "Gold Oak Bracelet",
+    "description": "Discover the Gold Oak Bracelet, a premium stainless steel bracelet with a sturdy gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/032.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-156",
+    "name": "Gold Olive Bracelet",
+    "description": "Discover the Gold Olive Bracelet, a premium stainless steel bracelet with a polished gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/033.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-157",
+    "name": "Gold Oration Bracelet",
+    "description": "Discover the Gold Oration Bracelet, a premium stainless steel bracelet with an eloquent gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/034.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-158",
+    "name": "Gold Nova Bracelet",
+    "description": "Discover the Gold Nova Bracelet, a premium stainless steel bracelet with a radiant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/035.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-159",
+    "name": "Gold Aura Bracelet",
+    "description": "Discover the Gold Aura Bracelet, a premium stainless steel bracelet with a luminous gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/036.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
     "material": "Premium Stainless Steel",
     "color": "gold"
   }
