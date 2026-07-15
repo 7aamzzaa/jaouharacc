@@ -627,5 +627,213 @@ export const defaultProducts: Product[] = [
     "category": "rings",
     "material": "Premium Stainless Steel",
     "color": "gold"
+  },
+  {
+    "id": "prod-93",
+    "name": "Gold Harmony Necklace",
+    "description": "Discover the Gold Harmony Necklace, a premium stainless steel necklace with a radiant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/22.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-95",
+    "name": "Gold Blossom Necklace",
+    "description": "Discover the Gold Blossom Necklace, a premium stainless steel necklace with a stunning gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/33.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-96",
+    "name": "Gold Aura Necklace",
+    "description": "Discover the Gold Aura Necklace, a premium stainless steel necklace with a radiant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/44.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-97",
+    "name": "Gold Lily Necklace",
+    "description": "Discover the Gold Lily Necklace, a premium stainless steel necklace with an elegant gold finish. Designed for women who appreciate timeless beauty and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/55.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-98",
+    "name": "Gold Rose Necklace",
+    "description": "Discover the Gold Rose Necklace, a premium stainless steel necklace with a gorgeous gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/66.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-99",
+    "name": "Gold Moon Necklace",
+    "description": "Discover the Gold Moon Necklace, a premium stainless steel necklace with a celestial gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/77.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-100",
+    "name": "Gold Sun Necklace",
+    "description": "Discover the Gold Sun Necklace, a premium stainless steel necklace with a brilliant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/88.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-101",
+    "name": "Gold Nova Necklace",
+    "description": "Discover the Gold Nova Necklace, a premium stainless steel necklace with a stunning gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/99.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-102",
+    "name": "Gold Divine Necklace",
+    "description": "Discover the Gold Divine Necklace, a premium stainless steel necklace with an exquisite gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/00.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-103",
+    "name": "Gold Infinity Necklace",
+    "description": "Discover the Gold Infinity Necklace, a premium stainless steel necklace with a timeless gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/111.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-104",
+    "name": "Gold Symphony Necklace",
+    "description": "Discover the Gold Symphony Necklace, a premium stainless steel necklace with a harmonious gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/112.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-105",
+    "name": "Gold Essence Necklace",
+    "description": "Discover the Gold Essence Necklace, a premium stainless steel necklace with a pure gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/113.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-106",
+    "name": "Gold Spirit Necklace",
+    "description": "Discover the Gold Spirit Necklace, a premium stainless steel necklace with a radiant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/114.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-107",
+    "name": "Gold Prestige Necklace",
+    "description": "Discover the Gold Prestige Necklace, a premium stainless steel necklace with a luxurious gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/115.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-108",
+    "name": "Gold Legacy Necklace",
+    "description": "Discover the Gold Legacy Necklace, a premium stainless steel necklace with an enduring gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/116.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-109",
+    "name": "Gold Queen Necklace",
+    "description": "Discover the Gold Queen Necklace, a premium stainless steel necklace with a regal gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/117.jpg"
+    ],
+    "stock": 10,
+    "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
   }
 ];

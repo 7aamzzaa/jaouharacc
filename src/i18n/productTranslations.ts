@@ -246,4 +246,84 @@ export const productTranslations: Record<string, { en: ProductTranslation; fr: P
     fr: { name: "Bague Destin Or", description: "Découvrez la Bague Destin Or, une bague premium en acier inoxydable avec une finition or rayonnante. Conçue pour les femmes qui aiment l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
     ar: { name: "خاتم القدر الذهبي", description: "اكتشفي خاتم القدر الذهبي، خاتم ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مشعة. مصمم للنساء اللواتي يعشقن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
   },
+  "prod-93": {
+    en: { name: "Gold Harmony Necklace", description: "Discover the Gold Harmony Necklace, a premium stainless steel necklace with a radiant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Collier Harmonie Or", description: "Découvrez le Collier Harmonie Or, un collier premium en acier inoxydable avec une finition or rayonnante. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة الانسجام الذهبية", description: "اكتشفي قلادة الانسجام الذهبية، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مشعة. مصممة للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-95": {
+    en: { name: "Gold Blossom Necklace", description: "Discover the Gold Blossom Necklace, a premium stainless steel necklace with a stunning gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Collier Fleur Or", description: "Découvrez le Collier Fleur Or, un collier premium en acier inoxydable avec une superbe finition or. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة الزهر الذهبية", description: "اكتشفي قلادة الزهر الذهبية، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مذهلة. مصممة للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-96": {
+    en: { name: "Gold Aura Necklace", description: "Discover the Gold Aura Necklace, a premium stainless steel necklace with a radiant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Collier Aura Or", description: "Découvrez le Collier Aura Or, un collier premium en acier inoxydable avec une finition or rayonnante. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة الهالة الذهبية", description: "اكتشفي قلادة الهالة الذهبية، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مشعة. مصممة للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-97": {
+    en: { name: "Gold Lily Necklace", description: "Discover the Gold Lily Necklace, a premium stainless steel necklace with an elegant gold finish. Designed for women who appreciate timeless beauty and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Collier Lys Or", description: "Découvrez le Collier Lys Or, un collier premium en acier inoxydable avec une finition or élégante. Conçu pour les femmes qui apprécient la beauté intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة الزنبق الذهبية", description: "اكتشفي قلادة الزنبق الذهبية، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية أنيقة. مصممة للنساء اللواتي يقدرن الجمال الخالد والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-98": {
+    en: { name: "Gold Rose Necklace", description: "Discover the Gold Rose Necklace, a premium stainless steel necklace with a gorgeous gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Collier Rose Or", description: "Découvrez le Collier Rose Or, un collier premium en acier inoxydable avec une magnifique finition or. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة الوردة الذهبية", description: "اكتشفي قلادة الوردة الذهبية، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية رائعة. مصممة للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-99": {
+    en: { name: "Gold Moon Necklace", description: "Discover the Gold Moon Necklace, a premium stainless steel necklace with a celestial gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Collier Lune Or", description: "Découvrez le Collier Lune Or, un collier premium en acier inoxydable avec une finition or céleste. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة القمر الذهبية", description: "اكتشفي قلادة القمر الذهبية، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية سماوية. مصممة للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-100": {
+    en: { name: "Gold Sun Necklace", description: "Discover the Gold Sun Necklace, a premium stainless steel necklace with a brilliant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Collier Soleil Or", description: "Découvrez le Collier Soleil Or, un collier premium en acier inoxydable avec une finition or brillante. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة الشمس الذهبية", description: "اكتشفي قلادة الشمس الذهبية، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية لامعة. مصممة للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-101": {
+    en: { name: "Gold Nova Necklace", description: "Discover the Gold Nova Necklace, a premium stainless steel necklace with a stunning gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Collier Nova Or", description: "Découvrez le Collier Nova Or, un collier premium en acier inoxydable avec une superbe finition or. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة نوفا الذهبية", description: "اكتشفي قلادة نوفا الذهبية، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مذهلة. مصممة للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-102": {
+    en: { name: "Gold Divine Necklace", description: "Discover the Gold Divine Necklace, a premium stainless steel necklace with an exquisite gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Collier Divin Or", description: "Découvrez le Collier Divin Or, un collier premium en acier inoxydable avec une finition or exquise. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة divine الذهبية", description: "اكتشفي القلادة الذهبية الفاخرة، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية رائعة. مصممة للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-103": {
+    en: { name: "Gold Infinity Necklace", description: "Discover the Gold Infinity Necklace, a premium stainless steel necklace with a timeless gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Collier Infini Or", description: "Découvrez le Collier Infini Or, un collier premium en acier inoxydable avec une finition or intemporelle. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة اللانهاية الذهبية", description: "اكتشفي قلادة اللانهاية الذهبية، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية خالدة. مصممة للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-104": {
+    en: { name: "Gold Symphony Necklace", description: "Discover the Gold Symphony Necklace, a premium stainless steel necklace with a harmonious gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Collier Symphonie Or", description: "Découvrez le Collier Symphonie Or, un collier premium en acier inoxydable avec une finition or harmonieuse. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة السيمفونية الذهبية", description: "اكتشفي قلادة السيمفونية الذهبية، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية متناغمة. مصممة للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-105": {
+    en: { name: "Gold Essence Necklace", description: "Discover the Gold Essence Necklace, a premium stainless steel necklace with a pure gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Collier Essence Or", description: "Découvrez le Collier Essence Or, un collier premium en acier inoxydable avec une finition or pure. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة الجوهر الذهبية", description: "اكتشفي قلادة الجوهر الذهبية، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية نقية. مصممة للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-106": {
+    en: { name: "Gold Spirit Necklace", description: "Discover the Gold Spirit Necklace, a premium stainless steel necklace with a radiant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Collier Esprit Or", description: "Découvrez le Collier Esprit Or, un collier premium en acier inoxydable avec une finition or rayonnante. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة الروح الذهبية", description: "اكتشفي قلادة الروح الذهبية، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مشعة. مصممة للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-107": {
+    en: { name: "Gold Prestige Necklace", description: "Discover the Gold Prestige Necklace, a premium stainless steel necklace with a luxurious gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Collier Prestige Or", description: "Découvrez le Collier Prestige Or, un collier premium en acier inoxydable avec une finition or luxueuse. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة برستيج الذهبية", description: "اكتشفي قلادة برستيج الذهبية، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية فاخرة. مصممة للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-108": {
+    en: { name: "Gold Legacy Necklace", description: "Discover the Gold Legacy Necklace, a premium stainless steel necklace with an enduring gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Collier Héritage Or", description: "Découvrez le Collier Héritage Or, un collier premium en acier inoxydable avec une finition or durable. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة الإرث الذهبية", description: "اكتشفي قلادة الإرث الذهبية، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية دائمة. مصممة للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-109": {
+    en: { name: "Gold Queen Necklace", description: "Discover the Gold Queen Necklace, a premium stainless steel necklace with a regal gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Collier Reine Or", description: "Découvrez le Collier Reine Or, un collier premium en acier inoxydable avec une finition or royale. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "قلادة الملكة الذهبية", description: "اكتشفي قلادة الملكة الذهبية، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية ملكية. مصممة للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
 };
