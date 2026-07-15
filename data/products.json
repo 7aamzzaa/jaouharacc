@@ -28,33 +28,6 @@
     "color": "Gold"
   },
   {
-    "id": "prod-11",
-    "name": "Seaside Baroque Pearl Anklet",
-    "description": "An elegant double-layered ankle chain handcrafted in 14k gold with tiny sparkling baroque dangling pearls. Captures a calm resort mood while reflecting light.",
-    "price": 175,
-    "images": [
-      "https://images.unsplash.com/photo-1543294001-f7cbfe92237e?auto=format&fit=crop&q=80&w=800"
-    ],
-    "stock": 12,
-    "category": "anklets",
-    "material": "14k Yellow Gold",
-    "color": "Gold"
-  },
-  {
-    "id": "prod-17",
-    "name": "Aura Solitaire Diamond Crown Ring",
-    "description": "A breathtaking brilliant-cut 1.5 carat diamond-alternative solitaire set within shimmering micro-pave 18k yellow gold bands. Elegant, timeless, and radiant.",
-    "price": 360,
-    "images": [
-      "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1629224307470-990cc8760221?auto=format&fit=crop&q=80&w=800"
-    ],
-    "stock": 9,
-    "category": "rings",
-    "material": "18k Yellow Gold",
-    "color": "Gold"
-  },
-  {
     "id": "prod-48",
     "name": "Zahra Moroccan Gold Bridal Set",
     "description": "A gorgeous traditional set. Includes an intricately detailed Moroccan filigree collar and matching statement earrings.",
@@ -831,6 +804,188 @@
     ],
     "stock": 10,
     "category": "necklaces",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-110",
+    "name": "Gold Luster Bracelet",
+    "description": "Discover the Gold Luster Bracelet, a premium stainless steel bracelet with a brilliant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/A.jpg"
+    ],
+    "stock": 10,
+    "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-111",
+    "name": "Gold Radiance Anklet",
+    "description": "Discover the Gold Radiance Anklet, a premium stainless steel anklet with a brilliant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/A.jpg"
+    ],
+    "stock": 10,
+    "category": "anklets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-112",
+    "name": "Gold Glow Anklet",
+    "description": "Discover the Gold Glow Anklet, a premium stainless steel anklet with a radiant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/B.jpg"
+    ],
+    "stock": 10,
+    "category": "anklets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-113",
+    "name": "Gold Spark Anklet",
+    "description": "Discover the Gold Spark Anklet, a premium stainless steel anklet with a dazzling gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/C.jpg"
+    ],
+    "stock": 10,
+    "category": "anklets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-114",
+    "name": "Gold Dazzle Anklet",
+    "description": "Discover the Gold Dazzle Anklet, a premium stainless steel anklet with a brilliant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/D.jpg"
+    ],
+    "stock": 10,
+    "category": "anklets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-115",
+    "name": "Gold Gleam Anklet",
+    "description": "Discover the Gold Gleam Anklet, a premium stainless steel anklet with a luminous gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/E.jpg"
+    ],
+    "stock": 10,
+    "category": "anklets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-116",
+    "name": "Gold Flare Anklet",
+    "description": "Discover the Gold Flare Anklet, a premium stainless steel anklet with a radiant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/F.jpg"
+    ],
+    "stock": 10,
+    "category": "anklets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-117",
+    "name": "Gold Jubilee Anklet",
+    "description": "Discover the Gold Jubilee Anklet, a premium stainless steel anklet with a celebratory gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/J.jpg"
+    ],
+    "stock": 10,
+    "category": "anklets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-118",
+    "name": "Gold Haven Anklet",
+    "description": "Discover the Gold Haven Anklet, a premium stainless steel anklet with a serene gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/H.jpg"
+    ],
+    "stock": 10,
+    "category": "anklets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-119",
+    "name": "Gold Ivory Anklet",
+    "description": "Discover the Gold Ivory Anklet, a premium stainless steel anklet with a lustrous gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/I.jpg"
+    ],
+    "stock": 10,
+    "category": "anklets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-120",
+    "name": "Gold Gem Anklet",
+    "description": "Discover the Gold Gem Anklet, a premium stainless steel anklet with a precious gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/G.jpg"
+    ],
+    "stock": 10,
+    "category": "anklets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-121",
+    "name": "Gold Kindred Anklet",
+    "description": "Discover the Gold Kindred Anklet, a premium stainless steel anklet with a warm gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/K.jpg"
+    ],
+    "stock": 10,
+    "category": "anklets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-122",
+    "name": "Gold Lark Anklet",
+    "description": "Discover the Gold Lark Anklet, a premium stainless steel anklet with a brilliant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/L.jpg"
+    ],
+    "stock": 10,
+    "category": "anklets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-123",
+    "name": "Gold Mirage Anklet",
+    "description": "Discover the Gold Mirage Anklet, a premium stainless steel anklet with a radiant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/M.jpg"
+    ],
+    "stock": 10,
+    "category": "anklets",
     "material": "Premium Stainless Steel",
     "color": "gold"
   }

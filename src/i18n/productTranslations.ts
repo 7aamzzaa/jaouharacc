@@ -16,16 +16,6 @@ export const productTranslations: Record<string, { en: ProductTranslation; fr: P
     fr: { name: "Créoles Aura Solitaire Diamant", description: "Élégantes créoles plaquées or jaune 18k ornées de magnifiques diamants solitaires micropavés. Un ensemble radieux au contraste saisissant qui apporte une sophistication intemporelle aux tenues de soirée.", material: "Or Jaune 18k", color: "Or" },
     ar: { name: "أقراط Aura Solitaire الماسية", description: "أقراط حلقية أنيقة مطليّة بالذهب الأصفر عيار 18k، مرصعة بألماس سوليتير ميكرو بافي رائع. مجموعة مشرقة عالية التباين تضفي لمسة من الأناقة الخالدة على ملابس السهرة.", material: "ذهب أصفر 18k", color: "ذهبي" },
   },
-  "prod-11": {
-    en: { name: "Seaside Baroque Pearl Anklet", description: "An elegant double-layered ankle chain handcrafted in 14k gold with tiny sparkling baroque dangling pearls. Captures a calm resort mood while reflecting light.", material: "14k Yellow Gold", color: "Gold" },
-    fr: { name: "Cheville Baroque Seaside Perle", description: "Un élégant bracelet de cheville à double rangée, fabriqué à la main en or 14k avec de minuscules perles baroques scintillantes. Capture l'esprit serein des stations balnéaires tout en réfléchissant la lumière.", material: "Or Jaune 14k", color: "Or" },
-    ar: { name: "خلخال Seaside الباروك باللؤلؤ", description: "خلخال أنيق مزدوج الطبقات مشغول يدويًا من الذهب عيار 14k مع لآلئ باروكية صغيرة متدلية ومتلألئة. يجسد أجواء المنتجع الهادئة بينما يعكس الضوء.", material: "ذهب أصفر 14k", color: "ذهبي" },
-  },
-  "prod-17": {
-    en: { name: "Aura Solitaire Diamond Crown Ring", description: "A breathtaking brilliant-cut 1.5 carat diamond-alternative solitaire set within shimmering micro-pave 18k yellow gold bands. Elegant, timeless, and radiant.", material: "18k Yellow Gold", color: "Gold" },
-    fr: { name: "Bague Couronne Aura Solitaire Diamant", description: "Un solitaire à coupe brillante de 1,5 carat alternatif au diamant, à couper le souffle, serti dans des bagues en or jaune 18k micropavées étincelantes. Élégante, intemporelle et rayonnante.", material: "Or Jaune 18k", color: "Or" },
-    ar: { name: "خاتم تاج Aura Solitaire الماسي", description: "خاتم سوليتير مذهل مقطوع بريليانت 1.5 قيراط بديل الماس، مرصع داخل أشرطة ذهبية صفراء عيار 18k بميكرو بافي متلألئ. أنيق وخالد ومشرق.", material: "ذهب أصفر 18k", color: "ذهبي" },
-  },
   "prod-48": {
     en: { name: "Zahra Moroccan Gold Bridal Set", description: "A gorgeous traditional set. Includes an intricately detailed Moroccan filigree collar and matching statement earrings.", material: "21k Gold Plated Brass", color: "Gold" },
     fr: { name: "Parure de Mariée Zahra Marocaine Or", description: "Un magnifique ensemble traditionnel. Comprend un collier en filigrane marocain richement détaillé et des boucles d'oreilles imposantes assorties.", material: "Laiton Doré à l'Or 21k", color: "Or" },
@@ -325,5 +315,75 @@ export const productTranslations: Record<string, { en: ProductTranslation; fr: P
     en: { name: "Gold Queen Necklace", description: "Discover the Gold Queen Necklace, a premium stainless steel necklace with a regal gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
     fr: { name: "Collier Reine Or", description: "Découvrez le Collier Reine Or, un collier premium en acier inoxydable avec une finition or royale. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
     ar: { name: "قلادة الملكة الذهبية", description: "اكتشفي قلادة الملكة الذهبية، قلادة ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية ملكية. مصممة للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-110": {
+    en: { name: "Gold Luster Bracelet", description: "Discover the Gold Luster Bracelet, a premium stainless steel bracelet with a brilliant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Bracelet Lustre Or", description: "Découvrez le Bracelet Lustre Or, un bracelet premium en acier inoxydable avec une finition or brillante. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "سوار لمعان ذهبي", description: "اكتشفي السوار اللامع الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية لامعة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-111": {
+    en: { name: "Gold Radiance Anklet", description: "Discover the Gold Radiance Anklet, a premium stainless steel anklet with a brilliant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Chevillère Éclat Or", description: "Découvrez la Chevillère Éclat Or, une chevillère premium en acier inoxydable avec une finition or brillante. Conçue pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خلخال متألق ذهبي", description: "اكتشفي الخلخال المتألق الذهبي، خلخال ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية لامعة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-112": {
+    en: { name: "Gold Glow Anklet", description: "Discover the Gold Glow Anklet, a premium stainless steel anklet with a radiant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Chevillère Lueur Or", description: "Découvrez la Chevillère Lueur Or, une chevillère premium en acier inoxydable avec une finition or rayonnante. Conçue pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خلخال متوهج ذهبي", description: "اكتشفي الخلخال المتوهج الذهبي، خلخال ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مشعة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-113": {
+    en: { name: "Gold Spark Anklet", description: "Discover the Gold Spark Anklet, a premium stainless steel anklet with a dazzling gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Chevillère Étincelle Or", description: "Découvrez la Chevillère Étincelle Or, une chevillère premium en acier inoxydable avec une finition or éblouissante. Conçue pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خلخال متألق ذهبي", description: "اكتشفي الخلخال المتألق الذهبي، خلخال ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مبهرة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-114": {
+    en: { name: "Gold Dazzle Anklet", description: "Discover the Gold Dazzle Anklet, a premium stainless steel anklet with a brilliant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Chevillère Éclat Or", description: "Découvrez la Chevillère Éclat Or, une chevillère premium en acier inoxydable avec une finition or brillante. Conçue pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خلخال براق ذهبي", description: "اكتشفي الخلخال البراق الذهبي، خلخال ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية لامعة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-115": {
+    en: { name: "Gold Gleam Anklet", description: "Discover the Gold Gleam Anklet, a premium stainless steel anklet with a luminous gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Chevillère Lueur Or", description: "Découvrez la Chevillère Lueur Or, une chevillère premium en acier inoxydable avec une finition or lumineuse. Conçue pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خلخال لامع ذهبي", description: "اكتشفي الخلخال اللامع الذهبي، خلخال ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية متألقة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-116": {
+    en: { name: "Gold Flare Anklet", description: "Discover the Gold Flare Anklet, a premium stainless steel anklet with a radiant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Chevillère Flamme Or", description: "Découvrez la Chevillère Flamme Or, une chevillère premium en acier inoxydable avec une finition or rayonnante. Conçue pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خلخال متوهج ذهبي", description: "اكتشفي الخلخال المتوهج الذهبي، خلخال ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مشعة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-117": {
+    en: { name: "Gold Jubilee Anklet", description: "Discover the Gold Jubilee Anklet, a premium stainless steel anklet with a celebratory gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Chevillère Jubilé Or", description: "Découvrez la Chevillère Jubilé Or, une chevillère premium en acier inoxydable avec une finition or célébratoire. Conçue pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خلخال اليوبيل الذهبي", description: "اكتشفي خلخال اليوبيل الذهبي، خلخال ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية احتفالية. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-118": {
+    en: { name: "Gold Haven Anklet", description: "Discover the Gold Haven Anklet, a premium stainless steel anklet with a serene gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Chevillère Havre Or", description: "Découvrez la Chevillère Havre Or, une chevillère premium en acier inoxydable avec une finition or sereine. Conçue pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خلخال الملاذ الذهبي", description: "اكتشفي خلخال الملاذ الذهبي، خلخال ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية هادئة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-119": {
+    en: { name: "Gold Ivory Anklet", description: "Discover the Gold Ivory Anklet, a premium stainless steel anklet with a lustrous gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Chevillère Ivoire Or", description: "Découvrez la Chevillère Ivoire Or, une chevillère premium en acier inoxydable avec une finition or lustrée. Conçue pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خلخال عاجي ذهبي", description: "اكتشفي الخلخال العاجي الذهبي، خلخال ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية لامعة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-120": {
+    en: { name: "Gold Gem Anklet", description: "Discover the Gold Gem Anklet, a premium stainless steel anklet with a precious gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Chevillère Gemme Or", description: "Découvrez la Chevillère Gemme Or, une chevillère premium en acier inoxydable avec une finition or précieuse. Conçue pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خلخال الجوهرة الذهبي", description: "اكتشفي خلخال الجوهرة الذهبي، خلخال ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية ثمينة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-121": {
+    en: { name: "Gold Kindred Anklet", description: "Discover the Gold Kindred Anklet, a premium stainless steel anklet with a warm gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Chevillère Douce Or", description: "Découvrez la Chevillère Douce Or, une chevillère premium en acier inoxydable avec une finition or chaleureuse. Conçue pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خلخال قريب ذهبي", description: "اكتشفي الخلخال القريب الذهبي، خلخال ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية دافئة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-122": {
+    en: { name: "Gold Lark Anklet", description: "Discover the Gold Lark Anklet, a premium stainless steel anklet with a brilliant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Chevillère Alouette Or", description: "Découvrez la Chevillère Alouette Or, une chevillère premium en acier inoxydable avec une finition or brillante. Conçue pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خلخال قبرة ذهبي", description: "اكتشفي خلخال القبرة الذهبي، خلخال ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية لامعة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-123": {
+    en: { name: "Gold Mirage Anklet", description: "Discover the Gold Mirage Anklet, a premium stainless steel anklet with a radiant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Chevillère Mirage Or", description: "Découvrez la Chevillère Mirage Or, une chevillère premium en acier inoxydable avec une finition or rayonnante. Conçue pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "خلخال السراب الذهبي", description: "اكتشفي خلخال السراب الذهبي، خلخال ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مشعة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
   },
 };

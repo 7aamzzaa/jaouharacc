@@ -146,11 +146,6 @@ export const fr: Record<string, any> = {
         jewelry_sets: 'Parures de haute joaillerie \u00e0 couper le souffle, ensembles th\u00e9matiques et collections compl\u00e8tes cur\u00e9es pour les mariages et les grandes soir\u00e9es.',
       },
     },
-    banner: {
-      label: 'Vitrine Exclusive',
-      heading: 'L\u2019Art des Beaux Colliers',
-      desc: 'Styles patrimoniaux d\u2019ing\u00e9nierie de pr\u00e9cision, fabriqu\u00e9s \u00e0 la main selon des crit\u00e8res rigoureux de conception de bijouterie fine.',
-    },
     filters: {
       show: 'Afficher les Filtres',
       hide: 'Masquer les Filtres',

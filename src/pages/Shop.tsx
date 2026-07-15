@@ -122,37 +122,6 @@ export default function Shop({
         </p>
       </div>
 
-      {/* Showcase Banner for Necklaces */}
-      {selectedCategory.toLowerCase() === 'necklaces' && (
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="w-full relative overflow-hidden rounded-xl border border-champagne-100/50 shadow-sm"
-        >
-          <div className="aspect-[21/9] sm:aspect-[24/10] md:aspect-[3/1] w-full">
-            <img
-              src="/images/necklaces_banner.png"
-              alt="Bespoke Necklaces Collection"
-              className="w-full h-full object-cover object-center transform hover:scale-[1.01] transition-transform duration-700"
-            />
-          </div>
-          <div className="absolute inset-0 bg-gradient-to-t from-stone-950/50 via-stone-900/10 to-transparent flex items-end">
-            <div className="p-6 sm:p-10 text-white space-y-2">
-              <span className="text-[10px] tracking-[0.25em] font-sans uppercase font-semibold text-amber-200">
-                {t('shop.banner.label')}
-              </span>
-              <h2 className="font-serif text-xl sm:text-3xl font-semibold tracking-wide text-white">
-                {t('shop.banner.heading')}
-              </h2>
-              <p className="text-stone-200 text-[10px] sm:text-xs max-w-lg leading-relaxed font-sans hidden sm:block">
-                {t('shop.banner.desc')}
-              </p>
-            </div>
-          </div>
-        </motion.div>
-      )}
-
       {/* Filtering + Sorting Control Bar */}
       <div className="flex flex-col md:flex-row gap-4 justify-between items-center bg-white p-5 border border-champagne-100/50 rounded-lg">
         

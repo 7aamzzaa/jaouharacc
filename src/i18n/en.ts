@@ -146,11 +146,6 @@ export const en: Record<string, any> = {
         jewelry_sets: 'Breathtaking high-jewelry parures, themed suites, and complete sets curated for weddings and grand soirees.',
       },
     },
-    banner: {
-      label: 'Exclusive Showcase',
-      heading: 'The Art of Fine Necklaces',
-      desc: 'Precision-engineered heritage styles, handcrafted under rigorous covenants of fine jewelry design.',
-    },
     filters: {
       show: 'Show Filters',
       hide: 'Hide Filters',
