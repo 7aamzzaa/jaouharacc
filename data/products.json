@@ -1755,5 +1755,31 @@
     "category": "jewelry_sets",
     "material": "Premium Stainless Steel",
     "color": "gold"
+  },
+  {
+    "id": "prod-189",
+    "name": "Gold Bust Jewelry Set",
+    "description": "Discover the Gold Bust Jewelry Set, a premium stainless steel jewelry set with a radiant gold finish. This exquisite matching set includes coordinated pieces designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/B21.jpg"
+    ],
+    "stock": 10,
+    "category": "jewelry_sets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-190",
+    "name": "Gold Calm Jewelry Set",
+    "description": "Discover the Gold Calm Jewelry Set, a premium stainless steel jewelry set with a radiant gold finish. This exquisite matching set includes coordinated pieces designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/B22.jpg"
+    ],
+    "stock": 10,
+    "category": "jewelry_sets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
   }
 ]
