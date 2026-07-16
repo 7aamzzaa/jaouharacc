@@ -490,4 +490,75 @@ export const blogTranslations: Record<string, { en: BlogTranslation; fr: BlogTra
       tags: ['morocco', 'heritage', 'design', 'craftsmanship', 'inspiration'],
     },
   },
+  'blog-13': {
+    en: {
+      title: "Top Trends in Women's Accessories to Elevate Your Look",
+      excerpt: "Discover the must-have accessories trends for the modern woman — from statement earrings to layered necklaces and stackable bracelets.",
+      content: `<p>Accessories have always been the secret weapon of stylish women everywhere. The right piece can transform even the simplest outfit into something memorable. This season, we're seeing fresh trends that celebrate boldness, individuality, and timeless elegance. Here are the top trends in women's accessories to elevate your look.</p>
+<h2>1. Statement Earrings — Bold & Beautiful</h2>
+<p>Oversized hoops, chandelier designs, and sculptural drops are dominating the accessories scene. Whether you choose gold, silver, or mixed metals, statement earrings draw the eye and anchor your entire look.</p>
+<p><strong>How to wear them:</strong> Keep the rest of your jewelry minimal. Let your earrings do the talking by pairing them with a sleek updo or slicked-back hair.</p>
+<h2>2. Layered Necklaces — More Is More</h2>
+<p>The layered necklace trend shows no signs of slowing down. Mix different chain lengths, textures, and pendants for an effortlessly curated look.</p>
+<p><strong>Styling tip:</strong> Start with a choker-length chain, add a mid-length pendant, and finish with a longer, delicate chain. Stick to a cohesive metal tone for a polished effect.</p>
+<h2>3. Stackable Bracelets & Bangles</h2>
+<p>From thin chain bracelets to chunky cuffs, stacking is the name of the game. Mix textures — smooth, textured, beaded — for visual interest.</p>
+<p><strong>The rule of thumb:</strong> Odd numbers create the most pleasing visual arrangements. Try stacking three to five bracelets on one wrist for the perfect balance.</p>
+<h2>4. The Rise of Adjustable Anklets</h2>
+<p>Anklets are back and more versatile than ever. Modern gold anklets with delicate charms or minimalist chains add a subtle sparkle to any footwear, from sneakers to sandals.</p>
+<p><strong>Why we love them:</strong> They're playful yet sophisticated, and they work year-round with cropped pants, skirts, and dresses.</p>
+<h2>5. Contemporary Gold Jewelry Sets</h2>
+<p>Matching sets are no longer just for formal occasions. Coordinated earrings, necklaces, and bracelets in sleek gold finishes offer effortless elegance for everyday wear.</p>
+<p><strong>Pro tip:</strong> Choose sets with clean lines and subtle detailing. They're versatile enough to wear together for a cohesive look or separately as individual statement pieces.</p>
+<p>Ready to refresh your accessories collection? Explore our latest arrivals and discover pieces that speak to your personal style.</p>`,
+      category: 'Fashion Tips',
+      tags: ['trends', 'accessories', 'fashion', 'styling', 'jewelry'],
+    },
+    fr: {
+      title: "Les Tendances des Accessoires Féminins pour Sublimer Votre Look",
+      excerpt: "Découvrez les tendances accessoires incontournables pour la femme moderne — des boucles d'oreilles statement aux colliers superposés et bracelets empilables.",
+      content: `<p>Les accessoires ont toujours été l'arme secrète des femmes stylées. La bonne pièce peut transformer la tenue la plus simple en quelque chose de mémorable. Cette saison, nous voyons de nouvelles tendances qui célèbrent l'audace, l'individualité et l'élégance intemporelle. Voici les principales tendances des accessoires féminins pour sublimer votre look.</p>
+<h2>1. Boucles d'Oreilles Statement — Audacieuses & Magnifiques</h2>
+<p>Les créoles oversize, les designs en lustre et les drops sculpturaux dominent la scène des accessoires. Que vous choisissiez l'or, l'argent ou les métaux mélangés, les boucles d'oreilles statement attirent le regard et ancrent votre look.</p>
+<p><strong>Comment les porter :</strong> Gardez le reste de vos bijoux minimal. Laissez vos boucles d'oreilles parler en les associant à un chignon élégant ou des cheveux lissés en arrière.</p>
+<h2>2. Colliers Superposés — Le Plus Est Mieux</h2>
+<p>La tendance des colliers superposés ne montre aucun signe de ralentissement. Mélangez différentes longueurs de chaînes, textures et pendentifs pour un look naturellement curé.</p>
+<p><strong>Conseil de style :</strong> Commencez avec une chaîne ras-du-cou, ajoutez un pendentif mi-longueur, et terminez avec une chaîne longue et délicate. Restez dans une tonalité métallique cohérente pour un effet poli.</p>
+<h2>3. Bracelets & Bangles Empilables</h2>
+<p>Des chaînes fines aux manchettes épaisses, l'empilage est le mot d'ordre. Mélangez les textures — lisse, texturée, perlée — pour un intérêt visuel.</p>
+<p><strong>La règle d'or :</strong> Les nombres impairs créent les arrangements visuels les plus agréables. Essayez d'empiler trois à cinq bracelets sur un poignet pour l'équilibre parfait.</p>
+<h2>4. L'Ascension des Chevilles Ajustables</h2>
+<p>Les chevillières sont de retour et plus polyvalentes que jamais. Les chevillières modernes en or avec des charms délicats ou des chaînes minimalistes ajoutent une étincelle subtile à toutes les chaussures, des baskets aux sandales.</p>
+<p><strong>Pourquoi nous les aimons :</strong> Elles sont ludiques mais sophistiquées, et fonctionnent toute l'année avec des pantalons cropped, des jupes et des robes.</p>
+<h2>5. Parures de Bijoux en Or Contemporaines</h2>
+<p>Les ensembles assortis ne sont plus réservés aux occasions formelles. Boucles d'oreilles, colliers et bracelets coordonnés dans des finitions or élégantes offrent une élégance sans effort pour le quotidien.</p>
+<p><strong>Conseil pro :</strong> Choisissez des ensembles aux lignes épurées et aux détails subtils. Ils sont assez polyvalents pour être portés ensemble pour un look cohérent ou séparément comme pièces fortes individuelles.</p>
+<p>Prête à renouveler votre collection d'accessoires ? Explorez nos dernières arrivées et découvrez des pièces qui parlent à votre style personnel.</p>`,
+      category: 'Conseils Mode',
+      tags: ['tendances', 'accessoires', 'mode', 'styling', 'bijoux'],
+    },
+    ar: {
+      title: "أحدث صيحات الإكسسوارات النسائية لتعزيز إطلالتك",
+      excerpt: "اكتشفي صيحات الإكسسوارات التي لا غنى عنها للمرأة العصرية — من الأقراط الجريئة إلى القلائد المتدرجة والأساور القابلة للتكديس.",
+      content: `<p>كانت الإكسسوارات دائمًا السلاح السري للمرأة الأنيقة في كل مكان. القطعة المناسبة يمكنها تحويل أبسط إطلالة إلى شيء لا يُنسى. هذا الموسم، نشهد صيحات جديدة تحتفي بالجرأة والتفرد والأناقة الخالدة. إليك أهم صيحات الإكسسوارات النسائية لتعزيز إطلالتك.</p>
+<h2>1. الأقراط الجريئة — جريئة وجميلة</h2>
+<p>الأقراط الكبيرة الحجم، تصاميم الثريا، والأقراط النحتية تهيمن على مشهد الإكسسوارات. سواء اخترت الذهب أو الفضة أو المعادن المختلطة، الأقراط الجريئة تجذب الأنظار وتثبت إطلالتك بالكامل.</p>
+<p><strong>كيفية ارتدائها :</strong> حافظي على بقية مجوهراتك بسيطة. دعي أقراطك تتحدث من خلال تسريحة شعر مرفوعة أنيقة أو شعر ممشط للخلف.</p>
+<h2>2. القلائد المتدرجة — الأكثر هو الأفضل</h2>
+<p>صيحة القلائد المتدرجة لا تظهر أي علامات على التباطؤ. اخلطي أطوال سلاسل مختلفة، وأنسجة، وقلادات للحصول على إطلالة منسقة بجهد.</p>
+<p><strong>نصيحة تنسيق :</strong> ابدئي بسلسلة بطول الطوق، أضيفي قلادة متوسطة الطول، وانتهي بسلسلة أطول ورقيقة. التزمي بنغمة معدنية متماسكة للحصول على تأثير مصقول.</p>
+<h2>3. الأساور القابلة للتكديس</h2>
+<p>من السلاسل الرفيعة إلى الأصفاد السميكة، التكديس هو اسم اللعبة. اخلطي الأنسجة — الناعم والمحكم والمخرز — للإثارة البصرية.</p>
+<p><strong>القاعدة الأساسية :</strong> الأرقام الفردية تخلق الترتيبات البصرية الأكثر إرضاءً. جربي تكديس ثلاثة إلى خمسة أساور على معصم واحد للتوازن المثالي.</p>
+<h2>4. صعود الخلاخيل القابلة للتعديل</h2>
+<p>الخلاخيل عادت وأكثر تنوعاً من أي وقت مضى. الخلاخيل الذهبية العصرية مع تمائم رقيقة أو سلاسل بسيطة تضيف بريقاً خفيفاً لأي حذاء، من الأحذية الرياضية إلى الصنادل.</p>
+<p><strong>لماذا نحبها :</strong> إنها مرحة وأنيقة في نفس الوقت، وتعمل على مدار السنة مع البناطيل المقطعة والتنورات والفساتين.</p>
+<h2>5. مجموعات المجوهرات الذهبية المعاصرة</h2>
+<p>المجموعات المتناسقة لم تعد فقط للمناسبات الرسمية. أقراط وقلائد وأساور منسقة بتشطيبات ذهبية أنيقة تقدم أناقة بلا جهد للارتداء اليومي.</p>
+<p><strong>نصيحة خبيرة :</strong> اختاري مجموعات ذات خطوط نظيفة وتفاصيل دقيقة. إنها متعددة الاستخدامات بما يكفي لارتدائها معاً للحصول على إطلالة متماسكة أو بشكل منفصل كقطع فردية جريئة.</p>
+<p>هل أنت مستعدة لتجديد مجموعة إكسسواراتك؟ استكشفي أحدث وصولاتنا واكتشفي قطعاً تتحدث إلى أسلوبك الشخصي.</p>`,
+      category: "نصائح موضة",
+      tags: ['صيحات', 'إكسسوارات', 'موضة', 'تنسيق', 'مجوهرات'],
+    },
+  },
 };

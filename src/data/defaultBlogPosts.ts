@@ -223,4 +223,32 @@ export const defaultBlogPosts: BlogPost[] = [
     date: '2026-03-18',
     tags: ['morocco', 'heritage', 'design', 'craftsmanship', 'inspiration'],
   },
+  {
+    id: 'blog-13',
+    title: "Top Trends in Women's Accessories to Elevate Your Look",
+    slug: 'top-trends-in-womens-accessories',
+    excerpt: "Discover the must-have accessories trends for the modern woman — from statement earrings to layered necklaces and stackable bracelets.",
+    content: `<p>Accessories have always been the secret weapon of stylish women everywhere. The right piece can transform even the simplest outfit into something memorable. This season, we're seeing fresh trends that celebrate boldness, individuality, and timeless elegance. Here are the top trends in women's accessories to elevate your look.</p>
+<h2>1. Statement Earrings — Bold & Beautiful</h2>
+<p>Oversized hoops, chandelier designs, and sculptural drops are dominating the accessories scene. Whether you choose gold, silver, or mixed metals, statement earrings draw the eye and anchor your entire look.</p>
+<p><strong>How to wear them:</strong> Keep the rest of your jewelry minimal. Let your earrings do the talking by pairing them with a sleek updo or slicked-back hair.</p>
+<h2>2. Layered Necklaces — More Is More</h2>
+<p>The layered necklace trend shows no signs of slowing down. Mix different chain lengths, textures, and pendants for an effortlessly curated look.</p>
+<p><strong>Styling tip:</strong> Start with a choker-length chain, add a mid-length pendant, and finish with a longer, delicate chain. Stick to a cohesive metal tone for a polished effect.</p>
+<h2>3. Stackable Bracelets & Bangles</h2>
+<p>From thin chain bracelets to chunky cuffs, stacking is the name of the game. Mix textures — smooth, textured, beaded — for visual interest.</p>
+<p><strong>The rule of thumb:</strong> Odd numbers create the most pleasing visual arrangements. Try stacking three to five bracelets on one wrist for the perfect balance.</p>
+<h2>4. The Rise of Adjustable Anklets</h2>
+<p>Anklets are back and more versatile than ever. Modern gold anklets with delicate charms or minimalist chains add a subtle sparkle to any footwear, from sneakers to sandals.</p>
+<p><strong>Why we love them:</strong> They're playful yet sophisticated, and they work year-round with cropped pants, skirts, and dresses.</p>
+<h2>5. Contemporary Gold Jewelry Sets</h2>
+<p>Matching sets are no longer just for formal occasions. Coordinated earrings, necklaces, and bracelets in sleek gold finishes offer effortless elegance for everyday wear.</p>
+<p><strong>Pro tip:</strong> Choose sets with clean lines and subtle detailing. They're versatile enough to wear together for a cohesive look or separately as individual statement pieces.</p>
+<p>Ready to refresh your accessories collection? Explore our latest arrivals and discover pieces that speak to your personal style.</p>`,
+    image: 'https://images.unsplash.com/photo-1606760227091-3dd870d97f1d?auto=format&fit=crop&q=80&w=1200',
+    category: 'Fashion Tips',
+    author: 'ccjaouhara Atelier',
+    date: '2026-07-16',
+    tags: ['trends', 'accessories', 'fashion', 'styling', 'jewelry'],
+  },
 ];
