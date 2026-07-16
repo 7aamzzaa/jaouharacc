@@ -1,21 +1,6 @@
 import { Product } from '../types';
 
 export const defaultProducts: Product[] = [
-
-  {
-    "id": "prod-9",
-    "name": "Aura Solitaire Diamond Hoops",
-    "description": "Elegant 18k yellow gold-plated hoop earrings featuring beautiful micro-pave solitaire diamonds. A radiant, high-contrast set bringing timeless sophistication to standard evening attire.",
-    "price": 245,
-    "images": [
-      "https://images.unsplash.com/photo-1635767798638-3e25273a8236?auto=format&fit=crop&q=80&w=800",
-      "https://images.unsplash.com/photo-1629224307470-990cc8760221?auto=format&fit=crop&q=80&w=800"
-    ],
-    "stock": 10,
-    "category": "earrings",
-    "material": "18k Yellow Gold",
-    "color": "Gold"
-  },
   {
     "id": "prod-48",
     "name": "Zahra Moroccan Gold Bridal Set",
@@ -1405,6 +1390,124 @@ export const defaultProducts: Product[] = [
     ],
     "stock": 10,
     "category": "bracelets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-160",
+    "name": "Gold Aria Earrings",
+    "description": "Discover the Gold Aria Earrings, premium stainless steel earrings with a luminous gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/A1.jpg"
+    ],
+    "stock": 10,
+    "category": "earrings",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-161",
+    "name": "Gold Adagio Earrings",
+    "description": "Discover the Gold Adagio Earrings, premium stainless steel earrings with a radiant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/A2.jpg"
+    ],
+    "stock": 10,
+    "category": "earrings",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-162",
+    "name": "Gold Allegro Earrings",
+    "description": "Discover the Gold Allegro Earrings, premium stainless steel earrings with a brilliant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/A3.jpg",
+      "/images/A33.jpg"
+    ],
+    "stock": 10,
+    "category": "earrings",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-163",
+    "name": "Gold Andante Earrings",
+    "description": "Discover the Gold Andante Earrings, premium stainless steel earrings with a graceful gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/A4.jpg"
+    ],
+    "stock": 10,
+    "category": "earrings",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-164",
+    "name": "Gold Arioso Earrings",
+    "description": "Discover the Gold Arioso Earrings, premium stainless steel earrings with a melodic gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/A5.jpg"
+    ],
+    "stock": 10,
+    "category": "earrings",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-165",
+    "name": "Gold Arpeggio Earrings",
+    "description": "Discover the Gold Arpeggio Earrings, premium stainless steel earrings with a harmonious gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/A6.jpg"
+    ],
+    "stock": 10,
+    "category": "earrings",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-166",
+    "name": "Gold Accento Earrings",
+    "description": "Discover the Gold Accento Earrings, premium stainless steel earrings with a striking gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/A7.jpg"
+    ],
+    "stock": 10,
+    "category": "earrings",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-167",
+    "name": "Gold Amoroso Earrings",
+    "description": "Discover the Gold Amoroso Earrings, premium stainless steel earrings with a tender gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/A8.jpg"
+    ],
+    "stock": 10,
+    "category": "earrings",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-168",
+    "name": "Gold Animato Earrings",
+    "description": "Discover the Gold Animato Earrings, premium stainless steel earrings with a spirited gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/A9.jpg"
+    ],
+    "stock": 10,
+    "category": "earrings",
     "material": "Premium Stainless Steel",
     "color": "gold"
   }

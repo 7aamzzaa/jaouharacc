@@ -6,12 +6,6 @@ export interface ProductTranslation {
 }
 
 export const productTranslations: Record<string, { en: ProductTranslation; fr: ProductTranslation; ar: ProductTranslation }> = {
-
-  "prod-9": {
-    en: { name: "Aura Solitaire Diamond Hoops", description: "Elegant 18k yellow gold-plated hoop earrings featuring beautiful micro-pave solitaire diamonds. A radiant, high-contrast set bringing timeless sophistication to standard evening attire.", material: "18k Yellow Gold", color: "Gold" },
-    fr: { name: "Créoles Aura Solitaire Diamant", description: "Élégantes créoles plaquées or jaune 18k ornées de magnifiques diamants solitaires micropavés. Un ensemble radieux au contraste saisissant qui apporte une sophistication intemporelle aux tenues de soirée.", material: "Or Jaune 18k", color: "Or" },
-    ar: { name: "أقراط Aura Solitaire الماسية", description: "أقراط حلقية أنيقة مطليّة بالذهب الأصفر عيار 18k، مرصعة بألماس سوليتير ميكرو بافي رائع. مجموعة مشرقة عالية التباين تضفي لمسة من الأناقة الخالدة على ملابس السهرة.", material: "ذهب أصفر 18k", color: "ذهبي" },
-  },
   "prod-48": {
     en: { name: "Zahra Moroccan Gold Bridal Set", description: "A gorgeous traditional set. Includes an intricately detailed Moroccan filigree collar and matching statement earrings.", material: "21k Gold Plated Brass", color: "Gold" },
     fr: { name: "Parure de Mariée Zahra Marocaine Or", description: "Un magnifique ensemble traditionnel. Comprend un collier en filigrane marocain richement détaillé et des boucles d'oreilles imposantes assorties.", material: "Laiton Doré à l'Or 21k", color: "Or" },
@@ -557,5 +551,50 @@ export const productTranslations: Record<string, { en: ProductTranslation; fr: P
     en: { name: "Gold Aura Bracelet", description: "Discover the Gold Aura Bracelet, a premium stainless steel bracelet with a luminous gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
     fr: { name: "Bracelet Aura Or", description: "Découvrez le Bracelet Aura Or, un bracelet premium en acier inoxydable avec une finition or lumineuse. Conçu pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
     ar: { name: "سوار الأورا الذهبي", description: "اكتشفي سوار الأورا الذهبي، سوار ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية متألقة. مصمم للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-160": {
+    en: { name: "Gold Aria Earrings", description: "Discover the Gold Aria Earrings, premium stainless steel earrings with a luminous gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Boucles d'Oreilles Aria Or", description: "Découvrez les Boucles d'Oreilles Aria Or, des boucles d'oreilles premium en acier inoxydable avec une finition or lumineuse. Conçues pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "أقراط أريا الذهبية", description: "اكتشفي أقراط أريا الذهبية، أقراط ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية متألقة. مصممة للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-161": {
+    en: { name: "Gold Adagio Earrings", description: "Discover the Gold Adagio Earrings, premium stainless steel earrings with a radiant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Boucles d'Oreilles Adagio Or", description: "Découvrez les Boucles d'Oreilles Adagio Or, des boucles d'oreilles premium en acier inoxydable avec une finition or rayonnante. Conçues pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "أقراط أداجيو الذهبية", description: "اكتشفي أقراط أداجيو الذهبية، أقراط ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مشعة. مصممة للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-162": {
+    en: { name: "Gold Allegro Earrings", description: "Discover the Gold Allegro Earrings, premium stainless steel earrings with a brilliant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Boucles d'Oreilles Allegro Or", description: "Découvrez les Boucles d'Oreilles Allegro Or, des boucles d'oreilles premium en acier inoxydable avec une finition or brillante. Conçues pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "أقراط أليجرو الذهبية", description: "اكتشفي أقراط أليجرو الذهبية، أقراط ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية لامعة. مصممة للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-163": {
+    en: { name: "Gold Andante Earrings", description: "Discover the Gold Andante Earrings, premium stainless steel earrings with a graceful gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Boucles d'Oreilles Andante Or", description: "Découvrez les Boucles d'Oreilles Andante Or, des boucles d'oreilles premium en acier inoxydable avec une finition or gracieuse. Conçues pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "أقراط أندانتي الذهبية", description: "اكتشفي أقراط أندانتي الذهبية، أقراط ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية رشيقة. مصممة للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-164": {
+    en: { name: "Gold Arioso Earrings", description: "Discover the Gold Arioso Earrings, premium stainless steel earrings with a melodic gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Boucles d'Oreilles Arioso Or", description: "Découvrez les Boucles d'Oreilles Arioso Or, des boucles d'oreilles premium en acier inoxydable avec une finition or mélodique. Conçues pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "أقراط أريوسو الذهبية", description: "اكتشفي أقراط أريوسو الذهبية، أقراط ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية لحنية. مصممة للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-165": {
+    en: { name: "Gold Arpeggio Earrings", description: "Discover the Gold Arpeggio Earrings, premium stainless steel earrings with a harmonious gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Boucles d'Oreilles Arpège Or", description: "Découvrez les Boucles d'Oreilles Arpège Or, des boucles d'oreilles premium en acier inoxydable avec une finition or harmonieuse. Conçues pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "أقراط الأربيجو الذهبية", description: "اكتشفي أقراط الأربيجو الذهبية، أقراط ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية متناغمة. مصممة للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-166": {
+    en: { name: "Gold Accento Earrings", description: "Discover the Gold Accento Earrings, premium stainless steel earrings with a striking gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Boucles d'Oreilles Accento Or", description: "Découvrez les Boucles d'Oreilles Accento Or, des boucles d'oreilles premium en acier inoxydable avec une finition or saisissante. Conçues pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "أقراط أكسينتو الذهبية", description: "اكتشفي أقراط أكسينتو الذهبية، أقراط ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية لافتة. مصممة للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-167": {
+    en: { name: "Gold Amoroso Earrings", description: "Discover the Gold Amoroso Earrings, premium stainless steel earrings with a tender gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Boucles d'Oreilles Amoroso Or", description: "Découvrez les Boucles d'Oreilles Amoroso Or, des boucles d'oreilles premium en acier inoxydable avec une finition or tendre. Conçues pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "أقراط أموروسو الذهبية", description: "اكتشفي أقراط أموروسو الذهبية، أقراط ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية ناعمة. مصممة للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
+  "prod-168": {
+    en: { name: "Gold Animato Earrings", description: "Discover the Gold Animato Earrings, premium stainless steel earrings with a spirited gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Boucles d'Oreilles Animato Or", description: "Découvrez les Boucles d'Oreilles Animato Or, des boucles d'oreilles premium en acier inoxydable avec une finition or animée. Conçues pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "أقراط أنيماتو الذهبية", description: "اكتشفي أقراط أنيماتو الذهبية، أقراط ممتازة من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مفعمة بالحيوية. مصممة للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
   },
 };
