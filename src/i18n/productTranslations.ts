@@ -702,4 +702,9 @@ export const productTranslations: Record<string, { en: ProductTranslation; fr: P
     fr: { name: "Ensemble de Bijoux Calm Or", description: "Découvrez l'Ensemble de Bijoux Calm Or, un ensemble de bijoux premium en acier inoxydable avec une finition or radieuse. Cet ensemble coordonné exquis comprend des pièces conçues pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
     ar: { name: "طقم مجوهرات كالم الذهبي", description: "اكتشفي طقم مجوهرات كالم الذهبي، طقم مجوهرات ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مشرقة. يشمل هذا الطقم المنسق الرائع قطعاً متناسقة مصممة للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
   },
+  "prod-191": {
+    en: { name: "Gold Blissful Jewelry Set", description: "Discover the Gold Blissful Jewelry Set, a premium stainless steel jewelry set with a radiant gold finish. This exquisite matching set includes coordinated pieces designed for women who appreciate timeless elegance and everyday sophistication.", material: "Premium Stainless Steel", color: "gold" },
+    fr: { name: "Ensemble de Bijoux Blissful Or", description: "Découvrez l'Ensemble de Bijoux Blissful Or, un ensemble de bijoux premium en acier inoxydable avec une finition or radieuse. Cet ensemble coordonné exquis comprend des pièces conçues pour les femmes qui apprécient l'élégance intemporelle et la sophistication quotidienne.", material: "Acier Inoxydable Premium", color: "Or" },
+    ar: { name: "طقم مجوهرات بليسفول الذهبي", description: "اكتشفي طقم مجوهرات بليسفول الذهبي، طقم مجوهرات ممتاز من الفولاذ المقاوم للصدأ بلمسة نهائية ذهبية مشرقة. يشمل هذا الطقم المنسق الرائع قطعاً متناسقة مصممة للنساء اللواتي يقدرن الأناقة الخالدة والرقي اليومي.", material: "فولاذ مقاوم للصدأ ممتاز", color: "ذهبي" },
+  },
 };

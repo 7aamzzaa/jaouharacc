@@ -1619,7 +1619,8 @@
     "description": "Discover the Gold Brio Jewelry Set, a premium stainless steel jewelry set with a radiant gold finish. This exquisite matching set includes coordinated pieces designed for women who appreciate timeless elegance and everyday sophistication.",
     "price": 9.9,
     "images": [
-      "/images/B10.jpg"
+      "/images/B10.jpg",
+      "/images/B1010.jpg"
     ],
     "stock": 10,
     "category": "jewelry_sets",
@@ -1776,6 +1777,21 @@
     "price": 9.9,
     "images": [
       "/images/B22.jpg"
+    ],
+    "stock": 10,
+    "category": "jewelry_sets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-191",
+    "name": "Gold Blissful Jewelry Set",
+    "description": "Discover the Gold Blissful Jewelry Set, a premium stainless steel jewelry set with a radiant gold finish. This exquisite matching set includes coordinated pieces designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/B0.jpg",
+      "/images/B00.jpg",
+      "/images/B000.jpg"
     ],
     "stock": 10,
     "category": "jewelry_sets",
