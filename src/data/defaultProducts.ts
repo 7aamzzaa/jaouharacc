@@ -1497,5 +1497,265 @@ export const defaultProducts: Product[] = [
     "category": "earrings",
     "material": "Premium Stainless Steel",
     "color": "gold"
+  },
+  {
+    "id": "prod-169",
+    "name": "Gold Aura Jewelry Set",
+    "description": "Discover the Gold Aura Jewelry Set, a premium stainless steel jewelry set with a radiant gold finish. This exquisite matching set includes coordinated pieces designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/B1.jpg"
+    ],
+    "stock": 10,
+    "category": "jewelry_sets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-170",
+    "name": "Gold Blossom Jewelry Set",
+    "description": "Discover the Gold Blossom Jewelry Set, a premium stainless steel jewelry set with a radiant gold finish. This exquisite matching set includes coordinated pieces designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/B2.jpg"
+    ],
+    "stock": 10,
+    "category": "jewelry_sets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-171",
+    "name": "Gold Belle Jewelry Set",
+    "description": "Discover the Gold Belle Jewelry Set, a premium stainless steel jewelry set with a radiant gold finish. This exquisite matching set includes coordinated pieces designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/B3.jpg"
+    ],
+    "stock": 10,
+    "category": "jewelry_sets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-172",
+    "name": "Gold Brilliante Jewelry Set",
+    "description": "Discover the Gold Brilliante Jewelry Set, a premium stainless steel jewelry set with a radiant gold finish. This exquisite matching set includes coordinated pieces designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/B4.jpg"
+    ],
+    "stock": 10,
+    "category": "jewelry_sets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-173",
+    "name": "Gold Bella Jewelry Set",
+    "description": "Discover the Gold Bella Jewelry Set, a premium stainless steel jewelry set with a radiant gold finish. This exquisite matching set includes coordinated pieces designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/B5.jpg"
+    ],
+    "stock": 10,
+    "category": "jewelry_sets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-174",
+    "name": "Gold Beau Jewelry Set",
+    "description": "Discover the Gold Beau Jewelry Set, a premium stainless steel jewelry set with a radiant gold finish. This exquisite matching set includes coordinated pieces designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/B6.jpg"
+    ],
+    "stock": 10,
+    "category": "jewelry_sets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-175",
+    "name": "Gold Bijou Jewelry Set",
+    "description": "Discover the Gold Bijou Jewelry Set, a premium stainless steel jewelry set with a radiant gold finish. This exquisite matching set includes coordinated pieces designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/B7.jpg"
+    ],
+    "stock": 10,
+    "category": "jewelry_sets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-176",
+    "name": "Gold Bliss Jewelry Set",
+    "description": "Discover the Gold Bliss Jewelry Set, a premium stainless steel jewelry set with a radiant gold finish. This exquisite matching set includes coordinated pieces designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/B8.jpg"
+    ],
+    "stock": 10,
+    "category": "jewelry_sets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-177",
+    "name": "Gold Bloom Jewelry Set",
+    "description": "Discover the Gold Bloom Jewelry Set, a premium stainless steel jewelry set with a radiant gold finish. This exquisite matching set includes coordinated pieces designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/B9.jpg"
+    ],
+    "stock": 10,
+    "category": "jewelry_sets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-178",
+    "name": "Gold Brio Jewelry Set",
+    "description": "Discover the Gold Brio Jewelry Set, a premium stainless steel jewelry set with a radiant gold finish. This exquisite matching set includes coordinated pieces designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/B10.jpg"
+    ],
+    "stock": 10,
+    "category": "jewelry_sets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-179",
+    "name": "Gold Brave Jewelry Set",
+    "description": "Discover the Gold Brave Jewelry Set, a premium stainless steel jewelry set with a radiant gold finish. This exquisite matching set includes coordinated pieces designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/B11.jpg"
+    ],
+    "stock": 10,
+    "category": "jewelry_sets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-180",
+    "name": "Gold Bright Jewelry Set",
+    "description": "Discover the Gold Bright Jewelry Set, a premium stainless steel jewelry set with a radiant gold finish. This exquisite matching set includes coordinated pieces designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/B12.jpg"
+    ],
+    "stock": 10,
+    "category": "jewelry_sets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-181",
+    "name": "Gold Brisk Jewelry Set",
+    "description": "Discover the Gold Brisk Jewelry Set, a premium stainless steel jewelry set with a radiant gold finish. This exquisite matching set includes coordinated pieces designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/B13.jpg"
+    ],
+    "stock": 10,
+    "category": "jewelry_sets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-182",
+    "name": "Gold Broad Jewelry Set",
+    "description": "Discover the Gold Broad Jewelry Set, a premium stainless steel jewelry set with a radiant gold finish. This exquisite matching set includes coordinated pieces designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/B14.jpg"
+    ],
+    "stock": 10,
+    "category": "jewelry_sets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-183",
+    "name": "Gold Brown Jewelry Set",
+    "description": "Discover the Gold Brown Jewelry Set, a premium stainless steel jewelry set with a radiant gold finish. This exquisite matching set includes coordinated pieces designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/B15.jpg"
+    ],
+    "stock": 10,
+    "category": "jewelry_sets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-184",
+    "name": "Gold Buff Jewelry Set",
+    "description": "Discover the Gold Buff Jewelry Set, a premium stainless steel jewelry set with a radiant gold finish. This exquisite matching set includes coordinated pieces designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/B16.jpg"
+    ],
+    "stock": 10,
+    "category": "jewelry_sets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-185",
+    "name": "Gold Bunch Jewelry Set",
+    "description": "Discover the Gold Bunch Jewelry Set, a premium stainless steel jewelry set with a radiant gold finish. This exquisite matching set includes coordinated pieces designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/B17.jpg"
+    ],
+    "stock": 10,
+    "category": "jewelry_sets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-186",
+    "name": "Gold Burl Jewelry Set",
+    "description": "Discover the Gold Burl Jewelry Set, a premium stainless steel jewelry set with a radiant gold finish. This exquisite matching set includes coordinated pieces designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/B18.jpg"
+    ],
+    "stock": 10,
+    "category": "jewelry_sets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-187",
+    "name": "Gold Burn Jewelry Set",
+    "description": "Discover the Gold Burn Jewelry Set, a premium stainless steel jewelry set with a radiant gold finish. This exquisite matching set includes coordinated pieces designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/B19.jpg"
+    ],
+    "stock": 10,
+    "category": "jewelry_sets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
+  },
+  {
+    "id": "prod-188",
+    "name": "Gold Burst Jewelry Set",
+    "description": "Discover the Gold Burst Jewelry Set, a premium stainless steel jewelry set with a radiant gold finish. This exquisite matching set includes coordinated pieces designed for women who appreciate timeless elegance and everyday sophistication.",
+    "price": 9.9,
+    "images": [
+      "/images/B20.jpg"
+    ],
+    "stock": 10,
+    "category": "jewelry_sets",
+    "material": "Premium Stainless Steel",
+    "color": "gold"
   }
 ];
