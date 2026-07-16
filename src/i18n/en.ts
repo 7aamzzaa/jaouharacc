@@ -369,6 +369,263 @@ export const en: Record<string, any> = {
     backHome: 'Back to Home',
   },
 
+  sizeGuide: {
+    seo: { title: 'Size Guide | ccjaouhara Fine Jewelry', desc: 'Find your perfect fit with our bracelet, ring, necklace, and anklet size guide.' },
+    label: 'Size Guide',
+    heading: 'Size Guide',
+    desc: 'Find your perfect fit with our detailed sizing instructions for bracelets, rings, necklaces, and anklets.',
+    tabs: ['Bracelets', 'Rings', 'Necklaces', 'Anklets'],
+    bracelet: {
+      title: 'Bracelet Sizing',
+      intro: 'Measure your wrist circumference just below the wrist bone using a flexible tape or a string.',
+      tip: 'Tip: Add 0.5"–1" to your wrist measurement for a comfortable fit. For a snug fit, add 0.25"–0.5".',
+      sizes: [
+        { label: 'Small (6.5")', wrist: '5.5"–6.0"', desc: 'Petite wrist profile' },
+        { label: 'Medium (7.0")', wrist: '6.0"–6.5"', desc: 'Standard popular fit' },
+        { label: 'Large (7.5")', wrist: '6.5"–7.0"', desc: 'Elegant draped fit' },
+      ],
+    },
+    ring: {
+      title: 'Ring Sizing',
+      intro: 'Measure the inner diameter of an existing ring or wrap a string around your finger and measure the circumference.',
+      tip: 'Tip: Measure at the end of the day when your fingers are warmest for the most accurate size.',
+      sizes: [
+        { label: 'US 5 (Small)', diameter: '15.7 mm', circumference: '49.3 mm' },
+        { label: 'US 6 (Medium)', diameter: '16.5 mm', circumference: '51.8 mm' },
+        { label: 'US 7 (Large)', diameter: '17.3 mm', circumference: '54.4 mm' },
+        { label: 'US 8 (X-Large)', diameter: '18.1 mm', circumference: '56.9 mm' },
+      ],
+    },
+    necklace: {
+      title: 'Necklace Sizing',
+      intro: 'Choose your necklace length based on where you want it to fall on your neckline.',
+      tip: 'Tip: Use a ribbon or string to simulate different lengths around your neck.',
+      sizes: [
+        { label: 'Choker (14"–16")', position: 'Sits close around the neck', desc: 'Perfect for high necklines' },
+        { label: 'Princess (17"–19")', position: 'Rest just below the collarbone', desc: 'Most popular length' },
+        { label: 'Matinee (20"–24")', position: 'Falls above the bust line', desc: 'Ideal for casual and workwear' },
+        { label: 'Opera (28"–36")', position: 'Reaches the sternum or waist', desc: 'Elegant layered look' },
+      ],
+    },
+    anklet: {
+      title: 'Anklet Sizing',
+      intro: 'Measure your ankle circumference just above the ankle bone using a flexible tape.',
+      tip: 'Tip: Add 0.5" for a relaxed fit. For anklets worn above the calf, measure at the widest point.',
+      sizes: [
+        { label: 'Small (9"–10")', ankle: '8"–9"', desc: 'Petite ankle' },
+        { label: 'Medium (10"–11")', ankle: '9"–10"', desc: 'Standard fit' },
+        { label: 'Large (11"–12")', ankle: '10"–11"', desc: 'Relaxed fit' },
+      ],
+    },
+  },
+
+  trackOrder: {
+    seo: { title: 'Track Order | ccjaouhara Fine Jewelry', desc: 'Track your ccjaouhara jewelry order in real time.' },
+    label: 'Track Order',
+    heading: 'Track Your Order',
+    desc: 'Enter your order reference ID and email to track your delivery status in real time.',
+    refLabel: 'Order Reference ID',
+    refPlaceholder: 'e.g. CCJ-XXXXXX',
+    emailLabel: 'Email Address',
+    emailPlaceholder: 'your@email.com',
+    submit: 'Track Order',
+    errorEmpty: 'Please enter your order reference ID and email.',
+    errorNotFound: 'Order not found. Please verify your reference ID and email.',
+    errorGeneric: 'Something went wrong. Please try again.',
+    successTitle: 'Order Found',
+    loading: 'Searching for your order...',
+    statusLabels: {
+      pending: 'Order Placed',
+      processing: 'Processing',
+      shipped: 'Shipped',
+      delivered: 'Delivered',
+      cancelled: 'Cancelled',
+    },
+    statusDescriptions: {
+      pending: 'Your order has been placed and is awaiting confirmation.',
+      processing: 'Your jewelry is being carefully prepared and packaged by our artisans.',
+      shipped: 'Your order has been dispatched and is on its way to you.',
+      delivered: 'Your order has been delivered. We hope you love it!',
+      cancelled: 'This order has been cancelled. Please contact support for more details.',
+    },
+    orderDetails: 'Order Details',
+    reference: 'Reference',
+    email: 'Email',
+    date: 'Date Placed',
+    status: 'Status',
+    items: 'Items',
+    total: 'Total',
+    help: 'Need help? Contact our support team.',
+    helpCta: 'Contact Us',
+  },
+
+  shipping: {
+    seo: { title: 'Shipping & Returns | ccjaouhara Fine Jewelry', desc: 'Learn about our shipping policy, delivery times, and return process.' },
+    label: 'Shipping & Returns',
+    heading: 'Shipping & Returns',
+    desc: 'Everything you need to know about delivery and returns at ccjaouhara.',
+    sections: [
+      {
+        title: 'Shipping Policy',
+        icon: 'Truck',
+        items: [
+          { q: 'Delivery Areas', a: 'We currently deliver across all cities in Morocco, including Casablanca, Rabat, Marrakech, Fes, Tangier, Agadir, and more.' },
+          { q: 'Delivery Time', a: 'Orders are processed within 24 hours and delivered within 2–5 business days depending on your location.' },
+          { q: 'Shipping Cost', a: 'Free shipping on all first-time orders. Standard shipping fee of 30 MAD applies to subsequent orders.' },
+          { q: 'Tracking', a: 'Once your order is dispatched, you will receive a tracking number via email and WhatsApp to monitor your delivery in real time.' },
+          { q: 'Cash on Delivery', a: 'We offer cash on delivery (COD) nationwide. You only pay when you receive and inspect your order.' },
+        ],
+      },
+      {
+        title: 'Return & Exchange Policy',
+        icon: 'RotateCcw',
+        items: [
+          { q: 'Return Window', a: 'You have 7 days from the date of delivery to request a return or exchange for unworn items.' },
+          { q: 'Condition', a: 'Items must be unworn, in their original packaging, and with all tags attached to be eligible for return.' },
+          { q: 'How to Initiate', a: 'Contact our support team via WhatsApp or email with your order reference to initiate a return. We will guide you through the process.' },
+          { q: 'Refund', a: 'Refunds are processed within 5–7 business days after we receive and inspect the returned item. The refund will be issued to your original payment method.' },
+          { q: 'Exchange', a: 'Exchanges are subject to availability. If your desired item is in stock, we will process the exchange immediately upon receiving your return.' },
+        ],
+      },
+      {
+        title: 'Important Notes',
+        icon: 'AlertCircle',
+        items: [
+          { q: 'Custom Pieces', a: 'Custom-made or personalized items are non-returnable unless there is a manufacturing defect.' },
+          { q: 'Damaged Items', a: 'If you receive a damaged or defective item, please contact us within 48 hours of delivery with photos for a swift resolution.' },
+          { q: 'Shipping Costs for Returns', a: 'Return shipping costs are borne by the customer unless the item is defective or we made an error with your order.' },
+        ],
+      },
+    ],
+    disclaimer: 'For any questions or concerns regarding shipping and returns, please don\'t hesitate to contact our support team. We are here to help!',
+    cta: 'Contact Support',
+  },
+
+  about: {
+    seo: { title: 'Our Story | ccjaouhara Fine Jewelry', desc: 'Discover the story behind ccjaouhara — where Moroccan heritage meets fine jewelry craftsmanship.' },
+    label: 'Our Story',
+    heading: 'Our Story',
+    desc: 'Where Moroccan heritage meets timeless elegance.',
+    hero: {
+      title: 'Crafted with Love, Worn with Pride',
+      desc: 'ccjaouhara was born from a passion for fine jewelry and a deep appreciation for Moroccan craftsmanship. Every piece tells a story of tradition, elegance, and the modern woman who wears it.',
+    },
+    mission: {
+      title: 'Our Mission',
+      desc: 'To provide every woman with access to exquisite, affordable fine jewelry that celebrates her unique beauty. We believe that luxury should be accessible without compromising on quality.',
+    },
+    values: {
+      title: 'Our Values',
+      items: [
+        { icon: 'Gem', title: 'Quality', desc: 'We use only premium materials — stainless steel with 18k gold plating — ensuring lasting beauty and durability.' },
+        { icon: 'Heart', title: 'Craftsmanship', desc: 'Every piece is carefully crafted by skilled artisans who pour their expertise and passion into each design.' },
+        { icon: 'Shield', title: 'Trust', desc: 'We stand behind every piece with a lifetime quality guarantee and a commitment to your satisfaction.' },
+        { icon: 'Globe', title: 'Accessibility', desc: 'We deliver across all Morocco with cash on delivery, making fine jewelry accessible to every woman.' },
+      ],
+    },
+    story: {
+      title: 'The ccjaouhara Journey',
+      paragraphs: [
+        'ccjaouhara began as a dream — to bring the beauty of Moroccan-inspired fine jewelry to women everywhere. Drawing inspiration from the rich tapestry of Moroccan art, architecture, and culture, each collection is a celebration of heritage reimagined for the modern wardrobe.',
+        'Our name, ccjaouhara, reflects our commitment to excellence. Every design begins as a sketch, evolving through careful selection of materials, precise craftsmanship, and rigorous quality control before reaching your hands.',
+        'From the bustling souks of Marrakech to the quiet ateliers of Casablanca, our journey is rooted in the traditions of Moroccan jewelry-making while embracing contemporary aesthetics. We work with local artisans who have inherited generations of knowledge, blending time-honored techniques with modern design sensibilities.',
+        'Today, ccjaouhara serves thousands of women across Morocco, each wearing our pieces with pride. We continue to innovate, expand, and refine our collections — always staying true to our core belief: every woman deserves the finest.',
+      ],
+    },
+    cta: 'Explore Our Collections',
+  },
+
+  press: {
+    seo: { title: 'Press | ccjaouhara Fine Jewelry', desc: 'Press resources, media coverage, and brand assets for ccjaouhara fine jewelry.' },
+    label: 'Press',
+    heading: 'Press & Media',
+    desc: 'Discover the latest press coverage, media resources, and brand stories from ccjaouhara.',
+    items: [
+      {
+        outlet: 'Vogue Maroc',
+        title: 'ccjaouhara : La Nouvelle Voix de la Bijouterie Marocaine',
+        excerpt: 'Découvrez comment ccjaouhara redéfinit l\'élégance marocaine avec ses collections de bijoux fins alliant tradition et modernité.',
+        url: '#',
+        date: '2026-03-15',
+      },
+      {
+        outlet: 'Elle Maroc',
+        title: 'Les Bijoux Indispensables de la Saison Selon ccjaouhara',
+        excerpt: 'La fondatrice de ccjaouhara partage ses conseils pour accessoiriser vos tenues avec les pièces incontournables de la saison.',
+        url: '#',
+        date: '2026-02-28',
+      },
+      {
+        outlet: 'Morocco World News',
+        title: 'Moroccan Jewelry Brand ccjaouhara Gains International Recognition',
+        excerpt: 'The Casablanca-based fine jewelry brand is capturing hearts worldwide with its unique blend of Moroccan heritage and contemporary design.',
+        url: '#',
+        date: '2026-02-10',
+      },
+      {
+        outlet: 'Harper\'s Bazaar Arabia',
+        title: 'The Rise of North African Fine Jewelry: Spotlight on ccjaouhara',
+        excerpt: 'From the ateliers of Casablanca to the global stage, ccjaouhara represents a new wave of North African luxury craftsmanship.',
+        url: '#',
+        date: '2026-01-22',
+      },
+      {
+        outlet: 'L\'Officiel Maroc',
+        title: 'ccjaouhara Dévoile sa Nouvelle Collection Printemps-Été 2026',
+        excerpt: 'Une collection inspirée par les couleurs et les textures du Maroc, mêlant l\'or, les pierres précieuses et un savoir-faire ancestral.',
+        url: '#',
+        date: '2026-01-05',
+      },
+    ],
+    contact: 'For press inquiries, please contact our team.',
+    cta: 'Contact Press Team',
+  },
+
+  faq: {
+    seo: { title: 'FAQ | ccjaouhara Fine Jewelry', desc: 'Frequently asked questions about our fine jewelry.' },
+    label: 'FAQ',
+    heading: 'Frequently Asked Questions',
+    desc: 'Find answers to common questions about our fine jewelry collections, ordering, shipping, and more.',
+    searchPlaceholder: 'Search questions...',
+    noResults: 'No matching questions found.',
+    clearSearch: 'Clear search',
+    contactCta: 'Still have questions? Contact Us',
+    items: [
+      {
+        q: 'What materials are your jewelry made of?',
+        a: 'Our jewelry is crafted from Premium Stainless Steel with 18k gold plating, ensuring durability, tarnish resistance, and a luxurious finish that lasts.',
+      },
+      {
+        q: 'Do you offer cash on delivery?',
+        a: 'Yes! We offer cash on delivery (COD) across all cities in Morocco. You pay only when you receive and inspect your order at your doorstep.',
+      },
+      {
+        q: 'How long does shipping take?',
+        a: 'We deliver within 2–5 business days across Morocco. Orders are processed within 24 hours and shipped via our trusted courier partners.',
+      },
+      {
+        q: 'What is your return policy?',
+        a: 'We offer a 7-day return policy for unworn items in their original packaging. Please contact our support team to initiate a return.',
+      },
+      {
+        q: 'How do I care for my jewelry?',
+        a: 'To maintain its shine, wipe your jewelry with a soft cloth after wearing, avoid contact with water and perfumes, and store in a dry place.',
+      },
+      {
+        q: 'Can I track my order?',
+        a: 'Yes, once your order is dispatched, you will receive a tracking number via email or WhatsApp to follow your delivery in real time.',
+      },
+      {
+        q: 'Do you ship internationally?',
+        a: 'Currently, we deliver exclusively within Morocco. We are working on expanding our shipping options to other countries.',
+      },
+      {
+        q: 'How can I contact customer support?',
+        a: 'You can reach us via WhatsApp, email at hello@ccjaouhara.ma, or through the contact form on our website. We respond within 24 hours.',
+      },
+    ],
+  },
+
   notFound: {
     label: 'Technical Error 404',
     heading: 'Untarnished Horizon',

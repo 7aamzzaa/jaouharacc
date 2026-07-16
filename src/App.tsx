@@ -21,6 +21,12 @@ import NotFound from './pages/NotFound';
 import Blog from './pages/Blog';
 import BlogArticle from './pages/BlogArticle';
 import Contact from './pages/Contact';
+import FAQ from './pages/FAQ';
+import SizeGuide from './pages/SizeGuide';
+import TrackOrder from './pages/TrackOrder';
+import Shipping from './pages/Shipping';
+import About from './pages/About';
+import Press from './pages/Press';
 
 export default function App() {
   const navigate = useNavigate();
@@ -173,6 +179,12 @@ export default function App() {
     if (pathname.startsWith('/admin')) return 'admin';
     if (pathname.startsWith('/cart')) return 'cart';
     if (pathname.startsWith('/checkout')) return 'checkout';
+    if (pathname.startsWith('/press')) return 'press';
+    if (pathname.startsWith('/about')) return 'about';
+    if (pathname.startsWith('/shipping')) return 'shipping';
+    if (pathname.startsWith('/track-order')) return 'track-order';
+    if (pathname.startsWith('/size-guide')) return 'size-guide';
+    if (pathname.startsWith('/faq')) return 'faq';
     if (pathname.startsWith('/contact')) return 'contact';
     return '';
   };
@@ -207,6 +219,24 @@ export default function App() {
       case 'checkout':
         navigate('/checkout');
         break;
+      case 'press':
+        navigate('/press');
+        break;
+      case 'about':
+        navigate('/about');
+        break;
+      case 'shipping':
+        navigate('/shipping');
+        break;
+      case 'track-order':
+        navigate('/track-order');
+        break;
+      case 'size-guide':
+        navigate('/size-guide');
+        break;
+      case 'faq':
+        navigate('/faq');
+        break;
       case 'contact':
         navigate('/contact');
         break;
@@ -239,6 +269,12 @@ export default function App() {
           <Route path="/order-confirmation" element={<OrderConfirmation onPageChange={handlePageChange} currency={currency} />} />
           <Route path="/blog" element={<Blog onPageChange={handlePageChange} currency={currency} />} />
           <Route path="/blog/:slug" element={<BlogArticleWithParams onPageChange={handlePageChange} currency={currency} />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/size-guide" element={<SizeGuide />} />
+          <Route path="/track-order" element={<TrackOrder />} />
+          <Route path="/shipping" element={<Shipping />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/press" element={<Press />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/admin" element={<AdminDashboard products={allProducts} orders={allOrders} isLoadingProducts={loadingProducts} isLoadingOrders={loadingOrders} onRefreshProducts={fetchProductsList} onRefreshOrders={fetchOrdersLogs} currency={currency} />} />
           <Route path="*" element={<NotFound onPageChange={handlePageChange} />} />

@@ -2,19 +2,6 @@ import { Product } from '../types';
 
 export const defaultProducts: Product[] = [
   {
-    "id": "prod-48",
-    "name": "Zahra Moroccan Gold Bridal Set",
-    "description": "A gorgeous traditional set. Includes an intricately detailed Moroccan filigree collar and matching statement earrings.",
-    "price": 1200,
-    "images": [
-      "https://images.unsplash.com/photo-1629224307470-990cc8760221?auto=format&fit=crop&q=80&w=800"
-    ],
-    "stock": 3,
-    "category": "jewelry_sets",
-    "material": "21k Gold Plated Brass",
-    "color": "Gold"
-  },
-  {
     "id": "prod-49",
     "name": "sansla",
     "description": "good sansla for girls",

@@ -84,8 +84,18 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
   };
 
   // Safe slice of items
-  const bestSellers = products.slice(0, 4);
-  const newArrivals = products.slice(4, 8);
+  const bestSellers = [
+    products.find(p => p.category === 'earrings'),
+    products.find(p => p.category === 'rings'),
+    products.find(p => p.category === 'bracelets'),
+    products.find(p => p.category === 'necklaces'),
+  ].filter(Boolean) as Product[];
+  const newArrivals = [
+    products.filter(p => p.category === 'anklets')[0],
+    products.filter(p => p.category === 'earrings')[1],
+    products.filter(p => p.category === 'rings')[1],
+    products.filter(p => p.category === 'bracelets')[1],
+  ].filter(Boolean) as Product[];
 
   const categories = [
     { name: t('home.categories.items')[0], image: 'https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?auto=format&fit=crop&q=80&w=600', id: 'bracelets' },

@@ -6,11 +6,6 @@ export interface ProductTranslation {
 }
 
 export const productTranslations: Record<string, { en: ProductTranslation; fr: ProductTranslation; ar: ProductTranslation }> = {
-  "prod-48": {
-    en: { name: "Zahra Moroccan Gold Bridal Set", description: "A gorgeous traditional set. Includes an intricately detailed Moroccan filigree collar and matching statement earrings.", material: "21k Gold Plated Brass", color: "Gold" },
-    fr: { name: "Parure de Mariée Zahra Marocaine Or", description: "Un magnifique ensemble traditionnel. Comprend un collier en filigrane marocain richement détaillé et des boucles d'oreilles imposantes assorties.", material: "Laiton Doré à l'Or 21k", color: "Or" },
-    ar: { name: "طقم زفاف زهرة المغربي الذهبي", description: "طقم تقليدي رائع. يشمل قلادة مشغولة بالفيليغران المغربي المعقد بتفاصيل دقيقة وأقراط مميزة متناسقة.", material: "نحاس مطلي بالذهب 21k", color: "ذهبي" },
-  },
   "prod-49": {
     en: { name: "sansla", description: "good sansla for girls", material: "gold", color: "gold" },
     fr: { name: "Sansla", description: "Belle sansla pour filles", material: "Or", color: "Or" },
