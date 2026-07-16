@@ -97,13 +97,14 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
     products.filter(p => p.category === 'bracelets')[1],
   ].filter(Boolean) as Product[];
 
+  const categoryProduct = (cat: string) => products.find(p => p.category === cat);
   const categories = [
-    { name: t('home.categories.items')[0], image: 'https://images.unsplash.com/photo-1602751584552-8ba73aad10e1?auto=format&fit=crop&q=80&w=600', id: 'bracelets' },
-    { name: t('home.categories.items')[1], image: 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&q=80&w=600', id: 'rings' },
-    { name: t('home.categories.items')[2], image: 'https://images.unsplash.com/photo-1635767798638-3e25273a8236?auto=format&fit=crop&q=80&w=600', id: 'earrings' },
-    { name: t('home.categories.items')[3], image: 'https://images.unsplash.com/photo-1543294001-f7cbfe92237e?auto=format&fit=crop&q=80&w=600', id: 'anklets' },
-    { name: t('home.categories.items')[4], image: 'https://images.unsplash.com/photo-1599643477877-530eb83abc8e?auto=format&fit=crop&q=80&w=600', id: 'necklaces' },
-    { name: t('home.categories.items')[5], image: 'https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=600', id: 'jewelry_sets' },
+    { name: t('home.categories.items')[0], image: categoryProduct('bracelets')?.images?.[0] || '/images/09.jpg', id: 'bracelets' },
+    { name: t('home.categories.items')[1], image: categoryProduct('rings')?.images?.[0] || '/images/01.jpg', id: 'rings' },
+    { name: t('home.categories.items')[2], image: categoryProduct('earrings')?.images?.[0] || '/images/A1.jpg', id: 'earrings' },
+    { name: t('home.categories.items')[3], image: categoryProduct('anklets')?.images?.[0] || '/images/anklet1.jpg', id: 'anklets' },
+    { name: t('home.categories.items')[4], image: categoryProduct('necklaces')?.images?.[0] || '/images/necklace1.jpg', id: 'necklaces' },
+    { name: t('home.categories.items')[5], image: categoryProduct('jewelry_sets')?.images?.[0] || '/images/set1.jpg', id: 'jewelry_sets' },
   ];
 
   // Motion variants
