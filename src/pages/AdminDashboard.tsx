@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { useTranslation } from '../i18n';
 import { 
   Database, Plus, Edit, Trash2, ShoppingBag, DollarSign, ListOrdered, 
-  Layers, Hammer, Archive, Sparkles, RefreshCw, X, Loader2, LogOut, Lock, Upload, Mail
+  Layers, Hammer, Archive, Sparkles, RefreshCw, X, Loader2, LogOut, Lock, Upload, Mail, Check
 } from 'lucide-react';
 import { Product, Order, ContactMessage } from '../types';
 import { showToast } from '../components/ToastContainer';
@@ -237,6 +237,22 @@ export default function AdminDashboard({
       onRefreshOrders();
     } catch (err: any) {
       showToast(err.message || 'Failed to delete order', true);
+    }
+  };
+
+  // Mark a message as Read
+  const handleMarkAsRead = async (id: string) => {
+    try {
+      const response = await fetch(`/api/messages/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'read' })
+      });
+      if (!response.ok) throw new Error('Mark as read failed');
+      showToast(t('admin.messagesTable.markReadSuccess'));
+      onRefreshMessages();
+    } catch (err: any) {
+      showToast(err.message || 'Failed to mark message as read', true);
     }
   };
 
@@ -996,7 +1012,7 @@ export default function AdminDashboard({
               const filtered = messages.filter(m => {
                 if (!messagesSearch) return true;
                 const q = messagesSearch.toLowerCase();
-                return (m.name || '').toLowerCase().includes(q) ||
+                return (m.fullName || '').toLowerCase().includes(q) ||
                   (m.email || '').toLowerCase().includes(q) ||
                   (m.phone || '').includes(q) ||
                   (m.subject || '').toLowerCase().includes(q);
@@ -1014,37 +1030,58 @@ export default function AdminDashboard({
                         <th className="p-4 font-semibold">{t('admin.messagesTable.from')}</th>
                         <th className="p-4 font-semibold">{t('admin.messagesTable.subject')}</th>
                         <th className="p-4 font-semibold">{t('admin.messagesTable.message')}</th>
+                        <th className="p-4 font-semibold">{t('admin.messagesTable.status')}</th>
                         <th className="p-4 font-semibold">{t('admin.messagesTable.date')}</th>
                         <th className="p-4 text-end font-semibold">{t('admin.ordersTable.actions')}</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-stone-105">
                       {filtered.map((m) => (
-                        <tr key={m.id} className="hover:bg-luxe-pink-50/20">
+                        <tr key={m.id} className={`hover:bg-luxe-pink-50/20 ${m.status === 'new' ? 'bg-champagne-50/30' : ''}`}>
                           <td className="p-4">
-                            <span className="font-semibold text-stone-900 block text-sm">{m.name}</span>
+                            <span className="font-semibold text-stone-900 block text-sm">{m.fullName}</span>
                             <span className="text-stone-500 block text-[11px]">{m.email}</span>
                             {m.phone && <span className="text-stone-400 block font-mono text-[10px]">{m.phone}</span>}
                           </td>
                           <td className="p-4 text-stone-700 font-medium max-w-[200px]">
-                            <span className="line-clamp-1">{m.subject}</span>
+                            <span className="line-clamp-1">{m.subject || '—'}</span>
                           </td>
                           <td className="p-4 text-stone-600 max-w-[300px]">
                             <p className="line-clamp-2 leading-relaxed text-[11px]">{m.message}</p>
                           </td>
+                          <td className="p-4">
+                            <span className={`inline-flex items-center px-2 py-1 text-[10px] font-semibold rounded-md border uppercase tracking-wide ${
+                              m.status === 'new'
+                                ? 'bg-amber-50 text-amber-700 border-amber-200'
+                                : 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                            }`}>
+                              {m.status === 'new' ? t('admin.messagesTable.new') : t('admin.messagesTable.read')}
+                            </span>
+                          </td>
                           <td className="p-4 text-stone-500 font-mono text-[11px] whitespace-nowrap">
-                            {new Date(m.created_at).toLocaleDateString(undefined, { dateStyle: 'medium' })}
+                            {new Date(m.createdAt).toLocaleDateString(undefined, { dateStyle: 'medium' })}
                             <br />
-                            <span className="text-[10px] text-stone-400">{new Date(m.created_at).toLocaleTimeString(undefined, { timeStyle: 'short' })}</span>
+                            <span className="text-[10px] text-stone-400">{new Date(m.createdAt).toLocaleTimeString(undefined, { timeStyle: 'short' })}</span>
                           </td>
                           <td className="p-4 text-end">
-                            <button
-                              onClick={() => handleDeleteMessage(m.id)}
-                              className="bg-white border border-stone-200 text-stone-600 hover:text-rose-500 hover:border-rose-350 p-2 rounded-md transition-colors"
-                              title={t('admin.messagesTable.delete')}
-                            >
-                              <Trash2 size={12} />
-                            </button>
+                            <div className="flex items-center justify-end gap-2">
+                              {m.status === 'new' && (
+                                <button
+                                  onClick={() => handleMarkAsRead(m.id)}
+                                  className="bg-white border border-stone-200 text-stone-600 hover:text-emerald-600 hover:border-emerald-300 p-2 rounded-md transition-colors"
+                                  title={t('admin.messagesTable.markRead')}
+                                >
+                                  <Check size={12} />
+                                </button>
+                              )}
+                              <button
+                                onClick={() => handleDeleteMessage(m.id)}
+                                className="bg-white border border-stone-200 text-stone-600 hover:text-rose-500 hover:border-rose-350 p-2 rounded-md transition-colors"
+                                title={t('admin.messagesTable.delete')}
+                              >
+                                <Trash2 size={12} />
+                              </button>
+                            </div>
                           </td>
                         </tr>
                       ))}

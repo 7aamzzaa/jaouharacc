@@ -14,6 +14,7 @@ import {
   deleteOrder,
   getMessages,
   createMessage,
+  updateMessageStatus,
   deleteMessage,
   getSupabaseClient
 } from './serverDB';
@@ -218,14 +219,37 @@ app.get('/api/messages', async (req, res) => {
 // Submit a contact message from the public form
 app.post('/api/messages', async (req, res) => {
   try {
-    const { name, email, phone, subject, message } = req.body;
-    if (!name || !email || !subject || !message) {
-      return res.status(400).json({ error: 'Name, email, subject, and message are required' });
+    const { fullName, email, phone, subject, message } = req.body;
+    if (!fullName || !email || !message) {
+      return res.status(400).json({ error: 'fullName, email, and message are required' });
     }
-    const created = await createMessage({ name, email, phone: phone || '', subject, message });
+    const created = await createMessage({
+      fullName,
+      email,
+      phone: phone || '',
+      subject: subject || '',
+      message
+    });
     res.json(created);
   } catch (err: any) {
     res.status(500).json({ error: 'Failed to save message', details: err.message });
+  }
+});
+
+// Mark message as read - Admin Area
+app.patch('/api/messages/:id', async (req, res) => {
+  try {
+    const { status } = req.body;
+    if (!status || !['new', 'read'].includes(status)) {
+      return res.status(400).json({ error: 'Status must be "new" or "read"' });
+    }
+    const updated = await updateMessageStatus(req.params.id, status);
+    if (!updated) {
+      return res.status(404).json({ error: 'Message not found' });
+    }
+    res.json(updated);
+  } catch (err: any) {
+    res.status(500).json({ error: 'Failed to update message status', details: err.message });
   }
 });
 

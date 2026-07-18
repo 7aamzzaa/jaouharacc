@@ -368,16 +368,26 @@ export async function getMessages(): Promise<ContactMessage[]> {
   }
 }
 
-export async function createMessage(msgData: Omit<ContactMessage, 'id' | 'created_at'>): Promise<ContactMessage> {
+export async function createMessage(msgData: Omit<ContactMessage, 'id' | 'createdAt' | 'status'>): Promise<ContactMessage> {
   const newMsg: ContactMessage = {
     ...msgData,
     id: 'MSG-' + Date.now() + '-' + Math.random().toString(36).substr(2, 6).toUpperCase(),
-    created_at: new Date().toISOString()
+    createdAt: new Date().toISOString(),
+    status: 'new'
   };
   const messages = await getMessages();
   messages.unshift(newMsg);
   fs.writeFileSync(MESSAGES_FILE, JSON.stringify(messages, null, 2), 'utf-8');
   return newMsg;
+}
+
+export async function updateMessageStatus(id: string, status: 'new' | 'read'): Promise<ContactMessage | null> {
+  const messages = await getMessages();
+  const idx = messages.findIndex(m => m.id === id);
+  if (idx === -1) return null;
+  messages[idx].status = status;
+  fs.writeFileSync(MESSAGES_FILE, JSON.stringify(messages, null, 2), 'utf-8');
+  return messages[idx];
 }
 
 export async function deleteMessage(id: string): Promise<boolean> {

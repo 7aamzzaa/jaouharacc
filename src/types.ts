@@ -55,12 +55,13 @@ export interface BlogPost {
 
 export interface ContactMessage {
   id: string;
-  name: string;
+  fullName: string;
   email: string;
   phone: string;
   subject: string;
   message: string;
-  created_at: string;
+  createdAt: string;
+  status: 'new' | 'read';
 }
 
 export interface CartItem {

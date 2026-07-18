@@ -10,7 +10,7 @@ export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState('');
-  const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
+  const [form, setForm] = useState({ fullName: '', email: '', phone: '', subject: '', message: '' });
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -27,7 +27,7 @@ export default function Contact() {
         throw new Error(data.error || 'Failed to send message');
       }
       setSubmitted(true);
-      setForm({ name: '', email: '', phone: '', subject: '', message: '' });
+      setForm({ fullName: '', email: '', phone: '', subject: '', message: '' });
       setTimeout(() => setSubmitted(false), 4000);
     } catch (err: any) {
       setError(err.message || 'Something went wrong. Please try again.');
@@ -73,8 +73,8 @@ export default function Contact() {
                   <input
                     type="text"
                     required
-                    value={form.name}
-                    onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
+                    value={form.fullName}
+                    onChange={e => setForm(f => ({ ...f, fullName: e.target.value }))}
                     className="w-full px-4 py-3 bg-stone-50 border border-champagne-150 rounded-lg text-xs text-stone-800 focus:outline-hidden focus:border-champagne-400 focus:bg-white transition-all font-sans"
                     placeholder={t('contact.namePlaceholder')}
                   />
@@ -106,7 +106,6 @@ export default function Contact() {
                   <label className="block text-[10px] tracking-widest uppercase font-bold text-stone-600 font-sans">{t('contact.subject')}</label>
                   <input
                     type="text"
-                    required
                     value={form.subject}
                     onChange={e => setForm(f => ({ ...f, subject: e.target.value }))}
                     className="w-full px-4 py-3 bg-stone-50 border border-champagne-150 rounded-lg text-xs text-stone-800 focus:outline-hidden focus:border-champagne-400 focus:bg-white transition-all font-sans"
