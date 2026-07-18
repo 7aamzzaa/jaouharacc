@@ -1,5 +1,104 @@
 [
   {
+    "id": "ORD-JQXGNXSJL",
+    "customer_name": "Fatima Zahra",
+    "customer_phone": "+212600000001",
+    "customer_email": "fatima@example.com",
+    "customer_country": "Morocco",
+    "customer_city": "Casablanca",
+    "customer_street": "123 Rue de la Mer",
+    "customer_apartment": "",
+    "payment_method": "cod",
+    "order_notes": "",
+    "items": [
+      {
+        "product_id": "prod-132",
+        "name": "Gold Origin Bracelet",
+        "price": 9.9,
+        "quantity": 1,
+        "selected_size": "M",
+        "image": "/images/09.jpg"
+      }
+    ],
+    "subtotal": 9.9,
+    "shipping_cost": 3,
+    "discount_amount": 0,
+    "discount_code": "",
+    "total": 12.9,
+    "status": "pending",
+    "created_at": "2026-07-18T17:14:41.117Z"
+  },
+  {
+    "id": "ORD-73SEMWP4G",
+    "customer_name": "x",
+    "customer_phone": "x",
+    "customer_email": "",
+    "customer_country": "Morocco 🇲🇦",
+    "customer_city": "x",
+    "customer_street": "x",
+    "customer_apartment": "",
+    "payment_method": "cod",
+    "order_notes": "",
+    "items": [
+      {
+        "name": "x",
+        "price": 10,
+        "quantity": 1,
+        "selected_size": "M",
+        "image": "x",
+        "product_id": "x"
+      }
+    ],
+    "subtotal": 0,
+    "shipping_cost": 0,
+    "discount_amount": 0,
+    "discount_code": "",
+    "total": 10,
+    "status": "pending",
+    "created_at": "2026-07-18T16:59:49.156Z"
+  },
+  {
+    "id": "ORD-CQJZ518S1",
+    "customer_name": "hahehazefd",
+    "customer_phone": "0699876745",
+    "customer_email": "",
+    "customer_country": "Morocco 🇲🇦",
+    "customer_city": "TAZA",
+    "customer_street": "TAZA lmelha",
+    "customer_apartment": "",
+    "payment_method": "cod",
+    "order_notes": "",
+    "items": [
+      {
+        "id": "prod-71-Medium (7.0\")",
+        "product_id": "prod-71",
+        "name": "Gold Classic Ring",
+        "price": 12,
+        "quantity": 1,
+        "selected_size": "Medium (7.0\")",
+        "image": "/images/1.jpg",
+        "max_stock": 9
+      },
+      {
+        "id": "prod-160-Medium (7.0\")",
+        "product_id": "prod-160",
+        "name": "Gold Aria Earrings",
+        "price": 9.9,
+        "quantity": 1,
+        "selected_size": "Medium (7.0\")",
+        "image": "/images/A1.jpg",
+        "max_stock": 9
+      }
+    ],
+    "subtotal": 21.9,
+    "shipping_cost": 0,
+    "discount_amount": 0,
+    "discount_code": "",
+    "total": 21.9,
+    "status": "pending",
+    "created_at": "2026-07-18T16:16:24.163Z"
+  },
+  {
     "id": "ORD-8GB25WA51",
     "customer_name": "fatiha zok ",
     "customer_phone": "+33605091987",

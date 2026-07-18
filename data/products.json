@@ -293,7 +293,7 @@
     "images": [
       "/images/1.jpg"
     ],
-    "stock": 9,
+    "stock": 8,
     "category": "rings",
     "material": "Premium Stainless Steel",
     "color": "gold"
@@ -1047,7 +1047,7 @@
     "images": [
       "/images/09.jpg"
     ],
-    "stock": 10,
+    "stock": 9,
     "category": "bracelets",
     "material": "Premium Stainless Steel",
     "color": "gold"
@@ -1385,7 +1385,7 @@
     "images": [
       "/images/A1.jpg"
     ],
-    "stock": 9,
+    "stock": 8,
     "category": "earrings",
     "material": "Premium Stainless Steel",
     "color": "gold"

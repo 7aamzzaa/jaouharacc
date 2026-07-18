@@ -276,10 +276,10 @@ export default function AdminDashboard({
       jewelry_sets: 0
     };
     products.forEach((p) => {
-      const cat = p.category.toLowerCase();
-      if (counts[cat] !== undefined) {
+      const cat = (p.category || '').toLowerCase();
+      if (cat && counts[cat] !== undefined) {
         counts[cat]++;
-      } else {
+      } else if (cat) {
         counts[cat] = 1;
       }
     });
@@ -705,10 +705,10 @@ export default function AdminDashboard({
                     return (
                       <tr key={p.id} className="hover:bg-luxe-pink-50/20">
                         <td className="p-4 flex items-center gap-3">
-                          <img src={p.images[0]} alt={p.name} className="w-10 h-10 object-cover rounded-sm border border-stone-150" />
+                          <img src={p.images?.[0]} alt={p.name || ''} className="w-10 h-10 object-cover rounded-sm border border-stone-150" />
                           <div>
-                            <span className="font-serif font-semibold text-stone-900 block text-sm">{p.name}</span>
-                            <span className="text-[10px] font-mono text-stone-400 block">{p.id.toUpperCase()}</span>
+                            <span className="font-serif font-semibold text-stone-900 block text-sm">{p.name || '—'}</span>
+                            <span className="text-[10px] font-mono text-stone-400 block">{(p.id || '').toUpperCase()}</span>
                           </div>
                         </td>
                         <td className="p-4 text-stone-600 font-medium whitespace-nowrap capitalize">
@@ -719,16 +719,16 @@ export default function AdminDashboard({
                             anklets: t('admin.catalog.anklets'),
                             necklaces: t('admin.catalog.necklaces'),
                             jewelry_sets: t('admin.catalog.jewelry_sets')
-                          }[p.category.toLowerCase()] || p.category)}
+                          }[(p.category || '').toLowerCase()] || p.category || '—')}
                         </td>
-                        <td className="p-4 text-stone-600 font-medium">{p.material}</td>
+                        <td className="p-4 text-stone-600 font-medium">{p.material || '—'}</td>
                         <td className="p-4 font-mono font-medium">
                           <span className={isLowStock ? 'text-rose-500 font-semibold' : 'text-stone-705'}>
-                            {t('admin.productsTable.units', { count: p.stock })} {isLowStock && t('admin.productsTable.lowStock')}
+                            {t('admin.productsTable.units', { count: p.stock ?? 0 })} {(p.stock <= 4) && t('admin.productsTable.lowStock')}
                           </span>
                         </td>
                         <td className="p-4 font-serif font-bold text-stone-900 text-sm">
-                          {currency === 'MAD' ? `${(p.price * 10).toLocaleString()} ${t('common.currency')}` : `$${p.price.toLocaleString()}`}
+                          {currency === 'MAD' ? `${((p.price ?? 0) * 10).toLocaleString()} ${t('common.currency')}` : `$${(p.price ?? 0).toLocaleString()}`}
                         </td>
                         <td className="p-4 text-end">
                           <div className="flex items-center justify-end gap-2">
@@ -798,10 +798,10 @@ export default function AdminDashboard({
               {(() => {
                 const filtered = orders.filter(o => {
                   const matchesSearch = !orderSearch || 
-                    o.id.toLowerCase().includes(orderSearch.toLowerCase()) ||
-                    o.customer_name.toLowerCase().includes(orderSearch.toLowerCase()) ||
-                    o.customer_phone.includes(orderSearch) ||
-                    o.customer_email?.toLowerCase().includes(orderSearch.toLowerCase());
+                    (o.id || '').toLowerCase().includes(orderSearch.toLowerCase()) ||
+                    (o.customer_name || '').toLowerCase().includes(orderSearch.toLowerCase()) ||
+                    (o.customer_phone || '').includes(orderSearch) ||
+                    (o.customer_email || '').toLowerCase().includes(orderSearch.toLowerCase());
                   const matchesStatus = orderFilter === 'all' || o.status === orderFilter;
                   return matchesSearch && matchesStatus;
                 });
@@ -850,7 +850,7 @@ export default function AdminDashboard({
                                     {o.items?.map((item: any, idx: number) => (
                                       <div key={idx} className="flex justify-between items-baseline text-[11px] text-stone-600">
                                         <span className="line-clamp-1">{item.name} <strong className="text-stone-440">x{item.quantity}</strong></span>
-                                        <span className="font-mono font-medium pl-2">{item.selected_size?.split(' ')[0] || ''}</span>
+                                        <span className="font-mono font-medium pl-2">{(item.selected_size || '').split(' ')[0]}</span>
                                       </div>
                                     ))}
                                   </div>
