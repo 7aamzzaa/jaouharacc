@@ -1,5 +1,87 @@
 [
   {
+    "id": "ORD-8EVA5YHYK",
+    "customer_name": "hhamza cbvjd",
+    "customer_phone": "+33605091987",
+    "customer_email": "fatihazok0@gmail.com",
+    "customer_country": "France",
+    "customer_city": "agadir",
+    "customer_street": "hay essalam agadir",
+    "customer_apartment": "",
+    "payment_method": "cod",
+    "order_notes": "",
+    "items": [
+      {
+        "id": "prod-71-Medium (7.0\")",
+        "product_id": "prod-71",
+        "name": "Gold Classic Ring",
+        "price": 12,
+        "quantity": 1,
+        "selected_size": "Medium (7.0\")",
+        "image": "/images/1.jpg",
+        "max_stock": 5
+      }
+    ],
+    "subtotal": 12,
+    "shipping_cost": 0,
+    "discount_amount": 0,
+    "discount_code": "",
+    "total": 12,
+    "status": "pending",
+    "created_at": "2026-07-18T19:41:45.964Z"
+  },
+  {
+    "id": "ORD-QQ4RTHANJ",
+    "customer_name": "7aamzzaa",
+    "customer_phone": "+33605091987",
+    "customer_email": "fatihazok0@gmail.com",
+    "customer_country": "France",
+    "customer_city": "agadir",
+    "customer_street": "hay essalam agadir",
+    "customer_apartment": "",
+    "payment_method": "cod",
+    "order_notes": "",
+    "items": [
+      {
+        "id": "prod-160-Medium (7.0\")",
+        "product_id": "prod-160",
+        "name": "Gold Aria Earrings",
+        "price": 9.9,
+        "quantity": 1,
+        "selected_size": "Medium (7.0\")",
+        "image": "/images/A1.jpg",
+        "max_stock": 8
+      },
+      {
+        "id": "prod-49-Medium (7.0\")",
+        "product_id": "prod-49",
+        "name": "sansla",
+        "price": 15,
+        "quantity": 1,
+        "selected_size": "Medium (7.0\")",
+        "image": "/images/snsl.jpg",
+        "max_stock": 1494
+      },
+      {
+        "id": "prod-71-Medium (7.0\")",
+        "product_id": "prod-71",
+        "name": "Gold Classic Ring",
+        "price": 12,
+        "quantity": 3,
+        "selected_size": "Medium (7.0\")",
+        "image": "/images/1.jpg",
+        "max_stock": 8
+      }
+    ],
+    "subtotal": 60.9,
+    "shipping_cost": 0,
+    "discount_amount": 0,
+    "discount_code": "",
+    "total": 60.9,
+    "status": "pending",
+    "created_at": "2026-07-18T19:41:11.182Z"
+  },
+  {
     "id": "ORD-JQXGNXSJL",
     "customer_name": "Fatima Zahra",
     "customer_phone": "+212600000001",

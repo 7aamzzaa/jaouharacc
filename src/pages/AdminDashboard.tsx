@@ -2,28 +2,34 @@ import React, { useState, useMemo } from 'react';
 import { useTranslation } from '../i18n';
 import { 
   Database, Plus, Edit, Trash2, ShoppingBag, DollarSign, ListOrdered, 
-  Layers, Hammer, Archive, Sparkles, RefreshCw, X, Loader2, LogOut, Lock, Upload
+  Layers, Hammer, Archive, Sparkles, RefreshCw, X, Loader2, LogOut, Lock, Upload, Mail
 } from 'lucide-react';
-import { Product, Order } from '../types';
+import { Product, Order, ContactMessage } from '../types';
 import { showToast } from '../components/ToastContainer';
 
 interface AdminDashboardProps {
   products: Product[];
   orders: Order[];
+  messages: ContactMessage[];
   isLoadingProducts: boolean;
   isLoadingOrders: boolean;
+  isLoadingMessages: boolean;
   onRefreshProducts: () => void;
   onRefreshOrders: () => void;
+  onRefreshMessages: () => void;
   currency: 'USD' | 'MAD';
 }
 
 export default function AdminDashboard({
   products,
   orders,
+  messages,
   isLoadingProducts,
   isLoadingOrders,
+  isLoadingMessages,
   onRefreshProducts,
   onRefreshOrders,
+  onRefreshMessages,
   currency
 }: AdminDashboardProps) {
   const { t } = useTranslation();
@@ -34,7 +40,8 @@ export default function AdminDashboard({
   const [passcode, setPasscode] = useState('');
   const [loginError, setLoginError] = useState('');
 
-  const [activeTab, setActiveTab] = useState<'products' | 'orders'>('products');
+  const [activeTab, setActiveTab] = useState<'products' | 'orders' | 'messages'>('products');
+  const [messagesSearch, setMessagesSearch] = useState('');
   const [orderSearch, setOrderSearch] = useState('');
   const [orderFilter, setOrderFilter] = useState<string>('all');
   const [expandedOrderId, setExpandedOrderId] = useState<string | null>(null);
@@ -233,6 +240,19 @@ export default function AdminDashboard({
     }
   };
 
+  // Delete a contact message
+  const handleDeleteMessage = async (id: string) => {
+    if (!confirm(t('admin.messagesTable.deleteConfirm'))) return;
+    try {
+      const response = await fetch(`/api/messages/${id}`, { method: 'DELETE' });
+      if (!response.ok) throw new Error('Delete failed');
+      showToast(t('admin.messagesTable.deleteSuccess'));
+      onRefreshMessages();
+    } catch (err: any) {
+      showToast(err.message || 'Failed to delete message', true);
+    }
+  };
+
   // Update real status of the Order
   const handleStatusUpdate = async (id: string, status: Order['status']) => {
     try {
@@ -364,11 +384,12 @@ export default function AdminDashboard({
             onClick={() => {
               onRefreshProducts();
               onRefreshOrders();
+              onRefreshMessages();
             }}
             className="cursor-pointer bg-white text-stone-700 hover:text-champagne-600 font-sans border border-stone-200 hover:border-champagne-300 p-3 rounded-md transition-colors text-xs font-semibold flex items-center gap-1"
             title={t('admin.dashboard.refresh')}
           >
-            <RefreshCw size={14} className={isLoadingProducts || isLoadingOrders ? 'animate-spin' : ''} />
+            <RefreshCw size={14} className={isLoadingProducts || isLoadingOrders || isLoadingMessages ? 'animate-spin' : ''} />
             {t('admin.dashboard.refresh')}
           </button>
           
@@ -672,6 +693,16 @@ export default function AdminDashboard({
         >
           {t('admin.tabs.orders', { count: orders.length })}
         </button>
+        <button
+          onClick={() => setActiveTab('messages')}
+          className={`cursor-pointer pb-4 text-xs tracking-widest uppercase transition-colors font-semibold relative ${
+            activeTab === 'messages'
+              ? 'text-stone-900 border-b-2 border-champagne-500'
+              : 'text-stone-400 hover:text-stone-750'
+          }`}
+        >
+          {t('admin.tabs.messages', { count: messages.length })}
+        </button>
       </div>
 
       {/* TAB 1 CONTENT: PRODUCTS TABLE */}
@@ -756,7 +787,7 @@ export default function AdminDashboard({
             </div>
           )}
         </section>
-      ) : (
+      ) : activeTab === 'orders' ? (
         /* TAB 2 CONTENT: ENHANCED ORDERS TABLE */
         <section className="bg-white border border-champagne-105 rounded-lg overflow-hidden">
           {/* Search & Filter Bar */}
@@ -934,6 +965,94 @@ export default function AdminDashboard({
                 );
               })()}
             </>
+          )}
+        </section>
+      ) : (
+        /* TAB 3 CONTENT: MESSAGES TABLE */
+        <section className="bg-white border border-champagne-105 rounded-lg overflow-hidden">
+          {/* Search Bar */}
+          <div className="p-4 border-b border-champagne-100">
+            <input
+              type="text"
+              placeholder={t('admin.messagesTable.searchPlaceholder')}
+              className="w-full bg-stone-50 text-xs px-3 py-2 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400"
+              value={messagesSearch}
+              onChange={(e) => setMessagesSearch(e.target.value)}
+            />
+          </div>
+
+          {isLoadingMessages ? (
+            <div className="text-center py-16 text-xs text-stone-405 flex flex-col items-center justify-center gap-2">
+              <Loader2 className="animate-spin text-champagne-500" />
+              <span>{t('admin.messagesTable.loading')}</span>
+            </div>
+          ) : messages.length === 0 ? (
+            <div className="text-center py-16 text-stone-400 text-xs space-y-2">
+              <Mail className="mx-auto text-stone-200" size={32} />
+              <p>{t('admin.messagesTable.empty')}</p>
+            </div>
+          ) : (
+            (() => {
+              const filtered = messages.filter(m => {
+                if (!messagesSearch) return true;
+                const q = messagesSearch.toLowerCase();
+                return (m.name || '').toLowerCase().includes(q) ||
+                  (m.email || '').toLowerCase().includes(q) ||
+                  (m.phone || '').includes(q) ||
+                  (m.subject || '').toLowerCase().includes(q);
+              });
+
+              if (filtered.length === 0) {
+                return <div className="text-center py-12 text-stone-400 text-xs">{t('admin.messagesTable.noResults')}</div>;
+              }
+
+              return (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-start border-collapse font-sans text-xs">
+                    <thead>
+                      <tr className="bg-champagne-50/50 text-stone-500 border-b border-champagne-100 uppercase tracking-wider text-[10px]">
+                        <th className="p-4 font-semibold">{t('admin.messagesTable.from')}</th>
+                        <th className="p-4 font-semibold">{t('admin.messagesTable.subject')}</th>
+                        <th className="p-4 font-semibold">{t('admin.messagesTable.message')}</th>
+                        <th className="p-4 font-semibold">{t('admin.messagesTable.date')}</th>
+                        <th className="p-4 text-end font-semibold">{t('admin.ordersTable.actions')}</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-stone-105">
+                      {filtered.map((m) => (
+                        <tr key={m.id} className="hover:bg-luxe-pink-50/20">
+                          <td className="p-4">
+                            <span className="font-semibold text-stone-900 block text-sm">{m.name}</span>
+                            <span className="text-stone-500 block text-[11px]">{m.email}</span>
+                            {m.phone && <span className="text-stone-400 block font-mono text-[10px]">{m.phone}</span>}
+                          </td>
+                          <td className="p-4 text-stone-700 font-medium max-w-[200px]">
+                            <span className="line-clamp-1">{m.subject}</span>
+                          </td>
+                          <td className="p-4 text-stone-600 max-w-[300px]">
+                            <p className="line-clamp-2 leading-relaxed text-[11px]">{m.message}</p>
+                          </td>
+                          <td className="p-4 text-stone-500 font-mono text-[11px] whitespace-nowrap">
+                            {new Date(m.created_at).toLocaleDateString(undefined, { dateStyle: 'medium' })}
+                            <br />
+                            <span className="text-[10px] text-stone-400">{new Date(m.created_at).toLocaleTimeString(undefined, { timeStyle: 'short' })}</span>
+                          </td>
+                          <td className="p-4 text-end">
+                            <button
+                              onClick={() => handleDeleteMessage(m.id)}
+                              className="bg-white border border-stone-200 text-stone-600 hover:text-rose-500 hover:border-rose-350 p-2 rounded-md transition-colors"
+                              title={t('admin.messagesTable.delete')}
+                            >
+                              <Trash2 size={12} />
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              );
+            })()
           )}
         </section>
       )}

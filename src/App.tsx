@@ -2,7 +2,7 @@ import { useState, useEffect, memo } from 'react';
 import { Routes, Route, useNavigate, useLocation, useSearchParams, useParams } from 'react-router-dom';
 import { ShoppingBag, ArrowRight, ArrowLeft, X, ShieldCheck, Gem } from 'lucide-react';
 
-import { Product, Order, CartItem } from './types';
+import { Product, Order, CartItem, ContactMessage } from './types';
 import { defaultProducts } from './data/defaultProducts';
 import { useTranslation } from './i18n';
 
@@ -38,9 +38,11 @@ export default function App() {
 
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [allOrders, setAllOrders] = useState<Order[]>([]);
+  const [allMessages, setAllMessages] = useState<ContactMessage[]>([]);
 
   const [loadingProducts, setLoadingProducts] = useState(true);
   const [loadingOrders, setLoadingOrders] = useState(true);
+  const [loadingMessages, setLoadingMessages] = useState(true);
 
   const [cart, setCart] = useState<CartItem[]>(() => {
     try {
@@ -118,9 +120,25 @@ export default function App() {
     }
   };
 
+  const fetchMessagesLogs = async () => {
+    setLoadingMessages(true);
+    try {
+      const response = await fetch('/api/messages');
+      if (!response.ok) throw new Error('Server returned error status on messages query');
+      const data = await response.json();
+      setAllMessages(data);
+    } catch (err) {
+      console.warn('[API Fetch Warn] Could not load messages from persistence layer:', err);
+      setAllMessages([]);
+    } finally {
+      setLoadingMessages(false);
+    }
+  };
+
   useEffect(() => {
     fetchProductsList();
     fetchOrdersLogs();
+    fetchMessagesLogs();
   }, []);
 
   const handleAddToCart = (product: Product, quantity: number, size: string) => {
@@ -279,7 +297,7 @@ export default function App() {
           <Route path="/about" element={<About />} />
           <Route path="/press" element={<Press />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/admin" element={<AdminDashboard products={allProducts} orders={allOrders} isLoadingProducts={loadingProducts} isLoadingOrders={loadingOrders} onRefreshProducts={fetchProductsList} onRefreshOrders={fetchOrdersLogs} currency={currency} />} />
+          <Route path="/admin" element={<AdminDashboard products={allProducts} orders={allOrders} messages={allMessages} isLoadingProducts={loadingProducts} isLoadingOrders={loadingOrders} isLoadingMessages={loadingMessages} onRefreshProducts={fetchProductsList} onRefreshOrders={fetchOrdersLogs} onRefreshMessages={fetchMessagesLogs} currency={currency} />} />
           <Route path="*" element={<NotFound onPageChange={handlePageChange} />} />
         </Routes>
       </main>

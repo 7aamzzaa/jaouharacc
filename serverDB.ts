@@ -1,13 +1,14 @@
 import fs from 'fs';
 import path from 'path';
 import { createClient } from '@supabase/supabase-js';
-import { Product, Order } from './src/types';
+import { Product, Order, ContactMessage } from './src/types';
 import { defaultProducts } from './src/data/defaultProducts';
 
 // Setup local fallback directory and file paths
 const DATA_DIR = path.join(process.cwd(), 'data');
 const PRODUCTS_FILE = path.join(DATA_DIR, 'products.json');
 const ORDERS_FILE = path.join(DATA_DIR, 'orders.json');
+const MESSAGES_FILE = path.join(DATA_DIR, 'messages.json');
 
 // Ensure fallback database files are initialized
 function initializeLocalDB() {
@@ -21,6 +22,10 @@ function initializeLocalDB() {
   if (!fs.existsSync(ORDERS_FILE)) {
     fs.writeFileSync(ORDERS_FILE, JSON.stringify([], null, 2), 'utf-8');
     console.log('[DB] Local orders database initialized empty');
+  }
+  if (!fs.existsSync(MESSAGES_FILE)) {
+    fs.writeFileSync(MESSAGES_FILE, JSON.stringify([], null, 2), 'utf-8');
+    console.log('[DB] Local messages database initialized empty');
   }
 }
 
@@ -347,4 +352,38 @@ export async function updateOrderStatus(id: string, status: Order['status']): Pr
   orders[orderIndex].status = status;
   fs.writeFileSync(ORDERS_FILE, JSON.stringify(orders, null, 2), 'utf-8');
   return orders[orderIndex];
+}
+
+// ------------------------------------------------------------------------
+// Messages DB Access Handlers
+// ------------------------------------------------------------------------
+
+export async function getMessages(): Promise<ContactMessage[]> {
+  try {
+    const fileContent = fs.readFileSync(MESSAGES_FILE, 'utf-8');
+    return JSON.parse(fileContent) as ContactMessage[];
+  } catch (err) {
+    console.error('[DB] Failed to read fallback messages json', err);
+    return [];
+  }
+}
+
+export async function createMessage(msgData: Omit<ContactMessage, 'id' | 'created_at'>): Promise<ContactMessage> {
+  const newMsg: ContactMessage = {
+    ...msgData,
+    id: 'MSG-' + Date.now() + '-' + Math.random().toString(36).substr(2, 6).toUpperCase(),
+    created_at: new Date().toISOString()
+  };
+  const messages = await getMessages();
+  messages.unshift(newMsg);
+  fs.writeFileSync(MESSAGES_FILE, JSON.stringify(messages, null, 2), 'utf-8');
+  return newMsg;
+}
+
+export async function deleteMessage(id: string): Promise<boolean> {
+  const messages = await getMessages();
+  const filtered = messages.filter(m => m.id !== id);
+  if (messages.length === filtered.length) return false;
+  fs.writeFileSync(MESSAGES_FILE, JSON.stringify(filtered, null, 2), 'utf-8');
+  return true;
 }

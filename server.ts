@@ -12,6 +12,9 @@ import {
   createOrder, 
   updateOrderStatus,
   deleteOrder,
+  getMessages,
+  createMessage,
+  deleteMessage,
   getSupabaseClient
 } from './serverDB';
 import { Product } from './src/types';
@@ -195,6 +198,47 @@ app.delete('/api/orders/:id', async (req, res) => {
     res.json({ message: 'Order deleted successfully', id: req.params.id });
   } catch (err: any) {
     res.status(500).json({ error: 'Failed to delete order', details: err.message });
+  }
+});
+
+// ------------------------------------------------------------------------
+// Messages API Endpoints
+// ------------------------------------------------------------------------
+
+// Fetch all messages - Admin Area
+app.get('/api/messages', async (req, res) => {
+  try {
+    const messages = await getMessages();
+    res.json(messages);
+  } catch (err: any) {
+    res.status(500).json({ error: 'Failed to retrieve messages', details: err.message });
+  }
+});
+
+// Submit a contact message from the public form
+app.post('/api/messages', async (req, res) => {
+  try {
+    const { name, email, phone, subject, message } = req.body;
+    if (!name || !email || !subject || !message) {
+      return res.status(400).json({ error: 'Name, email, subject, and message are required' });
+    }
+    const created = await createMessage({ name, email, phone: phone || '', subject, message });
+    res.json(created);
+  } catch (err: any) {
+    res.status(500).json({ error: 'Failed to save message', details: err.message });
+  }
+});
+
+// Delete a message - Admin Area
+app.delete('/api/messages/:id', async (req, res) => {
+  try {
+    const success = await deleteMessage(req.params.id);
+    if (!success) {
+      return res.status(404).json({ error: 'Message not found' });
+    }
+    res.json({ message: 'Message deleted successfully', id: req.params.id });
+  } catch (err: any) {
+    res.status(500).json({ error: 'Failed to delete message', details: err.message });
   }
 });
 

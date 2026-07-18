@@ -53,6 +53,16 @@ export interface BlogPost {
   tags: string[];
 }
 
+export interface ContactMessage {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  subject: string;
+  message: string;
+  created_at: string;
+}
+
 export interface CartItem {
   id: string; // combination of product_id + selected_size
   product_id: string;

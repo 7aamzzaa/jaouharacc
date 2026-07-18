@@ -1,18 +1,40 @@
 import { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MapPin, Phone, Mail, Clock, Send, Check, ArrowLeft, ArrowRight } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, Send, Check, ArrowLeft, ArrowRight, Loader2 } from 'lucide-react';
 import { useTranslation } from '../i18n';
+import { showToast } from '../components/ToastContainer';
 
 export default function Contact() {
   const navigate = useNavigate();
   const { t, dir } = useTranslation();
   const [submitted, setSubmitted] = useState(false);
+  const [sending, setSending] = useState(false);
+  const [error, setError] = useState('');
   const [form, setForm] = useState({ name: '', email: '', phone: '', subject: '', message: '' });
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 3000);
+    setSending(true);
+    setError('');
+    try {
+      const response = await fetch('/api/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form)
+      });
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || 'Failed to send message');
+      }
+      setSubmitted(true);
+      setForm({ name: '', email: '', phone: '', subject: '', message: '' });
+      setTimeout(() => setSubmitted(false), 4000);
+    } catch (err: any) {
+      setError(err.message || 'Something went wrong. Please try again.');
+      showToast(err.message || 'Failed to send message', true);
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -103,13 +125,17 @@ export default function Contact() {
                   placeholder={t('contact.messagePlaceholder')}
                 />
               </div>
-              <button
-                type="submit"
-                className="cursor-pointer w-full bg-stone-900 text-white py-3.5 text-xs uppercase tracking-widest font-bold hover:bg-champagne-500 transition-all rounded-lg shadow-md font-sans flex items-center justify-center gap-2"
-              >
-                <Send size={13} />
-                {t('contact.send')}
-              </button>
+                {error && (
+                  <p className="text-xs text-rose-500 font-semibold">{error}</p>
+                )}
+                <button
+                  type="submit"
+                  disabled={sending}
+                  className="cursor-pointer w-full bg-stone-900 text-white py-3.5 text-xs uppercase tracking-widest font-bold hover:bg-champagne-500 disabled:bg-stone-300 transition-all rounded-lg shadow-md font-sans flex items-center justify-center gap-2"
+                >
+                  {sending ? <Loader2 size={13} className="animate-spin" /> : <Send size={13} />}
+                  {sending ? t('contact.sending') : t('contact.send')}
+                </button>
             </form>
           )}
         </div>

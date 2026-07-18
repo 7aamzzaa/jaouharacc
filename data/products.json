@@ -7,7 +7,7 @@
     "images": [
       "/images/snsl.jpg"
     ],
-    "stock": 1494,
+    "stock": 1493,
     "category": "necklaces",
     "material": "gold",
     "color": "gold"
@@ -293,7 +293,7 @@
     "images": [
       "/images/1.jpg"
     ],
-    "stock": 8,
+    "stock": 4,
     "category": "rings",
     "material": "Premium Stainless Steel",
     "color": "gold"
@@ -1385,7 +1385,7 @@
     "images": [
       "/images/A1.jpg"
     ],
-    "stock": 8,
+    "stock": 7,
     "category": "earrings",
     "material": "Premium Stainless Steel",
     "color": "gold"
