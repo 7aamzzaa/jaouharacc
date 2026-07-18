@@ -8,8 +8,10 @@ import {
   upsertProduct, 
   deleteProduct, 
   getOrders, 
+  getOrderById,
   createOrder, 
   updateOrderStatus,
+  deleteOrder,
   getSupabaseClient
 } from './serverDB';
 import { Product } from './src/types';
@@ -101,25 +103,64 @@ app.get('/api/orders', async (req, res) => {
   }
 });
 
-// Create active order (Direct Post for simulated checkouts or manual inserts)
+// Create a new order from checkout
 app.post('/api/orders', async (req, res) => {
   try {
-    const { id, customer_name, customer_email, items, total, status } = req.body;
-    if (!customer_name || !customer_email || !items || !total) {
-      return res.status(400).json({ error: 'Missing mandatory order details' });
+    const {
+      customer_name,
+      customer_phone,
+      customer_email,
+      customer_country,
+      customer_city,
+      customer_street,
+      customer_apartment,
+      payment_method,
+      order_notes,
+      items,
+      subtotal,
+      shipping_cost,
+      discount_amount,
+      discount_code,
+      total
+    } = req.body;
+    if (!customer_name || !customer_phone || !customer_city || !customer_street || !items || !total) {
+      return res.status(400).json({ error: 'Missing mandatory order fields' });
     }
-    const orderId = id || 'ord-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+    const orderId = 'ORD-' + Math.random().toString(36).substr(2, 9).toUpperCase();
     const created = await createOrder({
       id: orderId,
       customer_name,
-      customer_email,
+      customer_phone: customer_phone || '',
+      customer_email: customer_email || '',
+      customer_country: customer_country || 'Morocco 🇲🇦',
+      customer_city,
+      customer_street,
+      customer_apartment: customer_apartment || '',
+      payment_method: payment_method || 'cod',
+      order_notes: order_notes || '',
       items,
-      total,
-      status: status || 'completed'
+      subtotal: subtotal || 0,
+      shipping_cost: shipping_cost || 0,
+      discount_amount: discount_amount || 0,
+      discount_code: discount_code || '',
+      total
     });
     res.json(created);
   } catch (err: any) {
     res.status(500).json({ error: 'Failed to register order', details: err.message });
+  }
+});
+
+// Get single order by ID
+app.get('/api/orders/:id', async (req, res) => {
+  try {
+    const order = await getOrderById(req.params.id);
+    if (!order) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+    res.json(order);
+  } catch (err: any) {
+    res.status(500).json({ error: 'Failed to retrieve order', details: err.message });
   }
 });
 
@@ -130,6 +171,10 @@ app.patch('/api/orders/:id', async (req, res) => {
     if (!status) {
       return res.status(400).json({ error: 'Status is key required' });
     }
+    const validStatuses = ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled'];
+    if (!validStatuses.includes(status)) {
+      return res.status(400).json({ error: 'Invalid status value' });
+    }
     const updated = await updateOrderStatus(req.params.id, status);
     if (!updated) {
       return res.status(404).json({ error: 'Order not found' });
@@ -137,6 +182,19 @@ app.patch('/api/orders/:id', async (req, res) => {
     res.json(updated);
   } catch (err: any) {
     res.status(500).json({ error: 'Failed to update order status', details: err.message });
+  }
+});
+
+// Delete order - Admin Area
+app.delete('/api/orders/:id', async (req, res) => {
+  try {
+    const success = await deleteOrder(req.params.id);
+    if (!success) {
+      return res.status(404).json({ error: 'Order not found' });
+    }
+    res.json({ message: 'Order deleted successfully', id: req.params.id });
+  } catch (err: any) {
+    res.status(500).json({ error: 'Failed to delete order', details: err.message });
   }
 });
 

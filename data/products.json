@@ -7,7 +7,7 @@
     "images": [
       "/images/snsl.jpg"
     ],
-    "stock": 1500,
+    "stock": 1494,
     "category": "necklaces",
     "material": "gold",
     "color": "gold"
@@ -20,7 +20,7 @@
     "images": [
       "/images/sssssssssssssssl.jpg"
     ],
-    "stock": 10,
+    "stock": 8,
     "category": "necklaces",
     "material": "inoxidable",
     "color": "gold"
@@ -293,7 +293,7 @@
     "images": [
       "/images/1.jpg"
     ],
-    "stock": 10,
+    "stock": 9,
     "category": "rings",
     "material": "Premium Stainless Steel",
     "color": "gold"
@@ -766,7 +766,6 @@
     "material": "Premium Stainless Steel",
     "color": "gold"
   },
-
   {
     "id": "prod-111",
     "name": "Gold Radiance Anklet",
@@ -775,7 +774,7 @@
     "images": [
       "/images/A.jpg"
     ],
-    "stock": 10,
+    "stock": 9,
     "category": "anklets",
     "material": "Premium Stainless Steel",
     "color": "gold"
@@ -944,7 +943,7 @@
     "images": [
       "/images/01.jpg"
     ],
-    "stock": 10,
+    "stock": 9,
     "category": "bracelets",
     "material": "Premium Stainless Steel",
     "color": "gold"
@@ -1386,7 +1385,7 @@
     "images": [
       "/images/A1.jpg"
     ],
-    "stock": 10,
+    "stock": 9,
     "category": "earrings",
     "material": "Premium Stainless Steel",
     "color": "gold"

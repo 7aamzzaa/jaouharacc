@@ -8,10 +8,11 @@ interface CartProps {
   onUpdateQuantity: (id: string, newQuantity: number) => void;
   onRemoveItem: (id: string) => void;
   onPageChange: (pageName: string, params?: any) => void;
+  onClearCart: () => void;
   currency: 'USD' | 'MAD';
 }
 
-export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChange, currency }: CartProps) {
+export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChange, onClearCart, currency }: CartProps) {
   const formatPrice = (priceUSD: number) => {
     if (currency === 'MAD') {
       return `${(priceUSD * 10).toLocaleString()} ${t('common.currency')}`;
@@ -23,16 +24,21 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
   const [appliedDiscount, setAppliedDiscount] = useState<{ code: string; percent: number } | null>(null);
   const [promoError, setPromoError] = useState<string>('');
   const [customerName, setCustomerName] = useState<string>('');
+  const [customerPhone, setCustomerPhone] = useState<string>('');
   const [customerEmail, setCustomerEmail] = useState<string>('');
+  const [customerCountry, setCustomerCountry] = useState<string>('Morocco 🇲🇦');
+  const [customerCity, setCustomerCity] = useState<string>('');
+  const [customerStreet, setCustomerStreet] = useState<string>('');
+  const [customerApartment, setCustomerApartment] = useState<string>('');
+  const [orderNotes, setOrderNotes] = useState<string>('');
+  const [paymentMethod, setPaymentMethod] = useState<string>('cod');
   const [checkoutLoading, setCheckoutLoading] = useState<boolean>(false);
   const [formError, setFormError] = useState<string>('');
 
   // Calculations
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const discountAmount = appliedDiscount ? (subtotal * appliedDiscount.percent) / 100 : 0;
-  const estimatedTax = (subtotal - discountAmount) * 0.08; // 8% sales tax luxury rate
-  const shipping = subtotal > 200 ? 0 : 15; // Free shipping over $200
-  const grandTotal = Math.max(0, subtotal - discountAmount + estimatedTax + shipping);
+  const grandTotal = Math.max(0, subtotal - discountAmount);
 
   // Promo code validation handler
   const handleApplyPromo = (e: React.FormEvent) => {
@@ -51,7 +57,7 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
     }
   };
 
-  // Launch express Stripe checkout stream
+  // Submit order directly to database
   const handleCheckoutSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setFormError('');
@@ -60,7 +66,7 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
       setFormError(t('cart.errorEmpty'));
       return;
     }
-    if (!customerName || !customerEmail) {
+    if (!customerName || !customerPhone || !customerCity || !customerStreet) {
       setFormError(t('cart.errorNameEmail'));
       return;
     }
@@ -68,28 +74,37 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
     setCheckoutLoading(true);
 
     try {
-      const response = await fetch('/api/checkout/create-session', {
+      const response = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          items: cart,
           customer_name: customerName,
+          customer_phone: customerPhone,
           customer_email: customerEmail,
+          customer_country: customerCountry,
+          customer_city: customerCity,
+          customer_street: customerStreet,
+          customer_apartment: customerApartment,
+          payment_method: paymentMethod,
+          order_notes: orderNotes,
+          items: cart,
+          subtotal,
+          shipping_cost: 0,
+          discount_amount: discountAmount,
+          discount_code: appliedDiscount?.code || '',
           total: grandTotal
         })
       });
 
-      const session = await response.json();
+      const order = await response.json();
       if (!response.ok) {
-        throw new Error(session.error || t('cart.errorInit'));
+        throw new Error(order.error || t('cart.errorInit'));
       }
 
-      // If simulated checkout or real Stripe. redirect to session.url
-      if (session.url) {
-        window.location.href = session.url;
-      }
+      onClearCart();
+      window.location.href = `/order-confirmation?orderId=${order.id}`;
     } catch (err: any) {
-      console.error('[Cart Checkout Error]', err);
+      console.error('[Order Submit Error]', err);
       setFormError(err.message || t('cart.errorPayment'));
       setCheckoutLoading(false);
     }
@@ -219,24 +234,6 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
                   <span>-{formatPrice(discountAmount)}</span>
                 </div>
               )}
-
-              <div className="flex justify-between text-stone-500">
-                <span>{t('cart.tax')}</span>
-                <span className="text-stone-850 font-semibold">{formatPrice(estimatedTax)}</span>
-              </div>
-
-              <div className="flex justify-between text-stone-500">
-                <span>{t('cart.freight')}</span>
-                <span className="text-stone-850 font-semibold text-end">
-                  {shipping === 0 ? (
-                    <strong className="text-emerald-600">
-                      {t('cart.freeFreight')}
-                    </strong>
-                  ) : (
-                    formatPrice(shipping)
-                  )}
-                </span>
-              </div>
             </div>
 
             <div className="flex justify-between items-baseline pt-2">
@@ -286,37 +283,143 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
             <h2 className="font-serif text-lg font-medium text-stone-900 pb-2 border-b border-light-pink-100">
               {t('cart.dispatchHeading')}
             </h2>
+            <p className="text-[10px] text-stone-400 tracking-widest font-mono select-none">
+              ━━━━━━━━━━━━━━━━━━━━━━
+            </p>
 
             <form onSubmit={handleCheckoutSubmit} className="space-y-4">
-              
-              <div className="space-y-1">
-                <label htmlFor="billing-name" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">
-                  {t('cart.billingName')}
-                </label>
-                <input
-                  id="billing-name"
-                  type="text"
-                  required
-                  placeholder={t('cart.billingPlaceholder')}
-                  className="w-full bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 placeholder-stone-450"
-                  value={customerName}
-                  onChange={(e) => setCustomerName(e.target.value)}
-                />
+
+              {/* Contact Information */}
+              <div className="space-y-3">
+                <h3 className="text-[10px] uppercase tracking-widest text-stone-500 font-semibold">
+                  {t('cart.contactInfo')}
+                </h3>
+                <p className="text-[10px] text-stone-400 tracking-widest font-mono select-none">
+                  ━━━━━━━━━━━━━━━━━━━━━━
+                </p>
+
+                <div className="space-y-1">
+                  <label htmlFor="dispatch-name" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">
+                    {t('cart.billingName')} <span className="text-rose-400">*</span>
+                  </label>
+                  <input
+                    id="dispatch-name"
+                    type="text"
+                    required
+                    placeholder={t('cart.billingPlaceholder')}
+                    className="w-full bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 placeholder-stone-450"
+                    value={customerName}
+                    onChange={(e) => setCustomerName(e.target.value)}
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label htmlFor="dispatch-phone" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">
+                    {t('cart.phoneLabel')} <span className="text-rose-400">*</span>
+                  </label>
+                  <input
+                    id="dispatch-phone"
+                    type="tel"
+                    required
+                    placeholder={t('cart.phonePlaceholder')}
+                    className="w-full bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 placeholder-stone-450"
+                    value={customerPhone}
+                    onChange={(e) => setCustomerPhone(e.target.value)}
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label htmlFor="dispatch-email" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">
+                    {t('cart.emailLabel')}
+                  </label>
+                  <input
+                    id="dispatch-email"
+                    type="email"
+                    placeholder={t('cart.emailPlaceholder')}
+                    className="w-full bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 placeholder-stone-450"
+                    value={customerEmail}
+                    onChange={(e) => setCustomerEmail(e.target.value)}
+                  />
+                </div>
               </div>
 
-              <div className="space-y-1">
-                <label htmlFor="billing-email" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">
-                  {t('cart.emailLabel')}
+              {/* Shipping Address */}
+              <div className="space-y-3">
+                <h3 className="text-[10px] uppercase tracking-widest text-stone-500 font-semibold">
+                  {t('cart.shippingAddress')}
+                </h3>
+                <p className="text-[10px] text-stone-400 tracking-widest font-mono select-none">
+                  ━━━━━━━━━━━━━━━━━━━━━━
+                </p>
+
+                <div className="space-y-1">
+                  <label htmlFor="dispatch-country" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">
+                    {t('cart.countryLabel')} <span className="text-rose-400">*</span>
+                  </label>
+                  <input
+                    id="dispatch-country"
+                    type="text"
+                    required
+                    placeholder={t('cart.countryDefault')}
+                    className="w-full bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 placeholder-stone-450"
+                    value={customerCountry}
+                    onChange={(e) => setCustomerCountry(e.target.value)}
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label htmlFor="dispatch-city" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">
+                    {t('cart.cityLabel')} <span className="text-rose-400">*</span>
+                  </label>
+                  <input
+                    id="dispatch-city"
+                    type="text"
+                    required
+                    placeholder={t('cart.cityPlaceholder')}
+                    className="w-full bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 placeholder-stone-450"
+                    value={customerCity}
+                    onChange={(e) => setCustomerCity(e.target.value)}
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <label htmlFor="dispatch-street" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">
+                    {t('cart.streetLabel')} <span className="text-rose-400">*</span>
+                  </label>
+                  <input
+                    id="dispatch-street"
+                    type="text"
+                    required
+                    placeholder={t('cart.streetPlaceholder')}
+                    className="w-full bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 placeholder-stone-450"
+                    value={customerStreet}
+                    onChange={(e) => setCustomerStreet(e.target.value)}
+                  />
+                </div>
+              </div>
+
+              {/* Payment Method */}
+              <div className="space-y-3">
+                <h3 className="text-[10px] uppercase tracking-widest text-stone-500 font-semibold">
+                  {t('cart.paymentMethod')}
+                </h3>
+                <p className="text-[10px] text-stone-400 tracking-widest font-mono select-none">
+                  ━━━━━━━━━━━━━━━━━━━━━━
+                </p>
+
+                <label className="flex items-center gap-3 p-3 bg-stone-50 rounded-sm border border-stone-200 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="payment-method"
+                    value="cod"
+                    checked={paymentMethod === 'cod'}
+                    onChange={(e) => setPaymentMethod(e.target.value)}
+                    className="accent-champagne-500"
+                  />
+                  <span className="text-xs text-stone-700 font-medium">
+                    {t('cart.cashOnDelivery')}
+                  </span>
                 </label>
-                <input
-                  id="billing-email"
-                  type="email"
-                  required
-                  placeholder={t('cart.emailPlaceholder')}
-                  className="w-full bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 placeholder-stone-450"
-                  value={customerEmail}
-                  onChange={(e) => setCustomerEmail(e.target.value)}
-                />
               </div>
 
               {formError && (

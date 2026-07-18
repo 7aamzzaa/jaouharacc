@@ -1,1 +1,43 @@
-[]
+[
+  {
+    "id": "ORD-8GB25WA51",
+    "customer_name": "fatiha zok ",
+    "customer_phone": "+33605091987",
+    "customer_email": "fatihazok0@gmail.com",
+    "customer_country": "Morocco 🇲🇦",
+    "customer_city": "agadir",
+    "customer_street": "hay essalam agadir",
+    "customer_apartment": "",
+    "payment_method": "cod",
+    "order_notes": "",
+    "items": [
+      {
+        "id": "prod-49-متوسط (7.0\")",
+        "product_id": "prod-49",
+        "name": "sansla",
+        "price": 15,
+        "quantity": 1,
+        "selected_size": "متوسط (7.0\")",
+        "image": "/images/snsl.jpg",
+        "max_stock": 1499
+      },
+      {
+        "id": "prod-50-صغير (6.5\")",
+        "product_id": "prod-50",
+        "name": "Luna Crystal Necklace",
+        "price": 299,
+        "quantity": 1,
+        "selected_size": "صغير (6.5\")",
+        "image": "/images/sssssssssssssssl.jpg",
+        "max_stock": 9
+      }
+    ],
+    "subtotal": 314,
+    "shipping_cost": 0,
+    "discount_amount": 0,
+    "discount_code": "",
+    "total": 314,
+    "status": "confirmed",
+    "created_at": "2026-07-18T15:57:14.249Z"
+  }
+]

@@ -240,6 +240,9 @@ export default function App() {
       case 'contact':
         navigate('/contact');
         break;
+      case 'order-confirmation':
+        if (params?.orderId) navigate(`/order-confirmation?orderId=${params.orderId}`);
+        break;
       default:
         navigate('/');
     }
@@ -264,7 +267,7 @@ export default function App() {
           <Route path="/" element={<Home products={allProducts} isLoading={loadingProducts} onAddToCartDirect={handleQuickAdd} onPageChange={handlePageChange} currency={currency} />} />
           <Route path="/shop" element={<ShopWithParams products={allProducts} isLoading={loadingProducts} onAddToCartDirect={handleQuickAdd} onPageChange={handlePageChange} currency={currency} />} />
           <Route path="/product/:id" element={<ProductDetailWithParams allProducts={allProducts} onAddToCart={handleAddToCart} onPageChange={handlePageChange} currency={currency} />} />
-          <Route path="/cart" element={<Cart cart={cart} onUpdateQuantity={handleUpdateCartQuantity} onRemoveItem={handleRemoveCartItem} onPageChange={handlePageChange} currency={currency} />} />
+          <Route path="/cart" element={<Cart cart={cart} onUpdateQuantity={handleUpdateCartQuantity} onRemoveItem={handleRemoveCartItem} onPageChange={handlePageChange} onClearCart={handleClearCart} currency={currency} />} />
           <Route path="/checkout" element={<CheckoutSimulation onClearCart={handleClearCart} onPageChange={handlePageChange} currency={currency} />} />
           <Route path="/order-confirmation" element={<OrderConfirmation onPageChange={handlePageChange} currency={currency} />} />
           <Route path="/blog" element={<Blog onPageChange={handlePageChange} currency={currency} />} />

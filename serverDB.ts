@@ -254,7 +254,7 @@ export async function getOrderById(id: string): Promise<Order | null> {
 export async function createOrder(orderData: Omit<Order, 'created_at' | 'status'> & { status?: Order['status'] }): Promise<Order> {
   const newOrder: Order = {
     ...orderData,
-    status: orderData.status || 'completed',
+    status: orderData.status || 'pending',
     created_at: new Date().toISOString()
   };
 
@@ -298,6 +298,27 @@ export async function createOrder(orderData: Omit<Order, 'created_at' | 'status'
   }
 
   return newOrder;
+}
+
+export async function deleteOrder(id: string): Promise<boolean> {
+  if (isSupabaseConnected && supabase) {
+    try {
+      const { error } = await supabase
+        .from('orders')
+        .delete()
+        .eq('id', id);
+      if (!error) return true;
+      console.warn('[DB] Supabase order delete failed:', error);
+    } catch (err) {
+      console.warn('[DB] Supabase order delete error:', err);
+    }
+  }
+
+  const orders = await getOrders();
+  const filtered = orders.filter(o => o.id !== id);
+  if (orders.length === filtered.length) return false;
+  fs.writeFileSync(ORDERS_FILE, JSON.stringify(filtered, null, 2), 'utf-8');
+  return true;
 }
 
 export async function updateOrderStatus(id: string, status: Order['status']): Promise<Order | null> {

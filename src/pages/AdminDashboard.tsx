@@ -35,6 +35,9 @@ export default function AdminDashboard({
   const [loginError, setLoginError] = useState('');
 
   const [activeTab, setActiveTab] = useState<'products' | 'orders'>('products');
+  const [orderSearch, setOrderSearch] = useState('');
+  const [orderFilter, setOrderFilter] = useState<string>('all');
+  const [expandedOrderId, setExpandedOrderId] = useState<string | null>(null);
   
   // Products Management Form State
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
@@ -214,6 +217,19 @@ export default function AdminDashboard({
       onRefreshProducts(); // refresh products list
     } catch (err: any) {
       showToast(err.message || 'Failed to retire product', true);
+    }
+  };
+
+  // Delete an order
+  const handleDeleteOrder = async (id: string) => {
+    if (!confirm(t('admin.ordersTable.deleteConfirm'))) return;
+    try {
+      const response = await fetch(`/api/orders/${id}`, { method: 'DELETE' });
+      if (!response.ok) throw new Error('Delete failed');
+      showToast(t('admin.ordersTable.deleteSuccess'));
+      onRefreshOrders();
+    } catch (err: any) {
+      showToast(err.message || 'Failed to delete order', true);
     }
   };
 
@@ -741,8 +757,31 @@ export default function AdminDashboard({
           )}
         </section>
       ) : (
-        /* TAB 2 CONTENT: ORDERS TABLE */
+        /* TAB 2 CONTENT: ENHANCED ORDERS TABLE */
         <section className="bg-white border border-champagne-105 rounded-lg overflow-hidden">
+          {/* Search & Filter Bar */}
+          <div className="p-4 border-b border-champagne-100 flex flex-col sm:flex-row gap-3 items-start sm:items-center">
+            <input
+              type="text"
+              placeholder={t('admin.ordersTable.searchPlaceholder')}
+              className="flex-1 bg-stone-50 text-xs px-3 py-2 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400"
+              value={orderSearch}
+              onChange={(e) => setOrderSearch(e.target.value)}
+            />
+            <select
+              value={orderFilter}
+              onChange={(e) => setOrderFilter(e.target.value)}
+              className="bg-stone-50 border border-stone-200 text-[10px] text-stone-700 font-semibold py-2 px-3 focus:outline-hidden focus:border-champagne-400 rounded-sm uppercase tracking-wider"
+            >
+              <option value="all">{t('admin.ordersTable.all')}</option>
+              <option value="pending">{t('admin.ordersTable.pending')}</option>
+              <option value="confirmed">{t('admin.ordersTable.confirmed')}</option>
+              <option value="shipped">{t('admin.ordersTable.shipped')}</option>
+              <option value="delivered">{t('admin.ordersTable.delivered')}</option>
+              <option value="cancelled">{t('admin.ordersTable.cancelled')}</option>
+            </select>
+          </div>
+
           {isLoadingOrders ? (
             <div className="text-center py-16 text-xs text-stone-405 flex flex-col items-center justify-center gap-2">
               <Loader2 className="animate-spin text-champagne-500" />
@@ -755,75 +794,146 @@ export default function AdminDashboard({
               <p className="text-[10px]">{t('admin.ordersTable.emptyDesc')}</p>
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full text-start border-collapse font-sans text-xs">
-                <thead>
-                  <tr className="bg-champagne-50/50 text-stone-500 border-b border-champagne-100 uppercase tracking-wider text-[10px]">
-                    <th className="p-4 font-semibold">{t('admin.ordersTable.ref')}</th>
-                    <th className="p-4 font-semibold">{t('admin.ordersTable.date')}</th>
-                    <th className="p-4 font-semibold">{t('admin.ordersTable.items')}</th>
-                    <th className="p-4 font-semibold">{t('admin.ordersTable.total')}</th>
-                    <th className="p-4 font-semibold">{t('admin.ordersTable.status')}</th>
-                    <th className="p-4 text-end font-semibold">{t('admin.ordersTable.actions')}</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-stone-105">
-                  {orders.map((o) => {
-                    const statusColors: Record<Order['status'], string> = {
-                      pending: 'bg-amber-50 text-amber-700 border-amber-200',
-                      completed: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-                      shipped: 'bg-blue-50 text-blue-700 border-blue-200',
-                      cancelled: 'bg-stone-100 text-stone-550 border-stone-250',
-                    };
+            <>
+              {(() => {
+                const filtered = orders.filter(o => {
+                  const matchesSearch = !orderSearch || 
+                    o.id.toLowerCase().includes(orderSearch.toLowerCase()) ||
+                    o.customer_name.toLowerCase().includes(orderSearch.toLowerCase()) ||
+                    o.customer_phone.includes(orderSearch) ||
+                    o.customer_email?.toLowerCase().includes(orderSearch.toLowerCase());
+                  const matchesStatus = orderFilter === 'all' || o.status === orderFilter;
+                  return matchesSearch && matchesStatus;
+                });
 
-                    return (
-                      <tr key={o.id} className="hover:bg-luxe-pink-50/20">
-                        <td className="p-4">
-                          <span className="font-mono font-semibold text-stone-900 block">{o.id}</span>
-                          <span className="text-stone-550 block font-sans text-[11px] font-medium mt-0.5">{o.customer_name}</span>
-                          <span className="text-stone-400 block font-mono text-[9px] truncate max-w-[150px]">{o.customer_email}</span>
-                        </td>
-                        <td className="p-4 text-stone-500 font-mono">
-                          {o.created_at ? new Date(o.created_at).toLocaleDateString(undefined, { dateStyle: 'medium' }) : t('admin.ordersTable.na')}
-                        </td>
-                        <td className="p-4">
-                          <div className="space-y-1 max-w-sm">
-                            {o.items?.map((item: any, idx: number) => (
-                              <div key={idx} className="flex justify-between items-baseline text-[11px] text-stone-600">
-                                <span className="line-clamp-1">{item.name} <strong className="text-stone-440">x{item.quantity}</strong></span>
-                                <span className="font-mono font-medium pl-2">{item.selected_size.split(' ')[0]}</span>
-                              </div>
-                            ))}
-                          </div>
-                        </td>
-                        <td className="p-4 font-serif font-bold text-stone-900 text-sm">
-                          {currency === 'MAD' 
-                            ? `${((o.total || 0) * 10).toLocaleString()} ${t('common.currency')}` 
-                            : `$${(o.total || 0).toLocaleString()}`}
-                        </td>
-                        <td className="p-4">
-                          <span className={`inline-flex items-center px-2 py-1 text-xs font-semibold rounded-md border text-[10px] uppercase font-sans tracking-wide ${statusColors[o.status] || 'bg-stone-50 text-stone-500'}`}>
-                            {o.status}
-                          </span>
-                        </td>
-                        <td className="p-4 text-end">
-                          <select
-                            value={o.status}
-                            onChange={(e) => handleStatusUpdate(o.id, e.target.value as Order['status'])}
-                            className="bg-transparent border border-stone-200 text-[10px] text-stone-700 font-semibold py-1 px-2 focus:outline-hidden focus:border-champagne-400 rounded-sm uppercase tracking-wider"
-                          >
-                            <option value="pending">{t('admin.ordersTable.pending')}</option>
-                            <option value="completed">{t('admin.ordersTable.completed')}</option>
-                            <option value="shipped">{t('admin.ordersTable.shipped')}</option>
-                            <option value="cancelled">{t('admin.ordersTable.cancelled')}</option>
-                          </select>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
+                if (filtered.length === 0) {
+                  return <div className="text-center py-12 text-stone-400 text-xs">{t('admin.ordersTable.noResults')}</div>;
+                }
+
+                return (
+                  <div className="overflow-x-auto">
+                    <table className="w-full text-start border-collapse font-sans text-xs">
+                      <thead>
+                        <tr className="bg-champagne-50/50 text-stone-500 border-b border-champagne-100 uppercase tracking-wider text-[10px]">
+                          <th className="p-4 font-semibold">{t('admin.ordersTable.ref')}</th>
+                          <th className="p-4 font-semibold">{t('admin.ordersTable.date')}</th>
+                          <th className="p-4 font-semibold">{t('admin.ordersTable.items')}</th>
+                          <th className="p-4 font-semibold">{t('admin.ordersTable.total')}</th>
+                          <th className="p-4 font-semibold">{t('admin.ordersTable.status')}</th>
+                          <th className="p-4 text-end font-semibold">{t('admin.ordersTable.actions')}</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-stone-105">
+                        {filtered.map((o) => {
+                          const statusColors: Record<string, string> = {
+                            pending: 'bg-amber-50 text-amber-700 border-amber-200',
+                            confirmed: 'bg-sky-50 text-sky-700 border-sky-200',
+                            shipped: 'bg-blue-50 text-blue-700 border-blue-200',
+                            delivered: 'bg-emerald-50 text-emerald-700 border-emerald-200',
+                            cancelled: 'bg-stone-100 text-stone-550 border-stone-250',
+                          };
+                          const isExpanded = expandedOrderId === o.id;
+
+                          return (
+                            <React.Fragment key={o.id}>
+                              <tr className="hover:bg-luxe-pink-50/20 cursor-pointer" onClick={() => setExpandedOrderId(isExpanded ? null : o.id)}>
+                                <td className="p-4">
+                                  <span className="font-mono font-semibold text-stone-900 block">{o.id}</span>
+                                  <span className="text-stone-550 block font-sans text-[11px] font-medium mt-0.5">{o.customer_name}</span>
+                                  <span className="text-stone-400 block font-mono text-[9px] truncate max-w-[150px]">{o.customer_phone}</span>
+                                </td>
+                                <td className="p-4 text-stone-500 font-mono">
+                                  {o.created_at ? new Date(o.created_at).toLocaleDateString(undefined, { dateStyle: 'medium' }) : t('admin.ordersTable.na')}
+                                </td>
+                                <td className="p-4">
+                                  <div className="space-y-1 max-w-sm">
+                                    {o.items?.map((item: any, idx: number) => (
+                                      <div key={idx} className="flex justify-between items-baseline text-[11px] text-stone-600">
+                                        <span className="line-clamp-1">{item.name} <strong className="text-stone-440">x{item.quantity}</strong></span>
+                                        <span className="font-mono font-medium pl-2">{item.selected_size?.split(' ')[0] || ''}</span>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </td>
+                                <td className="p-4 font-serif font-bold text-stone-900 text-sm">
+                                  {currency === 'MAD' 
+                                    ? `${((o.total || 0) * 10).toLocaleString()} ${t('common.currency')}` 
+                                    : `$${(o.total || 0).toLocaleString()}`}
+                                </td>
+                                <td className="p-4">
+                                  <span className={`inline-flex items-center px-2 py-1 text-xs font-semibold rounded-md border text-[10px] uppercase font-sans tracking-wide ${statusColors[o.status] || 'bg-stone-50 text-stone-500'}`}>
+                                    {o.status}
+                                  </span>
+                                </td>
+                                <td className="p-4 text-end">
+                                  <div className="flex items-center justify-end gap-2">
+                                    <select
+                                      value={o.status}
+                                      onClick={(e) => e.stopPropagation()}
+                                      onChange={(e) => handleStatusUpdate(o.id, e.target.value as Order['status'])}
+                                      className="bg-transparent border border-stone-200 text-[10px] text-stone-700 font-semibold py-1 px-2 focus:outline-hidden focus:border-champagne-400 rounded-sm uppercase tracking-wider"
+                                    >
+                                      <option value="pending">{t('admin.ordersTable.pending')}</option>
+                                      <option value="confirmed">{t('admin.ordersTable.confirmed')}</option>
+                                      <option value="shipped">{t('admin.ordersTable.shipped')}</option>
+                                      <option value="delivered">{t('admin.ordersTable.delivered')}</option>
+                                      <option value="cancelled">{t('admin.ordersTable.cancelled')}</option>
+                                    </select>
+                                    <button
+                                      onClick={(e) => { e.stopPropagation(); handleDeleteOrder(o.id); }}
+                                      className="bg-white border border-stone-200 text-stone-600 hover:text-rose-500 hover:border-rose-350 p-2 rounded-md transition-colors"
+                                      title={t('admin.ordersTable.delete')}
+                                    >
+                                      <Trash2 size={12} />
+                                    </button>
+                                  </div>
+                                </td>
+                              </tr>
+                              {isExpanded && (
+                                <tr>
+                                  <td colSpan={6} className="p-4 bg-stone-50/50 border-b border-champagne-100">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                                      <div className="space-y-1">
+                                        <h4 className="text-[10px] uppercase tracking-widest font-semibold text-stone-500">{t('admin.ordersTable.contactInfo')}</h4>
+                                        <p className="text-stone-900 font-medium">{o.customer_name}</p>
+                                        <p className="text-stone-600">{o.customer_phone}</p>
+                                        {o.customer_email && <p className="text-stone-500">{o.customer_email}</p>}
+                                      </div>
+                                      <div className="space-y-1">
+                                        <h4 className="text-[10px] uppercase tracking-widest font-semibold text-stone-500">{t('admin.ordersTable.shippingAddress')}</h4>
+                                        <p className="text-stone-600">{o.customer_street}{o.customer_apartment ? `, ${o.customer_apartment}` : ''}</p>
+                                        <p className="text-stone-600">{o.customer_city}, {o.customer_country}</p>
+                                      </div>
+                                      <div className="space-y-1">
+                                        <h4 className="text-[10px] uppercase tracking-widest font-semibold text-stone-500">{t('admin.ordersTable.pricing')}</h4>
+                                        <p className="text-stone-600">{t('admin.ordersTable.subtotal')}: {currency === 'MAD' ? `${((o.subtotal || 0) * 10).toLocaleString()} ${t('common.currency')}` : `$${(o.subtotal || 0).toLocaleString()}`}</p>
+                                        {o.discount_amount > 0 && <p className="text-emerald-600">{t('admin.ordersTable.discount')}: -{currency === 'MAD' ? `${((o.discount_amount || 0) * 10).toLocaleString()} ${t('common.currency')}` : `$${(o.discount_amount || 0).toLocaleString()}`} {o.discount_code ? `(${o.discount_code})` : ''}</p>}
+                                        <p className="text-stone-900 font-semibold">{t('admin.ordersTable.total')}: {currency === 'MAD' ? `${((o.total || 0) * 10).toLocaleString()} ${t('common.currency')}` : `$${(o.total || 0).toLocaleString()}`}</p>
+                                      </div>
+                                      <div className="space-y-1">
+                                        <h4 className="text-[10px] uppercase tracking-widest font-semibold text-stone-500">{t('admin.ordersTable.payment')}</h4>
+                                        <p className="text-stone-600 capitalize">{o.payment_method === 'cod' ? t('admin.ordersTable.cashOnDelivery') : o.payment_method}</p>
+                                        {o.order_notes && (
+                                          <>
+                                            <h4 className="text-[10px] uppercase tracking-widest font-semibold text-stone-500 mt-2">{t('admin.ordersTable.notes')}</h4>
+                                            <p className="text-stone-500 italic">{o.order_notes}</p>
+                                          </>
+                                        )}
+                                        <p className="text-[10px] text-stone-400 mt-1">{t('admin.ordersTable.placedOn')} {new Date(o.created_at).toLocaleString()}</p>
+                                      </div>
+                                    </div>
+                                  </td>
+                                </tr>
+                              )}
+                            </React.Fragment>
+                          );
+                        })}
+                      </tbody>
+                    </table>
+                  </div>
+                );
+              })()}
+            </>
           )}
         </section>
       )}
