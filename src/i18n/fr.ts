@@ -345,6 +345,8 @@ export const fr: Record<string, any> = {
     loading: 'Chargement des d\u00e9tails de votre commande...',
     error: 'Impossible de charger la commande.',
     continueShopping: 'Continuer mes achats',
+    contactWhatsapp: 'Contactez-nous sur WhatsApp',
+    whatsappMessage: 'Bonjour, j\'ai passé une commande ({orderId}) au nom de {name}. Mon téléphone est le {phone}.',
   },
 
   contact: {
@@ -874,6 +876,8 @@ export const fr: Record<string, any> = {
       cashOnDelivery: 'Paiement \u00e0 la livraison',
       notes: 'Notes de Commande',
       placedOn: 'Pass\u00e9e le',
+      contactCustomer: 'Contacter le Client',
+      contactWhatsappMessage: 'مرحبًا {name}،\n\nشكرًا لاختياركم CCJaouhara 🌸\n\nلقد توصلنا بطلبكم رقم #{orderId} بنجاح، ونعمل حاليًا على مراجعته وتجهيزه.\n\nإذا احتجنا أي معلومات إضافية سنتواصل معكم في أقرب وقت.\n\nشكرًا لثقتكم، ونتمنى لكم تجربة تسوق ممتعة.\n\nفريق CCJaouhara 💎',
     },
   },
 };

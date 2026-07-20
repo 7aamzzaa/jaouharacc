@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { CheckCircle, Loader2 } from 'lucide-react';
+import { CheckCircle, Loader2, MessageCircle } from 'lucide-react';
 import { useTranslation } from '../i18n';
 
 interface OrderConfirmationProps {
@@ -113,6 +113,19 @@ export default function OrderConfirmation({ onPageChange, currency }: OrderConfi
         >
           {t('orderConfirmation.continueShopping')}
         </button>
+
+        {/* Contact on WhatsApp Button */}
+        <a
+          href={`https://wa.me/212605091987?text=${encodeURIComponent(
+            `السلام عليكم،\n\nلقد أكملت طلبي بنجاح.\n\nرقم الطلب: ${order.id}\n\nأنتظر تأكيد طلبي، شكراً لكم.`
+          )}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="cursor-pointer inline-flex items-center justify-center gap-2 w-full sm:w-auto bg-[#25D366] hover:bg-[#128C7E] text-white font-sans tracking-widest text-xs uppercase font-medium px-12 py-4 transition-colors duration-300 rounded-sm"
+        >
+          <MessageCircle size={16} />
+          {t('orderConfirmation.contactWhatsapp')}
+        </a>
 
       </div>
     </div>

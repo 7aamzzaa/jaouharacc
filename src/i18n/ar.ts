@@ -345,6 +345,8 @@ export const ar: Record<string, any> = {
     loading: 'جارٍ تحميل تفاصيل طلبك...',
     error: 'تعذر تحميل الطلب.',
     continueShopping: 'متابعة التسوق',
+    contactWhatsapp: 'تواصل معنا عبر واتساب',
+    whatsappMessage: 'السلام عليكم،\n\nلقد أكملت طلبي بنجاح.\n\nرقم الطلب: {orderId}\n\nأنتظر تأكيد طلبي، شكراً لكم.',
   },
 
   contact: {
@@ -874,6 +876,8 @@ export const ar: Record<string, any> = {
       cashOnDelivery: 'الدفع عند الاستلام',
       notes: 'ملاحظات الطلب',
       placedOn: 'تاريخ الطلب',
+      contactCustomer: 'اتصل بالعميل',
+      contactWhatsappMessage: 'مرحبًا {name}،\n\nشكرًا لاختياركم CCJaouhara 🌸\n\nلقد توصلنا بطلبكم رقم #{orderId} بنجاح، ونعمل حاليًا على مراجعته وتجهيزه.\n\nإذا احتجنا أي معلومات إضافية سنتواصل معكم في أقرب وقت.\n\nشكرًا لثقتكم، ونتمنى لكم تجربة تسوق ممتعة.\n\nفريق CCJaouhara 💎',
     },
   },
 };

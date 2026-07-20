@@ -96,13 +96,19 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
         })
       });
 
-      const order = await response.json();
       if (!response.ok) {
-        throw new Error(order.error || t('cart.errorInit'));
+        const errBody = await response.json().catch(() => ({}));
+        throw new Error(errBody.error || t('cart.errorInit'));
+      }
+
+      const order = await response.json();
+
+      if (!order?.id) {
+        throw new Error('Invalid order response from server');
       }
 
       onClearCart();
-      window.location.href = `/order-confirmation?orderId=${order.id}`;
+      onPageChange('order-confirmation', { orderId: order.id });
     } catch (err: any) {
       console.error('[Order Submit Error]', err);
       setFormError(err.message || t('cart.errorPayment'));

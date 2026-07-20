@@ -926,6 +926,21 @@ export default function AdminDashboard({
                                       <option value="delivered">{t('admin.ordersTable.delivered')}</option>
                                       <option value="cancelled">{t('admin.ordersTable.cancelled')}</option>
                                     </select>
+                                    <a
+                                      href={`https://wa.me/${(o.customer_phone || '').replace(/[\s+\-()]/g, '')}?text=${encodeURIComponent(
+                                        t('admin.ordersTable.contactWhatsappMessage', {
+                                          name: o.customer_name,
+                                          orderId: o.id
+                                        })
+                                      )}`}
+                                      target="_blank"
+                                      rel="noopener noreferrer"
+                                      onClick={(e) => e.stopPropagation()}
+                                      className="bg-white border border-stone-200 text-stone-600 hover:text-emerald-600 hover:border-emerald-300 p-2 rounded-md transition-colors inline-flex items-center justify-center"
+                                      title={t('admin.ordersTable.contactCustomer')}
+                                    >
+                                      <span className="text-[13px] leading-none">💬</span>
+                                    </a>
                                     <button
                                       onClick={(e) => { e.stopPropagation(); handleDeleteOrder(o.id); }}
                                       className="bg-white border border-stone-200 text-stone-600 hover:text-rose-500 hover:border-rose-350 p-2 rounded-md transition-colors"

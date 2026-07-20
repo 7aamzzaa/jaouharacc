@@ -1,5 +1,477 @@
 [
   {
+    "id": "ORD-40J3P5U3I",
+    "customer_name": "zjzjzjzjz",
+    "customer_phone": "+555605091987",
+    "customer_email": "ZKZKZKZK0@gmail.com",
+    "customer_country": "France",
+    "customer_city": "agadir",
+    "customer_street": "hay essalam agadir",
+    "customer_apartment": "",
+    "payment_method": "cod",
+    "order_notes": "",
+    "items": [
+      {
+        "id": "prod-169-Medium (7.0\")",
+        "product_id": "prod-169",
+        "name": "Gold Aura Jewelry Set",
+        "price": 9.9,
+        "quantity": 1,
+        "selected_size": "Medium (7.0\")",
+        "image": "/images/B1.jpg",
+        "max_stock": 10
+      },
+      {
+        "id": "prod-170-Medium (7.0\")",
+        "product_id": "prod-170",
+        "name": "Gold Blossom Jewelry Set",
+        "price": 9.9,
+        "quantity": 1,
+        "selected_size": "Medium (7.0\")",
+        "image": "/images/B2.jpg",
+        "max_stock": 10
+      }
+    ],
+    "subtotal": 19.8,
+    "shipping_cost": 0,
+    "discount_amount": 0,
+    "discount_code": "",
+    "total": 19.8,
+    "status": "pending",
+    "created_at": "2026-07-20T20:34:48.732Z"
+  },
+  {
+    "id": "ORD-T3J2NZJ9G",
+    "customer_name": "7aamzzaa",
+    "customer_phone": "+33605091987",
+    "customer_email": "aamzzaachrifi@gmail.com",
+    "customer_country": "France",
+    "customer_city": "agadir",
+    "customer_street": "hay essalam agadir",
+    "customer_apartment": "",
+    "payment_method": "cod",
+    "order_notes": "",
+    "items": [
+      {
+        "id": "prod-124-Medium (7.0\")",
+        "product_id": "prod-124",
+        "name": "Gold Noble Bracelet",
+        "price": 9.9,
+        "quantity": 1,
+        "selected_size": "Medium (7.0\")",
+        "image": "/images/01.jpg",
+        "max_stock": 7
+      },
+      {
+        "id": "prod-133-Medium (7.0\")",
+        "product_id": "prod-133",
+        "name": "Gold Opal Bracelet",
+        "price": 9.9,
+        "quantity": 1,
+        "selected_size": "Medium (7.0\")",
+        "image": "/images/010.jpg",
+        "max_stock": 10
+      },
+      {
+        "id": "prod-137-Medium (7.0\")",
+        "product_id": "prod-137",
+        "name": "Gold Oracle Bracelet",
+        "price": 9.9,
+        "quantity": 1,
+        "selected_size": "Medium (7.0\")",
+        "image": "/images/014.jpg",
+        "max_stock": 10
+      }
+    ],
+    "subtotal": 29.700000000000003,
+    "shipping_cost": 0,
+    "discount_amount": 0,
+    "discount_code": "",
+    "total": 29.700000000000003,
+    "status": "pending",
+    "created_at": "2026-07-20T20:28:28.015Z"
+  },
+  {
+    "id": "ORD-ZRYLZVZX9",
+    "customer_name": "simo ",
+    "customer_phone": "+33605091987",
+    "customer_email": "aamzzaachrifi@gmail.com",
+    "customer_country": "France",
+    "customer_city": "agadir",
+    "customer_street": "hay essalam agadir",
+    "customer_apartment": "",
+    "payment_method": "cod",
+    "order_notes": "",
+    "items": [
+      {
+        "id": "prod-111-Medium (7.0\")",
+        "product_id": "prod-111",
+        "name": "Gold Radiance Anklet",
+        "price": 9.9,
+        "quantity": 1,
+        "selected_size": "Medium (7.0\")",
+        "image": "/images/A.jpg",
+        "max_stock": 9
+      },
+      {
+        "id": "prod-114-Medium (7.0\")",
+        "product_id": "prod-114",
+        "name": "Gold Dazzle Anklet",
+        "price": 9.9,
+        "quantity": 1,
+        "selected_size": "Medium (7.0\")",
+        "image": "/images/D.jpg",
+        "max_stock": 10
+      },
+      {
+        "id": "prod-115-Medium (7.0\")",
+        "product_id": "prod-115",
+        "name": "Gold Gleam Anklet",
+        "price": 9.9,
+        "quantity": 1,
+        "selected_size": "Medium (7.0\")",
+        "image": "/images/E.jpg",
+        "max_stock": 10
+      }
+    ],
+    "subtotal": 29.700000000000003,
+    "shipping_cost": 0,
+    "discount_amount": 0,
+    "discount_code": "",
+    "total": 29.700000000000003,
+    "status": "pending",
+    "created_at": "2026-07-20T20:20:43.108Z"
+  },
+  {
+    "id": "ORD-HVHYXIAXS",
+    "customer_name": "7aamzzaa",
+    "customer_phone": "+33605091987",
+    "customer_email": "",
+    "customer_country": "France",
+    "customer_city": "agadir",
+    "customer_street": "hay essalam agadir",
+    "customer_apartment": "",
+    "payment_method": "cod",
+    "order_notes": "",
+    "items": [
+      {
+        "id": "prod-112-Medium (7.0\")",
+        "product_id": "prod-112",
+        "name": "Gold Glow Anklet",
+        "price": 9.9,
+        "quantity": 1,
+        "selected_size": "Medium (7.0\")",
+        "image": "/images/B.jpg",
+        "max_stock": 10
+      }
+    ],
+    "subtotal": 9.9,
+    "shipping_cost": 0,
+    "discount_amount": 0,
+    "discount_code": "",
+    "total": 9.9,
+    "status": "pending",
+    "created_at": "2026-07-20T20:15:42.221Z"
+  },
+  {
+    "id": "ORD-IX0YL6C45",
+    "customer_name": "7aamzzaa",
+    "customer_phone": "+33605091987",
+    "customer_email": "",
+    "customer_country": "France",
+    "customer_city": "agadir",
+    "customer_street": "hay essalam agadir",
+    "customer_apartment": "",
+    "payment_method": "cod",
+    "order_notes": "",
+    "items": [
+      {
+        "id": "prod-125-Medium (7.0\")",
+        "product_id": "prod-125",
+        "name": "Gold Opus Bracelet",
+        "price": 9.9,
+        "quantity": 1,
+        "selected_size": "Medium (7.0\")",
+        "image": "/images/02.jpg",
+        "max_stock": 9
+      }
+    ],
+    "subtotal": 9.9,
+    "shipping_cost": 0,
+    "discount_amount": 0,
+    "discount_code": "",
+    "total": 9.9,
+    "status": "pending",
+    "created_at": "2026-07-20T19:57:31.329Z"
+  },
+  {
+    "id": "ORD-AVJDYJKYU",
+    "customer_name": "achraf",
+    "customer_phone": "+33605091987",
+    "customer_email": "",
+    "customer_country": "France",
+    "customer_city": "agadir",
+    "customer_street": "hay essalam agadir",
+    "customer_apartment": "",
+    "payment_method": "cod",
+    "order_notes": "",
+    "items": [
+      {
+        "id": "prod-49-Medium (7.0\")",
+        "product_id": "prod-49",
+        "name": "sansla",
+        "price": 15,
+        "quantity": 1,
+        "selected_size": "Medium (7.0\")",
+        "image": "/images/snsl.jpg",
+        "max_stock": 1492
+      },
+      {
+        "id": "prod-71-Medium (7.0\")",
+        "product_id": "prod-71",
+        "name": "Gold Classic Ring",
+        "price": 12,
+        "quantity": 1,
+        "selected_size": "Medium (7.0\")",
+        "image": "/images/1.jpg",
+        "max_stock": 3
+      }
+    ],
+    "subtotal": 27,
+    "shipping_cost": 0,
+    "discount_amount": 0,
+    "discount_code": "",
+    "total": 27,
+    "status": "pending",
+    "created_at": "2026-07-20T19:56:20.589Z"
+  },
+  {
+    "id": "ORD-7JAMGOQR4",
+    "customer_name": "Test User",
+    "customer_phone": "+212600000000",
+    "customer_email": "",
+    "customer_country": "Morocco 🇲🇦",
+    "customer_city": "Test City",
+    "customer_street": "Test Street",
+    "customer_apartment": "",
+    "payment_method": "cod",
+    "order_notes": "",
+    "items": [
+      {
+        "id": "test-1",
+        "product_id": "prod-1",
+        "name": "Test",
+        "price": 10,
+        "quantity": 1,
+        "selected_size": "M",
+        "image": "/test.jpg",
+        "max_stock": 10
+      }
+    ],
+    "subtotal": 0,
+    "shipping_cost": 0,
+    "discount_amount": 0,
+    "discount_code": "",
+    "total": 10,
+    "status": "pending",
+    "created_at": "2026-07-20T19:47:19.697Z"
+  },
+  {
+    "id": "ORD-W8H3HERIY",
+    "customer_name": "7aamzzaa",
+    "customer_phone": "+33605091987",
+    "customer_email": "",
+    "customer_country": "France",
+    "customer_city": "agadir",
+    "customer_street": "hay essalam agadir",
+    "customer_apartment": "",
+    "payment_method": "cod",
+    "order_notes": "",
+    "items": [
+      {
+        "id": "prod-125-Medium (7.0\")",
+        "product_id": "prod-125",
+        "name": "Gold Opus Bracelet",
+        "price": 9.9,
+        "quantity": 1,
+        "selected_size": "Medium (7.0\")",
+        "image": "/images/02.jpg",
+        "max_stock": 10
+      },
+      {
+        "id": "prod-126-Medium (7.0\")",
+        "product_id": "prod-126",
+        "name": "Gold Oasis Bracelet",
+        "price": 9.9,
+        "quantity": 1,
+        "selected_size": "Medium (7.0\")",
+        "image": "/images/03.jpg",
+        "max_stock": 10
+      }
+    ],
+    "subtotal": 19.8,
+    "shipping_cost": 0,
+    "discount_amount": 0,
+    "discount_code": "",
+    "total": 19.8,
+    "status": "pending",
+    "created_at": "2026-07-20T19:40:20.199Z"
+  },
+  {
+    "id": "ORD-BVRR2FR44",
+    "customer_name": "fatiha zokkkk",
+    "customer_phone": "+33605091987",
+    "customer_email": "",
+    "customer_country": "France",
+    "customer_city": "agadir",
+    "customer_street": "hay essalam agadir",
+    "customer_apartment": "",
+    "payment_method": "cod",
+    "order_notes": "",
+    "items": [
+      {
+        "id": "prod-124-Medium (7.0\")",
+        "product_id": "prod-124",
+        "name": "Gold Noble Bracelet",
+        "price": 9.9,
+        "quantity": 1,
+        "selected_size": "Medium (7.0\")",
+        "image": "/images/01.jpg",
+        "max_stock": 8
+      }
+    ],
+    "subtotal": 9.9,
+    "shipping_cost": 0,
+    "discount_amount": 0,
+    "discount_code": "",
+    "total": 9.9,
+    "status": "pending",
+    "created_at": "2026-07-20T19:25:25.249Z"
+  },
+  {
+    "id": "ORD-D4QEFJULK",
+    "customer_name": "simo sehraoio",
+    "customer_phone": "+212627786973",
+    "customer_email": "",
+    "customer_country": "France",
+    "customer_city": "agadir",
+    "customer_street": "hay essalam agadir",
+    "customer_apartment": "",
+    "payment_method": "cod",
+    "order_notes": "",
+    "items": [
+      {
+        "id": "prod-71-Medium (7.0\")",
+        "product_id": "prod-71",
+        "name": "Gold Classic Ring",
+        "price": 12,
+        "quantity": 1,
+        "selected_size": "Medium (7.0\")",
+        "image": "/images/1.jpg",
+        "max_stock": 4
+      }
+    ],
+    "subtotal": 12,
+    "shipping_cost": 0,
+    "discount_amount": 0,
+    "discount_code": "",
+    "total": 12,
+    "status": "pending",
+    "created_at": "2026-07-20T19:00:12.335Z"
+  },
+  {
+    "id": "ORD-VXJG0DEID",
+    "customer_name": "anass",
+    "customer_phone": "+33605091987",
+    "customer_email": "anasslouk0@gmail.com",
+    "customer_country": "France",
+    "customer_city": "agadir",
+    "customer_street": "hay essalam agadir",
+    "customer_apartment": "",
+    "payment_method": "cod",
+    "order_notes": "",
+    "items": [
+      {
+        "id": "prod-49-Medium (7.0\")",
+        "product_id": "prod-49",
+        "name": "sansla",
+        "price": 15,
+        "quantity": 1,
+        "selected_size": "Medium (7.0\")",
+        "image": "/images/snsl.jpg",
+        "max_stock": 1493
+      },
+      {
+        "id": "prod-50-Medium (7.0\")",
+        "product_id": "prod-50",
+        "name": "Luna Crystal Necklace",
+        "price": 299,
+        "quantity": 1,
+        "selected_size": "Medium (7.0\")",
+        "image": "/images/sssssssssssssssl.jpg",
+        "max_stock": 8
+      }
+    ],
+    "subtotal": 314,
+    "shipping_cost": 0,
+    "discount_amount": 0,
+    "discount_code": "",
+    "total": 314,
+    "status": "pending",
+    "created_at": "2026-07-20T18:56:56.622Z"
+  },
+  {
+    "id": "ORD-MKT1CDHYG",
+    "customer_name": "7aamzzaa",
+    "customer_phone": "+33605091987",
+    "customer_email": "",
+    "customer_country": "France",
+    "customer_city": "agadir",
+    "customer_street": "hay essalam agadir",
+    "customer_apartment": "",
+    "payment_method": "cod",
+    "order_notes": "",
+    "items": [
+      {
+        "id": "prod-124-Medium (7.0\")",
+        "product_id": "prod-124",
+        "name": "Gold Noble Bracelet",
+        "price": 9.9,
+        "quantity": 1,
+        "selected_size": "Medium (7.0\")",
+        "image": "/images/01.jpg",
+        "max_stock": 9
+      },
+      {
+        "id": "prod-128-Medium (7.0\")",
+        "product_id": "prod-128",
+        "name": "Gold Onyx Bracelet",
+        "price": 9.9,
+        "quantity": 1,
+        "selected_size": "Medium (7.0\")",
+        "image": "/images/05.jpg",
+        "max_stock": 10
+      },
+      {
+        "id": "prod-131-Medium (7.0\")",
+        "product_id": "prod-131",
+        "name": "Gold Omega Bracelet",
+        "price": 9.9,
+        "quantity": 1,
+        "selected_size": "Medium (7.0\")",
+        "image": "/images/08.jpg",
+        "max_stock": 10
+      }
+    ],
+    "subtotal": 29.700000000000003,
+    "shipping_cost": 0,
+    "discount_amount": 0,
+    "discount_code": "",
+    "total": 29.700000000000003,
+    "status": "pending",
+    "created_at": "2026-07-20T18:56:07.581Z"
+  },
+  {
     "id": "ORD-8EVA5YHYK",
     "customer_name": "hhamza cbvjd",
     "customer_phone": "+33605091987",
