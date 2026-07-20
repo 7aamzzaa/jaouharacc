@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Instagram, Facebook, Compass, Heart, ArrowRight, ChevronRight } from 'lucide-react';
 import { useTranslation } from '../i18n';
+import { showToast } from './ToastContainer';
 
 const SOCIAL_LINKS = {
   instagram: 'https://www.instagram.com/ccjaouhara/',
@@ -17,11 +18,26 @@ export default function Footer() {
   const [subscribed, setSubscribed] = useState(false);
   const { t, dir } = useTranslation();
 
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email) {
-      setSubscribed(true);
-      setEmail('');
+    if (!email) return;
+    try {
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email })
+      });
+      if (response.ok) {
+        setSubscribed(true);
+        setEmail('');
+        showToast(t('footer.newsletter.subscribed'));
+      } else if (response.status === 409) {
+        showToast(t('footer.newsletter.alreadySubscribed'), true);
+      } else {
+        showToast(t('footer.newsletter.error'), true);
+      }
+    } catch {
+      showToast(t('footer.newsletter.error'), true);
     }
   };
 

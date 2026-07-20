@@ -64,6 +64,13 @@ export interface ContactMessage {
   status: 'new' | 'read';
 }
 
+export interface Subscriber {
+  id: string;
+  email: string;
+  createdAt: string;
+  status: 'active';
+}
+
 export interface CartItem {
   id: string; // combination of product_id + selected_size
   product_id: string;

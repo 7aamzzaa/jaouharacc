@@ -18,6 +18,7 @@ import { motion } from 'motion/react';
 import { Product } from '../types';
 import ProductCard from '../components/ProductCard';
 import { useTranslation } from '../i18n';
+import { showToast } from '../components/ToastContainer';
 
 interface HomeProps {
   products: Product[];
@@ -124,6 +125,33 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
       transition: {
         staggerChildren: 0.12
       }
+    }
+  };
+
+  // Newsletter subscription state
+  const [newsletterEmail, setNewsletterEmail] = useState('');
+  const [newsletterSubscribed, setNewsletterSubscribed] = useState(false);
+
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newsletterEmail) return;
+    try {
+      const response = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: newsletterEmail })
+      });
+      if (response.ok) {
+        setNewsletterSubscribed(true);
+        setNewsletterEmail('');
+        showToast(t('footer.newsletter.subscribed'));
+      } else if (response.status === 409) {
+        showToast(t('footer.newsletter.alreadySubscribed'), true);
+      } else {
+        showToast(t('footer.newsletter.error'), true);
+      }
+    } catch {
+      showToast(t('footer.newsletter.error'), true);
     }
   };
 
@@ -681,23 +709,32 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
               {t('home.newsletter.desc')}
             </p>
           </div>
-          <form
-            onSubmit={(e) => { e.preventDefault(); const input = e.currentTarget.querySelector('input'); if (input) { input.value = ''; } }}
-            className="flex flex-col sm:flex-row items-center gap-3 w-full max-w-sm"
-          >
-            <input
-              type="email"
-              required
-              placeholder={t('home.newsletter.placeholder')}
-              className="w-full border border-champagne-200 bg-[#FFFDFB] px-4 py-3 text-xs sm:text-sm text-stone-800 placeholder:text-stone-400 focus:outline-none focus:border-champagne-500 focus:ring-1 focus:ring-champagne-500/20 transition-all rounded-xs font-sans"
-            />
-            <button
-              type="submit"
-              className="cursor-pointer w-full sm:w-auto bg-stone-900 text-white font-bold hover:bg-champagne-500 text-xs uppercase tracking-widest px-6 py-3 shadow-md hover:shadow-xl transition-all duration-300 rounded-xs font-sans active:scale-95 shrink-0"
+          {newsletterSubscribed ? (
+            <div className="text-center space-y-1">
+              <p className="text-xs uppercase tracking-widest font-bold text-emerald-600">{t('footer.newsletter.subscribed')}</p>
+              <p className="text-[11px] text-stone-500">{t('footer.newsletter.welcome')}</p>
+            </div>
+          ) : (
+            <form
+              onSubmit={handleNewsletterSubmit}
+              className="flex flex-col sm:flex-row items-center gap-3 w-full max-w-sm"
             >
-              {t('home.newsletter.cta')}
-            </button>
-          </form>
+              <input
+                type="email"
+                required
+                value={newsletterEmail}
+                onChange={(e) => setNewsletterEmail(e.target.value)}
+                placeholder={t('home.newsletter.placeholder')}
+                className="w-full border border-champagne-200 bg-[#FFFDFB] px-4 py-3 text-xs sm:text-sm text-stone-800 placeholder:text-stone-400 focus:outline-none focus:border-champagne-500 focus:ring-1 focus:ring-champagne-500/20 transition-all rounded-xs font-sans"
+              />
+              <button
+                type="submit"
+                className="cursor-pointer w-full sm:w-auto bg-stone-900 text-white font-bold hover:bg-champagne-500 text-xs uppercase tracking-widest px-6 py-3 shadow-md hover:shadow-xl transition-all duration-300 rounded-xs font-sans active:scale-95 shrink-0"
+              >
+                {t('home.newsletter.cta')}
+              </button>
+            </form>
+          )}
         </div>
       </section>
 

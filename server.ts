@@ -16,6 +16,9 @@ import {
   createMessage,
   updateMessageStatus,
   deleteMessage,
+  getSubscribers,
+  createSubscriber,
+  deleteSubscriber,
   getSupabaseClient
 } from './serverDB';
 import { Product } from './src/types';
@@ -263,6 +266,50 @@ app.delete('/api/messages/:id', async (req, res) => {
     res.json({ message: 'Message deleted successfully', id: req.params.id });
   } catch (err: any) {
     res.status(500).json({ error: 'Failed to delete message', details: err.message });
+  }
+});
+
+// ------------------------------------------------------------------------
+// Newsletter Subscribers API Endpoints
+// ------------------------------------------------------------------------
+
+// Fetch all subscribers - Admin Area
+app.get('/api/newsletter', async (req, res) => {
+  try {
+    const subscribers = await getSubscribers();
+    res.json(subscribers);
+  } catch (err: any) {
+    res.status(500).json({ error: 'Failed to retrieve subscribers', details: err.message });
+  }
+});
+
+// Subscribe a new email (public form)
+app.post('/api/newsletter', async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      return res.status(400).json({ error: 'A valid email address is required' });
+    }
+    const created = await createSubscriber(email);
+    if (!created) {
+      return res.status(409).json({ error: 'This email is already subscribed' });
+    }
+    res.json(created);
+  } catch (err: any) {
+    res.status(500).json({ error: 'Failed to subscribe', details: err.message });
+  }
+});
+
+// Delete a subscriber - Admin Area
+app.delete('/api/newsletter/:id', async (req, res) => {
+  try {
+    const success = await deleteSubscriber(req.params.id);
+    if (!success) {
+      return res.status(404).json({ error: 'Subscriber not found' });
+    }
+    res.json({ message: 'Subscriber deleted successfully', id: req.params.id });
+  } catch (err: any) {
+    res.status(500).json({ error: 'Failed to delete subscriber', details: err.message });
   }
 });
 

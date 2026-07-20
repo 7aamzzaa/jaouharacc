@@ -2,7 +2,7 @@ import { useState, useEffect, memo } from 'react';
 import { Routes, Route, useNavigate, useLocation, useSearchParams, useParams } from 'react-router-dom';
 import { ShoppingBag, ArrowRight, ArrowLeft, X, ShieldCheck, Gem } from 'lucide-react';
 
-import { Product, Order, CartItem, ContactMessage } from './types';
+import { Product, Order, CartItem, ContactMessage, Subscriber } from './types';
 import { defaultProducts } from './data/defaultProducts';
 import { useTranslation } from './i18n';
 
@@ -39,10 +39,12 @@ export default function App() {
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [allOrders, setAllOrders] = useState<Order[]>([]);
   const [allMessages, setAllMessages] = useState<ContactMessage[]>([]);
+  const [allSubscribers, setAllSubscribers] = useState<Subscriber[]>([]);
 
   const [loadingProducts, setLoadingProducts] = useState(true);
   const [loadingOrders, setLoadingOrders] = useState(true);
   const [loadingMessages, setLoadingMessages] = useState(true);
+  const [loadingSubscribers, setLoadingSubscribers] = useState(true);
 
   const [cart, setCart] = useState<CartItem[]>(() => {
     try {
@@ -135,10 +137,26 @@ export default function App() {
     }
   };
 
+  const fetchSubscribersLogs = async () => {
+    setLoadingSubscribers(true);
+    try {
+      const response = await fetch('/api/newsletter');
+      if (!response.ok) throw new Error('Server returned error status on subscribers query');
+      const data = await response.json();
+      setAllSubscribers(data);
+    } catch (err) {
+      console.warn('[API Fetch Warn] Could not load subscribers from persistence layer:', err);
+      setAllSubscribers([]);
+    } finally {
+      setLoadingSubscribers(false);
+    }
+  };
+
   useEffect(() => {
     fetchProductsList();
     fetchOrdersLogs();
     fetchMessagesLogs();
+    fetchSubscribersLogs();
   }, []);
 
   const handleAddToCart = (product: Product, quantity: number, size: string) => {
@@ -297,7 +315,7 @@ export default function App() {
           <Route path="/about" element={<About />} />
           <Route path="/press" element={<Press />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/admin" element={<AdminDashboard products={allProducts} orders={allOrders} messages={allMessages} isLoadingProducts={loadingProducts} isLoadingOrders={loadingOrders} isLoadingMessages={loadingMessages} onRefreshProducts={fetchProductsList} onRefreshOrders={fetchOrdersLogs} onRefreshMessages={fetchMessagesLogs} currency={currency} />} />
+          <Route path="/admin" element={<AdminDashboard products={allProducts} orders={allOrders} messages={allMessages} subscribers={allSubscribers} isLoadingProducts={loadingProducts} isLoadingOrders={loadingOrders} isLoadingMessages={loadingMessages} isLoadingSubscribers={loadingSubscribers} onRefreshProducts={fetchProductsList} onRefreshOrders={fetchOrdersLogs} onRefreshMessages={fetchMessagesLogs} onRefreshSubscribers={fetchSubscribersLogs} currency={currency} />} />
           <Route path="*" element={<NotFound onPageChange={handlePageChange} />} />
         </Routes>
       </main>

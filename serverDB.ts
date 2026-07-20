@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { createClient } from '@supabase/supabase-js';
-import { Product, Order, ContactMessage } from './src/types';
+import { Product, Order, ContactMessage, Subscriber } from './src/types';
 import { defaultProducts } from './src/data/defaultProducts';
 
 // Setup local fallback directory and file paths
@@ -9,6 +9,7 @@ const DATA_DIR = path.join(process.cwd(), 'data');
 const PRODUCTS_FILE = path.join(DATA_DIR, 'products.json');
 const ORDERS_FILE = path.join(DATA_DIR, 'orders.json');
 const MESSAGES_FILE = path.join(DATA_DIR, 'messages.json');
+const SUBSCRIBERS_FILE = path.join(DATA_DIR, 'subscribers.json');
 
 // Ensure fallback database files are initialized
 function initializeLocalDB() {
@@ -26,6 +27,10 @@ function initializeLocalDB() {
   if (!fs.existsSync(MESSAGES_FILE)) {
     fs.writeFileSync(MESSAGES_FILE, JSON.stringify([], null, 2), 'utf-8');
     console.log('[DB] Local messages database initialized empty');
+  }
+  if (!fs.existsSync(SUBSCRIBERS_FILE)) {
+    fs.writeFileSync(SUBSCRIBERS_FILE, JSON.stringify([], null, 2), 'utf-8');
+    console.log('[DB] Local subscribers database initialized empty');
   }
 }
 
@@ -395,5 +400,43 @@ export async function deleteMessage(id: string): Promise<boolean> {
   const filtered = messages.filter(m => m.id !== id);
   if (messages.length === filtered.length) return false;
   fs.writeFileSync(MESSAGES_FILE, JSON.stringify(filtered, null, 2), 'utf-8');
+  return true;
+}
+
+// ------------------------------------------------------------------------
+// Newsletter Subscribers DB Access Handlers
+// ------------------------------------------------------------------------
+
+export async function getSubscribers(): Promise<Subscriber[]> {
+  try {
+    const fileContent = fs.readFileSync(SUBSCRIBERS_FILE, 'utf-8');
+    return JSON.parse(fileContent) as Subscriber[];
+  } catch (err) {
+    console.error('[DB] Failed to read fallback subscribers json', err);
+    return [];
+  }
+}
+
+export async function createSubscriber(email: string): Promise<Subscriber | null> {
+  const subscribers = await getSubscribers();
+  const existing = subscribers.find(s => s.email.toLowerCase() === email.toLowerCase());
+  if (existing) return null;
+
+  const newSub: Subscriber = {
+    id: 'SUB-' + Date.now() + '-' + Math.random().toString(36).substr(2, 6).toUpperCase(),
+    email,
+    createdAt: new Date().toISOString(),
+    status: 'active'
+  };
+  subscribers.unshift(newSub);
+  fs.writeFileSync(SUBSCRIBERS_FILE, JSON.stringify(subscribers, null, 2), 'utf-8');
+  return newSub;
+}
+
+export async function deleteSubscriber(id: string): Promise<boolean> {
+  const subscribers = await getSubscribers();
+  const filtered = subscribers.filter(s => s.id !== id);
+  if (subscribers.length === filtered.length) return false;
+  fs.writeFileSync(SUBSCRIBERS_FILE, JSON.stringify(filtered, null, 2), 'utf-8');
   return true;
 }

@@ -1,22 +1,25 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useTranslation } from '../i18n';
 import { 
   Database, Plus, Edit, Trash2, ShoppingBag, DollarSign, ListOrdered, 
   Layers, Hammer, Archive, Sparkles, RefreshCw, X, Loader2, LogOut, Lock, Upload, Mail, Check
 } from 'lucide-react';
-import { Product, Order, ContactMessage } from '../types';
+import { Product, Order, ContactMessage, Subscriber } from '../types';
 import { showToast } from '../components/ToastContainer';
 
 interface AdminDashboardProps {
   products: Product[];
   orders: Order[];
   messages: ContactMessage[];
+  subscribers: Subscriber[];
   isLoadingProducts: boolean;
   isLoadingOrders: boolean;
   isLoadingMessages: boolean;
+  isLoadingSubscribers: boolean;
   onRefreshProducts: () => void;
   onRefreshOrders: () => void;
   onRefreshMessages: () => void;
+  onRefreshSubscribers: () => void;
   currency: 'USD' | 'MAD';
 }
 
@@ -24,12 +27,15 @@ export default function AdminDashboard({
   products,
   orders,
   messages,
+  subscribers,
   isLoadingProducts,
   isLoadingOrders,
   isLoadingMessages,
+  isLoadingSubscribers,
   onRefreshProducts,
   onRefreshOrders,
   onRefreshMessages,
+  onRefreshSubscribers,
   currency
 }: AdminDashboardProps) {
   const { t } = useTranslation();
@@ -40,11 +46,12 @@ export default function AdminDashboard({
   const [passcode, setPasscode] = useState('');
   const [loginError, setLoginError] = useState('');
 
-  const [activeTab, setActiveTab] = useState<'products' | 'orders' | 'messages'>('products');
+  const [activeTab, setActiveTab] = useState<'products' | 'orders' | 'messages' | 'subscribers'>('products');
   const [messagesSearch, setMessagesSearch] = useState('');
   const [orderSearch, setOrderSearch] = useState('');
   const [orderFilter, setOrderFilter] = useState<string>('all');
   const [expandedOrderId, setExpandedOrderId] = useState<string | null>(null);
+  const [subscriberSearch, setSubscriberSearch] = useState('');
   
   // Products Management Form State
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
@@ -269,6 +276,26 @@ export default function AdminDashboard({
     }
   };
 
+  // Delete a subscriber
+  const handleDeleteSubscriber = async (id: string) => {
+    if (!confirm(t('admin.subscribersTable.deleteConfirm'))) return;
+    try {
+      const response = await fetch(`/api/newsletter/${id}`, { method: 'DELETE' });
+      if (!response.ok) throw new Error('Delete failed');
+      showToast(t('admin.subscribersTable.deleteSuccess'));
+      onRefreshSubscribers();
+    } catch (err: any) {
+      showToast(err.message || 'Failed to delete subscriber', true);
+    }
+  };
+
+  // Auto-refresh subscribers when tab is selected
+  useEffect(() => {
+    if (activeTab === 'subscribers') {
+      onRefreshSubscribers();
+    }
+  }, [activeTab]);
+
   // Update real status of the Order
   const handleStatusUpdate = async (id: string, status: Order['status']) => {
     try {
@@ -401,6 +428,7 @@ export default function AdminDashboard({
               onRefreshProducts();
               onRefreshOrders();
               onRefreshMessages();
+              onRefreshSubscribers();
             }}
             className="cursor-pointer bg-white text-stone-700 hover:text-champagne-600 font-sans border border-stone-200 hover:border-champagne-300 p-3 rounded-md transition-colors text-xs font-semibold flex items-center gap-1"
             title={t('admin.dashboard.refresh')}
@@ -719,6 +747,16 @@ export default function AdminDashboard({
         >
           {t('admin.tabs.messages', { count: messages.length })}
         </button>
+        <button
+          onClick={() => setActiveTab('subscribers')}
+          className={`cursor-pointer pb-4 text-xs tracking-widest uppercase transition-colors font-semibold relative ${
+            activeTab === 'subscribers'
+              ? 'text-stone-900 border-b-2 border-champagne-500'
+              : 'text-stone-400 hover:text-stone-750'
+          }`}
+        >
+          {t('admin.tabs.subscribers', { count: subscribers.length })}
+        </button>
       </div>
 
       {/* TAB 1 CONTENT: PRODUCTS TABLE */}
@@ -998,7 +1036,7 @@ export default function AdminDashboard({
             </>
           )}
         </section>
-      ) : (
+      ) : activeTab === 'messages' ? (
         /* TAB 3 CONTENT: MESSAGES TABLE */
         <section className="bg-white border border-champagne-105 rounded-lg overflow-hidden">
           {/* Search Bar */}
@@ -1093,6 +1131,92 @@ export default function AdminDashboard({
                                 onClick={() => handleDeleteMessage(m.id)}
                                 className="bg-white border border-stone-200 text-stone-600 hover:text-rose-500 hover:border-rose-350 p-2 rounded-md transition-colors"
                                 title={t('admin.messagesTable.delete')}
+                              >
+                                <Trash2 size={12} />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              );
+            })()
+          )}
+        </section>
+      ) : (
+        /* TAB 4 CONTENT: NEWSLETTER SUBSCRIBERS TABLE */
+        <section className="bg-white border border-champagne-105 rounded-lg overflow-hidden">
+          {/* Info bar with total count */}
+          <div className="p-4 border-b border-champagne-100 bg-champagne-50/30 flex items-center justify-between">
+            <input
+              type="text"
+              placeholder={t('admin.subscribersTable.searchPlaceholder')}
+              className="w-full max-w-xs bg-white text-xs px-3 py-2 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400"
+              value={subscriberSearch}
+              onChange={(e) => setSubscriberSearch(e.target.value)}
+            />
+            <span className="text-[10px] text-stone-500 font-semibold uppercase tracking-wider font-sans">
+              {t('admin.subscribersTable.total', { count: subscribers.length })}
+            </span>
+          </div>
+
+          {isLoadingSubscribers ? (
+            <div className="text-center py-16 text-xs text-stone-405 flex flex-col items-center justify-center gap-2">
+              <Loader2 className="animate-spin text-champagne-500" />
+              <span>{t('admin.subscribersTable.loading')}</span>
+            </div>
+          ) : subscribers.length === 0 ? (
+            <div className="text-center py-16 text-stone-400 text-xs space-y-2">
+              <Mail className="mx-auto text-stone-200" size={32} />
+              <p>{t('admin.subscribersTable.empty')}</p>
+            </div>
+          ) : (
+            (() => {
+              const filtered = subscribers.filter(s => {
+                if (!subscriberSearch) return true;
+                const q = subscriberSearch.toLowerCase();
+                return (s.email || '').toLowerCase().includes(q);
+              });
+
+              if (filtered.length === 0) {
+                return <div className="text-center py-12 text-stone-400 text-xs">{t('admin.subscribersTable.noResults')}</div>;
+              }
+
+              return (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-start border-collapse font-sans text-xs">
+                    <thead>
+                      <tr className="bg-champagne-50/50 text-stone-500 border-b border-champagne-100 uppercase tracking-wider text-[10px]">
+                        <th className="p-4 font-semibold">{t('admin.subscribersTable.email')}</th>
+                        <th className="p-4 font-semibold">{t('admin.subscribersTable.date')}</th>
+                        <th className="p-4 font-semibold">{t('admin.subscribersTable.status')}</th>
+                        <th className="p-4 text-end font-semibold">{t('admin.ordersTable.actions')}</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-stone-105">
+                      {filtered.map((s) => (
+                        <tr key={s.id} className="hover:bg-luxe-pink-50/20">
+                          <td className="p-4">
+                            <span className="font-semibold text-stone-900 block text-sm">{s.email}</span>
+                          </td>
+                          <td className="p-4 text-stone-500 font-mono text-[11px] whitespace-nowrap">
+                            {new Date(s.createdAt).toLocaleDateString(undefined, { dateStyle: 'medium' })}
+                            <br />
+                            <span className="text-[10px] text-stone-400">{new Date(s.createdAt).toLocaleTimeString(undefined, { timeStyle: 'short' })}</span>
+                          </td>
+                          <td className="p-4">
+                            <span className="inline-flex items-center px-2 py-1 text-[10px] font-semibold rounded-md border uppercase tracking-wide bg-emerald-50 text-emerald-700 border-emerald-200">
+                              {t('admin.subscribersTable.active')}
+                            </span>
+                          </td>
+                          <td className="p-4 text-end">
+                            <div className="flex items-center justify-end gap-2">
+                              <button
+                                onClick={() => handleDeleteSubscriber(s.id)}
+                                className="bg-white border border-stone-200 text-stone-600 hover:text-rose-500 hover:border-rose-350 p-2 rounded-md transition-colors"
+                                title={t('admin.subscribersTable.delete')}
                               >
                                 <Trash2 size={12} />
                               </button>
