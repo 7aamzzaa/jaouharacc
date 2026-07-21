@@ -4,6 +4,7 @@ import { Product } from '../types';
 import ProductRating from '../components/ProductRating';
 import ProductCard from '../components/ProductCard';
 import { useTranslation } from '../i18n';
+import { productTranslations } from '../i18n/productTranslations';
 
 interface ProductDetailProps {
   productId: string;
@@ -20,9 +21,18 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
   const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
   const [selectedSize, setSelectedSize] = useState<string>('Medium (7.0")');
   const [quantity, setQuantity] = useState<number>(1);
+  const RECENTLY_VIEWED_KEY = 'ccjaouhara_recently_viewed';
+  const [recentlyViewedIds, setRecentlyViewedIds] = useState<string[]>(() => {
+    try {
+      const stored = localStorage.getItem(RECENTLY_VIEWED_KEY);
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  });
   const isFavorite = wishlist.includes(product?.id || '');
   const [addedMessage, setAddedMessage] = useState<boolean>(false);
-  const { t, dir } = useTranslation();
+  const { t, lang, dir } = useTranslation();
 
   // Load product criteria
   useEffect(() => {
@@ -36,6 +46,20 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
     window.scrollTo(0, 0);
   }, [productId, allProducts]);
 
+  // Save current product to recently viewed
+  useEffect(() => {
+    if (!product) return;
+    setRecentlyViewedIds(prev => {
+      const filtered = prev.filter(i => i !== product.id);
+      const updated = [...filtered, product.id];
+      const trimmed = updated.slice(-8);
+      try {
+        localStorage.setItem(RECENTLY_VIEWED_KEY, JSON.stringify(trimmed));
+      } catch {}
+      return trimmed;
+    });
+  }, [product?.id]);
+
   // Recommendations: Other products in same category, up to 4, randomized
   const recommendations = useMemo(() => {
     if (!product) return [];
@@ -47,6 +71,17 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
     }
     return shuffled.slice(0, 4);
   }, [productId, allProducts, product]);
+
+  // Recently viewed products from localStorage
+  const recentlyViewedProducts = useMemo(() => {
+    if (!product) return [];
+    return recentlyViewedIds
+      .filter(id => id !== product.id)
+      .map(id => allProducts.find(p => p.id === id))
+      .filter((p): p is Product => p !== undefined)
+      .reverse()
+      .slice(0, 4);
+  }, [recentlyViewedIds, allProducts, product?.id]);
 
   const handleQuickAdd = useCallback((p: Product, size: string) => {
     onAddToCart(p, 1, size);
@@ -66,6 +101,8 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
   }
 
   const isOutOfStock = product.stock === 0;
+  const productTranslation = productTranslations[product.id]?.[lang];
+  const translatedDescription = productTranslation?.description || product.description;
 
   // Sizes array details
   const sizeOptions = [
@@ -173,7 +210,7 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
           <div className="space-y-2">
             <h3 className="text-xs tracking-widest uppercase text-stone-800 font-semibold">{t('productDetail.artisanStory')}</h3>
             <p className="text-stone-600 text-xs sm:text-sm leading-relaxed font-sans font-normal">
-              {product.description}
+              {translatedDescription}
             </p>
           </div>
 
@@ -304,6 +341,31 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
 
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
             {recommendations.map((p) => (
+              <ProductCard
+                key={p.id}
+                product={p}
+                onViewDetails={handleViewRelated}
+                onAddToCartDirect={handleQuickAdd}
+                wishlist={wishlist}
+                onToggleWishlist={onToggleWishlist}
+                currency={currency}
+              />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Recently Viewed Section */}
+      {recentlyViewedProducts.length > 0 && (
+        <section className="space-y-8 border-t border-champagne-100 pt-16">
+          <div className="text-center">
+            <span className="text-[10px] tracking-[0.2em] uppercase text-champagne-500 font-medium font-sans">
+              {t('productDetail.recentlyViewed')}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
+            {recentlyViewedProducts.map((p) => (
               <ProductCard
                 key={p.id}
                 product={p}

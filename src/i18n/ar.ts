@@ -233,6 +233,7 @@
     styleValue: 'أناقة خالدة',
     recommendations: 'اقتراحات تنسيق مختارة',
     youMayAlsoLike: 'قد يعجبك أيضاً',
+    recentlyViewed: 'شوهدت مؤخراً',
     sizes: {
       small: 'صغير (6.5")',
       smallDesc: 'محيط معصم صغير',

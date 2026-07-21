@@ -233,6 +233,7 @@
     styleValue: 'Timeless Elegance',
     recommendations: 'Curated styling suggestions',
     youMayAlsoLike: 'You May Also Like',
+    recentlyViewed: 'Recently Viewed',
     sizes: {
       small: 'Small (6.5")',
       smallDesc: 'Petite wrist profile',
