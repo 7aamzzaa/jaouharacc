@@ -25,10 +25,12 @@ interface HomeProps {
   isLoading: boolean;
   onPageChange: (pageName: string, params?: any) => void;
   onAddToCartDirect: (product: Product, size: string) => void;
+  wishlist: string[];
+  onToggleWishlist: (id: string) => void;
   currency: 'USD' | 'MAD';
 }
 
-export default function Home({ products, isLoading, onPageChange, onAddToCartDirect, currency }: HomeProps) {
+export default function Home({ products, isLoading, onPageChange, onAddToCartDirect, wishlist, onToggleWishlist, currency }: HomeProps) {
   const [copied, setCopied] = useState<boolean>(false);
   const { t, dir } = useTranslation();
 
@@ -401,6 +403,8 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
                 product={product}
                 onViewDetails={(id) => onPageChange('product', { id })}
                 onAddToCartDirect={onAddToCartDirect}
+                wishlist={wishlist}
+                onToggleWishlist={onToggleWishlist}
                 currency={currency}
               />
             ))}
@@ -476,6 +480,8 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
                 product={product}
                 onViewDetails={(id) => onPageChange('product', { id })}
                 onAddToCartDirect={onAddToCartDirect}
+                wishlist={wishlist}
+                onToggleWishlist={onToggleWishlist}
                 currency={currency}
               />
             ))}
@@ -741,3 +747,4 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
     </div>
   );
 }
+

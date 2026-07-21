@@ -8,11 +8,12 @@ interface NavbarProps {
   onPageChange: (pageName: string, params?: any) => void;
   cart: CartItem[];
   onOpenCart: () => void;
+  wishlist: string[];
   currency: 'USD' | 'MAD';
   onCurrencyToggle: () => void;
 }
 
-export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, currency, onCurrencyToggle }: NavbarProps) {
+export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOpenCart, currency, onCurrencyToggle }: NavbarProps) {
   const { t, lang, setLang, dir } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileCollectionsOpen, setMobileCollectionsOpen] = useState(false);
@@ -195,6 +196,19 @@ export default function Navbar({ currentPage, onPageChange, cart, onOpenCart, cu
                 </>
               )}
             </div>
+
+            <button
+              onClick={() => onPageChange("wishlist")}
+              className="cursor-pointer relative p-2 text-stone-700 hover:text-champagne-500 transition-colors duration-300 focus:outline-hidden"
+              aria-label="Wishlist"
+            >
+              <Heart size={22} strokeWidth={1.5} />
+              {wishlist.length > 0 && (
+                <span className="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-semibold leading-none text-white bg-champagne-500 rounded-full scale-90 border border-white">
+                  {wishlist.length}
+                </span>
+              )}
+            </button>
 
             <button
               id="desktop-cart-trigger"

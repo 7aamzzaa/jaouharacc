@@ -1,4 +1,4 @@
-export const fr: Record<string, any> = {
+﻿export const fr: Record<string, any> = {
   nav: {
     home: 'Accueil',
     collections: 'Collections',
@@ -698,6 +698,12 @@ export const fr: Record<string, any> = {
     onlyLeft: 'Plus que {stock} en stock',
     viewDetails: 'Voir les D\u00e9tails',
     quickAdd: 'Ajout Rapide au Panier (Moyen)',
+  },
+
+  wishlist: {
+    title: 'Mes Favoris',
+    empty: 'Votre liste de favoris est vide.',
+    shopNow: 'Acheter maintenant',
   },
 
   lazyImage: {

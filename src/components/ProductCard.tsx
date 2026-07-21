@@ -1,5 +1,5 @@
-import React, { memo, useCallback } from 'react';
-import { Eye, Handbag } from 'lucide-react';
+﻿import React, { memo, useCallback } from 'react';
+import { Eye, Handbag, Heart } from 'lucide-react';
 import { Product } from '../types';
 import LazyImage from './LazyImage';
 import { useTranslation } from '../i18n';
@@ -9,10 +9,12 @@ interface ProductCardProps {
   product: Product;
   onViewDetails: (id: string) => void;
   onAddToCartDirect: (product: Product, size: string) => void;
+  wishlist: string[];
+  onToggleWishlist: (id: string) => void;
   currency?: 'USD' | 'MAD';
 }
 
-const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToCartDirect, currency = 'USD' }: ProductCardProps) {
+const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToCartDirect, wishlist, onToggleWishlist, currency = 'USD' }: ProductCardProps) {
   const { t } = useTranslation();
   const isOutOfStock = product.stock === 0;
 
@@ -39,6 +41,21 @@ const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToC
           alt={product.name}
           className="zoom-image object-cover w-full h-full"
         />
+
+        {/* Wishlist Heart Button */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onToggleWishlist(product.id);
+          }}
+          className='absolute top-2 right-2 z-20 p-1.5 rounded-full transition-all duration-200 cursor-pointer hover:scale-110 active:scale-75'
+          aria-label={wishlist.includes(product.id) ? 'Remove from wishlist' : 'Add to wishlist'}
+        >
+          <Heart
+            size={16}
+            className={'transition-all duration-200 ' + (wishlist.includes(product.id) ? 'text-champagne-500 fill-champagne-500' : 'text-stone-400 hover:text-champagne-500')}
+          />
+        </button>
 
         {/* Dynamic Badges */}
         {isOutOfStock ? (

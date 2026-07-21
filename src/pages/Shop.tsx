@@ -12,6 +12,8 @@ interface ShopProps {
   onPageChange: (pageName: string, params?: any) => void;
   onAddToCartDirect: (product: Product, size: string) => void;
   onClearInitialCategory: () => void;
+  wishlist: string[];
+  onToggleWishlist: (id: string) => void;
   currency: 'USD' | 'MAD';
 }
 
@@ -42,6 +44,8 @@ export default function Shop({
   onPageChange,
   onAddToCartDirect,
   onClearInitialCategory,
+  wishlist,
+  onToggleWishlist,
   currency
 }: ShopProps) {
   const { t } = useTranslation();
@@ -250,6 +254,8 @@ export default function Shop({
                       product={product}
                       onViewDetails={(id) => onPageChange('product', { id })}
                       onAddToCartDirect={onAddToCartDirect}
+                      wishlist={wishlist}
+                      onToggleWishlist={onToggleWishlist}
                       currency={currency}
                     />
                   </motion.div>

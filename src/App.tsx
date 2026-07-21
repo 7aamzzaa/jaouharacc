@@ -1,6 +1,6 @@
 import { useState, useEffect, memo } from 'react';
 import { Routes, Route, useNavigate, useLocation, useSearchParams, useParams } from 'react-router-dom';
-import { ShoppingBag, ArrowRight, ArrowLeft, X, ShieldCheck, Gem } from 'lucide-react';
+import { ShoppingBag, ArrowRight, ArrowLeft, X, ShieldCheck, Gem, Heart } from 'lucide-react';
 
 import { Product, Order, CartItem, ContactMessage, Subscriber } from './types';
 import { defaultProducts } from './data/defaultProducts';
@@ -27,6 +27,7 @@ import TrackOrder from './pages/TrackOrder';
 import Shipping from './pages/Shipping';
 import About from './pages/About';
 import Press from './pages/Press';
+import Wishlist from './pages/Wishlist';
 
 export default function App() {
   const navigate = useNavigate();
@@ -55,6 +56,15 @@ export default function App() {
     }
   });
 
+  const [wishlist, setWishlist] = useState<string[]>(() => {
+    try {
+      const stored = localStorage.getItem('ccjaouhara_wishlist');
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  });
+
   const { t, dir } = useTranslation();
 
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -74,6 +84,14 @@ export default function App() {
     });
     return () => cancelAnimationFrame(timer);
   }, [cart]);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem('ccjaouhara_wishlist', JSON.stringify(wishlist));
+    } catch (err) {
+      console.error('[Wishlist Sync Error]', err);
+    }
+  }, [wishlist]);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -183,7 +201,7 @@ export default function App() {
         ];
       }
     });
-    showToast('Added to bag ✓');
+    showToast('Added to bag âœ“');
     setIsCartOpen(true);
   };
 
@@ -205,6 +223,14 @@ export default function App() {
     setCart([]);
   };
 
+  const handleToggleWishlist = (productId: string) => {
+    setWishlist((prev) =>
+      prev.includes(productId)
+        ? prev.filter((id) => id !== productId)
+        : [...prev, productId]
+    );
+  };
+
   const cartSubtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   const getCurrentPage = (pathname: string): string => {
@@ -221,6 +247,7 @@ export default function App() {
     if (pathname.startsWith('/track-order')) return 'track-order';
     if (pathname.startsWith('/size-guide')) return 'size-guide';
     if (pathname.startsWith('/faq')) return 'faq';
+    if (pathname.startsWith('/wishlist')) return 'wishlist';
     if (pathname.startsWith('/contact')) return 'contact';
     return '';
   };
@@ -276,6 +303,9 @@ export default function App() {
       case 'contact':
         navigate('/contact');
         break;
+      case 'wishlist':
+        navigate('/wishlist');
+        break;
       case 'order-confirmation':
         if (params?.orderId) navigate(`/order-confirmation?orderId=${params.orderId}`);
         break;
@@ -293,6 +323,7 @@ export default function App() {
         currentPage={getCurrentPage(location.pathname)}
         onPageChange={handlePageChange}
         cart={cart}
+        wishlist={wishlist}
         onOpenCart={() => setIsCartOpen(true)}
         currency={currency}
         onCurrencyToggle={handleCurrencyToggle}
@@ -300,9 +331,9 @@ export default function App() {
 
       <main className="flex-1 py-12 md:py-16">
         <Routes>
-          <Route path="/" element={<Home products={allProducts} isLoading={loadingProducts} onAddToCartDirect={handleQuickAdd} onPageChange={handlePageChange} currency={currency} />} />
-          <Route path="/shop" element={<ShopWithParams products={allProducts} isLoading={loadingProducts} onAddToCartDirect={handleQuickAdd} onPageChange={handlePageChange} currency={currency} />} />
-          <Route path="/product/:id" element={<ProductDetailWithParams allProducts={allProducts} onAddToCart={handleAddToCart} onPageChange={handlePageChange} currency={currency} />} />
+          <Route path="/" element={<Home products={allProducts} isLoading={loadingProducts} onAddToCartDirect={handleQuickAdd} onPageChange={handlePageChange} wishlist={wishlist} onToggleWishlist={handleToggleWishlist} currency={currency} />} />
+          <Route path="/shop" element={<ShopWithParams products={allProducts} isLoading={loadingProducts} onAddToCartDirect={handleQuickAdd} onPageChange={handlePageChange} wishlist={wishlist} onToggleWishlist={handleToggleWishlist} currency={currency} />} />
+          <Route path="/product/:id" element={<ProductDetailWithParams allProducts={allProducts} onAddToCart={handleAddToCart} onPageChange={handlePageChange} wishlist={wishlist} onToggleWishlist={handleToggleWishlist} currency={currency} />} />
           <Route path="/cart" element={<Cart cart={cart} onUpdateQuantity={handleUpdateCartQuantity} onRemoveItem={handleRemoveCartItem} onPageChange={handlePageChange} onClearCart={handleClearCart} currency={currency} />} />
           <Route path="/checkout" element={<CheckoutSimulation onClearCart={handleClearCart} onPageChange={handlePageChange} currency={currency} />} />
           <Route path="/order-confirmation" element={<OrderConfirmation onPageChange={handlePageChange} currency={currency} />} />
@@ -315,6 +346,7 @@ export default function App() {
           <Route path="/about" element={<About />} />
           <Route path="/press" element={<Press />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/wishlist" element={<Wishlist wishlist={wishlist} allProducts={allProducts} onToggleWishlist={handleToggleWishlist} onPageChange={handlePageChange} onAddToCartDirect={handleQuickAdd} currency={currency} />} />
           <Route path="/admin" element={<AdminDashboard products={allProducts} orders={allOrders} messages={allMessages} subscribers={allSubscribers} isLoadingProducts={loadingProducts} isLoadingOrders={loadingOrders} isLoadingMessages={loadingMessages} isLoadingSubscribers={loadingSubscribers} onRefreshProducts={fetchProductsList} onRefreshOrders={fetchOrdersLogs} onRefreshMessages={fetchMessagesLogs} onRefreshSubscribers={fetchSubscribersLogs} currency={currency} />} />
           <Route path="*" element={<NotFound onPageChange={handlePageChange} />} />
         </Routes>
@@ -345,7 +377,7 @@ export default function App() {
                       <div className="flex-1 space-y-1">
                         <span className="font-serif text-xs font-semibold text-stone-900 block line-clamp-1">{item.name}</span>
                         <div className="flex justify-between items-baseline text-[10px] text-stone-400">
-                          <span>Qty: {item.quantity} • {item.selected_size.split(' ')[0]}</span>
+                          <span>Qty: {item.quantity} â€¢ {item.selected_size.split(' ')[0]}</span>
                           <span className="font-serif font-semibold text-stone-900">
                             {currency === 'MAD' ? `${((item.price * item.quantity) * 10).toLocaleString()} ${t('common.currency')}` : `$${(item.price * item.quantity).toLocaleString()}`}
                           </span>
@@ -451,15 +483,32 @@ const Marquee = memo(function Marquee() {
       <div className="flex whitespace-nowrap select-none" style={{ width: 'max-content' }}>
         <div className="animate-marquee flex items-center shrink-0 pr-8 gap-8 font-sans">
           {items.map((item, i) => (
-            <span key={i} className={item === '•' ? 'text-champagne-500 font-bold' : ''}>{item}</span>
+            <span key={i} className={item === 'â€¢' ? 'text-champagne-500 font-bold' : ''}>{item}</span>
           ))}
         </div>
         <div className="animate-marquee flex items-center shrink-0 pr-8 gap-8 font-sans" aria-hidden="true">
           {items.map((item, i) => (
-            <span key={i} className={item === '•' ? 'text-champagne-500 font-bold' : ''}>{item}</span>
+            <span key={i} className={item === 'â€¢' ? 'text-champagne-500 font-bold' : ''}>{item}</span>
           ))}
         </div>
       </div>
     </div>
   );
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

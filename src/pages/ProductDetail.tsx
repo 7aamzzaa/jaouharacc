@@ -7,16 +7,18 @@ interface ProductDetailProps {
   productId: string;
   allProducts: Product[];
   onAddToCart: (product: Product, quantity: number, size: string) => void;
+  wishlist: string[];
+  onToggleWishlist: (id: string) => void;
   onPageChange: (pageName: string, params?: any) => void;
   currency: 'USD' | 'MAD';
 }
 
-export default function ProductDetail({ productId, allProducts, onAddToCart, onPageChange, currency }: ProductDetailProps) {
+export default function ProductDetail({ productId, allProducts, onAddToCart, wishlist, onToggleWishlist, onPageChange, currency }: ProductDetailProps) {
   const [product, setProduct] = useState<Product | null>(null);
   const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
   const [selectedSize, setSelectedSize] = useState<string>('Medium (7.0")');
   const [quantity, setQuantity] = useState<number>(1);
-  const [isFavorite, setIsFavorite] = useState<boolean>(false);
+  const isFavorite = wishlist.includes(product?.id || '');
   const [addedMessage, setAddedMessage] = useState<boolean>(false);
   const { t, dir } = useTranslation();
 
@@ -223,13 +225,13 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, onP
 
               {/* Add to Wishlist Toggle */}
               <button
-                onClick={() => setIsFavorite(!isFavorite)}
+                onClick={() => onToggleWishlist(product.id)}
                 className={`cursor-pointer p-4 border rounded-sm transition-all focus:outline-hidden ${
-                  isFavorite ? 'border-rose-300 text-rose-500 bg-rose-50' : 'border-stone-200 hover:border-stone-400 text-stone-500'
+                  isFavorite ? 'border-champagne-500 text-champagne-500 bg-champagne-50' : 'border-stone-200 hover:border-stone-400 text-stone-400'
                 }`}
                 title={t('productDetail.addToWishlist')}
               >
-                <Heart size={16} className={isFavorite ? 'fill-rose-500' : ''} />
+                <Heart size={16} className={isFavorite ? 'fill-champagne-500' : ''} />
               </button>
 
             </div>
