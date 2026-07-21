@@ -699,6 +699,12 @@
     payment: 'دفع آمن',
   },
 
+  search: {
+    placeholder: 'البحث عن المنتجات...',
+    noResults: 'لم يتم العثور على منتجات',
+    tryKeyword: 'جرب كلمة مفتاحية أخرى.',
+  },
+
   productCard: {
     outOfStock: 'غير متوفر',
     onlyLeft: 'تبقى {stock} فقط',

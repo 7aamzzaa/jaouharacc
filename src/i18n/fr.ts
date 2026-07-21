@@ -699,6 +699,12 @@
     payment: 'Paiement S\u00e9curis\u00e9',
   },
 
+  search: {
+    placeholder: 'Rechercher des produits...',
+    noResults: 'Aucun produit trouv\u00e9',
+    tryKeyword: 'Essayez un autre mot-cl\u00e9.',
+  },
+
   productCard: {
     outOfStock: '\u00c9puis\u00e9',
     onlyLeft: 'Plus que {stock} en stock',

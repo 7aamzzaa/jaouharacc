@@ -327,6 +327,7 @@ export default function App() {
         onOpenCart={() => setIsCartOpen(true)}
         currency={currency}
         onCurrencyToggle={handleCurrencyToggle}
+        allProducts={allProducts}
       />
 
       <main className="flex-1 py-12 md:py-16">

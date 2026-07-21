@@ -699,6 +699,12 @@
     payment: 'Secure Payment',
   },
 
+  search: {
+    placeholder: 'Search products...',
+    noResults: 'No products found',
+    tryKeyword: 'Try another keyword.',
+  },
+
   productCard: {
     outOfStock: 'Out of Stock',
     onlyLeft: 'Only {stock} Left',

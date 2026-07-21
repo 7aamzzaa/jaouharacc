@@ -1,7 +1,9 @@
 import { ShoppingBag, Menu, X, ChevronDown, CircleDot, Sparkles, Heart, Crown, Gem, Circle, Globe } from 'lucide-react';
 import { useState } from 'react';
-import { CartItem } from '../types';
+import { CartItem, Product } from '../types';
 import { useTranslation, type Lang } from '../i18n';
+import SearchButton from './search/SearchButton';
+import SearchModal from './search/SearchModal';
 
 interface NavbarProps {
   currentPage: string;
@@ -11,13 +13,15 @@ interface NavbarProps {
   wishlist: string[];
   currency: 'USD' | 'MAD';
   onCurrencyToggle: () => void;
+  allProducts: Product[];
 }
 
-export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOpenCart, currency, onCurrencyToggle }: NavbarProps) {
+export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOpenCart, currency, onCurrencyToggle, allProducts }: NavbarProps) {
   const { t, lang, setLang, dir } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileCollectionsOpen, setMobileCollectionsOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   const totalItemsCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
@@ -31,7 +35,7 @@ export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOp
   const categoryIcons: Record<string, typeof CircleDot> = { bracelets: CircleDot, rings: Circle, earrings: Sparkles, anklets: Heart, necklaces: Crown, jewelry_sets: Gem };
 
   return (
-    <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-champagne-100 shadow-xs">
+    <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-champagne-100 shadow-xs relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-20">
           
@@ -197,7 +201,7 @@ export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOp
               )}
             </div>
 
-            <button
+          <button
               onClick={() => onPageChange("wishlist")}
               className="cursor-pointer relative p-2 text-stone-700 hover:text-champagne-500 transition-colors duration-300 focus:outline-hidden"
               aria-label="Wishlist"
@@ -209,6 +213,8 @@ export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOp
                 </span>
               )}
             </button>
+
+            <SearchButton onClick={() => setSearchOpen(true)} />
 
             <button
               id="desktop-cart-trigger"
@@ -343,6 +349,14 @@ export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOp
           </div>
         </div>
       )}
+
+      <SearchModal
+        isOpen={searchOpen}
+        onClose={() => setSearchOpen(false)}
+        products={allProducts}
+        onSelectProduct={(id) => onPageChange('product', { id })}
+        currency={currency}
+      />
     </header>
   );
 }
