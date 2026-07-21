@@ -1,10 +1,11 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-import { Minus, Plus, ShoppingBag, ShieldCheck, Heart, Sparkles, Scale, RefreshCw, ArrowLeft, ArrowRight } from 'lucide-react';
+import { Minus, Plus, ShoppingBag, ShieldCheck, Heart, Sparkles, Scale, RefreshCw, ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
 import { Product } from '../types';
 import ProductRating from '../components/ProductRating';
 import ProductCard from '../components/ProductCard';
 import { useTranslation } from '../i18n';
 import { productTranslations } from '../i18n/productTranslations';
+import ShareModal from '../components/ShareModal';
 
 interface ProductDetailProps {
   productId: string;
@@ -32,6 +33,7 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
   });
   const isFavorite = wishlist.includes(product?.id || '');
   const [addedMessage, setAddedMessage] = useState<boolean>(false);
+  const [showShareModal, setShowShareModal] = useState(false);
   const { t, lang, dir } = useTranslation();
 
   // Load product criteria
@@ -200,9 +202,13 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
               <p className="font-serif text-2xl text-stone-900 font-medium font-bold">
                 {currency === 'MAD' ? `${(product.price * 10).toLocaleString()} ${t('common.currency')}` : `$${product.price.toLocaleString()}`}
               </p>
-              <span className="text-xs text-stone-500 font-semibold">
-                {t('productDetail.shipping')}
-              </span>
+              <button
+                onClick={() => setShowShareModal(true)}
+                className="cursor-pointer flex items-center gap-1 text-xs tracking-wider text-stone-500 hover:text-champagne-600 transition-colors font-medium"
+              >
+                <ExternalLink size={12} />
+                {t('productDetail.shareButton')}
+              </button>
             </div>
           </div>
 
@@ -379,6 +385,13 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
           </div>
         </section>
       )}
+
+      <ShareModal
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
+        productName={product.name}
+        productUrl={typeof window !== 'undefined' ? window.location.href : ''}
+      />
 
     </div>
   );

@@ -234,6 +234,11 @@
     recommendations: 'Curated styling suggestions',
     youMayAlsoLike: 'You May Also Like',
     recentlyViewed: 'Recently Viewed',
+    shareButton: '\u2197 Share',
+    shareTitle: 'Share this Product',
+    shareCopyLink: 'Copy Link',
+    shareCopied: 'Product link copied successfully.',
+    shareCancel: 'Cancel',
     sizes: {
       small: 'Small (6.5")',
       smallDesc: 'Petite wrist profile',

@@ -234,6 +234,11 @@
     recommendations: 'اقتراحات تنسيق مختارة',
     youMayAlsoLike: 'قد يعجبك أيضاً',
     recentlyViewed: 'شوهدت مؤخراً',
+    shareButton: '↗ مشاركة',
+    shareTitle: 'مشاركة هذا المنتج',
+    shareCopyLink: 'نسخ الرابط',
+    shareCopied: 'تم نسخ رابط المنتج بنجاح.',
+    shareCancel: 'إلغاء',
     sizes: {
       small: 'صغير (6.5")',
       smallDesc: 'محيط معصم صغير',

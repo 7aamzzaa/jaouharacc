@@ -1,9 +1,10 @@
-﻿import React, { memo, useCallback } from 'react';
-import { Eye, Handbag, Heart } from 'lucide-react';
+﻿import React, { memo, useCallback, useState } from 'react';
+import { Eye, Handbag, Heart, Share2 } from 'lucide-react';
 import { Product } from '../types';
 import LazyImage from './LazyImage';
 import ProductRating from './ProductRating';
 import { useTranslation } from '../i18n';
+import ShareModal from './ShareModal';
 
 interface ProductCardProps {
   key?: any;
@@ -17,6 +18,7 @@ interface ProductCardProps {
 
 const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToCartDirect, wishlist, onToggleWishlist, currency = 'USD' }: ProductCardProps) {
   const { t } = useTranslation();
+  const [showShareModal, setShowShareModal] = useState(false);
   const isOutOfStock = product.stock === 0;
 
   const handleViewClick = useCallback((e: React.MouseEvent) => {
@@ -116,9 +118,25 @@ const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToC
           <span className="font-serif text-base text-stone-950 font-extrabold">
             {currency === 'MAD' ? `${(product.price * 10).toLocaleString()} ${t('common.currency')}` : `$${product.price.toLocaleString()}`}
           </span>
-
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowShareModal(true);
+            }}
+            className="cursor-pointer text-stone-400 hover:text-champagne-500 transition-colors duration-200"
+            aria-label="Share"
+          >
+            <Share2 size={16} />
+          </button>
         </div>
       </div>
+
+      <ShareModal
+        isOpen={showShareModal}
+        onClose={() => setShowShareModal(false)}
+        productName={product.name}
+        productUrl={typeof window !== 'undefined' ? `${window.location.origin}/product/${product.id}` : ''}
+      />
 
     </div>
   );

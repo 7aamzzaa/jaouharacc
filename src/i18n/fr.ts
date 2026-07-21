@@ -234,6 +234,11 @@
     recommendations: 'Suggestions de style cur\u00e9es',
     youMayAlsoLike: 'Vous pourriez aussi aimer',
     recentlyViewed: 'R\u00e9cemment consult\u00e9s',
+    shareButton: '\u2197 Partager',
+    shareTitle: 'Partager ce produit',
+    shareCopyLink: 'Copier le lien',
+    shareCopied: 'Lien du produit copi\u00e9 avec succ\u00e8s.',
+    shareCancel: 'Annuler',
     sizes: {
       small: 'Petite (16,5 cm)',
       smallDesc: 'Profil poignet d\u00e9licat',
