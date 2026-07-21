@@ -8,6 +8,8 @@ export interface Product {
   category: string;
   material: string;
   color: string;
+  rating: number;
+  reviews: number;
 }
 
 export interface OrderItem {

@@ -2,6 +2,7 @@
 import { Eye, Handbag, Heart } from 'lucide-react';
 import { Product } from '../types';
 import LazyImage from './LazyImage';
+import ProductRating from './ProductRating';
 import { useTranslation } from '../i18n';
 
 interface ProductCardProps {
@@ -105,6 +106,10 @@ const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToC
           >
             {product.name}
           </button>
+
+          <div className="mt-1.5">
+            <ProductRating rating={product.rating} reviewsCount={product.reviews} />
+          </div>
         </div>
 
         <div className="flex items-center justify-between mt-4 pt-4 border-t border-champagne-105">

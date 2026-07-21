@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Minus, Plus, ShoppingBag, ShieldCheck, Heart, Sparkles, Scale, RefreshCw, ArrowLeft, ArrowRight } from 'lucide-react';
 import { Product } from '../types';
+import ProductRating from '../components/ProductRating';
 import { useTranslation } from '../i18n';
 
 interface ProductDetailProps {
@@ -137,6 +138,10 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
             <h1 className="font-serif text-3xl sm:text-4xl text-stone-950 font-medium leading-tight">
               {product.name}
             </h1>
+            
+            <div className="mt-2">
+              <ProductRating rating={product.rating} reviewsCount={product.reviews} size={14} />
+            </div>
             
             <div className="flex items-center justify-between pt-2">
               <p className="font-serif text-2xl text-stone-900 font-medium font-bold">
