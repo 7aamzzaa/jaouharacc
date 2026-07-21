@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Minus, Plus, ShoppingBag, ShieldCheck, Heart, Sparkles, Scale, RefreshCw, ArrowLeft, ArrowRight } from 'lucide-react';
 import { Product } from '../types';
 import ProductRating from '../components/ProductRating';
+import ProductCard from '../components/ProductCard';
 import { useTranslation } from '../i18n';
 
 interface ProductDetailProps {
@@ -35,6 +36,26 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
     window.scrollTo(0, 0);
   }, [productId, allProducts]);
 
+  // Recommendations: Other products in same category, up to 4, randomized
+  const recommendations = useMemo(() => {
+    if (!product) return [];
+    const related = allProducts.filter(p => p.category === product.category && p.id !== product.id);
+    const shuffled = [...related];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled.slice(0, 4);
+  }, [productId, allProducts, product]);
+
+  const handleQuickAdd = useCallback((p: Product, size: string) => {
+    onAddToCart(p, 1, size);
+  }, [onAddToCart]);
+
+  const handleViewRelated = useCallback((id: string) => {
+    onPageChange('product', { id });
+  }, [onPageChange]);
+
   if (!product) {
     return (
       <div className="text-center py-24 space-y-4">
@@ -52,11 +73,6 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
     { label: t('productDetail.sizes.medium'), desc: t('productDetail.sizes.mediumDesc') },
     { label: t('productDetail.sizes.large'), desc: t('productDetail.sizes.largeDesc') },
   ];
-
-  // Recommendations: Other bracelets in same category, up to 3
-  const recommendations = allProducts
-    .filter(p => p.category === product.category && p.id !== product.id)
-    .slice(0, 3);
 
   // Handle add to bag action
   const handleAddToBag = () => {
@@ -276,7 +292,7 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
         </div>
       </div>
 
-      {/* Recommendations Gallery Section */}
+      {/* You May Also Like Section */}
       {recommendations.length > 0 && (
         <section className="space-y-8 border-t border-champagne-100 pt-16">
           <div className="text-center">
@@ -286,25 +302,17 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
             <h2 className="font-serif text-2xl text-stone-950 mt-1 font-medium">{t('productDetail.youMayAlsoLike')}</h2>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
             {recommendations.map((p) => (
-              <div
+              <ProductCard
                 key={p.id}
-                onClick={() => onPageChange('product', { id: p.id })}
-                className="cursor-pointer group space-y-3 bg-white border border-champagne-100/50 p-4 rounded-md hover:shadow-lg transition-all"
-              >
-                <div className="zoom-frame aspect-square bg-stone-50 rounded-xs overflow-hidden">
-                  <img src={p.images[0]} alt={p.name} className="zoom-image object-cover w-full h-full" />
-                </div>
-                <div>
-                  <h3 className="font-serif text-sm text-stone-800 line-clamp-1 group-hover:text-champagne-600 transition-colors">
-                    {p.name}
-                  </h3>
-                  <p className="font-serif text-sm text-stone-900 font-semibold mt-1 font-bold">
-                    {currency === 'MAD' ? `${(p.price * 10).toLocaleString()} ${t('common.currency')}` : `$${p.price.toLocaleString()}`}
-                  </p>
-                </div>
-              </div>
+                product={p}
+                onViewDetails={handleViewRelated}
+                onAddToCartDirect={handleQuickAdd}
+                wishlist={wishlist}
+                onToggleWishlist={onToggleWishlist}
+                currency={currency}
+              />
             ))}
           </div>
         </section>
