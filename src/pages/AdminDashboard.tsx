@@ -1121,7 +1121,7 @@ export default function AdminDashboard({
                     return (
                       <tr key={p.id} className="hover:bg-luxe-pink-50/20">
                         <td className="p-4 flex items-center gap-3">
-                          <img src={p.images?.[0]} alt={p.name || ''} className="w-10 h-10 object-cover rounded-sm border border-stone-150" />
+                          <img src={p.images?.[0]} alt={p.name || ''} loading="lazy" className="w-10 h-10 object-cover rounded-sm border border-stone-150" />
                           <div>
                             <span className="font-serif font-semibold text-stone-900 block text-sm">{p.name || '—'}</span>
                             <span className="text-[10px] font-mono text-stone-400 block">{(p.id || '').toUpperCase()}</span>

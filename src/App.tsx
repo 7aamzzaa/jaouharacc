@@ -1,4 +1,4 @@
-import { useState, useEffect, memo } from 'react';
+import { useState, useEffect, memo, Suspense, lazy } from 'react';
 import { Routes, Route, useNavigate, useLocation, useSearchParams, useParams } from 'react-router-dom';
 import { ShoppingBag, ArrowRight, ArrowLeft, X, ShieldCheck, Gem, Heart } from 'lucide-react';
 
@@ -10,24 +10,24 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import ToastContainer, { showToast } from './components/ToastContainer';
 
-import Home from './pages/Home';
-import Shop from './pages/Shop';
-import ProductDetail from './pages/ProductDetail';
-import Cart from './pages/Cart';
-import CheckoutSimulation from './pages/CheckoutSimulation';
-import OrderConfirmation from './pages/OrderConfirmation';
-import AdminDashboard from './pages/AdminDashboard';
-import NotFound from './pages/NotFound';
-import Blog from './pages/Blog';
-import BlogArticle from './pages/BlogArticle';
-import Contact from './pages/Contact';
-import FAQ from './pages/FAQ';
-import SizeGuide from './pages/SizeGuide';
-import TrackOrder from './pages/TrackOrder';
-import Shipping from './pages/Shipping';
-import About from './pages/About';
-import Press from './pages/Press';
-import Wishlist from './pages/Wishlist';
+const Home = lazy(() => import('./pages/Home'));
+const Shop = lazy(() => import('./pages/Shop'));
+const ProductDetail = lazy(() => import('./pages/ProductDetail'));
+const Cart = lazy(() => import('./pages/Cart'));
+const CheckoutSimulation = lazy(() => import('./pages/CheckoutSimulation'));
+const OrderConfirmation = lazy(() => import('./pages/OrderConfirmation'));
+const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
+const NotFound = lazy(() => import('./pages/NotFound'));
+const Blog = lazy(() => import('./pages/Blog'));
+const BlogArticle = lazy(() => import('./pages/BlogArticle'));
+const Contact = lazy(() => import('./pages/Contact'));
+const FAQ = lazy(() => import('./pages/FAQ'));
+const SizeGuide = lazy(() => import('./pages/SizeGuide'));
+const TrackOrder = lazy(() => import('./pages/TrackOrder'));
+const Shipping = lazy(() => import('./pages/Shipping'));
+const About = lazy(() => import('./pages/About'));
+const Press = lazy(() => import('./pages/Press'));
+const Wishlist = lazy(() => import('./pages/Wishlist'));
 
 export default function App() {
   const navigate = useNavigate();
@@ -334,6 +334,7 @@ export default function App() {
       />
 
       <main className="flex-1 py-12 md:py-16">
+        <Suspense fallback={<div className="flex items-center justify-center py-32"><div className="w-6 h-6 border-2 border-champagne-500 border-t-transparent rounded-full animate-spin" /></div>}>
         <Routes>
           <Route path="/" element={<Home products={allProducts} isLoading={loadingProducts} onAddToCartDirect={handleQuickAdd} onPageChange={handlePageChange} wishlist={wishlist} onToggleWishlist={handleToggleWishlist} currency={currency} />} />
           <Route path="/shop" element={<ShopWithParams products={allProducts} isLoading={loadingProducts} onAddToCartDirect={handleQuickAdd} onPageChange={handlePageChange} wishlist={wishlist} onToggleWishlist={handleToggleWishlist} currency={currency} />} />
@@ -354,6 +355,7 @@ export default function App() {
           <Route path="/admin" element={<AdminDashboard products={allProducts} orders={allOrders} messages={allMessages} subscribers={allSubscribers} isLoadingProducts={loadingProducts} isLoadingOrders={loadingOrders} isLoadingMessages={loadingMessages} isLoadingSubscribers={loadingSubscribers} onRefreshProducts={fetchProductsList} onRefreshOrders={fetchOrdersLogs} onRefreshMessages={fetchMessagesLogs} onRefreshSubscribers={fetchSubscribersLogs} currency={currency} />} />
           <Route path="*" element={<NotFound onPageChange={handlePageChange} />} />
         </Routes>
+        </Suspense>
       </main>
 
       {isCartOpen && (
@@ -377,7 +379,7 @@ export default function App() {
                 ) : (
                   cart.map((item) => (
                     <div key={item.id} className="flex gap-4 p-3 border border-stone-105 rounded-md hover:border-champagne-100 transition-colors">
-                      <img src={item.image} alt={item.name} className="w-14 h-14 object-cover rounded-sm shrink-0 border border-stone-100" />
+                      <img src={item.image} alt={item.name} loading="lazy" className="w-14 h-14 object-cover rounded-sm shrink-0 border border-stone-100" />
                       <div className="flex-1 space-y-1">
                         <span className="font-serif text-xs font-semibold text-stone-900 block line-clamp-1">{item.name}</span>
                         <div className="flex justify-between items-baseline text-[10px] text-stone-400">
@@ -455,10 +457,11 @@ export default function App() {
 
 function ShopWithParams(props: any) {
   const [sp] = useSearchParams();
-  const [initCat, setInitCat] = useState<string | null>(sp.get('category') || null);
+  const categoryParam = sp.get('category');
+  const [initCat, setInitCat] = useState<string | null>(categoryParam);
   useEffect(() => {
-    setInitCat(sp.get('category') || null);
-  }, [sp]);
+    setInitCat(categoryParam);
+  }, [categoryParam]);
   return (
     <Shop
       {...props}

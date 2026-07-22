@@ -19,6 +19,7 @@ export default function SearchResultCard({ product, onClick, currency = 'USD' }:
         <img
           src={product.images[0]}
           alt={product.imageAltText || product.name}
+          loading="lazy"
           className="w-full h-full object-cover"
         />
       </div>

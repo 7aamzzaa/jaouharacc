@@ -149,7 +149,7 @@ export default function TrackOrder() {
               <div className="divide-y divide-stone-100">
                 {order.items.map((item, i) => (
                   <div key={i} className="flex items-center gap-3 py-2.5">
-                    <img src={item.image} alt={item.name} className="w-10 h-10 object-cover rounded border border-stone-100 shrink-0" />
+                    <img src={item.image} alt={item.name} loading="lazy" className="w-10 h-10 object-cover rounded border border-stone-100 shrink-0" />
                     <div className="flex-1 min-w-0">
                       <p className="text-xs font-medium text-stone-800 truncate font-sans">{item.name}</p>
                       <p className="text-[10px] text-stone-500 font-sans">{t('productDetail.sizes.medium')} × {item.quantity}</p>

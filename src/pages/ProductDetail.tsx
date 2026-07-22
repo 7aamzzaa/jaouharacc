@@ -193,7 +193,7 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
                       : 'border-stone-200 hover:border-stone-400'
                   }`}
                 >
-                  <img src={imgUrl} alt={product.imageAltText ? `${product.imageAltText} view ${idx + 1}` : `${product.name} view ${idx + 1}`} className="w-full h-full object-cover" />
+                  <img src={imgUrl} loading="lazy" alt={product.imageAltText ? `${product.imageAltText} view ${idx + 1}` : `${product.name} view ${idx + 1}`} className="w-full h-full object-cover" />
                 </button>
               ))}
             </div>

@@ -160,7 +160,7 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
             >
               {/* Image Frame */}
               <div className="w-20 sm:w-28 aspect-square bg-stone-50 border border-stone-100 rounded-md overflow-hidden shrink-0">
-                <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                <img src={item.image} alt={item.name} loading="lazy" className="w-full h-full object-cover" />
               </div>
 
               {/* Item Details */}
