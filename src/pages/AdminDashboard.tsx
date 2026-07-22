@@ -1,8 +1,8 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useTranslation } from '../i18n';
 import { 
   Database, Plus, Edit, Trash2, ShoppingBag, DollarSign, ListOrdered, 
-  Layers, Hammer, Archive, Sparkles, RefreshCw, X, Loader2, LogOut, Lock, Upload, Mail, Check
+  Layers, Hammer, Archive, Sparkles, RefreshCw, X, Loader2, LogOut, Lock, Upload, Mail, Check, AlertTriangle
 } from 'lucide-react';
 import { Product, Order, ContactMessage, Subscriber } from '../types';
 import { showToast } from '../components/ToastContainer';
@@ -66,7 +66,66 @@ export default function AdminDashboard({
   const [formColor, setFormColor] = useState<string>('Gold');
   const [formStock, setFormStock] = useState<number>(10);
   const [formImagesInput, setFormImagesInput] = useState<string>(''); // comma-separated URLs
+  const [formSeoTitle, setFormSeoTitle] = useState<string>('');
+  const [formMetaDescription, setFormMetaDescription] = useState<string>('');
+  const [formSlug, setFormSlug] = useState<string>('');
+  const slugManuallyEdited = useRef(false);
+  const [formImageAltText, setFormImageAltText] = useState<string>('');
+  const [formTags, setFormTags] = useState<string[]>([]);
+  const [tagInput, setTagInput] = useState<string>('');
+  const [formPrimaryKeyword, setFormPrimaryKeyword] = useState<string>('');
+  const [formSecondaryKeywords, setFormSecondaryKeywords] = useState<string[]>([]);
+  const [secondaryKeywordInput, setSecondaryKeywordInput] = useState<string>('');
+
+  const addSecondaryKeyword = () => {
+    const kw = secondaryKeywordInput.trim().toLowerCase();
+    if (kw && !formSecondaryKeywords.includes(kw)) {
+      setFormSecondaryKeywords([...formSecondaryKeywords, kw]);
+    }
+    setSecondaryKeywordInput('');
+  };
+
+  const removeSecondaryKeyword = (kw: string) => {
+    setFormSecondaryKeywords(formSecondaryKeywords.filter(k => k !== kw));
+  };
+
+  const addTag = () => {
+    const t = tagInput.trim().toLowerCase();
+    if (t && !formTags.includes(t)) {
+      setFormTags([...formTags, t]);
+    }
+    setTagInput('');
+  };
+
+  const removeTag = (tag: string) => {
+    setFormTags(formTags.filter(t => t !== tag));
+  };
+
+  const CATEGORY_LABELS: Record<string, string> = {
+    bracelets: 'Bracelet', rings: 'Ring', earrings: 'Earring',
+    anklets: 'Anklet', necklaces: 'Necklace', jewelry_sets: 'Jewelry Set',
+  };
+
+  const generateAltText = (name: string, material: string, category: string): string => {
+    const label = CATEGORY_LABELS[category] || category;
+    return `${name} - ${material} ${label} for Women`;
+  };
   
+  const generateSlug = (text: string): string => {
+    return text
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, '-')
+      .replace(/[^a-z0-9-]/g, '')
+      .replace(/-+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  };
+
+  useEffect(() => {
+    if (slugManuallyEdited.current) return;
+    setFormSlug(generateSlug(formName));
+  }, [formName]);
+
   // Server-Submit actions loading States
   const [submitLoading, setSubmitLoading] = useState<boolean>(false);
   const [uploadLoading, setUploadLoading] = useState<boolean>(false);
@@ -146,6 +205,16 @@ export default function AdminDashboard({
     setFormColor(product.color);
     setFormStock(product.stock);
     setFormImagesInput(product.images.join(', '));
+    setFormSeoTitle(product.seoTitle || '');
+    setFormMetaDescription(product.metaDescription || '');
+    setFormSlug(product.slug || generateSlug(product.name));
+    slugManuallyEdited.current = false;
+    setFormImageAltText(product.imageAltText || generateAltText(product.name, product.material, product.category));
+    setFormTags(product.tags || []);
+    setTagInput('');
+    setFormPrimaryKeyword(product.primaryKeyword || '');
+    setFormSecondaryKeywords(product.secondaryKeywords || []);
+    setSecondaryKeywordInput('');
     setShowProductForm(true);
     // Scroll smoothly to form
     window.scrollTo({ top: 120, behavior: 'smooth' });
@@ -161,6 +230,16 @@ export default function AdminDashboard({
     setFormColor('Gold');
     setFormStock(10);
     setFormImagesInput('https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&q=80&w=600');
+    setFormSeoTitle('');
+    setFormMetaDescription('');
+    setFormSlug('');
+    slugManuallyEdited.current = false;
+    setFormImageAltText('');
+    setFormTags([]);
+    setTagInput('');
+    setFormPrimaryKeyword('');
+    setFormSecondaryKeywords([]);
+    setSecondaryKeywordInput('');
     setShowProductForm(true);
   };
 
@@ -184,7 +263,14 @@ export default function AdminDashboard({
       category: formCategory,
       material: formMaterial,
       color: formColor,
-      images: imageUrls.length > 0 ? imageUrls : ['https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&q=80&w=600']
+      images: imageUrls.length > 0 ? imageUrls : ['https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&q=80&w=600'],
+      seoTitle: formSeoTitle || undefined,
+      metaDescription: formMetaDescription || undefined,
+      slug: formSlug || undefined,
+      imageAltText: formImageAltText || undefined,
+      tags: formTags.length > 0 ? formTags : undefined,
+      primaryKeyword: formPrimaryKeyword.trim() || undefined,
+      secondaryKeywords: formSecondaryKeywords.length > 0 ? formSecondaryKeywords : undefined
     };
 
     try {
@@ -684,6 +770,251 @@ export default function AdminDashboard({
                 {t('admin.form.uploadNote')}
               </p>
             </div>
+
+            {/* SEO Section */}
+            <div className="space-y-4 pt-6 border-t border-stone-200">
+              <h3 className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold">SEO</h3>
+
+              <div className="space-y-1">
+                <label htmlFor="product-seo-title" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">
+                  {t('admin.form.seoTitle')}
+                </label>
+                <div className="relative">
+                  <input
+                    id="product-seo-title"
+                    type="text"
+                    placeholder={t('admin.form.seoTitlePlaceholder')}
+                    className="w-full bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 font-sans"
+                    value={formSeoTitle}
+                    onChange={(e) => setFormSeoTitle(e.target.value)}
+                    maxLength={70}
+                  />
+                  <span className={`absolute right-3 top-1/2 -translate-y-1/2 text-[10px] font-mono font-medium ${formSeoTitle.length > 60 ? 'text-rose-500' : 'text-stone-400'}`}>
+                    {formSeoTitle.length} / 60
+                  </span>
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label htmlFor="product-meta-description" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">
+                  {t('admin.form.metaDescription')}
+                </label>
+                <div className="relative">
+                  <textarea
+                    id="product-meta-description"
+                    rows={3}
+                    placeholder={t('admin.form.metaDescriptionPlaceholder')}
+                    className="w-full bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 font-sans resize-none"
+                    value={formMetaDescription}
+                    onChange={(e) => setFormMetaDescription(e.target.value)}
+                    maxLength={170}
+                  />
+                  <span className={`absolute right-3 bottom-3 text-[10px] font-mono font-medium ${formMetaDescription.length > 160 ? 'text-rose-500' : 'text-stone-400'}`}>
+                    {formMetaDescription.length} / 160
+                  </span>
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label htmlFor="product-slug" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">
+                  {t('admin.form.urlSlug')}
+                </label>
+                <input
+                  id="product-slug"
+                  type="text"
+                  placeholder="gold-radiance-ring"
+                  className="w-full bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 font-sans"
+                  value={formSlug}
+                  onChange={(e) => {
+                    slugManuallyEdited.current = true;
+                    setFormSlug(generateSlug(e.target.value));
+                  }}
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label htmlFor="product-alt-text" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">
+                  {t('admin.form.imageAltText')}
+                </label>
+                <input
+                  id="product-alt-text"
+                  type="text"
+                  placeholder={t('admin.form.imageAltTextPlaceholder')}
+                  className="w-full bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 font-sans"
+                  value={formImageAltText}
+                  onChange={(e) => setFormImageAltText(e.target.value)}
+                />
+              </div>
+
+              <div className="space-y-1">
+                <label htmlFor="product-tags" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">
+                  {t('admin.form.productTags')}
+                </label>
+                <div className="flex flex-wrap gap-2 mb-2">
+                  {formTags.map((tag) => (
+                    <span key={tag} className="inline-flex items-center gap-1 bg-stone-100 text-stone-700 text-[10px] uppercase tracking-wider font-semibold px-2.5 py-1.5 rounded-sm border border-stone-200">
+                      {tag}
+                      <button
+                        type="button"
+                        onClick={() => removeTag(tag)}
+                        className="cursor-pointer text-stone-400 hover:text-rose-500 transition-colors"
+                      >
+                        <X size={10} />
+                      </button>
+                    </span>
+                  ))}
+                </div>
+                <div className="flex gap-2">
+                  <input
+                    id="product-tags"
+                    type="text"
+                    placeholder={t('admin.form.productTagsPlaceholder')}
+                    className="w-full bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 font-sans"
+                    value={tagInput}
+                    onChange={(e) => setTagInput(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addTag(); } }}
+                  />
+                  <button
+                    type="button"
+                    onClick={addTag}
+                    className="cursor-pointer bg-stone-900 hover:bg-champagne-600 text-white text-[10px] uppercase tracking-wider font-semibold px-4 py-3 rounded-sm transition-colors flex items-center gap-1"
+                  >
+                    <Plus size={12} />
+                    {t('admin.form.addTag')}
+                  </button>
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label htmlFor="product-primary-keyword" className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">
+                  {t('admin.form.primaryKeyword')}
+                </label>
+                <div className="relative">
+                  <input
+                    id="product-primary-keyword"
+                    type="text"
+                    placeholder="stainless steel necklace"
+                    className="w-full bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 font-sans"
+                    value={formPrimaryKeyword}
+                    onChange={(e) => setFormPrimaryKeyword(e.target.value)}
+                  />
+                  <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[8px] uppercase tracking-widest font-bold text-emerald-600 bg-emerald-50 border border-emerald-200 px-1.5 py-0.5 rounded-sm">
+                    PRIMARY
+                  </span>
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold block">
+                  {t('admin.form.secondaryKeywords')}
+                </label>
+                <div className="flex flex-wrap gap-2 mb-2">
+                  {formSecondaryKeywords.map((kw) => (
+                    <span key={kw} className="inline-flex items-center gap-1 bg-amber-50 text-stone-700 text-[10px] uppercase tracking-wider font-semibold px-2.5 py-1.5 rounded-sm border border-amber-200">
+                      {kw}
+                      <button
+                        type="button"
+                        onClick={() => removeSecondaryKeyword(kw)}
+                        className="cursor-pointer text-stone-400 hover:text-rose-500 transition-colors"
+                      >
+                        <X size={10} />
+                      </button>
+                    </span>
+                  ))}
+                </div>
+                <div className="flex gap-2">
+                  <input
+                    id="product-secondary-keywords"
+                    type="text"
+                    placeholder={t('admin.form.secondaryKeywordsPlaceholder')}
+                    className="w-full bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 font-sans"
+                    value={secondaryKeywordInput}
+                    onChange={(e) => setSecondaryKeywordInput(e.target.value)}
+                    onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); addSecondaryKeyword(); } }}
+                  />
+                  <button
+                    type="button"
+                    onClick={addSecondaryKeyword}
+                    className="cursor-pointer bg-stone-900 hover:bg-champagne-600 text-white text-[10px] uppercase tracking-wider font-semibold px-4 py-3 rounded-sm transition-colors flex items-center gap-1"
+                  >
+                    <Plus size={12} />
+                    {t('admin.form.addKeyword')}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Google Search Preview */}
+            <div className="bg-white border border-stone-200 rounded-lg p-4 space-y-2">
+              <h4 className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold">{t('admin.form.googlePreview')}</h4>
+              <div className="space-y-0.5">
+                <p className="text-[14px] leading-snug text-[#1a0dab] hover:underline cursor-pointer truncate font-sans">
+                  {formSeoTitle || formName || 'SEO Title'}
+                </p>
+                <p className="text-[12px] text-[#006621] font-sans break-all">
+                  https://ccjaouhara.com/product/{formSlug || 'product-name'}
+                </p>
+                <p className="text-[12px] text-[#545454] font-sans leading-snug line-clamp-2">
+                  {formMetaDescription || t('admin.form.noMetaDescription')}
+                </p>
+              </div>
+            </div>
+
+            {/* SEO Score */}
+            {(() => {
+              const checks = [
+                { label: t('admin.form.checkSeoTitleExists'), pass: formSeoTitle.length > 0 },
+                { label: t('admin.form.checkSeoTitleLength'), pass: formSeoTitle.length >= 30 && formSeoTitle.length <= 60 },
+                { label: t('admin.form.checkMetaDescExists'), pass: formMetaDescription.length > 0 },
+                { label: t('admin.form.checkMetaDescLength'), pass: formMetaDescription.length >= 120 && formMetaDescription.length <= 160 },
+                { label: t('admin.form.checkSlugExists'), pass: formSlug.length > 0 },
+                { label: t('admin.form.checkAltTextExists'), pass: formImageAltText.length > 0 },
+                { label: t('admin.form.checkPrimaryKeywordExists'), pass: formPrimaryKeyword.length > 0 },
+                { label: t('admin.form.checkKeywordInTitle'), pass: formPrimaryKeyword.length > 0 && formSeoTitle.toLowerCase().includes(formPrimaryKeyword.toLowerCase()) },
+                { label: t('admin.form.checkKeywordInMetaDesc'), pass: formPrimaryKeyword.length > 0 && formMetaDescription.toLowerCase().includes(formPrimaryKeyword.toLowerCase()) },
+                { label: t('admin.form.checkKeywordInAltText'), pass: formPrimaryKeyword.length > 0 && formImageAltText.toLowerCase().includes(formPrimaryKeyword.toLowerCase()) },
+                { label: t('admin.form.checkTagsExist'), pass: formTags.length > 0 },
+                { label: t('admin.form.checkSlugLength'), pass: formSlug.length >= 3 && formSlug.length <= 100 },
+              ];
+              const passed = checks.filter(c => c.pass).length;
+              const total = checks.length;
+              const score = Math.round((passed / total) * 100);
+              const hasSecondaryKw = formSecondaryKeywords.length > 0;
+              let grade: string, gradeColor: string, bgColor: string;
+              if (score >= 90) { grade = t('admin.form.scoreExcellent'); gradeColor = 'text-emerald-600'; bgColor = 'bg-emerald-50 border-emerald-200'; }
+              else if (score >= 70) { grade = t('admin.form.scoreGood'); gradeColor = 'text-amber-600'; bgColor = 'bg-amber-50 border-amber-200'; }
+              else if (score >= 50) { grade = t('admin.form.scoreNeedsImprovement'); gradeColor = 'text-orange-600'; bgColor = 'bg-orange-50 border-orange-200'; }
+              else { grade = t('admin.form.scorePoor'); gradeColor = 'text-rose-600'; bgColor = 'bg-rose-50 border-rose-200'; }
+              return (
+                <div className="bg-white border border-stone-200 rounded-lg p-4 space-y-3">
+                  <h4 className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold">{t('admin.form.seoScore')}</h4>
+                  <div className={`flex items-center gap-3 p-3 rounded-lg border ${bgColor}`}>
+                    <span className={`text-3xl font-bold font-sans ${gradeColor}`}>{score}<span className="text-base font-normal text-stone-400">/100</span></span>
+                    <span className={`text-xs uppercase tracking-wider font-semibold ${gradeColor}`}>{grade}</span>
+                  </div>
+                  <div className="space-y-1">
+                    {checks.map((c, i) => (
+                      <div key={i} className="flex items-center gap-2 text-[11px] text-stone-600 font-sans">
+                        {c.pass ? (
+                          <span className="text-emerald-500 shrink-0"><Check size={12} /></span>
+                        ) : (
+                          <span className="text-orange-400 shrink-0"><AlertTriangle size={12} /></span>
+                        )}
+                        <span>{c.label}</span>
+                      </div>
+                    ))}
+                    <div className="flex items-center gap-2 text-[11px] text-stone-600 font-sans pt-1 border-t border-stone-100 mt-1">
+                      {hasSecondaryKw ? (
+                        <span className="text-emerald-500 shrink-0"><Check size={12} /></span>
+                      ) : (
+                        <span className="text-stone-300 shrink-0"><AlertTriangle size={12} /></span>
+                      )}
+                      <span className={hasSecondaryKw ? '' : 'text-stone-400'}>{t('admin.form.checkSecondaryKeywords')}</span>
+                    </div>
+                  </div>
+                </div>
+              );
+            })()}
 
             {actionError && (
               <p className="text-xs text-rose-500 font-semibold">{actionError}</p>

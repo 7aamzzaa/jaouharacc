@@ -95,6 +95,28 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
     onPageChange('product', { id });
   }, [onPageChange]);
 
+  const productSchema = useMemo(() => {
+    if (!product) return null;
+    const desc = product.metaDescription || product.description || '';
+    const availability = (product.stock ?? 0) > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock';
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: product.name,
+      description: desc,
+      image: product.images?.[0] || '',
+      brand: { '@type': 'Brand', name: 'CCJaouhara' },
+      category: product.category,
+      sku: product.id,
+      offers: {
+        '@type': 'Offer',
+        price: product.price,
+        priceCurrency: 'MAD',
+        availability,
+      },
+    };
+  }, [product]);
+
   if (!product) {
     return (
       <div className="text-center py-24 space-y-4">
@@ -146,7 +168,7 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
           <div className="zoom-frame aspect-square bg-stone-50 border border-champagne-100 rounded-lg overflow-hidden relative">
             <img
               src={product.images[activeImageIndex] || product.images[0]}
-              alt={product.name}
+              alt={product.imageAltText || product.name}
               className="zoom-image object-cover w-full h-full"
             />
             {isOutOfStock && (
@@ -171,7 +193,7 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
                       : 'border-stone-200 hover:border-stone-400'
                   }`}
                 >
-                  <img src={imgUrl} alt={`${product.name} view ${idx + 1}`} className="w-full h-full object-cover" />
+                  <img src={imgUrl} alt={product.imageAltText ? `${product.imageAltText} view ${idx + 1}` : `${product.name} view ${idx + 1}`} className="w-full h-full object-cover" />
                 </button>
               ))}
             </div>
@@ -408,6 +430,13 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
         productName={product.name}
         productUrl={typeof window !== 'undefined' ? window.location.href : ''}
       />
+
+      {productSchema && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(productSchema) }}
+        />
+      )}
 
     </div>
   );

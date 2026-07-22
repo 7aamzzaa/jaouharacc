@@ -18,7 +18,7 @@ export default function SearchResultCard({ product, onClick, currency = 'USD' }:
       <div className="w-12 h-12 rounded-lg bg-[#FFF9F8] flex-shrink-0 overflow-hidden border border-champagne-100">
         <img
           src={product.images[0]}
-          alt={product.name}
+          alt={product.imageAltText || product.name}
           className="w-full h-full object-cover"
         />
       </div>

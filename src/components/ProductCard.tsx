@@ -41,7 +41,7 @@ const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToC
       >
         <LazyImage
           src={product.images[0]}
-          alt={product.name}
+          alt={product.imageAltText || product.name}
           className="zoom-image object-cover w-full h-full"
         />
 

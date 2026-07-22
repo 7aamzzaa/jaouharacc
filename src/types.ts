@@ -10,6 +10,13 @@ export interface Product {
   color: string;
   rating: number;
   reviews: number;
+  seoTitle?: string;
+  metaDescription?: string;
+  slug?: string;
+  imageAltText?: string;
+  tags?: string[];
+  primaryKeyword?: string;
+  secondaryKeywords?: string[];
 }
 
 export interface OrderItem {
