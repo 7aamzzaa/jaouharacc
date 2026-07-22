@@ -20,6 +20,7 @@ export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOp
   const { t, lang, setLang, dir } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileCollectionsOpen, setMobileCollectionsOpen] = useState(false);
+  const [mobileGiftOpen, setMobileGiftOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
 
@@ -127,6 +128,49 @@ export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOp
                     className="text-[10px] tracking-widest uppercase font-bold text-champagne-600 hover:text-champagne-700"
                   >
                     {t('nav.exploreAll')}
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Gift Dropdown Mega-Menu */}
+            <div className="relative group">
+              <button
+                className={`cursor-pointer text-[11px] tracking-[0.25em] uppercase transition-colors duration-300 font-medium flex items-center gap-1.5 pb-1 ${
+                  currentPage === 'gift'
+                    ? 'text-champagne-500'
+                    : 'text-stone-600 hover:text-champagne-500'
+                }`}
+              >
+                {t('nav.gift')}
+                <ChevronDown size={11} className="transition-transform duration-300 group-hover:rotate-180" />
+              </button>
+
+              <div className="absolute top-full left-0 mt-0 pt-3 w-[280px] bg-white border border-champagne-150 rounded-lg shadow-xl z-50 opacity-0 pointer-events-none group-hover:opacity-100 group-hover:pointer-events-auto transition-opacity duration-200">
+                <div className="p-2 space-y-1">
+                  {(['birthday', 'anniversary', 'wedding', 'holidays'] as const).map((key) => (
+                    <button
+                      key={key}
+                      onClick={() => onPageChange('gift', { category: key })}
+                      className="w-full text-start flex items-start gap-3 p-2.5 rounded-md hover:bg-champagne-50/50 transition-colors group"
+                    >
+                      <div>
+                        <span className="font-serif text-xs font-semibold text-stone-800 block group-hover:text-champagne-600 transition-colors">
+                          {t(`gift.${key}.title`)}
+                        </span>
+                        <span className="text-[10px] text-stone-400 block mt-0.5">
+                          {t(`gift.${key}.description`)}
+                        </span>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+                <div className="bg-stone-50 p-2.5 rounded-b-lg border-t border-champagne-105 flex justify-center">
+                  <button
+                    onClick={() => onPageChange('gift')}
+                    className="text-[10px] tracking-widest uppercase font-bold text-champagne-600 hover:text-champagne-700"
+                  >
+                    {t('nav.exploreAllGifts')}
                   </button>
                 </div>
               </div>
@@ -283,6 +327,36 @@ export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOp
                     </button>
                   );
                 })}
+              </div>
+            )}
+          </div>
+
+          {/* Mobile Collapsible Gift */}
+          <div className="space-y-1">
+            <button
+              onClick={() => setMobileGiftOpen(!mobileGiftOpen)}
+              className="w-full flex justify-between items-center py-2.5 px-4 rounded-md text-sm tracking-widest uppercase font-medium text-stone-700 hover:bg-champagne-50/50 hover:text-champagne-500"
+            >
+              <span>{t('nav.gift')}</span>
+              <ChevronDown size={14} className={`transition-transform duration-300 ${mobileGiftOpen ? 'rotate-180 text-champagne-500' : ''}`} />
+            </button>
+
+            {mobileGiftOpen && (
+              <div className="bg-stone-50/60 rounded-lg p-2 space-y-1 ms-4 border-s border-champagne-150">
+                {(['birthday', 'anniversary', 'wedding', 'holidays'] as const).map((key) => (
+                  <button
+                    key={key}
+                    onClick={() => {
+                      onPageChange('gift', { category: key });
+                      setMobileMenuOpen(false);
+                    }}
+                    className="w-full text-start flex items-center gap-3 py-2 px-3 hover:bg-champagne-50/50 rounded-md group"
+                  >
+                    <span className="font-serif text-xs font-semibold text-stone-800">
+                      {t(`gift.${key}.title`)}
+                    </span>
+                  </button>
+                ))}
               </div>
             )}
           </div>

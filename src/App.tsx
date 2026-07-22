@@ -300,6 +300,9 @@ export default function App() {
       case 'faq':
         navigate('/faq');
         break;
+      case 'gift':
+        navigate('/shop');
+        break;
       case 'contact':
         navigate('/contact');
         break;

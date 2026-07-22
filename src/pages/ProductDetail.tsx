@@ -6,6 +6,8 @@ import ProductCard from '../components/ProductCard';
 import { useTranslation } from '../i18n';
 import { productTranslations } from '../i18n/productTranslations';
 import ShareModal from '../components/ShareModal';
+import FAQAccordion from '../components/FAQAccordion';
+import TrustBadges from '../components/TrustBadges';
 
 interface ProductDetailProps {
   productId: string;
@@ -309,6 +311,8 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
 
           </div>
 
+          <TrustBadges />
+
           {/* Technical Spec List */}
           <div className="border-t border-champagne-100 pt-6 space-y-4">
             <h3 className="text-xs tracking-widest uppercase text-stone-800 font-semibold">{t('productDetail.specs')}</h3>
@@ -334,6 +338,18 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
 
         </div>
       </div>
+
+      {/* FAQ Accordion Section */}
+      <section className="border-t border-champagne-100 pt-16 pb-4">
+        <div className="text-center mb-10">
+          <span className="text-[10px] tracking-[0.2em] uppercase text-champagne-500 font-medium font-sans">
+            {t('productDetail.faq.title')}
+          </span>
+        </div>
+        <div className="max-w-2xl mx-auto">
+          <FAQAccordion />
+        </div>
+      </section>
 
       {/* You May Also Like Section */}
       {recommendations.length > 0 && (

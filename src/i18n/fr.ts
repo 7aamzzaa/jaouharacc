@@ -3,10 +3,12 @@
     home: 'Accueil',
     collections: 'Collections',
     shopAll: 'Toute la Boutique',
+    gift: 'Cadeaux',
     contact: 'Contact',
     blog: 'Blog',
     fineJewelry: 'bijouterie fine',
     exploreAll: 'Découvrir Toutes les Collections \u2192',
+    exploreAllGifts: 'Explorer Tous les Cadeaux',
     toggleMenu: 'Ouvrir le menu',
     viewBag: 'Voir le panier',
     brandLogo: 'ccjaouhara',
@@ -239,6 +241,29 @@
     shareCopyLink: 'Copier le lien',
     shareCopied: 'Lien du produit copi\u00e9 avec succ\u00e8s.',
     shareCancel: 'Annuler',
+    faq: {
+      title: 'Foire Aux Questions',
+      waterproof: {
+        question: 'Les bijoux sont-ils r\u00e9sistants \u00e0 l\u2019eau ?',
+        answer: 'Oui. Nos bijoux en acier inoxydable sont r\u00e9sistants \u00e0 l\u2019eau et con\u00e7us pour un usage quotidien.',
+      },
+      color: {
+        question: 'La couleur s\u2019estompe-t-elle avec le temps ?',
+        answer: 'Non. Avec un entretien appropri\u00e9, nos bijoux en acier inoxydable conservent leur \u00e9clat et leur beaut\u00e9 pendant de nombreuses ann\u00e9es.',
+      },
+      material: {
+        question: 'De quel mat\u00e9riau sont fabriqu\u00e9s les bijoux ?',
+        answer: 'Nos bijoux sont fabriqu\u00e9s en acier inoxydable de haute qualit\u00e9, offrant durabilit\u00e9, confort et \u00e9l\u00e9gance.',
+      },
+      shipping: {
+        question: 'Quel est le d\u00e9lai de livraison ?',
+        answer: 'Les commandes sont g\u00e9n\u00e9ralement livr\u00e9es dans le d\u00e9lai estim\u00e9 affich\u00e9 lors de la validation de votre commande, selon votre localisation.',
+      },
+      return: {
+        question: 'Puis-je retourner ma commande ?',
+        answer: 'Oui. Les retours sont accept\u00e9s conform\u00e9ment \u00e0 notre politique de retour, \u00e0 condition que l\u2019article soit inutilis\u00e9 et dans son \u00e9tat d\u2019origine.',
+      },
+    },
     sizes: {
       small: 'Petite (16,5 cm)',
       smallDesc: 'Profil poignet d\u00e9licat',
@@ -703,6 +728,32 @@
     placeholder: 'Rechercher des produits...',
     noResults: 'Aucun produit trouv\u00e9',
     tryKeyword: 'Essayez un autre mot-cl\u00e9.',
+  },
+
+  gift: {
+    birthday: {
+      title: 'Anniversaire',
+      description: 'C\u00e9l\u00e9brez leur jour sp\u00e9cial avec un bijou plein de sens.',
+    },
+    anniversary: {
+      title: 'Anniversaire de Mariage',
+      description: 'Des bijoux \u00e9l\u00e9gants pour c\u00e9l\u00e9brer des moments inoubliables.',
+    },
+    wedding: {
+      title: 'Mariage',
+      description: 'Des bijoux intemporels pour les mariages et les souvenirs \u00e9ternels.',
+    },
+    holidays: {
+      title: 'F\u00eates',
+      description: 'Des cadeaux bijoux attentionn\u00e9s pour chaque saison festive.',
+    },
+  },
+
+  trust: {
+    quality: 'Qualit\u00e9 Premium',
+    delivery: 'Livraison Rapide',
+    checkout: 'Paiement S\u00e9curis\u00e9',
+    returns: 'Retours Faciles',
   },
 
   productCard: {

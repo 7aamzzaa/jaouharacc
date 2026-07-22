@@ -3,10 +3,12 @@
     home: 'Home',
     collections: 'Collections',
     shopAll: 'Shop All',
+    gift: 'Gift',
     contact: 'Contact',
     blog: 'Blog',
     fineJewelry: 'fine jewelry',
     exploreAll: 'Explore All Collections \u2192',
+    exploreAllGifts: 'Explore All Gifts',
     toggleMenu: 'Toggle menu',
     viewBag: 'View shopping bag',
     brandLogo: 'ccjaouhara',
@@ -239,6 +241,29 @@
     shareCopyLink: 'Copy Link',
     shareCopied: 'Product link copied successfully.',
     shareCancel: 'Cancel',
+    faq: {
+      title: 'Frequently Asked Questions',
+      waterproof: {
+        question: 'Is the jewelry waterproof?',
+        answer: 'Yes. Our stainless steel jewelry is water-resistant and suitable for everyday wear.',
+      },
+      color: {
+        question: 'Will the color fade over time?',
+        answer: 'No. With proper care, our premium stainless steel jewelry is designed to maintain its shine and beauty for years.',
+      },
+      material: {
+        question: 'What material is it made from?',
+        answer: 'Our jewelry is crafted from high-quality stainless steel, offering durability, comfort, and long-lasting elegance.',
+      },
+      shipping: {
+        question: 'How long does shipping take?',
+        answer: 'Orders are typically delivered within the estimated delivery time shown during checkout, depending on your location.',
+      },
+      return: {
+        question: 'Can I return my order?',
+        answer: 'Yes. Returns are accepted according to our return policy, provided the item is unused and in its original condition.',
+      },
+    },
     sizes: {
       small: 'Small (6.5")',
       smallDesc: 'Petite wrist profile',
@@ -705,6 +730,32 @@
     tryKeyword: 'Try another keyword.',
   },
 
+  gift: {
+    birthday: {
+      title: 'Birthday',
+      description: 'Celebrate their special day with a meaningful jewelry gift.',
+    },
+    anniversary: {
+      title: 'Anniversary',
+      description: 'Elegant jewelry to celebrate unforgettable moments.',
+    },
+    wedding: {
+      title: 'Wedding',
+      description: 'Timeless jewelry for weddings and lifelong memories.',
+    },
+    holidays: {
+      title: 'Holidays',
+      description: 'Thoughtful jewelry gifts for every festive season.',
+    },
+  },
+
+  trust: {
+    quality: 'Premium Quality',
+    delivery: 'Fast Delivery',
+    checkout: 'Secure Checkout',
+    returns: 'Easy Returns',
+  },
+
   productCard: {
     outOfStock: 'Out of Stock',
     onlyLeft: 'Only {stock} Left',
@@ -737,7 +788,7 @@
       '\uD83C\uDDF2\uD83C\uDDE6 Delivery Across Morocco',
       '\u2022',
     ],
-    cart: {
+  cart: {
       title: 'Selected Jewelry',
       close: 'Close sidebar',
       empty: 'Your bag is currently empty.',
