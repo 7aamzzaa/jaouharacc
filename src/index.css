@@ -174,3 +174,71 @@ body {
   animation: bounceCheck 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
+/* ── Hero Entrance Animations ── */
+@keyframes hero-slide-up-30 {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes hero-slide-up-20 {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes hero-scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.hero-stagger > * {
+  opacity: 0;
+  animation: hero-slide-up-20 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.hero-stagger > :nth-child(1) {
+  animation-name: hero-slide-up-30;
+  animation-delay: 0s;
+}
+.hero-stagger > :nth-child(2) {
+  animation-delay: 0.2s;
+}
+.hero-stagger > :nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+.hero-image-in {
+  opacity: 0;
+  animation: hero-scale-in 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ── Category Scroll Entrance ── */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(35px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.category-stagger > * {
+  opacity: 0;
+  transform: translateY(35px);
+}
+.category-stagger.visible > * {
+  animation: fade-in-up 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.category-stagger.visible > :nth-child(1) { animation-delay: 0s; }
+.category-stagger.visible > :nth-child(2) { animation-delay: 0.12s; }
+.category-stagger.visible > :nth-child(3) { animation-delay: 0.24s; }
+.category-stagger.visible > :nth-child(4) { animation-delay: 0.36s; }
+.category-stagger.visible > :nth-child(5) { animation-delay: 0.48s; }
+.category-stagger.visible > :nth-child(6) { animation-delay: 0.6s; }
+
+/* ── Promo Banner Scale Entrance ── */
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.9); }
+  to   { opacity: 1; transform: scale(1); }
+}
+.promo-scale-in {
+  opacity: 0;
+}
+.promo-scale-in.visible {
+  animation: scale-in 0.6s ease-out forwards;
+}
+

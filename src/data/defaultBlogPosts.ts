@@ -245,7 +245,7 @@ export const defaultBlogPosts: BlogPost[] = [
 <p>Matching sets are no longer just for formal occasions. Coordinated earrings, necklaces, and bracelets in sleek gold finishes offer effortless elegance for everyday wear.</p>
 <p><strong>Pro tip:</strong> Choose sets with clean lines and subtle detailing. They're versatile enough to wear together for a cohesive look or separately as individual statement pieces.</p>
 <p>Ready to refresh your accessories collection? Explore our latest arrivals and discover pieces that speak to your personal style.</p>`,
-    image: '/images/blog/women-accessories.png',
+    image: '/images/blog/women-accessories.webp',
     category: 'Fashion Tips',
     author: 'ccjaouhara Atelier',
     date: '2026-07-16',

@@ -9,33 +9,15 @@ import { showToast } from '../components/ToastContainer';
 
 interface AdminDashboardProps {
   products: Product[];
-  orders: Order[];
-  messages: ContactMessage[];
-  subscribers: Subscriber[];
   isLoadingProducts: boolean;
-  isLoadingOrders: boolean;
-  isLoadingMessages: boolean;
-  isLoadingSubscribers: boolean;
   onRefreshProducts: () => void;
-  onRefreshOrders: () => void;
-  onRefreshMessages: () => void;
-  onRefreshSubscribers: () => void;
   currency: 'USD' | 'MAD';
 }
 
 export default function AdminDashboard({
   products,
-  orders,
-  messages,
-  subscribers,
   isLoadingProducts,
-  isLoadingOrders,
-  isLoadingMessages,
-  isLoadingSubscribers,
   onRefreshProducts,
-  onRefreshOrders,
-  onRefreshMessages,
-  onRefreshSubscribers,
   currency
 }: AdminDashboardProps) {
   const { t } = useTranslation();
@@ -52,6 +34,66 @@ export default function AdminDashboard({
   const [orderFilter, setOrderFilter] = useState<string>('all');
   const [expandedOrderId, setExpandedOrderId] = useState<string | null>(null);
   const [subscriberSearch, setSubscriberSearch] = useState('');
+  
+  // Internal state for admin-only data (orders, messages, subscribers)
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [messages, setMessages] = useState<ContactMessage[]>([]);
+  const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
+  const [loadingOrders, setLoadingOrders] = useState(true);
+  const [loadingMessages, setLoadingMessages] = useState(true);
+  const [loadingSubscribers, setLoadingSubscribers] = useState(true);
+
+  const loadOrders = async () => {
+    setLoadingOrders(true);
+    try {
+      const response = await fetch('/api/orders');
+      if (!response.ok) throw new Error('Server returned error status on orders query');
+      const data = await response.json();
+      setOrders(data);
+    } catch (err) {
+      console.warn('[API Fetch Warn] Could not load orders logs from persistence layer:', err);
+      setOrders([]);
+    } finally {
+      setLoadingOrders(false);
+    }
+  };
+
+  const loadMessages = async () => {
+    setLoadingMessages(true);
+    try {
+      const response = await fetch('/api/messages');
+      if (!response.ok) throw new Error('Server returned error status on messages query');
+      const data = await response.json();
+      setMessages(data);
+    } catch (err) {
+      console.warn('[API Fetch Warn] Could not load messages from persistence layer:', err);
+      setMessages([]);
+    } finally {
+      setLoadingMessages(false);
+    }
+  };
+
+  const loadSubscribers = async () => {
+    setLoadingSubscribers(true);
+    try {
+      const response = await fetch('/api/newsletter');
+      if (!response.ok) throw new Error('Server returned error status on subscribers query');
+      const data = await response.json();
+      setSubscribers(data);
+    } catch (err) {
+      console.warn('[API Fetch Warn] Could not load subscribers from persistence layer:', err);
+      setSubscribers([]);
+    } finally {
+      setLoadingSubscribers(false);
+    }
+  };
+
+  // Fetch all admin data on mount
+  useEffect(() => {
+    loadOrders();
+    loadMessages();
+    loadSubscribers();
+  }, []);
   
   // Products Management Form State
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
@@ -327,7 +369,7 @@ export default function AdminDashboard({
       const response = await fetch(`/api/orders/${id}`, { method: 'DELETE' });
       if (!response.ok) throw new Error('Delete failed');
       showToast(t('admin.ordersTable.deleteSuccess'));
-      onRefreshOrders();
+      loadOrders();
     } catch (err: any) {
       showToast(err.message || 'Failed to delete order', true);
     }
@@ -343,7 +385,7 @@ export default function AdminDashboard({
       });
       if (!response.ok) throw new Error('Mark as read failed');
       showToast(t('admin.messagesTable.markReadSuccess'));
-      onRefreshMessages();
+      loadMessages();
     } catch (err: any) {
       showToast(err.message || 'Failed to mark message as read', true);
     }
@@ -356,7 +398,7 @@ export default function AdminDashboard({
       const response = await fetch(`/api/messages/${id}`, { method: 'DELETE' });
       if (!response.ok) throw new Error('Delete failed');
       showToast(t('admin.messagesTable.deleteSuccess'));
-      onRefreshMessages();
+      loadMessages();
     } catch (err: any) {
       showToast(err.message || 'Failed to delete message', true);
     }
@@ -369,7 +411,7 @@ export default function AdminDashboard({
       const response = await fetch(`/api/newsletter/${id}`, { method: 'DELETE' });
       if (!response.ok) throw new Error('Delete failed');
       showToast(t('admin.subscribersTable.deleteSuccess'));
-      onRefreshSubscribers();
+      loadSubscribers();
     } catch (err: any) {
       showToast(err.message || 'Failed to delete subscriber', true);
     }
@@ -378,7 +420,7 @@ export default function AdminDashboard({
   // Auto-refresh subscribers when tab is selected
   useEffect(() => {
     if (activeTab === 'subscribers') {
-      onRefreshSubscribers();
+      loadSubscribers();
     }
   }, [activeTab]);
 
@@ -396,7 +438,7 @@ export default function AdminDashboard({
       }
 
       showToast(t('admin.form.orderStatusUpdate', { status: status.toUpperCase() }));
-      onRefreshOrders(); // refresh order listings
+      loadOrders(); // refresh order listings
     } catch (err: any) {
       showToast(err.message || t('admin.form.orderStatusError'), true);
     }
@@ -512,9 +554,9 @@ export default function AdminDashboard({
           <button
             onClick={() => {
               onRefreshProducts();
-              onRefreshOrders();
-              onRefreshMessages();
-              onRefreshSubscribers();
+              loadOrders();
+              loadMessages();
+              loadSubscribers();
             }}
             className="cursor-pointer bg-white text-stone-700 hover:text-champagne-600 font-sans border border-stone-200 hover:border-champagne-300 p-3 rounded-md transition-colors text-xs font-semibold flex items-center gap-1"
             title={t('admin.dashboard.refresh')}

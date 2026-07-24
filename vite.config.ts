@@ -19,6 +19,7 @@ export default defineConfig(() => {
       watch: process.env.DISABLE_HMR === 'true' ? null : {},
     },
     build: {
+      target: 'es2022',
       rollupOptions: {
         output: {
           manualChunks: {

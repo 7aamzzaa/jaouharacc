@@ -1,13 +1,8 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
-import { en } from './en';
-import { fr } from './fr';
-import { ar } from './ar';
 
 export type Lang = 'en' | 'fr' | 'ar';
 
 export type TranslationDict = Record<string, any>;
-
-const dictionaries: Record<Lang, TranslationDict> = { en, fr, ar };
 
 interface TranslationContextValue {
   lang: Lang;
@@ -41,17 +36,43 @@ try { localStorage.removeItem('ccjaouhara_lang'); } catch {}
 function loadInitialLang(): Lang {
   try {
     const stored = localStorage.getItem(STORAGE_KEY) as Lang | null;
-    if (stored && stored in dictionaries) return stored;
+    if (stored === 'en' || stored === 'fr' || stored === 'ar') return stored;
   } catch {}
   return detectBrowserLang();
 }
 
+const loaders: Record<Lang, () => Promise<TranslationDict>> = {
+  en: () => import('./en').then(m => m.en),
+  fr: () => import('./fr').then(m => m.fr),
+  ar: () => import('./ar').then(m => m.ar),
+};
+
+const initialLang = loadInitialLang();
+const initialDict = await loaders[initialLang]();
+
+const dictCache: Record<Lang, TranslationDict | null> = {
+  en: null,
+  fr: null,
+  ar: null,
+};
+dictCache[initialLang] = initialDict;
+
 export function TranslationProvider({ children }: { children: ReactNode }) {
-  const [lang, setLangState] = useState<Lang>(loadInitialLang);
+  const [lang, setLangState] = useState<Lang>(initialLang);
+  const [dict, setDict] = useState<TranslationDict>(initialDict);
 
   const setLang = (newLang: Lang) => {
-    setLangState(newLang);
     try { localStorage.setItem(STORAGE_KEY, newLang); } catch {}
+    if (dictCache[newLang]) {
+      setLangState(newLang);
+      setDict(dictCache[newLang]);
+    } else {
+      loaders[newLang]().then(d => {
+        dictCache[newLang] = d;
+        setLangState(newLang);
+        setDict(d);
+      });
+    }
   };
 
   useEffect(() => {
@@ -62,7 +83,6 @@ export function TranslationProvider({ children }: { children: ReactNode }) {
       lang === 'fr' ? 'ccjaouhara | Bijouterie Fine de Luxe' :
       'ccjaouhara | Fine Jewelry'
     );
-    const existing = document.querySelector('link[hreflang]');
     const baseUrl = window.location.origin + window.location.pathname;
     const languages: Lang[] = ['en', 'fr', 'ar'];
     languages.forEach((l) => {
@@ -86,11 +106,9 @@ export function TranslationProvider({ children }: { children: ReactNode }) {
   }, [lang]);
 
   const t = (key: string, params?: Record<string, string | number>): any => {
-    const dict = dictionaries[lang];
     let val = getNestedValue(dict, key);
     if (val === undefined) {
-      const fallback = getNestedValue(dictionaries.en, key);
-      val = fallback ?? key;
+      val = dictCache.en ? getNestedValue(dictCache.en, key) : key;
     }
     if (params && typeof val === 'string') {
       return Object.entries(params).reduce(

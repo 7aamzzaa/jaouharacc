@@ -456,7 +456,7 @@ async function start() {
     console.log('[Production] Static dist content serving active.');
   }
 
-  app.listen(PORT, '0.0.0.0', () => {
+  app.listen(PORT, () => {
     console.log(`[ccjaouhara Server] Live on network interface http://localhost:${PORT}`);
   });
 }

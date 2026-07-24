@@ -2,8 +2,7 @@ import { useState, useEffect, memo, Suspense, lazy } from 'react';
 import { Routes, Route, useNavigate, useLocation, useSearchParams, useParams } from 'react-router-dom';
 import { ShoppingBag, ArrowRight, ArrowLeft, X, ShieldCheck, Gem, Heart } from 'lucide-react';
 
-import { Product, Order, CartItem, ContactMessage, Subscriber } from './types';
-import { defaultProducts } from './data/defaultProducts';
+import { Product, CartItem } from './types';
 import { useTranslation } from './i18n';
 
 import Navbar from './components/Navbar';
@@ -38,14 +37,8 @@ export default function App() {
   const handleCurrencyToggle = () => {};
 
   const [allProducts, setAllProducts] = useState<Product[]>([]);
-  const [allOrders, setAllOrders] = useState<Order[]>([]);
-  const [allMessages, setAllMessages] = useState<ContactMessage[]>([]);
-  const [allSubscribers, setAllSubscribers] = useState<Subscriber[]>([]);
 
   const [loadingProducts, setLoadingProducts] = useState(true);
-  const [loadingOrders, setLoadingOrders] = useState(true);
-  const [loadingMessages, setLoadingMessages] = useState(true);
-  const [loadingSubscribers, setLoadingSubscribers] = useState(true);
 
   const [cart, setCart] = useState<CartItem[]>(() => {
     try {
@@ -119,62 +112,15 @@ export default function App() {
     } catch (err) {
       console.warn('[API Fetch Warn] Operating products list on fallback data catalog:', err);
       showToast('Backend offline. Loaded local design sheets.', true);
+      const { defaultProducts } = await import('./data/defaultProducts');
       setAllProducts(defaultProducts);
     } finally {
       setLoadingProducts(false);
     }
   };
 
-  const fetchOrdersLogs = async () => {
-    setLoadingOrders(true);
-    try {
-      const response = await fetch('/api/orders');
-      if (!response.ok) throw new Error('Server returned error status on orders query');
-      const data = await response.json();
-      setAllOrders(data);
-    } catch (err) {
-      console.warn('[API Fetch Warn] Could not load orders logs from persistence layer:', err);
-      setAllOrders([]);
-    } finally {
-      setLoadingOrders(false);
-    }
-  };
-
-  const fetchMessagesLogs = async () => {
-    setLoadingMessages(true);
-    try {
-      const response = await fetch('/api/messages');
-      if (!response.ok) throw new Error('Server returned error status on messages query');
-      const data = await response.json();
-      setAllMessages(data);
-    } catch (err) {
-      console.warn('[API Fetch Warn] Could not load messages from persistence layer:', err);
-      setAllMessages([]);
-    } finally {
-      setLoadingMessages(false);
-    }
-  };
-
-  const fetchSubscribersLogs = async () => {
-    setLoadingSubscribers(true);
-    try {
-      const response = await fetch('/api/newsletter');
-      if (!response.ok) throw new Error('Server returned error status on subscribers query');
-      const data = await response.json();
-      setAllSubscribers(data);
-    } catch (err) {
-      console.warn('[API Fetch Warn] Could not load subscribers from persistence layer:', err);
-      setAllSubscribers([]);
-    } finally {
-      setLoadingSubscribers(false);
-    }
-  };
-
   useEffect(() => {
     fetchProductsList();
-    fetchOrdersLogs();
-    fetchMessagesLogs();
-    fetchSubscribersLogs();
   }, []);
 
   const handleAddToCart = (product: Product, quantity: number, size: string) => {
@@ -352,7 +298,7 @@ export default function App() {
           <Route path="/press" element={<Press />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/wishlist" element={<Wishlist wishlist={wishlist} allProducts={allProducts} onToggleWishlist={handleToggleWishlist} onPageChange={handlePageChange} onAddToCartDirect={handleQuickAdd} currency={currency} />} />
-          <Route path="/admin" element={<AdminDashboard products={allProducts} orders={allOrders} messages={allMessages} subscribers={allSubscribers} isLoadingProducts={loadingProducts} isLoadingOrders={loadingOrders} isLoadingMessages={loadingMessages} isLoadingSubscribers={loadingSubscribers} onRefreshProducts={fetchProductsList} onRefreshOrders={fetchOrdersLogs} onRefreshMessages={fetchMessagesLogs} onRefreshSubscribers={fetchSubscribersLogs} currency={currency} />} />
+          <Route path="/admin" element={<AdminDashboard products={allProducts} isLoadingProducts={loadingProducts} onRefreshProducts={fetchProductsList} currency={currency} />} />
           <Route path="*" element={<NotFound onPageChange={handlePageChange} />} />
         </Routes>
         </Suspense>

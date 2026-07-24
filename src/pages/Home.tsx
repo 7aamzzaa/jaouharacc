@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { 
   ArrowRight, 
   ArrowLeft,
@@ -14,7 +14,7 @@ import {
   Check,
   Copy
 } from 'lucide-react';
-import { motion } from 'motion/react';
+
 import { Product } from '../types';
 import ProductCard from '../components/ProductCard';
 import { useTranslation } from '../i18n';
@@ -110,25 +110,31 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
     { name: t('home.categories.items')[5], image: categoryProduct('jewelry_sets')?.images?.[0] || '/images/set1.jpg', id: 'jewelry_sets' },
   ];
 
-  // Motion variants
-  const fadeInUp = {
-    hidden: { opacity: 0, y: 35 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const }
-    }
-  };
+  const categoryRef = useRef<HTMLDivElement>(null);
+  const [categoryVisible, setCategoryVisible] = useState(false);
+  const promoRef = useRef<HTMLDivElement>(null);
+  const [promoVisible, setPromoVisible] = useState(false);
 
-  const staggerContainer = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.12
-      }
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+    const catEl = categoryRef.current;
+    if (catEl) {
+      const o = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) { setCategoryVisible(true); o.disconnect(); }
+      }, { threshold: 0, rootMargin: '-100px' });
+      o.observe(catEl);
+      observers.push(o);
     }
-  };
+    const promEl = promoRef.current;
+    if (promEl) {
+      const o = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) { setPromoVisible(true); o.disconnect(); }
+      }, { threshold: 0 });
+      o.observe(promEl);
+      observers.push(o);
+    }
+    return () => observers.forEach(o => o.disconnect());
+  }, []);
 
   // Newsletter subscription state
   const [newsletterEmail, setNewsletterEmail] = useState('');
@@ -169,31 +175,17 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
             
             {/* Left/Text Column */}
-            <motion.div 
-              initial="hidden"
-              animate="visible"
-              variants={{ visible: { transition: { staggerChildren: 0.2 } } }}
-              className="lg:col-span-6 space-y-6 text-center lg:text-start flex flex-col items-center lg:items-start justify-center" dir={dir}
-            >
-              <motion.h1 
-                variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const } } }}
-                className="font-serif text-[42px] sm:text-5xl md:text-6xl lg:text-[70px] leading-[1.1] font-black text-stone-900 tracking-tight"
-              >
+            <div className="lg:col-span-6 space-y-6 text-center lg:text-start flex flex-col items-center lg:items-start justify-center hero-stagger" dir={dir}>
+              <h1 className="font-serif text-[42px] sm:text-5xl md:text-6xl lg:text-[70px] leading-[1.1] font-black text-stone-900 tracking-tight">
                 {t('home.hero.title')} <br />
                 <span className="text-champagne-600 italic font-medium leading-normal">{t('home.hero.titleHighlight')}</span>
-              </motion.h1>
+              </h1>
               
-              <motion.p 
-                variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const } } }}
-                className="text-stone-600 text-sm sm:text-base leading-relaxed max-w-xl font-medium font-sans"
-              >
+              <p className="text-stone-600 text-sm sm:text-base leading-relaxed max-w-xl font-medium font-sans">
                 {t('home.hero.desc')}
-              </motion.p>
+              </p>
               
-              <motion.div 
-                variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] as const } } }}
-                className="flex flex-col sm:flex-row items-center gap-4 pt-4 w-full sm:w-auto"
-              >
+              <div className="flex flex-col sm:flex-row items-center gap-4 pt-4 w-full sm:w-auto">
                 <button
                   onClick={() => onPageChange('shop')}
                   className="cursor-pointer w-full sm:w-auto bg-stone-900 text-white px-8 py-4 text-xs uppercase tracking-widest font-bold hover:bg-champagne-500 hover:-translate-y-0.5 transition-all shadow-md active:scale-95 flex items-center justify-center gap-2 rounded-xs font-sans"
@@ -207,8 +199,8 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
                 >
                   {t('home.hero.secondaryCta')}
                 </button>
-              </motion.div>
-            </motion.div>
+              </div>
+            </div>
 
             {/* Right/Image Column — Placeholder */}
             <div className="lg:col-span-6 relative flex items-center justify-center h-[350px] sm:h-[480px]">
@@ -217,18 +209,13 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
               <div className="absolute -inset-4 border border-champagne-300/20 rounded-2xl scale-95 md:scale-100 -rotate-3 transition-transform duration-700 pointer-events-none"></div>
 
               {/* Hero Placeholder Container */}
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] as const }}
-                className="w-full h-full max-w-lg relative z-10 overflow-hidden rounded-lg"
-              >
+              <div className="w-full h-full max-w-lg relative z-10 overflow-hidden rounded-lg hero-image-in">
                 <img
-                  src="/images/hero.png"
+                  src="/images/hero.webp"
                   alt="Hero"
                   className="w-full h-full object-cover rounded-lg"
                 />
-              </motion.div>
+              </div>
             </div>
 
           </div>
@@ -313,17 +300,10 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
           <div className="w-16 h-[2px] bg-champagne-500 mx-auto rounded-full"></div>
         </div>
 
-        <motion.div 
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-2 md:grid-cols-3 gap-6"
-        >
+        <div ref={categoryRef} className={`grid grid-cols-2 md:grid-cols-3 gap-6 category-stagger ${categoryVisible ? 'visible' : ''}`}>
           {categories.map((cat) => (
-            <motion.div
+            <div
               key={cat.id}
-              variants={fadeInUp}
               onClick={() => onPageChange('shop', { filterCategory: cat.id })}
               className="cursor-pointer group relative aspect-[4/5] bg-stone-100 overflow-hidden rounded-md border border-champagne-105 shadow-xs hover:shadow-xl hover:border-champagne-400 transition-all duration-500"
             >
@@ -357,9 +337,9 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
                   </span>
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
+        </div>
       </section>
 
       {/* 5. BEST SELLERS SECTION */}
@@ -418,15 +398,12 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
         <div className="absolute inset-0 bg-stone-950/20"></div>
         
         <div className="max-w-4xl mx-auto text-center relative z-10 space-y-8 flex flex-col items-center">
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="w-12 h-12 rounded-full border border-champagne-400/30 flex items-center justify-center text-champagne-400 mb-2"
+          <div
+            ref={promoRef}
+            className={`w-12 h-12 rounded-full border border-champagne-400/30 flex items-center justify-center text-champagne-400 mb-2 promo-scale-in ${promoVisible ? 'visible' : ''}`}
           >
             <Sparkles size={18} />
-          </motion.div>
+          </div>
           
           <h3 className="font-serif text-xl sm:text-2xl md:text-3.5xl font-black text-champagne-300 leading-relaxed italic px-4">
             {t('home.promo.quote')}
