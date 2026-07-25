@@ -2,10 +2,11 @@ import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import path from 'path';
 import {defineConfig} from 'vite';
+import {visualizer} from 'rollup-plugin-visualizer';
 
 export default defineConfig(() => {
   return {
-    plugins: [react(), tailwindcss()],
+    plugins: [react(), tailwindcss(), visualizer({open: false, gzipSize: true, brotliSize: true, filename: 'stats.json', json: true})],
     resolve: {
       alias: {
         '@': path.resolve(__dirname, '.'),
@@ -19,13 +20,18 @@ export default defineConfig(() => {
       watch: process.env.DISABLE_HMR === 'true' ? null : {},
     },
     build: {
-      target: 'es2022',
       rollupOptions: {
         output: {
-          manualChunks: {
-            'react-vendor': ['react', 'react-dom', 'react-router-dom'],
-            icons: ['lucide-react'],
-            motion: ['motion'],
+          manualChunks(id: string) {
+            if (id.includes('node_modules/react/') || id.includes('node_modules/react-dom/') || id.includes('node_modules/scheduler/') || id.includes('node_modules/react-router/')) {
+              return 'react-vendor';
+            }
+            if (id.includes('node_modules/lucide-react/')) {
+              return 'icons';
+            }
+            if (id.includes('node_modules/motion/')) {
+              return 'motion';
+            }
           },
         },
       },

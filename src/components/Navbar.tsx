@@ -1,9 +1,10 @@
 import { ShoppingBag, Menu, X, ChevronDown, CircleDot, Sparkles, Heart, Crown, Gem, Circle, Globe } from 'lucide-react';
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { CartItem, Product } from '../types';
 import { useTranslation, type Lang } from '../i18n';
 import SearchButton from './search/SearchButton';
-import SearchModal from './search/SearchModal';
+
+const SearchModal = lazy(() => import('./search/SearchModal'));
 
 interface NavbarProps {
   currentPage: string;
@@ -424,13 +425,15 @@ export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOp
         </div>
       )}
 
-      <SearchModal
-        isOpen={searchOpen}
-        onClose={() => setSearchOpen(false)}
-        products={allProducts}
-        onSelectProduct={(id) => onPageChange('product', { id })}
-        currency={currency}
-      />
+      <Suspense fallback={null}>
+        <SearchModal
+          isOpen={searchOpen}
+          onClose={() => setSearchOpen(false)}
+          products={allProducts}
+          onSelectProduct={(id) => onPageChange('product', { id })}
+          currency={currency}
+        />
+      </Suspense>
     </header>
   );
 }

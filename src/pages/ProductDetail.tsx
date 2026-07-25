@@ -1,13 +1,13 @@
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback, lazy, Suspense } from 'react';
 import { Minus, Plus, ShoppingBag, ShieldCheck, Heart, Sparkles, Scale, RefreshCw, ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
 import { Product } from '../types';
 import ProductRating from '../components/ProductRating';
 import ProductCard from '../components/ProductCard';
 import { useTranslation } from '../i18n';
-import { productTranslations } from '../i18n/productTranslations';
-import ShareModal from '../components/ShareModal';
-import FAQAccordion from '../components/FAQAccordion';
-import TrustBadges from '../components/TrustBadges';
+
+const FAQAccordion = lazy(() => import('../components/FAQAccordion'));
+const ShareModal = lazy(() => import('../components/ShareModal'));
+const TrustBadges = lazy(() => import('../components/TrustBadges'));
 
 interface ProductDetailProps {
   productId: string;
@@ -36,7 +36,14 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
   const isFavorite = wishlist.includes(product?.id || '');
   const [addedMessage, setAddedMessage] = useState<boolean>(false);
   const [showShareModal, setShowShareModal] = useState(false);
+  const [translationsData, setTranslationsData] = useState<Record<string, any> | null>(null);
   const { t, lang, dir } = useTranslation();
+
+  useEffect(() => {
+    import('../i18n/productTranslations').then(mod => {
+      setTranslationsData(mod.productTranslations);
+    });
+  }, []);
 
   // Load product criteria
   useEffect(() => {
@@ -127,7 +134,7 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
   }
 
   const isOutOfStock = product.stock === 0;
-  const productTranslation = productTranslations[product.id]?.[lang];
+  const productTranslation = translationsData?.[product.id]?.[lang];
   const translatedDescription = productTranslation?.description || product.description;
 
   // Sizes array details
@@ -333,7 +340,9 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
 
           </div>
 
-          <TrustBadges />
+          <Suspense fallback={<div className="border border-stone-200 rounded-lg p-4 h-[168px] animate-pulse bg-stone-50" />}>
+            <TrustBadges />
+          </Suspense>
 
           {/* Technical Spec List */}
           <div className="border-t border-champagne-100 pt-6 space-y-4">
@@ -369,7 +378,9 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
           </span>
         </div>
         <div className="max-w-2xl mx-auto">
-          <FAQAccordion />
+          <Suspense fallback={<div className="space-y-4"><div className="h-12 bg-stone-50 animate-pulse rounded" /><div className="h-12 bg-stone-50 animate-pulse rounded" /><div className="h-12 bg-stone-50 animate-pulse rounded" /></div>}>
+            <FAQAccordion />
+          </Suspense>
         </div>
       </section>
 
@@ -424,12 +435,14 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
         </section>
       )}
 
-      <ShareModal
-        isOpen={showShareModal}
-        onClose={() => setShowShareModal(false)}
-        productName={product.name}
-        productUrl={typeof window !== 'undefined' ? window.location.href : ''}
-      />
+      <Suspense fallback={<div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40"><div className="animate-spin h-8 w-8 border-2 border-champagne-500 border-t-transparent rounded-full" /></div>}>
+        <ShareModal
+          isOpen={showShareModal}
+          onClose={() => setShowShareModal(false)}
+          productName={product.name}
+          productUrl={typeof window !== 'undefined' ? window.location.href : ''}
+        />
+      </Suspense>
 
       {productSchema && (
         <script

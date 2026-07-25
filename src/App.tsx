@@ -5,8 +5,8 @@ import { ShoppingBag, ArrowRight, ArrowLeft, X, ShieldCheck, Gem, Heart } from '
 import { Product, CartItem } from './types';
 import { useTranslation } from './i18n';
 
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
+const Navbar = lazy(() => import('./components/Navbar'));
+const Footer = lazy(() => import('./components/Footer'));
 import ToastContainer, { showToast } from './components/ToastContainer';
 
 const Home = lazy(() => import('./pages/Home'));
@@ -268,16 +268,18 @@ export default function App() {
 
       <Marquee />
 
-      <Navbar
-        currentPage={getCurrentPage(location.pathname)}
-        onPageChange={handlePageChange}
-        cart={cart}
-        wishlist={wishlist}
-        onOpenCart={() => setIsCartOpen(true)}
-        currency={currency}
-        onCurrencyToggle={handleCurrencyToggle}
-        allProducts={allProducts}
-      />
+      <Suspense fallback={<div className="sticky top-0 z-40 bg-white border-b border-champagne-100 shadow-xs h-20" />}>
+        <Navbar
+          currentPage={getCurrentPage(location.pathname)}
+          onPageChange={handlePageChange}
+          cart={cart}
+          wishlist={wishlist}
+          onOpenCart={() => setIsCartOpen(true)}
+          currency={currency}
+          onCurrencyToggle={handleCurrencyToggle}
+          allProducts={allProducts}
+        />
+      </Suspense>
 
       <main className="flex-1 py-12 md:py-16">
         <Suspense fallback={<div className="flex items-center justify-center py-32"><div className="w-6 h-6 border-2 border-champagne-500 border-t-transparent rounded-full animate-spin" /></div>}>
@@ -365,7 +367,9 @@ export default function App() {
         </div>
       )}
 
-      <Footer />
+      <Suspense fallback={<div className="mt-24 border-t border-champagne-150 bg-stone-50 h-64" />}>
+        <Footer />
+      </Suspense>
       <ToastContainer />
 
       <a
@@ -430,7 +434,7 @@ function BlogArticleWithParams(props: any) {
 
 const Marquee = memo(function Marquee() {
   const { t, dir } = useTranslation();
-  const items = t('app.marquee') as unknown as string[];
+  const items = (t('app.marquee') ?? []) as unknown as string[];
   return (
     <div className="bg-stone-900 border-b border-stone-850 text-stone-200 text-[11px] uppercase font-semibold font-sans py-2.5 overflow-hidden relative w-full" dir={dir}>
       <div className="flex whitespace-nowrap select-none" style={{ width: 'max-content' }}>

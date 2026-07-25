@@ -48,18 +48,26 @@ const loaders: Record<Lang, () => Promise<TranslationDict>> = {
 };
 
 const initialLang = loadInitialLang();
-const initialDict = await loaders[initialLang]();
+
+// Kick off initial dictionary load without blocking module evaluation
+const initialLoadPromise = loaders[initialLang]();
 
 const dictCache: Record<Lang, TranslationDict | null> = {
   en: null,
   fr: null,
   ar: null,
 };
-dictCache[initialLang] = initialDict;
 
 export function TranslationProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>(initialLang);
-  const [dict, setDict] = useState<TranslationDict>(initialDict);
+  const [dict, setDict] = useState<TranslationDict>({});
+
+  useEffect(() => {
+    initialLoadPromise.then(d => {
+      dictCache[initialLang] = d;
+      setDict(d);
+    });
+  }, []);
 
   const setLang = (newLang: Lang) => {
     try { localStorage.setItem(STORAGE_KEY, newLang); } catch {}
@@ -108,7 +116,7 @@ export function TranslationProvider({ children }: { children: ReactNode }) {
   const t = (key: string, params?: Record<string, string | number>): any => {
     let val = getNestedValue(dict, key);
     if (val === undefined) {
-      val = dictCache.en ? getNestedValue(dictCache.en, key) : key;
+      val = dictCache.en ? getNestedValue(dictCache.en, key) : undefined;
     }
     if (params && typeof val === 'string') {
       return Object.entries(params).reduce(
