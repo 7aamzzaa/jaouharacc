@@ -561,7 +561,7 @@ export default function AdminDashboard({
             className="cursor-pointer bg-white text-stone-700 hover:text-champagne-600 font-sans border border-stone-200 hover:border-champagne-300 p-3 rounded-md transition-colors text-xs font-semibold flex items-center gap-1"
             title={t('admin.dashboard.refresh')}
           >
-            <RefreshCw size={14} className={isLoadingProducts || isLoadingOrders || isLoadingMessages ? 'animate-spin' : ''} />
+            <RefreshCw size={14} className={isLoadingProducts || loadingOrders || loadingMessages ? 'animate-spin' : ''} />
             {t('admin.dashboard.refresh')}
           </button>
           
@@ -1240,7 +1240,7 @@ export default function AdminDashboard({
             </select>
           </div>
 
-          {isLoadingOrders ? (
+          {loadingOrders ? (
             <div className="text-center py-16 text-xs text-stone-405 flex flex-col items-center justify-center gap-2">
               <Loader2 className="animate-spin text-champagne-500" />
               <span>{t('admin.ordersTable.loading')}</span>
@@ -1423,7 +1423,7 @@ export default function AdminDashboard({
             />
           </div>
 
-          {isLoadingMessages ? (
+          {loadingMessages ? (
             <div className="text-center py-16 text-xs text-stone-405 flex flex-col items-center justify-center gap-2">
               <Loader2 className="animate-spin text-champagne-500" />
               <span>{t('admin.messagesTable.loading')}</span>
@@ -1535,7 +1535,7 @@ export default function AdminDashboard({
             </span>
           </div>
 
-          {isLoadingSubscribers ? (
+          {loadingSubscribers ? (
             <div className="text-center py-16 text-xs text-stone-405 flex flex-col items-center justify-center gap-2">
               <Loader2 className="animate-spin text-champagne-500" />
               <span>{t('admin.subscribersTable.loading')}</span>
