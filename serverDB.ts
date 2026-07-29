@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { createClient } from '@supabase/supabase-js';
-import { Product, Order, ContactMessage, Subscriber } from './src/types';
+import { Product, Order, ContactMessage, Subscriber, Review } from './src/types';
 import { defaultProducts } from './src/data/defaultProducts';
 
 // Setup local fallback directory and file paths
@@ -10,6 +10,7 @@ const PRODUCTS_FILE = path.join(DATA_DIR, 'products.json');
 const ORDERS_FILE = path.join(DATA_DIR, 'orders.json');
 const MESSAGES_FILE = path.join(DATA_DIR, 'messages.json');
 const SUBSCRIBERS_FILE = path.join(DATA_DIR, 'subscribers.json');
+const REVIEWS_FILE = path.join(DATA_DIR, 'reviews.json');
 
 // Ensure fallback database files are initialized
 function initializeLocalDB() {
@@ -31,6 +32,10 @@ function initializeLocalDB() {
   if (!fs.existsSync(SUBSCRIBERS_FILE)) {
     fs.writeFileSync(SUBSCRIBERS_FILE, JSON.stringify([], null, 2), 'utf-8');
     console.log('[DB] Local subscribers database initialized empty');
+  }
+  if (!fs.existsSync(REVIEWS_FILE)) {
+    fs.writeFileSync(REVIEWS_FILE, JSON.stringify([], null, 2), 'utf-8');
+    console.log('[DB] Local reviews database initialized empty');
   }
 }
 
@@ -438,5 +443,49 @@ export async function deleteSubscriber(id: string): Promise<boolean> {
   const filtered = subscribers.filter(s => s.id !== id);
   if (subscribers.length === filtered.length) return false;
   fs.writeFileSync(SUBSCRIBERS_FILE, JSON.stringify(filtered, null, 2), 'utf-8');
+  return true;
+}
+
+// ------------------------------------------------------------------------
+// Reviews DB Access Handlers
+// ------------------------------------------------------------------------
+
+export async function getReviews(): Promise<Review[]> {
+  try {
+    const fileContent = fs.readFileSync(REVIEWS_FILE, 'utf-8');
+    return JSON.parse(fileContent) as Review[];
+  } catch (err) {
+    console.error('[DB] Failed to read reviews json', err);
+    return [];
+  }
+}
+
+export async function createReview(data: Omit<Review, 'id' | 'createdAt' | 'status'>): Promise<Review> {
+  const newReview: Review = {
+    ...data,
+    id: 'REV-' + Date.now() + '-' + Math.random().toString(36).substr(2, 6).toUpperCase(),
+    createdAt: new Date().toISOString(),
+    status: 'pending'
+  };
+  const reviews = await getReviews();
+  reviews.unshift(newReview);
+  fs.writeFileSync(REVIEWS_FILE, JSON.stringify(reviews, null, 2), 'utf-8');
+  return newReview;
+}
+
+export async function updateReviewStatus(id: string, status: 'approved' | 'rejected'): Promise<Review | null> {
+  const reviews = await getReviews();
+  const idx = reviews.findIndex(r => r.id === id);
+  if (idx === -1) return null;
+  reviews[idx].status = status;
+  fs.writeFileSync(REVIEWS_FILE, JSON.stringify(reviews, null, 2), 'utf-8');
+  return reviews[idx];
+}
+
+export async function deleteReview(id: string): Promise<boolean> {
+  const reviews = await getReviews();
+  const filtered = reviews.filter(r => r.id !== id);
+  if (reviews.length === filtered.length) return false;
+  fs.writeFileSync(REVIEWS_FILE, JSON.stringify(filtered, null, 2), 'utf-8');
   return true;
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useCallback, lazy, Suspense } from 'react';
 import { Minus, Plus, ShoppingBag, ShieldCheck, Heart, Sparkles, Scale, RefreshCw, ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
-import { Product } from '../types';
+import { Product, Review } from '../types';
 import ProductRating from '../components/ProductRating';
 import ProductCard from '../components/ProductCard';
 import { useTranslation } from '../i18n';
@@ -8,6 +8,9 @@ import { useTranslation } from '../i18n';
 const FAQAccordion = lazy(() => import('../components/FAQAccordion'));
 const ShareModal = lazy(() => import('../components/ShareModal'));
 const TrustBadges = lazy(() => import('../components/TrustBadges'));
+const ReviewSummary = lazy(() => import('../components/reviews/ReviewSummary'));
+const ReviewList = lazy(() => import('../components/reviews/ReviewList'));
+const ReviewForm = lazy(() => import('../components/reviews/ReviewForm'));
 
 interface ProductDetailProps {
   productId: string;
@@ -38,6 +41,36 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
   const [showShareModal, setShowShareModal] = useState(false);
   const [translationsData, setTranslationsData] = useState<Record<string, any> | null>(null);
   const { t, lang, dir } = useTranslation();
+
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [loadingReviews, setLoadingReviews] = useState(false);
+
+  const fetchReviews = useCallback(async () => {
+    if (!product) return;
+    setLoadingReviews(true);
+    try {
+      const response = await fetch(`/api/reviews?product_id=${product.id}`);
+      if (response.ok) {
+        const data = await response.json();
+        setReviews(data);
+      }
+    } catch {
+      // silently fail
+    } finally {
+      setLoadingReviews(false);
+    }
+  }, [product?.id]);
+
+  useEffect(() => {
+    fetchReviews();
+  }, [fetchReviews]);
+
+  const averageRating = useMemo(() => {
+    if (reviews.length === 0) return 0;
+    return reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
+  }, [reviews]);
+
+  const totalReviews = reviews.length;
 
   useEffect(() => {
     import('../i18n/productTranslations').then(mod => {
@@ -380,6 +413,26 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
         <div className="max-w-2xl mx-auto">
           <Suspense fallback={<div className="space-y-4"><div className="h-12 bg-stone-50 animate-pulse rounded" /><div className="h-12 bg-stone-50 animate-pulse rounded" /><div className="h-12 bg-stone-50 animate-pulse rounded" /></div>}>
             <FAQAccordion />
+          </Suspense>
+        </div>
+      </section>
+
+      {/* Customer Reviews Section */}
+      <section className="border-t border-champagne-100 pt-16 pb-4 space-y-8">
+        <div className="text-center mb-2">
+          <span className="text-[10px] tracking-[0.2em] uppercase text-champagne-500 font-medium font-sans">
+            {t('reviewsPage.heading')}
+          </span>
+        </div>
+        <div className="max-w-2xl mx-auto space-y-8">
+          <Suspense fallback={<div className="h-8 bg-stone-50 animate-pulse rounded w-48 mx-auto" />}>
+            <ReviewSummary averageRating={averageRating} totalReviews={totalReviews} />
+          </Suspense>
+          <Suspense fallback={<div className="space-y-4"><div className="h-24 bg-stone-50 animate-pulse rounded" /><div className="h-24 bg-stone-50 animate-pulse rounded" /></div>}>
+            <ReviewList reviews={reviews} />
+          </Suspense>
+          <Suspense fallback={<div className="h-48 bg-stone-50 animate-pulse rounded" />}>
+            <ReviewForm productId={product.id} onSuccess={fetchReviews} />
           </Suspense>
         </div>
       </section>

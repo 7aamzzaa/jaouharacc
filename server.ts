@@ -19,9 +19,13 @@ import {
   getSubscribers,
   createSubscriber,
   deleteSubscriber,
+  getReviews,
+  createReview,
+  updateReviewStatus,
+  deleteReview,
   getSupabaseClient
 } from './serverDB';
-import { Product } from './src/types';
+import { Product, Review } from './src/types';
 
 const app = express();
 const PORT = 3000;
@@ -310,6 +314,77 @@ app.delete('/api/newsletter/:id', async (req, res) => {
     res.json({ message: 'Subscriber deleted successfully', id: req.params.id });
   } catch (err: any) {
     res.status(500).json({ error: 'Failed to delete subscriber', details: err.message });
+  }
+});
+
+// ------------------------------------------------------------------------
+// Reviews API Endpoints
+// ------------------------------------------------------------------------
+
+// Get reviews — public: ?product_id=xxx returns approved only; admin: no param returns all
+app.get('/api/reviews', async (req, res) => {
+  try {
+    const reviews = await getReviews();
+    const { product_id } = req.query;
+    if (product_id && typeof product_id === 'string') {
+      return res.json(reviews.filter(r => r.product_id === product_id && r.status === 'approved'));
+    }
+    res.json(reviews);
+  } catch (err: any) {
+    res.status(500).json({ error: 'Failed to retrieve reviews', details: err.message });
+  }
+});
+
+// Submit a new review (public) — stored as pending
+app.post('/api/reviews', async (req, res) => {
+  try {
+    const { product_id, customerName, customerEmail, rating, comment } = req.body;
+    if (!product_id || !customerName || rating == null || !comment) {
+      return res.status(400).json({ error: 'product_id, customerName, rating, and comment are required' });
+    }
+    const ratingNum = Number(rating);
+    if (!Number.isInteger(ratingNum) || ratingNum < 1 || ratingNum > 5) {
+      return res.status(400).json({ error: 'rating must be an integer between 1 and 5' });
+    }
+    if (customerEmail && typeof customerEmail === 'string' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customerEmail)) {
+      return res.status(400).json({ error: 'Invalid email format' });
+    }
+    const created = await createReview({
+      product_id, customerName, customerEmail: customerEmail || undefined, rating: ratingNum, comment
+    });
+    res.json(created);
+  } catch (err: any) {
+    res.status(500).json({ error: 'Failed to save review', details: err.message });
+  }
+});
+
+// Approve or reject a review (admin)
+app.patch('/api/reviews/:id', async (req, res) => {
+  try {
+    const { status } = req.body;
+    if (!status || !['approved', 'rejected'].includes(status)) {
+      return res.status(400).json({ error: 'Status must be "approved" or "rejected"' });
+    }
+    const updated = await updateReviewStatus(req.params.id, status);
+    if (!updated) {
+      return res.status(404).json({ error: 'Review not found' });
+    }
+    res.json(updated);
+  } catch (err: any) {
+    res.status(500).json({ error: 'Failed to update review status', details: err.message });
+  }
+});
+
+// Delete a review (admin)
+app.delete('/api/reviews/:id', async (req, res) => {
+  try {
+    const success = await deleteReview(req.params.id);
+    if (!success) {
+      return res.status(404).json({ error: 'Review not found' });
+    }
+    res.json({ message: 'Review deleted successfully', id: req.params.id });
+  } catch (err: any) {
+    res.status(500).json({ error: 'Failed to delete review', details: err.message });
   }
 });
 

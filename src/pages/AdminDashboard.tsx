@@ -2,9 +2,9 @@ import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useTranslation } from '../i18n';
 import { 
   Database, Plus, Edit, Trash2, ShoppingBag, DollarSign, ListOrdered, 
-  Layers, Hammer, Archive, Sparkles, RefreshCw, X, Loader2, LogOut, Lock, Upload, Mail, Check, AlertTriangle
+  Layers, Hammer, Archive, Sparkles, RefreshCw, X, Loader2, LogOut, Lock, Upload, Mail, Check, AlertTriangle, Star
 } from 'lucide-react';
-import { Product, Order, ContactMessage, Subscriber } from '../types';
+import { Product, Order, ContactMessage, Subscriber, Review } from '../types';
 import { showToast } from '../components/ToastContainer';
 
 interface AdminDashboardProps {
@@ -28,12 +28,13 @@ export default function AdminDashboard({
   const [passcode, setPasscode] = useState('');
   const [loginError, setLoginError] = useState('');
 
-  const [activeTab, setActiveTab] = useState<'products' | 'orders' | 'messages' | 'subscribers'>('products');
+  const [activeTab, setActiveTab] = useState<'products' | 'orders' | 'messages' | 'subscribers' | 'reviews'>('products');
   const [messagesSearch, setMessagesSearch] = useState('');
   const [orderSearch, setOrderSearch] = useState('');
   const [orderFilter, setOrderFilter] = useState<string>('all');
   const [expandedOrderId, setExpandedOrderId] = useState<string | null>(null);
   const [subscriberSearch, setSubscriberSearch] = useState('');
+  const [reviewsSearch, setReviewsSearch] = useState('');
   
   // Internal state for admin-only data (orders, messages, subscribers)
   const [orders, setOrders] = useState<Order[]>([]);
@@ -42,6 +43,8 @@ export default function AdminDashboard({
   const [loadingOrders, setLoadingOrders] = useState(true);
   const [loadingMessages, setLoadingMessages] = useState(true);
   const [loadingSubscribers, setLoadingSubscribers] = useState(true);
+  const [reviews, setReviews] = useState<Review[]>([]);
+  const [loadingReviews, setLoadingReviews] = useState(true);
 
   const loadOrders = async () => {
     setLoadingOrders(true);
@@ -88,11 +91,27 @@ export default function AdminDashboard({
     }
   };
 
+  const loadReviews = async () => {
+    setLoadingReviews(true);
+    try {
+      const response = await fetch('/api/reviews');
+      if (!response.ok) throw new Error('Server returned error status on reviews query');
+      const data = await response.json();
+      setReviews(data);
+    } catch (err) {
+      console.warn('[API Fetch Warn] Could not load reviews from persistence layer:', err);
+      setReviews([]);
+    } finally {
+      setLoadingReviews(false);
+    }
+  };
+
   // Fetch all admin data on mount
   useEffect(() => {
     loadOrders();
     loadMessages();
     loadSubscribers();
+    loadReviews();
   }, []);
   
   // Products Management Form State
@@ -417,10 +436,62 @@ export default function AdminDashboard({
     }
   };
 
+  // Approve a review
+  const handleApproveReview = async (id: string) => {
+    try {
+      const response = await fetch(`/api/reviews/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'approved' })
+      });
+      if (!response.ok) throw new Error('Approve review failed');
+      showToast(t('admin.reviewsTable.approveSuccess'));
+      setReviews((prev) => prev.map((r) => r.id === id ? { ...r, status: 'approved' } : r));
+    } catch (err: any) {
+      showToast(err.message || 'Failed to approve review', true);
+    }
+  };
+
+  // Reject a review
+  const handleRejectReview = async (id: string) => {
+    try {
+      const response = await fetch(`/api/reviews/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'rejected' })
+      });
+      if (!response.ok) throw new Error('Reject review failed');
+      showToast(t('admin.reviewsTable.rejectSuccess'));
+      setReviews((prev) => prev.map((r) => r.id === id ? { ...r, status: 'rejected' } : r));
+    } catch (err: any) {
+      showToast(err.message || 'Failed to reject review', true);
+    }
+  };
+
+  // Delete a review
+  const handleDeleteReview = async (id: string) => {
+    if (!confirm(t('admin.reviewsTable.deleteConfirm'))) return;
+    try {
+      const response = await fetch(`/api/reviews/${id}`, { method: 'DELETE' });
+      if (!response.ok) throw new Error('Delete failed');
+      showToast(t('admin.reviewsTable.deleteSuccess'));
+      setReviews((prev) => prev.filter((r) => r.id !== id));
+    } catch (err: any) {
+      showToast(err.message || 'Failed to delete review', true);
+    }
+  };
+
   // Auto-refresh subscribers when tab is selected
   useEffect(() => {
     if (activeTab === 'subscribers') {
       loadSubscribers();
+    }
+  }, [activeTab]);
+
+  // Auto-refresh reviews when tab is selected
+  useEffect(() => {
+    if (activeTab === 'reviews') {
+      loadReviews();
     }
   }, [activeTab]);
 
@@ -557,11 +628,12 @@ export default function AdminDashboard({
               loadOrders();
               loadMessages();
               loadSubscribers();
+              loadReviews();
             }}
             className="cursor-pointer bg-white text-stone-700 hover:text-champagne-600 font-sans border border-stone-200 hover:border-champagne-300 p-3 rounded-md transition-colors text-xs font-semibold flex items-center gap-1"
             title={t('admin.dashboard.refresh')}
           >
-            <RefreshCw size={14} className={isLoadingProducts || loadingOrders || loadingMessages ? 'animate-spin' : ''} />
+            <RefreshCw size={14} className={isLoadingProducts || loadingOrders || loadingMessages || loadingReviews ? 'animate-spin' : ''} />
             {t('admin.dashboard.refresh')}
           </button>
           
@@ -1130,6 +1202,16 @@ export default function AdminDashboard({
         >
           {t('admin.tabs.subscribers', { count: subscribers.length })}
         </button>
+        <button
+          onClick={() => setActiveTab('reviews')}
+          className={`cursor-pointer pb-4 text-xs tracking-widest uppercase transition-colors font-semibold relative ${
+            activeTab === 'reviews'
+              ? 'text-stone-900 border-b-2 border-champagne-500'
+              : 'text-stone-400 hover:text-stone-750'
+          }`}
+        >
+          {t('admin.tabs.reviews', { count: reviews.length })}
+        </button>
       </div>
 
       {/* TAB 1 CONTENT: PRODUCTS TABLE */}
@@ -1504,6 +1586,132 @@ export default function AdminDashboard({
                                 onClick={() => handleDeleteMessage(m.id)}
                                 className="bg-white border border-stone-200 text-stone-600 hover:text-rose-500 hover:border-rose-350 p-2 rounded-md transition-colors"
                                 title={t('admin.messagesTable.delete')}
+                              >
+                                <Trash2 size={12} />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              );
+            })()
+          )}
+        </section>
+      ) : activeTab === 'reviews' ? (
+        /* TAB 5 CONTENT: CUSTOMER REVIEWS TABLE */
+        <section className="bg-white border border-champagne-105 rounded-lg overflow-hidden">
+          {/* Search Bar */}
+          <div className="p-4 border-b border-champagne-100">
+            <input
+              type="text"
+              placeholder={t('admin.reviewsTable.searchPlaceholder')}
+              className="w-full bg-stone-50 text-xs px-3 py-2 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400"
+              value={reviewsSearch}
+              onChange={(e) => setReviewsSearch(e.target.value)}
+            />
+          </div>
+
+          {loadingReviews ? (
+            <div className="text-center py-16 text-xs text-stone-405 flex flex-col items-center justify-center gap-2">
+              <Loader2 className="animate-spin text-champagne-500" />
+              <span>{t('admin.reviewsTable.loading')}</span>
+            </div>
+          ) : reviews.length === 0 ? (
+            <div className="text-center py-16 text-stone-400 text-xs space-y-2">
+              <Star className="mx-auto text-stone-200" size={32} />
+              <p>{t('admin.reviewsTable.empty')}</p>
+            </div>
+          ) : (
+            (() => {
+              const filtered = reviews.filter(r => {
+                if (!reviewsSearch) return true;
+                const q = reviewsSearch.toLowerCase();
+                return (r.reviewer_name || '').toLowerCase().includes(q) ||
+                  (r.comment || '').toLowerCase().includes(q) ||
+                  (r.product_id || '').toLowerCase().includes(q);
+              });
+
+              if (filtered.length === 0) {
+                return <div className="text-center py-12 text-stone-400 text-xs">{t('admin.reviewsTable.noResults')}</div>;
+              }
+
+              return (
+                <div className="overflow-x-auto">
+                  <table className="w-full text-start border-collapse font-sans text-xs">
+                    <thead>
+                      <tr className="bg-champagne-50/50 text-stone-500 border-b border-champagne-100 uppercase tracking-wider text-[10px]">
+                        <th className="p-4 font-semibold">{t('admin.reviewsTable.reviewer')}</th>
+                        <th className="p-4 font-semibold">{t('admin.reviewsTable.product')}</th>
+                        <th className="p-4 font-semibold">{t('admin.reviewsTable.rating')}</th>
+                        <th className="p-4 font-semibold">{t('admin.reviewsTable.comment')}</th>
+                        <th className="p-4 font-semibold">{t('admin.reviewsTable.status')}</th>
+                        <th className="p-4 font-semibold">{t('admin.reviewsTable.date')}</th>
+                        <th className="p-4 text-end font-semibold">{t('admin.ordersTable.actions')}</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-stone-105">
+                      {filtered.map((r) => (
+                        <tr key={r.id} className={`hover:bg-luxe-pink-50/20 ${r.status === 'pending' ? 'bg-champagne-50/30' : ''}`}>
+                          <td className="p-4">
+                            <span className="font-semibold text-stone-900 block text-sm">{r.reviewer_name}</span>
+                            <span className="text-stone-400 block font-mono text-[10px]">{new Date(r.created_at).toLocaleDateString()}</span>
+                          </td>
+                          <td className="p-4 text-stone-600 font-medium max-w-[200px]">
+                            <span className="line-clamp-1 font-mono text-[11px]">{r.product_id}</span>
+                          </td>
+                          <td className="p-4">
+                            <span className="inline-flex items-center gap-0.5 text-amber-500 text-sm">
+                              {Array.from({ length: 5 }, (_, i) => (
+                                <Star key={i} size={12} fill={i < r.rating ? 'currentColor' : 'none'} />
+                              ))}
+                            </span>
+                          </td>
+                          <td className="p-4 text-stone-600 max-w-[300px]">
+                            <p className="line-clamp-2 leading-relaxed text-[11px]">{r.comment}</p>
+                          </td>
+                          <td className="p-4">
+                            <span className={`inline-flex items-center px-2 py-1 text-[10px] font-semibold rounded-md border uppercase tracking-wide ${
+                              r.status === 'pending'
+                                ? 'bg-amber-50 text-amber-700 border-amber-200'
+                                : r.status === 'approved'
+                                ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                                : 'bg-stone-100 text-stone-550 border-stone-250'
+                            }`}>
+                              {r.status === 'pending' ? t('admin.reviewsTable.pending') : r.status === 'approved' ? t('admin.reviewsTable.approved') : t('admin.reviewsTable.rejected')}
+                            </span>
+                          </td>
+                          <td className="p-4 text-stone-500 font-mono text-[11px] whitespace-nowrap">
+                            {new Date(r.created_at).toLocaleDateString(undefined, { dateStyle: 'medium' })}
+                            <br />
+                            <span className="text-[10px] text-stone-400">{new Date(r.created_at).toLocaleTimeString(undefined, { timeStyle: 'short' })}</span>
+                          </td>
+                          <td className="p-4 text-end">
+                            <div className="flex items-center justify-end gap-2">
+                              {r.status === 'pending' && (
+                                <>
+                                  <button
+                                    onClick={() => handleApproveReview(r.id)}
+                                    className="bg-white border border-stone-200 text-stone-600 hover:text-emerald-600 hover:border-emerald-300 p-2 rounded-md transition-colors"
+                                    title={t('admin.reviewsTable.approve')}
+                                  >
+                                    <Check size={12} />
+                                  </button>
+                                  <button
+                                    onClick={() => handleRejectReview(r.id)}
+                                    className="bg-white border border-stone-200 text-stone-600 hover:text-rose-500 hover:border-rose-350 p-2 rounded-md transition-colors"
+                                    title={t('admin.reviewsTable.reject')}
+                                  >
+                                    <X size={12} />
+                                  </button>
+                                </>
+                              )}
+                              <button
+                                onClick={() => handleDeleteReview(r.id)}
+                                className="bg-white border border-stone-200 text-stone-600 hover:text-rose-500 hover:border-rose-350 p-2 rounded-md transition-colors"
+                                title={t('admin.reviewsTable.delete')}
                               >
                                 <Trash2 size={12} />
                               </button>

@@ -1,4 +1,4 @@
-export interface Product {
+﻿export interface Product {
   id: string;
   name: string;
   description: string;
@@ -89,4 +89,14 @@ export interface CartItem {
   selected_size: string;
   image: string;
   max_stock: number;
+}
+export interface Review {
+  id: string;
+  product_id: string;
+  customerName: string;
+  customerEmail?: string;
+  rating: number;
+  comment: string;
+  createdAt: string;
+  status: 'pending' | 'approved' | 'rejected';
 }
