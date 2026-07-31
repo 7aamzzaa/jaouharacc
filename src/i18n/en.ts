@@ -780,7 +780,7 @@
     ratingLabel: 'Rating',
     commentLabel: 'Your Review',
     commentPlaceholder: 'Share your experience with this product...',
-    successMessage: 'Thank you for your review! It will be visible after approval.',
+    successMessage: 'Thank you! Your review has been submitted successfully and is awaiting approval before it appears publicly.',
     noReviews: 'No reviews yet. Be the first to share your experience!',
     averageRating: 'Average Rating',
     totalReviews: '{count} review(s)',

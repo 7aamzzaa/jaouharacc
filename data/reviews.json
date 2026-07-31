@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "product_id": "prod-125",
+    "customerName": "hamza test",
+    "customerEmail": "aamzzaachrifi@gmail.com",
+    "rating": 5,
+    "comment": "hello ccjaouhara",
+    "id": "REV-1785530531556-LRJ72T",
+    "createdAt": "2026-07-31T20:42:11.556Z",
+    "status": "approved"
+  }
+]

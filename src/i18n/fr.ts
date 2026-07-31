@@ -780,7 +780,7 @@
     ratingLabel: 'Note',
     commentLabel: 'Votre Avis',
     commentPlaceholder: 'Partagez votre expérience avec ce produit...',
-    successMessage: 'Merci pour votre avis ! Il sera visible après approbation.',
+    successMessage: 'Merci ! Votre avis a bien été envoyé et sera publié après validation.',
     noReviews: 'Aucun avis pour le moment. Soyez le premier à partager votre expérience !',
     averageRating: 'Note Moyenne',
     totalReviews: '{count} avis',

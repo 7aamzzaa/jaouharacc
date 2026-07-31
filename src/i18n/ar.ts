@@ -780,7 +780,7 @@
     ratingLabel: 'التقييم',
     commentLabel: 'تقييمك',
     commentPlaceholder: 'شارك تجربتك مع هذا المنتج...',
-    successMessage: 'شكراً لتقييمك! سيظهر بعد الموافقة عليه.',
+    successMessage: 'شكراً لك! تم إرسال تقييمك بنجاح، وسيظهر على صفحة المنتج بعد مراجعته والموافقة عليه.',
     noReviews: 'لا توجد تقييمات بعد. كن أول من يشارك تجربته!',
     averageRating: 'متوسط التقييم',
     totalReviews: '{count} تقييم',

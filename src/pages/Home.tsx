@@ -167,25 +167,41 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
     <div className="space-y-24 bg-[#FAF7F2]/30 overflow-x-hidden">
       
       {/* 1. HERO SECTION */}
-      <section className="relative min-h-[85vh] flex items-center bg-gradient-to-tr from-[#FFF9F5] via-[#FFFDFB] to-[#FFF3EB] overflow-hidden py-12 md:py-20 border-b border-champagne-150 relative">
-        <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-champagne-300/10 to-transparent -skew-x-12 transform origin-top-right hidden lg:block"></div>
+      <section className="relative min-h-[85vh] lg:h-[90vh] flex items-center bg-gradient-to-tr from-[#FFF9F5] via-[#FFFDFB] to-[#FFF3EB] overflow-hidden py-12 md:py-20 lg:py-0 border-b border-champagne-150 relative">
+        <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-champagne-300/10 to-transparent -skew-x-12 transform origin-top-right hidden"></div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_35%,rgba(197,160,89,0.1),transparent_60%)]"></div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+
+        {/* Desktop full-background image with left dark overlay */}
+        <div className="hidden lg:block absolute inset-0 z-0"
+          style={{
+            backgroundImage: "url('/images/hero.webp')",
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+          }}
+        >
+          <div className="absolute inset-0"
+            style={{
+              background: 'linear-gradient(90deg, rgba(0,0,0,.65) 0%, rgba(0,0,0,.35) 35%, rgba(0,0,0,.15) 60%, rgba(0,0,0,0) 100%)',
+            }}
+          ></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-16 lg:max-w-none lg:self-stretch relative z-10 w-full">
+          <div className="grid grid-cols-1 lg:flex lg:items-center lg:h-full gap-12 lg:gap-20 items-center">
             
             {/* Left/Text Column */}
-            <div className="lg:col-span-6 space-y-6 text-center lg:text-start flex flex-col items-center lg:items-start justify-center hero-stagger" dir={dir}>
-              <h1 className="font-serif text-[42px] sm:text-5xl md:text-6xl lg:text-[70px] leading-[1.1] font-black text-stone-900 tracking-tight">
+            <div className="lg:w-[50%] space-y-6 lg:space-y-8 text-center lg:text-start flex flex-col items-center lg:items-start justify-center hero-stagger" dir={dir}>
+              <h1 className="font-serif text-[42px] sm:text-5xl md:text-6xl lg:text-[70px] leading-[1.1] font-black text-stone-900 lg:text-white tracking-tight">
                 {t('home.hero.title')} <br />
-                <span className="text-champagne-600 italic font-medium leading-normal">{t('home.hero.titleHighlight')}</span>
+                <span className="text-champagne-600 lg:text-champagne-400 italic font-medium leading-normal">{t('home.hero.titleHighlight')}</span>
               </h1>
               
-              <p className="text-stone-600 text-sm sm:text-base leading-relaxed max-w-xl font-medium font-sans">
+              <p className="text-stone-600 lg:text-white/85 text-sm sm:text-base leading-relaxed max-w-xl font-medium font-sans">
                 {t('home.hero.desc')}
               </p>
               
-              <div className="flex flex-col sm:flex-row items-center gap-4 pt-4 w-full sm:w-auto">
+              <div className="flex flex-col sm:flex-row items-center gap-4 pt-4 lg:pt-6 w-full sm:w-auto">
                 <button
                   onClick={() => onPageChange('shop')}
                   className="cursor-pointer w-full sm:w-auto bg-stone-900 text-white px-8 py-4 text-xs uppercase tracking-widest font-bold hover:bg-champagne-500 hover:-translate-y-0.5 transition-all shadow-md active:scale-95 flex items-center justify-center gap-2 rounded-xs font-sans"
@@ -195,20 +211,20 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
                 </button>
                 <button
                   onClick={() => onPageChange('shop')}
-                  className="cursor-pointer w-full sm:w-auto bg-transparent text-champagne-700 border-2 border-champagne-500/40 hover:border-champagne-500 px-8 py-3.5 text-xs uppercase tracking-widest font-bold hover:bg-champagne-500/5 hover:-translate-y-0.5 transition-all active:scale-95 flex items-center justify-center gap-2 rounded-xs font-sans"
+                  className="cursor-pointer w-full sm:w-auto bg-transparent text-champagne-700 lg:text-champagne-400 border-2 border-champagne-500/40 lg:border-champagne-400/50 hover:border-champagne-500 px-8 py-3.5 text-xs uppercase tracking-widest font-bold hover:bg-champagne-500/5 hover:-translate-y-0.5 transition-all active:scale-95 flex items-center justify-center gap-2 rounded-xs font-sans"
                 >
                   {t('home.hero.secondaryCta')}
                 </button>
               </div>
             </div>
 
-            {/* Right/Image Column — Placeholder */}
-            <div className="lg:col-span-6 relative flex items-center justify-center h-[350px] sm:h-[480px]">
-              
+            {/* Right/Image Column — mobile & tablet only */}
+            <div className="relative flex items-center justify-center h-[350px] sm:h-[480px] lg:hidden">
+
               {/* Back elegant geometry outline */}
               <div className="absolute -inset-4 border border-champagne-300/20 rounded-2xl scale-95 md:scale-100 -rotate-3 transition-transform duration-700 pointer-events-none"></div>
 
-              {/* Hero Placeholder Container */}
+              {/* Hero Image Container */}
               <div className="w-full h-full max-w-lg relative z-10 overflow-hidden rounded-lg hero-image-in">
                 <img
                   src="/images/hero.webp"
