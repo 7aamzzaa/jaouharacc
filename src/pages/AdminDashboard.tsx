@@ -2,7 +2,7 @@ import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useTranslation } from '../i18n';
 import { 
   Database, Plus, Edit, Trash2, ShoppingBag, DollarSign, ListOrdered, 
-  Layers, Hammer, Archive, Sparkles, RefreshCw, X, Loader2, LogOut, Lock, Upload, Mail, Check, AlertTriangle, Star
+  Layers, Hammer, Archive, Sparkles, RefreshCw, X, Loader2, LogOut, Lock, Upload, Mail, Check, AlertTriangle, Star, Menu, Package, MessageSquare
 } from 'lucide-react';
 import { Product, Order, ContactMessage, Subscriber, Review } from '../types';
 import { showToast } from '../components/ToastContainer';
@@ -29,6 +29,7 @@ export default function AdminDashboard({
   const [loginError, setLoginError] = useState('');
 
   const [activeTab, setActiveTab] = useState<'products' | 'orders' | 'messages' | 'subscribers' | 'reviews'>('products');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
   const [messagesSearch, setMessagesSearch] = useState('');
   const [orderSearch, setOrderSearch] = useState('');
   const [orderFilter, setOrderFilter] = useState<string>('all');
@@ -603,11 +604,104 @@ export default function AdminDashboard({
   // MAIN ADMIN DASHBOARD INTERFACE
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 animate-fade-in">
+
+      {/* LEFT SIDEBAR NAVIGATION (collapsible) */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-stone-900/40"
+          onClick={() => setSidebarOpen(false)}
+          aria-hidden="true"
+        />
+      )}
+      <aside
+        className={`fixed top-0 left-0 z-50 h-full w-[260px] bg-white shadow-lg flex flex-col transition-transform duration-300 ease-in-out ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
+        aria-label="Admin navigation sidebar"
+      >
+        {/* Sidebar header */}
+        <div className="flex items-center justify-between px-5 py-4 border-b border-champagne-100">
+          <span className="font-serif text-sm font-semibold tracking-widest uppercase text-stone-900">
+            {t('admin.dashboard.heading')}
+          </span>
+          <button
+            onClick={() => setSidebarOpen(false)}
+            className="cursor-pointer bg-stone-50 hover:bg-rose-50 border border-stone-200 hover:border-rose-200 text-stone-500 hover:text-rose-600 p-2 rounded-md transition-colors flex items-center justify-center"
+            aria-label="Close navigation menu"
+          >
+            <X size={14} />
+          </button>
+        </div>
+
+        {/* Sidebar navigation items */}
+        <nav className="flex-1 overflow-y-auto py-4 px-3 space-y-1">
+          <button
+            onClick={() => { setActiveTab('products'); setSidebarOpen(false); }}
+            className={`cursor-pointer w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-xs font-semibold transition-colors text-start ${
+              activeTab === 'products'
+                ? 'bg-champagne-50 text-champagne-600 border border-champagne-150'
+                : 'text-stone-600 hover:bg-stone-50 hover:text-stone-900 border border-transparent'
+            }`}
+          >
+            <Database size={15} />
+            <span className="flex-1">{t('admin.tabs.products', { count: products.length })}</span>
+          </button>
+          <button
+            onClick={() => { setActiveTab('orders'); setSidebarOpen(false); }}
+            className={`cursor-pointer w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-xs font-semibold transition-colors text-start ${
+              activeTab === 'orders'
+                ? 'bg-champagne-50 text-champagne-600 border border-champagne-150'
+                : 'text-stone-600 hover:bg-stone-50 hover:text-stone-900 border border-transparent'
+            }`}
+          >
+            <Package size={15} />
+            <span className="flex-1">{t('admin.tabs.orders', { count: orders.length })}</span>
+          </button>
+          <button
+            onClick={() => { setActiveTab('messages'); setSidebarOpen(false); }}
+            className={`cursor-pointer w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-xs font-semibold transition-colors text-start ${
+              activeTab === 'messages'
+                ? 'bg-champagne-50 text-champagne-600 border border-champagne-150'
+                : 'text-stone-600 hover:bg-stone-50 hover:text-stone-900 border border-transparent'
+            }`}
+          >
+            <MessageSquare size={15} />
+            <span className="flex-1">{t('admin.tabs.messages', { count: messages.length })}</span>
+          </button>
+          <button
+            onClick={() => { setActiveTab('subscribers'); setSidebarOpen(false); }}
+            className={`cursor-pointer w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-xs font-semibold transition-colors text-start ${
+              activeTab === 'subscribers'
+                ? 'bg-champagne-50 text-champagne-600 border border-champagne-150'
+                : 'text-stone-600 hover:bg-stone-50 hover:text-stone-900 border border-transparent'
+            }`}
+          >
+            <Mail size={15} />
+            <span className="flex-1">{t('admin.tabs.subscribers', { count: subscribers.length })}</span>
+          </button>
+          <button
+            onClick={() => { setActiveTab('reviews'); setSidebarOpen(false); }}
+            className={`cursor-pointer w-full flex items-center gap-3 px-3 py-2.5 rounded-md text-xs font-semibold transition-colors text-start ${
+              activeTab === 'reviews'
+                ? 'bg-champagne-50 text-champagne-600 border border-champagne-150'
+                : 'text-stone-600 hover:bg-stone-50 hover:text-stone-900 border border-transparent'
+            }`}
+          >
+            <Star size={15} />
+            <span className="flex-1">{t('admin.tabs.reviews', { count: reviews.length })}</span>
+          </button>
+        </nav>
+      </aside>
       
       {/* Page Editorial title */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-baseline border-b border-champagne-100 pb-5 gap-4">
         <div>
           <div className="flex items-center gap-3">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="cursor-pointer bg-white hover:bg-champagne-50 border border-stone-200 hover:border-champagne-300 text-stone-700 hover:text-champagne-600 p-2.5 rounded-md transition-colors flex items-center justify-center"
+              aria-label="Open navigation menu"
+            >
+              <Menu size={18} />
+            </button>
             <h1 className="font-serif text-3xl sm:text-4xl text-stone-950 font-medium">{t('admin.dashboard.heading')}</h1>
             <button
               onClick={handleLogoutClick}
@@ -1159,60 +1253,6 @@ export default function AdminDashboard({
           </form>
         </section>
       )}
-
-      {/* 3. SWITCH TAB NAVIGATIONS */}
-      <div className="border-b border-champagne-100 flex gap-6">
-        <button
-          onClick={() => setActiveTab('products')}
-          className={`cursor-pointer pb-4 text-xs tracking-widest uppercase transition-colors font-semibold relative ${
-            activeTab === 'products'
-              ? 'text-stone-900 border-b-2 border-champagne-500'
-              : 'text-stone-400 hover:text-stone-750'
-          }`}
-        >
-          {t('admin.tabs.products', { count: products.length })}
-        </button>
-        <button
-          onClick={() => setActiveTab('orders')}
-          className={`cursor-pointer pb-4 text-xs tracking-widest uppercase transition-colors font-semibold relative ${
-            activeTab === 'orders'
-              ? 'text-stone-900 border-b-2 border-champagne-500'
-              : 'text-stone-400 hover:text-stone-750'
-          }`}
-        >
-          {t('admin.tabs.orders', { count: orders.length })}
-        </button>
-        <button
-          onClick={() => setActiveTab('messages')}
-          className={`cursor-pointer pb-4 text-xs tracking-widest uppercase transition-colors font-semibold relative ${
-            activeTab === 'messages'
-              ? 'text-stone-900 border-b-2 border-champagne-500'
-              : 'text-stone-400 hover:text-stone-750'
-          }`}
-        >
-          {t('admin.tabs.messages', { count: messages.length })}
-        </button>
-        <button
-          onClick={() => setActiveTab('subscribers')}
-          className={`cursor-pointer pb-4 text-xs tracking-widest uppercase transition-colors font-semibold relative ${
-            activeTab === 'subscribers'
-              ? 'text-stone-900 border-b-2 border-champagne-500'
-              : 'text-stone-400 hover:text-stone-750'
-          }`}
-        >
-          {t('admin.tabs.subscribers', { count: subscribers.length })}
-        </button>
-        <button
-          onClick={() => setActiveTab('reviews')}
-          className={`cursor-pointer pb-4 text-xs tracking-widest uppercase transition-colors font-semibold relative ${
-            activeTab === 'reviews'
-              ? 'text-stone-900 border-b-2 border-champagne-500'
-              : 'text-stone-400 hover:text-stone-750'
-          }`}
-        >
-          {t('admin.tabs.reviews', { count: reviews.length })}
-        </button>
-      </div>
 
       {/* TAB 1 CONTENT: PRODUCTS TABLE */}
       {activeTab === 'products' ? (
