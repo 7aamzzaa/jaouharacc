@@ -167,7 +167,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
     <div className="space-y-24 bg-[#FAF7F2]/30 overflow-x-hidden">
       
       {/* 1. HERO SECTION */}
-      <section className="relative min-h-[85vh] lg:h-[90vh] flex items-center bg-gradient-to-tr from-[#FFF9F5] via-[#FFFDFB] to-[#FFF3EB] overflow-hidden py-12 md:py-20 lg:py-0 border-b border-champagne-150 relative">
+      <section className="relative h-screen sm:h-auto min-h-0 sm:min-h-[85vh] lg:h-[90vh] flex items-end sm:items-center bg-gradient-to-tr from-[#FFF9F5] via-[#FFFDFB] to-[#FFF3EB] overflow-hidden pt-0 pb-[calc(env(safe-area-inset-bottom)+2.5rem)] sm:pt-12 sm:pb-12 md:py-20 lg:py-0 border-b-0 sm:border-b border-champagne-150 relative">
         <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-champagne-300/10 to-transparent -skew-x-12 transform origin-top-right hidden"></div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_35%,rgba(197,160,89,0.1),transparent_60%)]"></div>
 
@@ -187,44 +187,65 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
           ></div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-16 lg:max-w-none lg:self-stretch relative z-10 w-full">
-          <div className="grid grid-cols-1 lg:flex lg:items-center lg:h-full gap-12 lg:gap-20 items-center">
+        {/* Mobile full-background image with cinematic overlays */}
+        <div className="sm:hidden absolute inset-0 z-0"
+          style={{
+            backgroundImage: "url('/images/hero-mobile.webp')",
+            backgroundSize: 'cover',
+            backgroundPosition: 'center right',
+            backgroundRepeat: 'no-repeat',
+          }}
+        >
+          <div className="absolute inset-0"
+            style={{
+              background: 'linear-gradient(90deg, rgba(0,0,0,.74) 0%, rgba(0,0,0,.55) 35%, rgba(0,0,0,.22) 70%, rgba(0,0,0,0) 100%)',
+            }}
+          ></div>
+          <div className="absolute inset-0"
+            style={{
+              background: 'linear-gradient(180deg, rgba(0,0,0,.30) 0%, transparent 25%)',
+            }}
+          ></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 sm:px-6 lg:px-16 lg:max-w-none lg:self-stretch relative z-10 w-full">
+          <div className="grid grid-cols-1 lg:flex lg:items-center lg:h-full gap-8 sm:gap-12 lg:gap-20 items-center">
             
             {/* Left/Text Column */}
-            <div className="lg:w-[50%] space-y-6 lg:space-y-8 text-center lg:text-start flex flex-col items-center lg:items-start justify-center hero-stagger" dir={dir}>
-              <h1 className="font-serif text-[42px] sm:text-5xl md:text-6xl lg:text-[70px] leading-[1.1] font-black text-stone-900 lg:text-white tracking-tight">
+            <div className="lg:w-[50%] max-w-[290px] sm:max-w-none space-y-0 sm:space-y-6 lg:space-y-8 text-start sm:text-center lg:text-start flex flex-col items-start sm:items-center lg:items-start justify-center hero-stagger hero-fade" dir={dir}>
+              <h1 className="font-serif text-[42px] sm:text-5xl md:text-6xl lg:text-[70px] leading-[1.05] sm:leading-[1.1] font-black text-white sm:text-stone-900 lg:text-white tracking-tight">
                 {t('home.hero.title')} <br />
-                <span className="text-champagne-600 lg:text-champagne-400 italic font-medium leading-normal">{t('home.hero.titleHighlight')}</span>
+                <span className="text-champagne-400 sm:text-champagne-600 lg:text-champagne-400 italic font-medium leading-normal">{t('home.hero.titleHighlight')}</span>
               </h1>
               
-              <p className="text-stone-600 lg:text-white/85 text-sm sm:text-base leading-relaxed max-w-xl font-medium font-sans">
+              <p className="text-white/90 sm:text-stone-600 lg:text-white/85 text-sm sm:text-base leading-relaxed max-w-xl font-medium font-sans mt-6 sm:mt-0">
                 {t('home.hero.desc')}
               </p>
               
-              <div className="flex flex-col sm:flex-row items-center gap-4 pt-4 lg:pt-6 w-full sm:w-auto">
+              <div className="flex flex-col sm:flex-row items-center gap-4 pt-0 sm:pt-4 lg:pt-6 w-full sm:w-auto max-w-[290px] sm:max-w-none mt-8 sm:mt-0">
                 <button
                   onClick={() => onPageChange('shop')}
-                  className="cursor-pointer w-full sm:w-auto bg-stone-900 text-white px-8 py-4 text-xs uppercase tracking-widest font-bold hover:bg-champagne-500 hover:-translate-y-0.5 transition-all shadow-md active:scale-95 flex items-center justify-center gap-2 rounded-xs font-sans"
+                  className="cursor-pointer w-full sm:w-auto h-14 sm:h-auto bg-champagne-400 text-white sm:bg-stone-900 px-8 py-4 text-xs uppercase tracking-widest font-bold hover:bg-champagne-500 hover:-translate-y-0.5 transition-all shadow-md active:scale-95 flex items-center justify-center gap-2 rounded-[14px] sm:rounded-xs font-sans"
                 >
                   {t('home.hero.cta')}
                   {dir === 'ltr' ? <ArrowRight size={14} /> : <ArrowLeft size={14} />}
                 </button>
                 <button
                   onClick={() => onPageChange('shop')}
-                  className="cursor-pointer w-full sm:w-auto bg-transparent text-champagne-700 lg:text-champagne-400 border-2 border-champagne-500/40 lg:border-champagne-400/50 hover:border-champagne-500 px-8 py-3.5 text-xs uppercase tracking-widest font-bold hover:bg-champagne-500/5 hover:-translate-y-0.5 transition-all active:scale-95 flex items-center justify-center gap-2 rounded-xs font-sans"
+                  className="cursor-pointer w-full sm:w-auto h-14 sm:h-auto bg-transparent text-white sm:text-champagne-700 lg:text-champagne-400 border border-champagne-400 sm:border-2 sm:border-champagne-500/40 lg:border-champagne-400/50 hover:border-champagne-500 px-8 py-3.5 text-xs uppercase tracking-widest font-bold hover:bg-champagne-500/5 hover:-translate-y-0.5 transition-all active:scale-95 flex items-center justify-center gap-2 rounded-[14px] sm:rounded-xs font-sans"
                 >
                   {t('home.hero.secondaryCta')}
                 </button>
               </div>
             </div>
 
-            {/* Right/Image Column — mobile & tablet only */}
-            <div className="relative flex items-center justify-center h-[350px] sm:h-[480px] lg:hidden">
+            {/* Right/Image Column — tablet only (mobile & desktop use full-background image) */}
+            <div className="relative hidden sm:flex items-center justify-center h-[480px] lg:hidden">
 
               {/* Back elegant geometry outline */}
               <div className="absolute -inset-4 border border-champagne-300/20 rounded-2xl scale-95 md:scale-100 -rotate-3 transition-transform duration-700 pointer-events-none"></div>
 
-              {/* Hero Image Container */}
+              {/* Tablet Hero Image Container */}
               <div className="w-full h-full max-w-lg relative z-10 overflow-hidden rounded-lg hero-image-in">
                 <img
                   src="/images/hero.webp"

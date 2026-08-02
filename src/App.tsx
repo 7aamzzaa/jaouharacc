@@ -263,14 +263,16 @@ export default function App() {
     }
   };
 
+  const currentPage = getCurrentPage(location.pathname);
+
   return (
     <div className="flex flex-col min-h-screen bg-champagne-50/20 selection:bg-champagne-200">
 
-      <Marquee />
+      <Marquee hideOnMobileHome={currentPage === 'home'} />
 
       <Suspense fallback={<div className="sticky top-0 z-40 bg-white border-b border-champagne-100 shadow-xs h-20" />}>
         <Navbar
-          currentPage={getCurrentPage(location.pathname)}
+          currentPage={currentPage}
           onPageChange={handlePageChange}
           cart={cart}
           wishlist={wishlist}
@@ -281,7 +283,7 @@ export default function App() {
         />
       </Suspense>
 
-      <main className="flex-1 py-12 md:py-16">
+      <main className={`flex-1 ${currentPage === 'home' ? 'pt-0 sm:pt-12 md:pt-16 pb-12 md:pb-16' : 'py-12 md:py-16'}`}>
         <Suspense fallback={<div className="flex items-center justify-center py-32"><div className="w-6 h-6 border-2 border-champagne-500 border-t-transparent rounded-full animate-spin" /></div>}>
         <Routes>
           <Route path="/" element={<Home products={allProducts} isLoading={loadingProducts} onAddToCartDirect={handleQuickAdd} onPageChange={handlePageChange} wishlist={wishlist} onToggleWishlist={handleToggleWishlist} currency={currency} />} />
@@ -432,11 +434,11 @@ function BlogArticleWithParams(props: any) {
   return <BlogArticle {...props} slug={slug || ''} />;
 }
 
-const Marquee = memo(function Marquee() {
+const Marquee = memo(function Marquee({ hideOnMobileHome = false }: { hideOnMobileHome?: boolean }) {
   const { t, dir } = useTranslation();
   const items = (t('app.marquee') ?? []) as unknown as string[];
   return (
-    <div className="bg-stone-900 border-b border-stone-850 text-stone-200 text-[11px] uppercase font-semibold font-sans py-2.5 overflow-hidden relative w-full" dir={dir}>
+    <div className={`${hideOnMobileHome ? 'hidden sm:block' : ''} bg-stone-900 border-b border-stone-850 text-stone-200 text-[11px] uppercase font-semibold font-sans py-2.5 overflow-hidden relative w-full`} dir={dir}>
       <div className="flex whitespace-nowrap select-none" style={{ width: 'max-content' }}>
         <div className="animate-marquee flex items-center shrink-0 pr-8 gap-8 font-sans">
           {items.map((item, i) => (

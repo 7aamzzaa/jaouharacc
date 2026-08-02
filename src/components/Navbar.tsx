@@ -27,6 +27,10 @@ export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOp
 
   const totalItemsCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
+  const isHome = currentPage === 'home';
+  const mobileIconClass = isHome ? 'text-white sm:text-stone-700' : 'text-stone-700';
+  const mobileHoverClass = isHome ? 'hover:text-champagne-400 sm:hover:text-champagne-500' : 'hover:text-champagne-500';
+
   const languages: { code: Lang; label: string }[] = [
     { code: 'en', label: 'EN' },
     { code: 'fr', label: 'FR' },
@@ -37,16 +41,23 @@ export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOp
   const categoryIcons: Record<string, typeof CircleDot> = { bracelets: CircleDot, rings: Circle, earrings: Sparkles, anklets: Heart, necklaces: Crown, jewelry_sets: Gem };
 
   return (
-    <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-champagne-100 shadow-xs relative">
+    <header
+      className={
+        isHome
+          ? 'absolute top-0 left-0 right-0 z-[100] bg-transparent sm:sticky sm:z-40 sm:bg-white/80 sm:backdrop-blur-md sm:border-b sm:border-champagne-100 sm:shadow-xs'
+          : 'sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-champagne-100 shadow-xs relative'
+      }
+      style={isHome ? { paddingTop: 'calc(env(safe-area-inset-top) + 14px)' } : undefined}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+        <div className={isHome ? 'grid grid-cols-[1fr_auto_1fr] items-center h-[72px] sm:flex sm:justify-between sm:items-center sm:h-20' : 'flex justify-between items-center h-20'}>
           
           {/* Mobile menu button */}
           <div className="flex items-center md:hidden">
             <button
               id="mobile-menu-toggle"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="text-stone-700 hover:text-champagne-500 p-2 focus:outline-hidden"
+              className={`cursor-pointer ${mobileIconClass} ${mobileHoverClass} p-2 focus:outline-hidden`}
               aria-label={t('nav.toggleMenu')}
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -54,7 +65,7 @@ export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOp
           </div>
 
           {/* Luxury Brand Typography */}
-          <div className="flex-1 flex md:flex-none justify-center md:justify-start">
+          <div className={`${isHome ? 'justify-self-center mt-2 sm:mt-0 sm:flex sm:flex-none' : 'flex-1 flex md:flex-none'} justify-center md:justify-start`}>
             <button
               onClick={() => {
                 onPageChange('home');
@@ -63,10 +74,16 @@ export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOp
               className="cursor-pointer group flex flex-col items-center sm:items-start focus:outline-hidden"
               id="brand-logo-btn"
             >
-              <span className="font-serif text-2xl sm:text-3xl tracking-[0.3em] font-bold text-champagne-500 italic uppercase transition-all duration-300 group-hover:opacity-80">
+              <img
+                src="/images/diamond-logo.png"
+                alt=""
+                aria-hidden="true"
+                className={`block shrink-0 w-[48px] h-auto mb-1.5 ${isHome ? 'sm:hidden' : 'hidden'}`}
+              />
+              <span className={`font-serif ${isHome ? 'text-[21px] sm:text-3xl text-white sm:text-champagne-500' : 'text-2xl sm:text-3xl text-champagne-500'} tracking-[0.3em] font-bold italic uppercase transition-all duration-300 group-hover:opacity-80`}>
                 ccjaouhara
               </span>
-              <span className="text-[8px] tracking-[0.4em] uppercase text-stone-400 font-sans -mt-0.5 font-semibold">
+              <span className={`text-[8px] tracking-[0.4em] uppercase font-sans -mt-0.5 font-semibold ${isHome ? 'hidden sm:block text-champagne-400 sm:text-stone-400' : 'text-stone-400'}`}>
                 {t('nav.fineJewelry')}
               </span>
             </button>
@@ -212,12 +229,12 @@ export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOp
           </nav>
 
           {/* Cart + Language Switcher */}
-          <div className="flex items-center space-x-2">
+          <div className={`flex items-center ${isHome ? 'gap-2 justify-self-end' : 'space-x-2'}`}>
             {/* Language Switcher */}
-            <div className="relative">
+            <div className={`relative ${isHome ? 'hidden sm:block' : ''}`}>
               <button
                 onClick={() => setLangOpen(!langOpen)}
-                className="cursor-pointer p-2 text-stone-700 hover:text-champagne-500 transition-colors duration-300 focus:outline-hidden flex items-center gap-1"
+                className={`cursor-pointer p-2 ${mobileIconClass} ${mobileHoverClass} transition-colors duration-300 focus:outline-hidden flex items-center gap-1`}
                 aria-label="Switch language"
               >
                 <Globe size={18} strokeWidth={1.5} />
@@ -248,10 +265,10 @@ export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOp
 
           <button
               onClick={() => onPageChange("wishlist")}
-              className="cursor-pointer relative p-2 text-stone-700 hover:text-champagne-500 transition-colors duration-300 focus:outline-hidden"
+              className={`cursor-pointer relative p-2 ${mobileIconClass} ${mobileHoverClass} transition-colors duration-300 focus:outline-hidden ${isHome ? 'order-2 sm:order-none' : ''}`}
               aria-label="Wishlist"
             >
-              <Heart size={22} strokeWidth={1.5} />
+              <Heart size={22} strokeWidth={1.5} className={isHome ? 'w-6 h-6 sm:w-[22px] sm:h-[22px]' : ''} />
               {wishlist.length > 0 && (
                 <span className="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-semibold leading-none text-white bg-champagne-500 rounded-full scale-90 border border-white">
                   {wishlist.length}
@@ -259,15 +276,15 @@ export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOp
               )}
             </button>
 
-            <SearchButton onClick={() => setSearchOpen(true)} />
+            <SearchButton onClick={() => setSearchOpen(true)} className={`${mobileIconClass} ${mobileHoverClass} ${isHome ? 'order-1 sm:order-none' : ''}`} iconClassName={isHome ? 'w-6 h-6 sm:w-[22px] sm:h-[22px]' : ''} />
 
             <button
               id="desktop-cart-trigger"
               onClick={onOpenCart}
-              className="cursor-pointer relative p-2 text-stone-700 hover:text-champagne-500 transition-colors duration-300 focus:outline-hidden"
+              className={`cursor-pointer relative p-2 ${mobileIconClass} ${mobileHoverClass} transition-colors duration-300 focus:outline-hidden ${isHome ? 'order-3 sm:order-none' : ''}`}
               aria-label={t('nav.viewBag')}
             >
-              <ShoppingBag size={22} strokeWidth={1.5} />
+              <ShoppingBag size={22} strokeWidth={1.5} className={isHome ? 'w-6 h-6 sm:w-[22px] sm:h-[22px]' : ''} />
               {totalItemsCount > 0 && (
                 <span className="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-0.5 text-xs font-semibold leading-none text-white bg-champagne-500 hover:bg-champagne-600 rounded-full scale-90 border border-white">
                   {totalItemsCount}
