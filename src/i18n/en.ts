@@ -802,6 +802,13 @@
       '\uD83C\uDDF2\uD83C\uDDE6 Delivery Across Morocco',
       '\u2022',
     ],
+    bottomNav: {
+      home: 'Home',
+      shop: 'Shop',
+      cart: 'Bag',
+      wishlist: 'Wishlist',
+      contact: 'Contact',
+    },
   cart: {
       title: 'Selected Jewelry',
       close: 'Close sidebar',

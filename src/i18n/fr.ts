@@ -802,6 +802,13 @@
       '\ud83c\uddf2\ud83c\udde6 Livraison partout au Maroc',
       '\u2022',
     ],
+    bottomNav: {
+      home: 'Accueil',
+      shop: 'Boutique',
+      cart: 'Panier',
+      wishlist: 'Favoris',
+      contact: 'Contact',
+    },
     cart: {
       title: 'Bijoux S\u00e9lectionn\u00e9s',
       close: 'Fermer le panneau',

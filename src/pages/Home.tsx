@@ -12,7 +12,9 @@ import {
   Star, 
   Sparkles,
   Check,
-  Copy
+  Copy,
+  RefreshCcw,
+  CreditCard
 } from 'lucide-react';
 
 import { Product } from '../types';
@@ -260,9 +262,30 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
       </section>
 
       {/* 2. TRUST BAR */}
-      <section className="bg-white border-y border-champagne-105 py-8 md:py-10 shadow-3xs" dir={dir}>
+      <section className="bg-white border-y border-champagne-105 py-4 sm:py-8 md:py-10 shadow-3xs" dir={dir}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 divide-y lg:divide-y-0 lg:divide-x divide-[#FAF1E6]">
+          {/* Mobile Trust Bar (below 640px) */}
+          <div className="sm:hidden grid grid-cols-4 divide-x divide-[#EFEAE4] min-h-[64px]">
+            <div className="flex flex-col items-center justify-center gap-2 px-1 trust-bar-item">
+              <Shield size={22} strokeWidth={1.5} className="text-[#D4AF37] shrink-0" />
+              <h4 className="font-sans font-semibold text-[13px] leading-tight text-[#2B2B2B] text-center">{t('trust.quality')}</h4>
+            </div>
+            <div className="flex flex-col items-center justify-center gap-2 px-1 trust-bar-item">
+              <Truck size={22} strokeWidth={1.5} className="text-[#D4AF37] shrink-0" />
+              <h4 className="font-sans font-semibold text-[13px] leading-tight text-[#2B2B2B] text-center">{t('trust.delivery')}</h4>
+            </div>
+            <div className="flex flex-col items-center justify-center gap-2 px-1 trust-bar-item">
+              <RefreshCcw size={22} strokeWidth={1.5} className="text-[#D4AF37] shrink-0" />
+              <h4 className="font-sans font-semibold text-[13px] leading-tight text-[#2B2B2B] text-center">{t('trust.returns')}</h4>
+            </div>
+            <div className="flex flex-col items-center justify-center gap-2 px-1 trust-bar-item">
+              <CreditCard size={22} strokeWidth={1.5} className="text-[#D4AF37] shrink-0" />
+              <h4 className="font-sans font-semibold text-[13px] leading-tight text-[#2B2B2B] text-center">{t('cart.cashOnDelivery')}</h4>
+            </div>
+          </div>
+
+          {/* Tablet / Desktop Trust Bar */}
+          <div className="hidden sm:grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 divide-y lg:divide-y-0 lg:divide-x divide-[#FAF1E6]">
             
             {/* Trust item 1 */}
             <div className="flex items-center gap-4 justify-center py-2 lg:py-0">
@@ -304,8 +327,8 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
         </div>
       </section>
 
-      {/* 3. PROMOTIONAL BANNER */}
-      <section className="bg-gradient-to-r from-champagne-100/40 via-white to-champagne-100/20 border-y border-champagne-105 py-12 md:py-14" dir={dir}>
+      {/* 3. PROMOTIONAL BANNER (hidden on mobile Home) */}
+      <section className="hidden sm:block bg-gradient-to-r from-champagne-100/40 via-white to-champagne-100/20 border-y border-champagne-105 py-12 md:py-14" dir={dir}>
         <div className="max-w-5xl mx-auto px-4 sm:px-6 text-center space-y-5 flex flex-col items-center">
           <span className="text-[10px] tracking-[0.25em] font-bold uppercase text-champagne-500 block">
             {t('home.promoBanner.label')}
@@ -326,8 +349,21 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
       </section>
 
       {/* 4. SHOP BY CATEGORY */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center space-y-4 mb-12">
+      {/* Mobile pulls the category heading up right below the Trust Bar (space-y gap cancelled via margin-block-start). */}
+      <section className="[margin-block-start:-64px] sm:[margin-block-start:0px] max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Mobile heading (below 640px) */}
+        <div className="sm:hidden text-center space-y-4 mb-12">
+          <span className="text-xs tracking-widest font-bold uppercase text-champagne-500 block">
+            {t('home.categories.label')}
+          </span>
+          <h2 className="font-serif text-3xl text-stone-900 font-black">
+            {t('home.categories.heading')}
+          </h2>
+          <div className="w-16 h-[2px] bg-champagne-500 mx-auto rounded-full"></div>
+        </div>
+
+        {/* Tablet / Desktop heading */}
+        <div className="hidden sm:block text-center space-y-4 mb-12">
           <span className="text-xs tracking-widest font-bold uppercase text-champagne-500 block">
             {t('home.categories.label')}
           </span>

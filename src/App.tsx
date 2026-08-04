@@ -4,10 +4,11 @@ import { ShoppingBag, ArrowRight, ArrowLeft, X, ShieldCheck, Gem, Heart } from '
 
 import { Product, CartItem } from './types';
 import { useTranslation } from './i18n';
+import MobileBottomNav from './components/MobileBottomNav';
+import ToastContainer, { showToast } from './components/ToastContainer';
 
 const Navbar = lazy(() => import('./components/Navbar'));
 const Footer = lazy(() => import('./components/Footer'));
-import ToastContainer, { showToast } from './components/ToastContainer';
 
 const Home = lazy(() => import('./pages/Home'));
 const Shop = lazy(() => import('./pages/Shop'));
@@ -368,7 +369,12 @@ export default function App() {
           </div>
         </div>
       )}
-
+<MobileBottomNav
+  currentPage={currentPage}
+  cartCount={cart.reduce((total, item) => total + item.quantity, 0)}
+  wishlistCount={wishlist.length}
+  onPageChange={handlePageChange}
+/>
       <Suspense fallback={<div className="mt-24 border-t border-champagne-150 bg-stone-50 h-64" />}>
         <Footer />
       </Suspense>
@@ -379,11 +385,11 @@ export default function App() {
         href={`https://wa.me/212605091987?text=${encodeURIComponent(t('app.floating.whatsappText'))}`}
         target="_blank"
         rel="noopener noreferrer"
-        className="fixed bottom-6 right-6 z-50 bg-[#25D366] text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer"
+        className="fixed bottom-24 sm:bottom-6 right-6 z-50 bg-[#25D366] text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer"
         aria-label={t('app.floating.whatsappAria')}
       >
         <svg className="w-7 h-7 fill-white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.859-4.407 9.862-9.833.001-2.628-1.02-5.1-2.875-6.958C16.604 1.956 14.135.937 11.999.937 6.561.937 2.14 5.344 2.137 10.77c-.001 1.693.447 3.344 1.3 4.794l-.995 3.633 3.731-.973zm11.367-7.354c-.3-.15-1.77-.875-2.046-.975-.276-.1-.477-.15-.677.15-.2.3-.77.975-.945 1.175-.175.2-.35.225-.65.075-.3-.15-1.265-.467-2.41-1.485-.89-.79-1.49-1.77-1.665-2.07-.175-.3-.019-.463.13-.612.135-.135.3-.35.45-.525.15-.175.2-.3.3-.5.1-.2.05-.375-.025-.525-.075-.15-.677-1.633-.927-2.233-.24-.582-.486-.503-.678-.512-.175-.008-.375-.01-.575-.01-.2 0-.525.075-.8.375-.275.3-1.05 1.025-1.05 2.5s1.075 2.9 1.225 3.1c.15.2 2.11 3.224 5.112 4.52 3.003 1.297 3.003.865 3.541.815.539-.05 1.77-.725 2.02-1.425.25-.7.25-1.3.175-1.425-.075-.1-.275-.2-.575-.35z"/>
+          <path d="M.057a 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.513 2.262 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.724-1.455L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.859-4.407 9.862-9.833.001-2.628-1.02-5.1-2.875-6.958C16.604 1.956 14.135.937 11.999.937 6.561.937 2.14 5.344 2.137 10.77c-.001 1.693.447 3.344 1.3 4.794l-.995 3.633 3.731-.973zm11.367-7.354c-.3-.15-1.77-.875-2.046-.975-.276-.1-.477-.15-.677.15-.2.3-.77.975-.945 1.175-.175.2-.35.225-.65.075-.3-.15-1.265-.467-2.41-1.485-.89-.79-1.49-1.77-1.665-2.07-.175-.3-.019-.463.13-.612.135-.135.3-.35.45-.525.15-.175.2-.3.3-.5.1-.2.05-.375-.025-.525-.075-.15-.677-1.633-.927-2.233-.24-.582-.486-.503-.678-.512-.175-.008-.375-.01-.575-.01-.2 0-.525.075-.8.375-.275.3-1.05 1.025-1.05 2.5s1.075 2.9 1.225 3.1c.15.2 2.11 3.224 5.112 4.52 3.003 1.297 3.003.865 3.541.815.539-.05 1.77-.725 2.02-1.425.25-.7.25-1.3.175-1.425-.075-.1-.275-.2-.575-.35z"/>
         </svg>
       </a>
 
@@ -396,7 +402,7 @@ export default function App() {
             navigate('/shop');
           }
         }}
-        className="fixed bottom-6 left-1/2 -translate-x-1/2 md:bottom-24 md:right-6 md:left-auto md:translate-x-0 z-50 bg-[#C5A059] text-white font-serif text-sm font-semibold tracking-widest uppercase rounded-full px-7 py-3.5 shadow-lg flex items-center gap-2 justify-center hover:scale-105 hover:brightness-110 active:scale-95 transition-all duration-300 cursor-pointer animate-floating-btn min-w-[160px] md:min-w-0"
+        className="fixed bottom-24 sm:bottom-6 left-1/2 -translate-x-1/2 md:bottom-24 md:right-6 md:left-auto md:translate-x-0 z-50 bg-[#C5A059] text-white font-serif text-sm font-semibold tracking-widest uppercase rounded-full px-7 py-3.5 shadow-lg flex items-center gap-2 justify-center hover:scale-105 hover:brightness-110 active:scale-95 transition-all duration-300 cursor-pointer animate-floating-btn min-w-[160px] md:min-w-0"
         aria-label={t('app.floating.orderNow')}
       >
         <Gem className="w-4 h-4" />

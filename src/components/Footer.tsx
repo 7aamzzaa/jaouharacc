@@ -73,7 +73,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="mt-24 border-t border-champagne-150 bg-stone-50">
+    <footer className="mt-24 border-t border-champagne-150 bg-stone-50 pb-24 sm:pb-0">
 
       {/* 3-Column Luxury Signature Sections */}
       <div className="grid grid-cols-1 md:grid-cols-3 border-b border-champagne-150">

@@ -224,6 +224,23 @@ body {
   }
 }
 
+/* Mobile Trust Bar: subtle fade-up only */
+@keyframes trust-fade-up {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@media (max-width: 639px) {
+  .trust-bar-item {
+    animation: trust-fade-up 0.2s ease-out both;
+  }
+  .trust-bar-item:nth-child(2) { animation-delay: 0.04s; }
+  .trust-bar-item:nth-child(3) { animation-delay: 0.08s; }
+  .trust-bar-item:nth-child(4) { animation-delay: 0.12s; }
+  @media (prefers-reduced-motion: reduce) {
+    .trust-bar-item { animation: none; }
+  }
+}
+
 /* ── Category Scroll Entrance ── */
 @keyframes fade-in-up {
   from { opacity: 0; transform: translateY(35px); }
