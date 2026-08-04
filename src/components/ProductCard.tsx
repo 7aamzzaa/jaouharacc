@@ -1,5 +1,5 @@
 ﻿import React, { memo, useCallback, useState } from 'react';
-import { Eye, Handbag, Heart, Share2 } from 'lucide-react';
+import { Eye, Handbag, Heart, Share2, ShoppingBag } from 'lucide-react';
 import { Product } from '../types';
 import LazyImage from './LazyImage';
 import ProductRating from './ProductRating';
@@ -14,9 +14,10 @@ interface ProductCardProps {
   wishlist: string[];
   onToggleWishlist: (id: string) => void;
   currency?: 'USD' | 'MAD';
+  compact?: boolean;
 }
 
-const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToCartDirect, wishlist, onToggleWishlist, currency = 'USD' }: ProductCardProps) {
+const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToCartDirect, wishlist, onToggleWishlist, currency = 'USD', compact = false }: ProductCardProps) {
   const { t } = useTranslation();
   const [showShareModal, setShowShareModal] = useState(false);
   const isOutOfStock = product.stock === 0;
@@ -32,7 +33,7 @@ const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToC
   }, [onAddToCartDirect, product]);
 
   return (
-    <div className="group bg-white rounded-sm overflow-hidden border border-champagne-150 shadow-xs hover:shadow-sm hover:border-champagne-300 transition-all duration-300">
+    <div className={`group bg-white rounded-sm overflow-hidden border border-champagne-150 shadow-xs hover:shadow-sm hover:border-champagne-300 transition-all duration-300 ${compact ? 'flex flex-col sm:block' : ''}`}>
       
       {/* Zoom Image Area */}
       <div 
@@ -55,21 +56,33 @@ const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToC
           aria-label={wishlist.includes(product.id) ? 'Remove from wishlist' : 'Add to wishlist'}
         >
           <Heart
-            size={16}
+            size={compact ? 15 : 16}
             className={'transition-all duration-200 ' + (wishlist.includes(product.id) ? 'text-champagne-500 fill-champagne-500' : 'text-stone-400 hover:text-champagne-500')}
           />
         </button>
 
         {/* Dynamic Badges */}
         {isOutOfStock ? (
-          <span className="absolute top-3 left-3 bg-stone-900 border border-champagne-400 text-white text-[9px] tracking-widest uppercase font-semibold py-1 px-3 rounded-none z-10">
+          <span className={`absolute top-3 left-3 bg-stone-900 border border-champagne-400 text-white tracking-widest uppercase font-semibold rounded-none z-10 ${compact ? 'text-[8px] px-2 py-1 sm:text-[9px] sm:px-3' : 'text-[9px] py-1 px-3'}`}>
             {t('productCard.outOfStock')}
           </span>
         ) : product.stock <= 4 ? (
-          <span className="absolute top-3 left-3 bg-stone-900 border border-champagne-400 text-champagne-400 text-[9px] tracking-widest uppercase font-bold py-1 px-3 rounded-none z-10">
+          <span className={`absolute top-3 left-3 bg-stone-900 border border-champagne-400 text-champagne-400 tracking-widest uppercase font-bold rounded-none z-10 ${compact ? 'text-[8px] px-2 py-1 sm:text-[9px] sm:px-3' : 'text-[9px] py-1 px-3'}`}>
             {t('productCard.onlyLeft', { stock: product.stock })}
           </span>
         ) : null}
+
+        {/* Persistent Mobile Quick Add Button (below 640px only) */}
+        {!isOutOfStock && (
+          <button
+            onClick={handleAddClick}
+            className="sm:hidden absolute bottom-3 right-3 z-20 w-11 h-11 rounded-full bg-champagne-500 text-white flex items-center justify-center shadow-md active:scale-90 hover:bg-champagne-600 transition-all duration-200 cursor-pointer"
+            aria-label={t('productCard.quickAdd')}
+            title={t('productCard.quickAdd')}
+          >
+            <ShoppingBag size={20} />
+          </button>
+        )}
 
         {/* Floating Quick Action Overlay */}
         <div className="absolute inset-0 bg-stone-900/30 opacity-0 group-hover:opacity-100 flex items-center justify-center space-x-3 transition-opacity duration-300 z-10">
@@ -93,7 +106,7 @@ const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToC
       </div>
 
       {/* Product Information Detail Card */}
-      <div className="p-5 flex flex-col justify-between flex-1">
+      <div className={`${compact ? 'p-3 sm:p-5' : 'p-5'} flex flex-col justify-between flex-1`}>
         <div className="space-y-1">
           <div className="flex justify-between items-center">
             <span className="text-[10px] tracking-widest uppercase font-medium text-champagne-500">
@@ -104,18 +117,18 @@ const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToC
           
           <button 
             onClick={() => onViewDetails(product.id)}
-            className="cursor-pointer font-serif text-base text-stone-800 group-hover:text-champagne-500 transition-colors text-start line-clamp-1 font-semibold focus:outline-hidden"
+            className={`cursor-pointer font-serif text-stone-800 group-hover:text-champagne-500 transition-colors text-start line-clamp-1 font-semibold focus:outline-hidden ${compact ? 'text-sm sm:text-base' : 'text-base'}`}
           >
             {product.name}
           </button>
 
           <div className="mt-1.5">
-            <ProductRating rating={product.rating} reviewsCount={product.reviews} />
+            <ProductRating rating={product.rating} reviewsCount={product.reviews} compact={compact} />
           </div>
         </div>
 
-        <div className="flex items-center justify-between mt-4 pt-4 border-t border-champagne-105">
-          <span className="font-serif text-base text-stone-950 font-extrabold">
+        <div className={`flex items-center justify-between border-t border-champagne-105 ${compact ? 'mt-3 pt-3 sm:mt-4 sm:pt-4' : 'mt-4 pt-4'}`}>
+          <span className={`font-serif text-stone-950 font-extrabold ${compact ? 'text-sm sm:text-base' : 'text-base'}`}>
             {currency === 'MAD' ? `${(product.price * 10).toLocaleString()} ${t('common.currency')}` : `$${product.price.toLocaleString()}`}
           </span>
           <button
@@ -123,7 +136,7 @@ const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToC
               e.stopPropagation();
               setShowShareModal(true);
             }}
-            className="cursor-pointer text-stone-400 hover:text-champagne-500 transition-colors duration-200"
+            className="cursor-pointer text-stone-400 hover:text-champagne-500 transition-colors duration-200 shrink-0"
             aria-label="Share"
           >
             <Share2 size={16} />
