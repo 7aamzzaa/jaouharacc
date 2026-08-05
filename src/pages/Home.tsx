@@ -166,7 +166,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
   };
 
   return (
-    <div className="space-y-24 bg-[#FAF7F2]/30 overflow-x-hidden">
+    <div className="space-y-16 sm:space-y-24 bg-[#FAF7F2]/30 overflow-x-hidden">
       
       {/* 1. HERO SECTION */}
       <section className="relative h-screen sm:h-auto min-h-0 sm:min-h-[85vh] lg:h-[90vh] flex items-end sm:items-center bg-gradient-to-tr from-[#FFF9F5] via-[#FFFDFB] to-[#FFF3EB] overflow-hidden pt-0 pb-[calc(env(safe-area-inset-bottom)+2.5rem)] sm:pt-12 sm:pb-12 md:py-20 lg:py-0 border-b-0 sm:border-b border-champagne-150 relative">
@@ -215,7 +215,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
             
             {/* Left/Text Column */}
             <div className="lg:w-[50%] max-w-[290px] sm:max-w-none space-y-0 sm:space-y-6 lg:space-y-8 text-start sm:text-center lg:text-start flex flex-col items-start sm:items-center lg:items-start justify-center hero-stagger hero-fade" dir={dir}>
-              <h1 className="font-serif text-[42px] sm:text-5xl md:text-6xl lg:text-[70px] leading-[1.05] sm:leading-[1.1] font-black text-white sm:text-stone-900 lg:text-white tracking-tight">
+              <h1 className="font-serif text-[clamp(34px,9.5vw,42px)] sm:text-5xl md:text-6xl lg:text-[70px] leading-[1.05] sm:leading-[1.1] font-black text-white sm:text-stone-900 lg:text-white tracking-tight">
                 {t('home.hero.title')} <br />
                 <span className="text-champagne-400 sm:text-champagne-600 lg:text-champagne-400 italic font-medium leading-normal">{t('home.hero.titleHighlight')}</span>
               </h1>
@@ -265,22 +265,30 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
       <section className="bg-white border-y border-champagne-105 py-4 sm:py-8 md:py-10 shadow-3xs" dir={dir}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Mobile Trust Bar (below 640px) */}
-          <div className="sm:hidden grid grid-cols-4 divide-x divide-[#EFEAE4] min-h-[64px]">
+          <div className="sm:hidden grid grid-cols-4 divide-x divide-[#EFEAE4] h-[96px]">
             <div className="flex flex-col items-center justify-center gap-2 px-1 trust-bar-item">
               <Shield size={22} strokeWidth={1.5} className="text-[#D4AF37] shrink-0" />
-              <h4 className="font-sans font-semibold text-[13px] leading-tight text-[#2B2B2B] text-center">{t('trust.quality')}</h4>
+              <div className="w-full min-h-[33px] flex items-center justify-center px-0.5">
+                <h4 className="font-sans font-semibold text-[12px] leading-snug text-[#2B2B2B] text-center line-clamp-2">{t('trust.quality')}</h4>
+              </div>
             </div>
             <div className="flex flex-col items-center justify-center gap-2 px-1 trust-bar-item">
               <Truck size={22} strokeWidth={1.5} className="text-[#D4AF37] shrink-0" />
-              <h4 className="font-sans font-semibold text-[13px] leading-tight text-[#2B2B2B] text-center">{t('trust.delivery')}</h4>
+              <div className="w-full min-h-[33px] flex items-center justify-center px-0.5">
+                <h4 className="font-sans font-semibold text-[12px] leading-snug text-[#2B2B2B] text-center line-clamp-2">{t('trust.delivery')}</h4>
+              </div>
             </div>
             <div className="flex flex-col items-center justify-center gap-2 px-1 trust-bar-item">
               <RefreshCcw size={22} strokeWidth={1.5} className="text-[#D4AF37] shrink-0" />
-              <h4 className="font-sans font-semibold text-[13px] leading-tight text-[#2B2B2B] text-center">{t('trust.returns')}</h4>
+              <div className="w-full min-h-[33px] flex items-center justify-center px-0.5">
+                <h4 className="font-sans font-semibold text-[12px] leading-snug text-[#2B2B2B] text-center line-clamp-2">{t('trust.returns')}</h4>
+              </div>
             </div>
             <div className="flex flex-col items-center justify-center gap-2 px-1 trust-bar-item">
               <CreditCard size={22} strokeWidth={1.5} className="text-[#D4AF37] shrink-0" />
-              <h4 className="font-sans font-semibold text-[13px] leading-tight text-[#2B2B2B] text-center">{t('cart.cashOnDelivery')}</h4>
+              <div className="w-full min-h-[33px] flex items-center justify-center px-0.5">
+                <h4 className="font-sans font-semibold text-[12px] leading-snug text-[#2B2B2B] text-center line-clamp-2">{t('trust.checkout')}</h4>
+              </div>
             </div>
           </div>
 
@@ -350,7 +358,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
 
       {/* 4. SHOP BY CATEGORY */}
       {/* Mobile pulls the category heading up right below the Trust Bar (space-y gap cancelled via margin-block-start). */}
-      <section className="[margin-block-start:-64px] sm:[margin-block-start:0px] max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="[margin-block-start:-40px] sm:[margin-block-start:0px] max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Mobile heading (below 640px) */}
         <div className="sm:hidden text-center space-y-4 mb-12">
           <span className="text-xs tracking-widest font-bold uppercase text-champagne-500 block">
@@ -467,7 +475,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
       </section>
 
       {/* 6. LUXURY PROMOTIONAL BANNER */}
-      <section className="bg-stone-900 text-white relative py-20 px-4 md:px-8 overflow-hidden border-y border-champagne-400/25">
+      <section className="bg-stone-900 text-white relative py-16 md:py-20 px-4 md:px-8 overflow-hidden border-y border-champagne-400/25">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(197,160,89,0.1),transparent_50%)]"></div>
         <div className="absolute inset-0 bg-stone-950/20"></div>
         
@@ -724,7 +732,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
       </section>
 
       {/* 11. GIFT SECTION */}
-      <section className="bg-gradient-to-tr from-[#FFF7F3] via-white to-[#FFFAF7] border-y border-champagne-105 py-20 px-4" dir={dir}>
+      <section className="bg-gradient-to-tr from-[#FFF7F3] via-white to-[#FFFAF7] border-y border-champagne-105 py-16 md:py-20 px-4" dir={dir}>
         <div className="max-w-5xl mx-auto text-center space-y-6">
           <div className="w-14 h-14 bg-champagne-500/10 border border-champagne-200 rounded-full flex items-center justify-center text-champagne-600 shadow-sm mx-auto mb-2">
             <Gift size={24} />

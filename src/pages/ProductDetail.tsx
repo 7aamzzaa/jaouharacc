@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback, lazy, Suspense } from 'react';
-import { Minus, Plus, ShoppingBag, ShieldCheck, Heart, Sparkles, Scale, RefreshCw, ArrowLeft, ArrowRight, ExternalLink } from 'lucide-react';
+import { Minus, Plus, ShoppingBag, ShieldCheck, Heart, Sparkles, Scale, RefreshCw, ArrowLeft, ArrowRight, ExternalLink, Truck, CreditCard, Lock } from 'lucide-react';
 import { Product, Review } from '../types';
 import ProductRating from '../components/ProductRating';
 import ProductCard from '../components/ProductCard';
@@ -204,47 +204,122 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
         {/* Left Aspect: Image Gallery Frame */}
         <div className="lg:col-span-7 space-y-4">
           
-          {/* Main Visual Display */}
-          <div className="zoom-frame aspect-square bg-stone-50 border border-champagne-100 rounded-lg overflow-hidden relative">
-            <img
-              src={product.images[activeImageIndex] || product.images[0]}
-              alt={product.imageAltText || product.name}
-              className="zoom-image object-cover w-full h-full"
-            />
-            {isOutOfStock && (
-              <div className="absolute inset-0 bg-white/60 backdrop-blur-xs flex items-center justify-center">
-                <span className="bg-stone-950 text-white text-xs tracking-widest uppercase font-semibold py-2 px-6 shadow-xl">
-                  {t('productDetail.soldOutOverlay')}
-                </span>
+          {/* Mobile Gallery (below 640px) — swipeable snap thumbnail strip */}
+          <div className="sm:hidden space-y-3">
+            <div className="zoom-frame aspect-square bg-stone-50 border border-champagne-100 rounded-lg overflow-hidden relative">
+              <img
+                src={product.images[activeImageIndex] || product.images[0]}
+                alt={product.imageAltText || product.name}
+                className="zoom-image object-cover w-full h-full"
+              />
+              {isOutOfStock && (
+                <div className="absolute inset-0 bg-white/60 backdrop-blur-xs flex items-center justify-center">
+                  <span className="bg-stone-950 text-white text-xs tracking-widest uppercase font-semibold py-2 px-6 shadow-xl">
+                    {t('productDetail.soldOutOverlay')}
+                  </span>
+                </div>
+              )}
+            </div>
+
+            {product.images.length > 1 && (
+              <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-1">
+                {product.images.map((imgUrl, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setActiveImageIndex(idx)}
+                    className={`cursor-pointer shrink-0 w-20 aspect-square bg-stone-50 border rounded-xs overflow-hidden transition-all snap-center ${
+                      activeImageIndex === idx
+                        ? 'border-champagne-500 ring-1 ring-champagne-500'
+                        : 'border-stone-200'
+                    }`}
+                  >
+                    <img src={imgUrl} loading="lazy" alt={product.imageAltText ? `${product.imageAltText} view ${idx + 1}` : `${product.name} view ${idx + 1}`} className="w-full h-full object-cover" />
+                  </button>
+                ))}
               </div>
             )}
           </div>
 
-          {/* Galleries Thumbnails Row */}
-          {product.images.length > 1 && (
-            <div className="flex gap-4">
-              {product.images.map((imgUrl, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setActiveImageIndex(idx)}
-                  className={`cursor-pointer w-24 aspect-square bg-stone-50 border rounded-xs overflow-hidden transition-all ${
-                    activeImageIndex === idx
-                      ? 'border-champagne-500 ring-1 ring-champagne-500'
-                      : 'border-stone-200 hover:border-stone-400'
-                  }`}
-                >
-                  <img src={imgUrl} loading="lazy" alt={product.imageAltText ? `${product.imageAltText} view ${idx + 1}` : `${product.name} view ${idx + 1}`} className="w-full h-full object-cover" />
-                </button>
-              ))}
+          {/* Desktop / Tablet Gallery (>=640px) — unchanged */}
+          <div className="hidden sm:block space-y-4">
+            <div className="zoom-frame aspect-square bg-stone-50 border border-champagne-100 rounded-lg overflow-hidden relative">
+              <img
+                src={product.images[activeImageIndex] || product.images[0]}
+                alt={product.imageAltText || product.name}
+                className="zoom-image object-cover w-full h-full"
+              />
+              {isOutOfStock && (
+                <div className="absolute inset-0 bg-white/60 backdrop-blur-xs flex items-center justify-center">
+                  <span className="bg-stone-950 text-white text-xs tracking-widest uppercase font-semibold py-2 px-6 shadow-xl">
+                    {t('productDetail.soldOutOverlay')}
+                  </span>
+                </div>
+              )}
             </div>
-          )}
+
+            {product.images.length > 1 && (
+              <div className="flex gap-4">
+                {product.images.map((imgUrl, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setActiveImageIndex(idx)}
+                    className={`cursor-pointer w-24 aspect-square bg-stone-50 border rounded-xs overflow-hidden transition-all ${
+                      activeImageIndex === idx
+                        ? 'border-champagne-500 ring-1 ring-champagne-500'
+                        : 'border-stone-200 hover:border-stone-400'
+                    }`}
+                  >
+                    <img src={imgUrl} loading="lazy" alt={product.imageAltText ? `${product.imageAltText} view ${idx + 1}` : `${product.name} view ${idx + 1}`} className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
 
         </div>
 
         {/* Right Aspect: Purchasing Controls Portal */}
         <div className="lg:col-span-5 space-y-8">
           
-          <div className="space-y-3 pb-6 border-b border-champagne-100">
+          {/* Mobile Header Info (below 640px) — reordered: category, rating, name, price, green In Stock */}
+          <div className="sm:hidden pb-6 border-b border-champagne-100 flex flex-col gap-3">
+            <span className="text-xs tracking-[0.25em] uppercase text-champagne-600 font-semibold font-sans">
+              {product.category}
+            </span>
+            <div>
+              <ProductRating rating={product.rating} reviewsCount={product.reviews} size={14} />
+            </div>
+            <h1 className="font-serif text-3xl text-stone-950 font-medium leading-tight">
+              {product.name}
+            </h1>
+            <div className="flex items-center justify-between pt-0.5">
+              <p className="font-serif text-2xl text-stone-900 font-medium font-bold">
+                {currency === 'MAD' ? `${(product.price * 10).toLocaleString()} ${t('common.currency')}` : `$${product.price.toLocaleString()}`}
+              </p>
+              <button
+                onClick={() => setShowShareModal(true)}
+                className="cursor-pointer flex items-center gap-1 text-xs tracking-wider text-stone-500 hover:text-champagne-600 transition-colors font-medium"
+              >
+                <ExternalLink size={12} />
+                {t('productDetail.shareButton')}
+              </button>
+            </div>
+            <div className="pt-0.5">
+              {isOutOfStock ? (
+                <span className="inline-flex items-center text-[10px] uppercase font-mono tracking-wider font-semibold text-stone-500 bg-stone-100 px-2 py-1 rounded-sm">
+                  {t('productDetail.soldOut')}
+                </span>
+              ) : (
+                <span className="inline-flex items-center gap-1.5 text-[10px] uppercase font-mono tracking-wider font-semibold text-emerald-700 bg-emerald-50 px-2 py-1 rounded-sm">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                  {t('productDetail.inStock', { count: product.stock })}
+                </span>
+              )}
+            </div>
+          </div>
+
+          {/* Desktop / Tablet Header Info (>=640px) — unchanged */}
+          <div className="hidden sm:block space-y-3 pb-6 border-b border-champagne-100">
             <div className="flex justify-between items-center">
               <span className="text-xs tracking-[0.25em] uppercase text-champagne-600 font-semibold font-sans">
                 {product.category}
@@ -284,8 +359,110 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
             </p>
           </div>
 
-          {/* Size Form Selector */}
-          <div className="space-y-3">
+          {/* Mobile Purchase Section (below 640px) */}
+          <div className="sm:hidden space-y-5">
+            {/* Choose Size */}
+            <div className="space-y-3">
+              <div className="flex justify-between items-baseline">
+                <h3 className="text-xs tracking-widest uppercase text-stone-800 font-semibold">{t('productDetail.sizeHeading')}</h3>
+                <a href="#" className="text-[10px] text-champagne-600 hover:underline hover:text-champagne-700 font-semibold">
+                  {t('productDetail.sizingGuide')}
+                </a>
+              </div>
+              <div className="grid grid-cols-3 gap-3">
+                {sizeOptions.map((opt) => (
+                  <button
+                    key={opt.label}
+                    onClick={() => setSelectedSize(opt.label)}
+                    className={`cursor-pointer p-3 border rounded-md text-center transition-all focus:outline-hidden ${
+                      selectedSize === opt.label
+                        ? 'border-champagne-500 bg-luxe-pink-50 text-champagne-600 font-semibold'
+                        : 'border-stone-200 hover:border-stone-400 text-stone-700 bg-white'
+                    }`}
+                  >
+                    <span className="block text-xs font-semibold">{opt.label.split(' ')[0]}</span>
+                    <span className="text-[9px] text-stone-400 mt-0.5 block">{opt.label.split(' ')[1]}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Quantity + Wishlist */}
+            <div className="flex items-center justify-between gap-4">
+              <div className="flex items-center border border-stone-200 bg-white px-2 py-1 rounded-sm">
+                <button
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  disabled={isOutOfStock}
+                  className="p-2 text-stone-500 hover:text-stone-950 disabled:opacity-30 focus:outline-hidden"
+                  aria-label={t('productDetail.decreaseQty')}
+                >
+                  <Minus size={14} />
+                </button>
+                <span className="w-8 text-center text-xs font-semibold font-mono">{quantity}</span>
+                <button
+                  onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
+                  disabled={isOutOfStock || quantity >= product.stock}
+                  className="p-2 text-stone-500 hover:text-stone-950 disabled:opacity-30 focus:outline-hidden"
+                  aria-label={t('productDetail.increaseQty')}
+                >
+                  <Plus size={14} />
+                </button>
+              </div>
+              <button
+                onClick={() => onToggleWishlist(product.id)}
+                className={`cursor-pointer p-3 border rounded-sm transition-all focus:outline-hidden ${
+                  isFavorite ? 'border-champagne-500 text-champagne-500 bg-champagne-50' : 'border-stone-200 hover:border-stone-400 text-stone-400'
+                }`}
+                title={t('productDetail.addToWishlist')}
+                aria-label={t('productDetail.addToWishlist')}
+              >
+                <Heart size={16} className={isFavorite ? 'fill-champagne-500' : ''} />
+              </button>
+            </div>
+
+            {/* Primary Add to Cart — full width */}
+            <button
+              onClick={handleAddToBag}
+              disabled={isOutOfStock}
+              className={`cursor-pointer w-full min-h-[56px] px-6 tracking-widest text-xs uppercase font-medium shadow-md transition-all duration-300 flex items-center justify-center gap-2 focus:outline-hidden active:scale-[0.99] ${
+                isOutOfStock
+                  ? 'bg-stone-200 text-stone-400 cursor-not-allowed'
+                  : 'bg-stone-900 hover:bg-champagne-600 text-white'
+              }`}
+            >
+              <ShoppingBag size={16} />
+              {isOutOfStock ? t('productDetail.soldOut') : t('productDetail.addToCart')}
+            </button>
+
+            {addedMessage && (
+              <div className="text-center bg-emerald-50 text-emerald-800 text-xs py-2 rounded-sm border border-emerald-100 font-sans tracking-wide">
+                {t('productDetail.added')}
+              </div>
+            )}
+
+            {/* Trust list */}
+            <div className="space-y-2.5 pt-1">
+              <div className="flex items-center gap-2.5">
+                <Truck size={15} className="text-champagne-500 shrink-0" />
+                <span className="text-xs text-stone-600 font-sans font-medium">{t('trust.delivery')}</span>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <CreditCard size={15} className="text-champagne-500 shrink-0" />
+                <span className="text-xs text-stone-600 font-sans font-medium">{t('cart.cashOnDelivery')}</span>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <Lock size={15} className="text-champagne-500 shrink-0" />
+                <span className="text-xs text-stone-600 font-sans font-medium">{t('trust.checkout')}</span>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <ShieldCheck size={15} className="text-champagne-500 shrink-0" />
+                <span className="text-xs text-stone-600 font-sans font-medium">{t('trust.quality')}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Size Form Selector (Desktop / Tablet) */}
+          <div className="hidden sm:block space-y-3">
             <div className="flex justify-between items-baseline">
               <h3 className="text-xs tracking-widest uppercase text-stone-800 font-semibold">{t('productDetail.sizeHeading')}</h3>
               <a href="#" className="text-[10px] text-champagne-600 hover:underline hover:text-champagne-700 font-semibold">
@@ -311,8 +488,8 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
             </div>
           </div>
 
-          {/* Quantity Controls and Add to Cart Button Block */}
-          <div className="space-y-4 pt-4">
+          {/* Quantity Controls and Add to Cart Button Block (Desktop / Tablet) */}
+          <div className="hidden sm:block space-y-4 pt-4">
             
             <div className="flex gap-4 items-center">
               
@@ -373,9 +550,12 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
 
           </div>
 
-          <Suspense fallback={<div className="border border-stone-200 rounded-lg p-4 h-[168px] animate-pulse bg-stone-50" />}>
-            <TrustBadges />
-          </Suspense>
+          {/* Trust Badges (Desktop / Tablet) */}
+          <div className="hidden sm:block">
+            <Suspense fallback={<div className="border border-stone-200 rounded-lg p-4 h-[168px] animate-pulse bg-stone-50" />}>
+              <TrustBadges />
+            </Suspense>
+          </div>
 
           {/* Technical Spec List */}
           <div className="border-t border-champagne-100 pt-6 space-y-4">
@@ -404,33 +584,38 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
       </div>
 
       {/* FAQ Accordion Section */}
-      <section className="border-t border-champagne-100 pt-16 pb-4">
-        <div className="text-center mb-10">
+      <section className="border-t border-champagne-100 pt-10 sm:pt-16 pb-4">
+        <div className="text-center mb-6 sm:mb-10">
           <span className="text-[10px] tracking-[0.2em] uppercase text-champagne-500 font-medium font-sans">
             {t('productDetail.faq.title')}
           </span>
         </div>
         <div className="max-w-2xl mx-auto">
           <Suspense fallback={<div className="space-y-4"><div className="h-12 bg-stone-50 animate-pulse rounded" /><div className="h-12 bg-stone-50 animate-pulse rounded" /><div className="h-12 bg-stone-50 animate-pulse rounded" /></div>}>
-            <FAQAccordion />
+            {/* Compact accordion headers below 640px; preserve >=44px touch targets */}
+            <div className="[&_button]:py-3 sm:[&_button]:py-4 [&_button]:gap-2 sm:[&_button]:gap-4 [&_button>span]:min-w-0 [&_button>span]:break-words">
+              <FAQAccordion />
+            </div>
           </Suspense>
         </div>
       </section>
 
       {/* Customer Reviews Section */}
-      <section className="border-t border-champagne-100 pt-16 pb-4 space-y-8">
-        <div className="text-center mb-2">
+      <section className="border-t border-champagne-100 pt-10 sm:pt-16 pb-4 space-y-6 sm:space-y-8">
+        <div className="text-center mb-1 sm:mb-2">
           <span className="text-[10px] tracking-[0.2em] uppercase text-champagne-500 font-medium font-sans">
             {t('reviewsPage.heading')}
           </span>
         </div>
-        <div className="max-w-2xl mx-auto space-y-8">
+        <div className="max-w-2xl mx-auto space-y-6 sm:space-y-8">
           <Suspense fallback={<div className="h-8 bg-stone-50 animate-pulse rounded w-48 mx-auto" />}>
             <ReviewSummary averageRating={averageRating} totalReviews={totalReviews} />
           </Suspense>
-          <Suspense fallback={<div className="space-y-4"><div className="h-24 bg-stone-50 animate-pulse rounded" /><div className="h-24 bg-stone-50 animate-pulse rounded" /></div>}>
-            <ReviewList reviews={reviews} />
-          </Suspense>
+          <div className="min-w-0">
+            <Suspense fallback={<div className="space-y-4"><div className="h-24 bg-stone-50 animate-pulse rounded" /><div className="h-24 bg-stone-50 animate-pulse rounded" /></div>}>
+              <ReviewList reviews={reviews} />
+            </Suspense>
+          </div>
           <Suspense fallback={<div className="h-48 bg-stone-50 animate-pulse rounded" />}>
             <ReviewForm productId={product.id} onSuccess={fetchReviews} />
           </Suspense>

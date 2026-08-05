@@ -73,7 +73,7 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="mt-24 border-t border-champagne-150 bg-stone-50 pb-24 sm:pb-0">
+    <footer className="mt-16 sm:mt-24 border-t border-champagne-150 bg-stone-50 pb-24 sm:pb-0">
 
       {/* 3-Column Luxury Signature Sections */}
       <div className="grid grid-cols-1 md:grid-cols-3 border-b border-champagne-150">
@@ -195,7 +195,7 @@ export default function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="flex items-center gap-3 text-[10px] text-stone-400 uppercase tracking-widest">
               <span>{t('footer.payment')}</span>
-              <span className="flex items-center gap-2">
+              <span className="flex flex-wrap items-center justify-center gap-2">
                 {PAYMENT_METHODS.map((method) => (
                   <span key={method} className="bg-stone-100 px-2 py-1 rounded text-[9px] font-medium text-stone-500">
                     {method}
