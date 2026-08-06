@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Trash2, ShoppingBag, ArrowRight, ShieldCheck, Ticket, RefreshCw } from 'lucide-react';
+import { Trash2, ShoppingBag, ArrowLeft, ArrowRight, ShieldCheck, Ticket, RefreshCw, Minus, Plus } from 'lucide-react';
 import { CartItem } from '../types';
 import { useTranslation } from '../i18n';
 
@@ -19,7 +19,7 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
     }
     return `$${priceUSD.toLocaleString()}`;
   };
-  const { t } = useTranslation();
+  const { t, dir } = useTranslation();
   const [promoCode, setPromoCode] = useState<string>('');
   const [appliedDiscount, setAppliedDiscount] = useState<{ code: string; percent: number } | null>(null);
   const [promoError, setPromoError] = useState<string>('');
@@ -137,7 +137,7 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 pb-32 sm:pb-0">
       
       {/* Editorial Title */}
       <div className="border-b border-champagne-100 pb-5">
@@ -173,7 +173,7 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
                     </h3>
                     <button
                       onClick={() => onRemoveItem(item.id)}
-                      className="text-stone-400 hover:text-rose-500 transition-colors cursor-pointer p-1"
+                      className="flex items-center justify-center text-stone-400 hover:text-rose-500 transition-colors cursor-pointer p-3.5 -m-3.5 sm:p-1 sm:-m-0"
                       title={t('cart.remove')}
                     >
                       <Trash2 size={16} />
@@ -188,23 +188,23 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
                 </div>
 
                 {/* Subtotal & Quantity modifiers */}
-                <div className="flex items-center justify-between mt-4">
-                  <div className="flex items-center border border-stone-200 bg-stone-50/50 px-1 py-0.5 rounded-sm">
+                <div className="flex flex-wrap items-center justify-between mt-4 gap-x-4 gap-y-2">
+                  <div className="flex items-center border border-stone-200 bg-white px-2 py-1 rounded-sm">
                     <button
                       onClick={() => onUpdateQuantity(item.id, Math.max(1, item.quantity - 1))}
-                      className="p-1 px-2 text-stone-500 hover:text-stone-950 font-semibold focus:outline-hidden"
+                      className="flex items-center justify-center min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 p-2 text-stone-500 hover:text-stone-950 disabled:opacity-30 focus:outline-hidden"
                       aria-label={t('cart.reduceQty')}
                     >
-                      -
+                      <Minus size={14} />
                     </button>
-                    <span className="w-6 text-center text-xs font-semibold font-mono">{item.quantity}</span>
+                    <span className="w-8 text-center text-xs font-semibold font-mono">{item.quantity}</span>
                     <button
                       onClick={() => onUpdateQuantity(item.id, Math.min(item.max_stock, item.quantity + 1))}
                       disabled={item.quantity >= item.max_stock}
-                      className="p-1 px-2 text-stone-500 hover:text-stone-950 font-semibold disabled:opacity-25 focus:outline-hidden"
+                      className="flex items-center justify-center min-w-[44px] min-h-[44px] sm:min-w-0 sm:min-h-0 p-2 text-stone-500 hover:text-stone-950 disabled:opacity-30 focus:outline-hidden"
                       aria-label={t('cart.increaseQty')}
                     >
-                      +
+                      <Plus size={14} />
                     </button>
                   </div>
 
@@ -216,6 +216,16 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
               </div>
             </div>
           ))}
+
+          {/* Continue Shopping */}
+          <button
+            onClick={() => onPageChange('shop')}
+            className="cursor-pointer flex items-center justify-center sm:justify-start gap-2 w-full sm:w-auto px-5 py-3.5 text-xs uppercase tracking-widest font-semibold text-champagne-700 hover:text-champagne-600 bg-champagne-50 hover:bg-champagne-100 border border-champagne-100 rounded-sm transition-colors focus:outline-hidden focus-visible:outline-2 focus-visible:outline-champagne-500"
+            aria-label={t('orderConfirmation.continueShopping')}
+          >
+            {dir === 'ltr' ? <ArrowLeft size={14} /> : <ArrowRight size={14} />}
+            <span>{t('orderConfirmation.continueShopping')}</span>
+          </button>
         </div>
 
         {/* Right Aspect: Purchase Calculations Billing Board */}
@@ -232,6 +242,11 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
               <div className="flex justify-between text-stone-500">
                 <span>{t('cart.subtotal')}</span>
                 <span className="text-stone-850 font-semibold">{formatPrice(subtotal)}</span>
+              </div>
+
+              <div className="flex justify-between text-stone-500">
+                <span>{t('trust.delivery')}</span>
+                <span className="text-emerald-600 font-medium">{t('cart.freeFreight')}</span>
               </div>
               
               {appliedDiscount && (
@@ -261,11 +276,11 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
                   placeholder={t('cart.promoPlaceholder')}
                   value={promoCode}
                   onChange={(e) => setPromoCode(e.target.value)}
-                  className="flex-1 bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 placeholder-stone-400 font-mono"
+                  className="flex-1 min-w-0 bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 placeholder-stone-400 font-mono"
                 />
                 <button
                   type="submit"
-                  className="cursor-pointer bg-champagne-100 hover:bg-champagne-200 text-champagne-700 px-4 text-xs font-semibold py-3 transition-colors flex items-center gap-1 shrink-0"
+                  className="cursor-pointer bg-champagne-100 hover:bg-champagne-200 text-champagne-700 px-4 text-xs font-semibold py-3 min-h-[44px] sm:min-h-0 transition-colors flex items-center gap-1 shrink-0 whitespace-nowrap"
                 >
                   <Ticket size={12} /> {t('cart.promoApply')}
                 </button>

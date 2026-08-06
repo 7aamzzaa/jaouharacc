@@ -1,5 +1,66 @@
 [
   {
+    "id": "ORD-P26NTHYBW",
+    "customer_name": "hamza chrifi",
+    "customer_phone": "+212608864688",
+    "customer_email": "aamzzaachrifi@gmail.com",
+    "customer_country": "Morocco",
+    "customer_city": "AGADIR",
+    "customer_street": "RES AERO IMM 05 APPT 02 BENSRGAO AGADIR",
+    "customer_apartment": "",
+    "payment_method": "cod",
+    "order_notes": "",
+    "items": [
+      {
+        "id": "prod-71-Medium (7.0\")",
+        "product_id": "prod-71",
+        "name": "Gold Classic Ring",
+        "price": 12,
+        "quantity": 2,
+        "selected_size": "Medium (7.0\")",
+        "image": "/images/1.jpg",
+        "max_stock": 2
+      },
+      {
+        "id": "prod-124-Medium (7.0\")",
+        "product_id": "prod-124",
+        "name": "Gold Noble Bracelet",
+        "price": 9.9,
+        "quantity": 3,
+        "selected_size": "Medium (7.0\")",
+        "image": "/images/01.jpg",
+        "max_stock": 6
+      },
+      {
+        "id": "prod-49-Medium (7.0\")",
+        "product_id": "prod-49",
+        "name": "sansla",
+        "price": 15,
+        "quantity": 2,
+        "selected_size": "Medium (7.0\")",
+        "image": "/images/snsl.jpg",
+        "max_stock": 1491
+      },
+      {
+        "id": "prod-111-Medium (7.0\")",
+        "product_id": "prod-111",
+        "name": "Gold Radiance Anklet",
+        "price": 9.9,
+        "quantity": 3,
+        "selected_size": "Medium (7.0\")",
+        "image": "/images/A.jpg",
+        "max_stock": 8
+      }
+    ],
+    "subtotal": 113.4,
+    "shipping_cost": 0,
+    "discount_amount": 11.34,
+    "discount_code": "CCJAOUHARA10",
+    "total": 102.06,
+    "status": "pending",
+    "created_at": "2026-08-06T05:55:56.091Z"
+  },
+  {
     "id": "ORD-40J3P5U3I",
     "customer_name": "zjzjzjzjz",
     "customer_phone": "+555605091987",
