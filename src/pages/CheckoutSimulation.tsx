@@ -16,7 +16,7 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
     return `$${priceUSD.toLocaleString()}`;
   };
 
-  const { t } = useTranslation();
+  const { t, dir } = useTranslation();
 
   // Extract details from Query Param string
   const urlParams = new URLSearchParams(window.location.search);
@@ -132,7 +132,7 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
   };
 
   return (
-    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12 pb-32 sm:pb-0">
       
       {/* Editorial Title */}
       <div className="text-center space-y-3 pb-4">
@@ -157,7 +157,8 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
           <div className="flex gap-4 mb-4">
             <button
               onClick={() => setCardStyle('gold')}
-              className={`p-2 px-4 text-xs font-semibold rounded-full border transition-all ${
+              aria-pressed={cardStyle === 'gold'}
+              className={`p-2 px-4 min-h-[44px] sm:min-h-0 text-xs font-semibold rounded-full border transition-all flex items-center ${
                 cardStyle === 'gold' ? 'bg-champagne-500 text-stone-950 border-champagne-500' : 'bg-white border-stone-200 hover:border-stone-400'
               }`}
             >
@@ -165,7 +166,8 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
             </button>
             <button
               onClick={() => setCardStyle('rose')}
-              className={`p-2 px-4 text-xs font-semibold rounded-full border transition-all ${
+              aria-pressed={cardStyle === 'rose'}
+              className={`p-2 px-4 min-h-[44px] sm:min-h-0 text-xs font-semibold rounded-full border transition-all flex items-center ${
                 cardStyle === 'rose' ? 'bg-rose-400 text-white border-rose-450' : 'bg-white border-stone-200 hover:border-stone-400'
               }`}
             >
@@ -174,7 +176,7 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
           </div>
 
           {/* Interactive Card Node representation */}
-          <div className={`p-6 sm:p-8 aspect-[1.58/1] rounded-2xl text-white shadow-2xl relative overflow-hidden transition-all duration-500 transform ${
+          <div className={`p-5 sm:p-8 aspect-[1.58/1] rounded-2xl text-white shadow-2xl relative overflow-hidden transition-all duration-500 transform ${
             cardStyle === 'gold'
               ? 'bg-gradient-to-tr from-stone-950 via-stone-900 to-champagne-650'
               : 'bg-gradient-to-tr from-stone-900 via-stone-800 to-rose-450'
@@ -196,13 +198,13 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
               </div>
 
               {/* Graphic gold microchip rendering */}
-              <div className="w-10 h-8 rounded-md bg-gradient-to-br from-champagne-300 to-champagne-500 relative overflow-hidden flex items-center justify-center opacity-85 my-2">
+              <div className="w-10 h-8 rounded-md bg-gradient-to-br from-champagne-300 to-champagne-500 relative overflow-hidden flex items-center justify-center opacity-85 my-1.5 sm:my-2">
                 <div className="absolute w-full h-[1px] bg-stone-950/20 top-1/2"></div>
                 <div className="absolute h-full w-[1px] bg-stone-950/20 left-1/2"></div>
                 <div className="w-4 h-4 rounded-xs border border-stone-950/30"></div>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-3 sm:space-y-4">
                 {/* Dynamically grouped Number */}
                 <p className="font-mono text-base sm:text-lg tracking-widest font-normal">
                   {cardNumber || t('checkout.cardNumberMask')}
@@ -242,7 +244,8 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
             <button
               type="button"
               onClick={() => setPaymentMethod('card')}
-              className={`cursor-pointer flex items-center justify-center gap-2 py-3 rounded-md text-xs font-semibold uppercase tracking-wider transition-all border ${
+              aria-pressed={paymentMethod === 'card'}
+              className={`cursor-pointer flex items-center justify-center gap-2 py-3 min-h-[44px] sm:min-h-0 rounded-md text-xs font-semibold uppercase tracking-wider transition-all border ${
                 paymentMethod === 'card'
                   ? 'border-stone-900 bg-stone-900 text-white shadow-md'
                   : 'border-stone-200 bg-white text-stone-600 hover:border-stone-400'
@@ -254,7 +257,8 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
             <button
               type="button"
               onClick={() => setPaymentMethod('cod')}
-              className={`cursor-pointer flex items-center justify-center gap-2 py-3 rounded-md text-xs font-semibold uppercase tracking-wider transition-all border ${
+              aria-pressed={paymentMethod === 'cod'}
+              className={`cursor-pointer flex items-center justify-center gap-2 py-3 min-h-[44px] sm:min-h-0 rounded-md text-xs font-semibold uppercase tracking-wider transition-all border ${
                 paymentMethod === 'cod'
                   ? 'border-stone-900 bg-stone-900 text-white shadow-md'
                   : 'border-stone-200 bg-white text-stone-600 hover:border-stone-400'
@@ -289,7 +293,7 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
                     type="text"
                     required
                     placeholder={t('checkout.cardNamePlaceholder')}
-                    className="w-full bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400"
+                    className="w-full bg-stone-50 text-base sm:text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400"
                     value={cardName}
                     onChange={(e) => setCardName(e.target.value)}
                   />
@@ -304,7 +308,8 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
                     type="text"
                     required
                     placeholder={t('checkout.cardNumberPlaceholder')}
-                    className="w-full bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 font-mono"
+                    inputMode="numeric"
+                    className="w-full bg-stone-50 text-base sm:text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 font-mono"
                     value={cardNumber}
                     onChange={handleCardNumberChange}
                   />
@@ -320,7 +325,8 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
                       type="text"
                       required
                       placeholder={t('checkout.expiryPlaceholder')}
-                      className="w-full bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 font-mono"
+                      inputMode="numeric"
+                      className="w-full bg-stone-50 text-base sm:text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 font-mono"
                       value={cardExpiry}
                       onChange={handleExpiryChange}
                     />
@@ -335,8 +341,9 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
                       type="password"
                       required
                       placeholder={t('checkout.cvvPlaceholder')}
+                      inputMode="numeric"
                       maxLength={3}
-                      className="w-full bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 font-mono"
+                      className="w-full bg-stone-50 text-base sm:text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 font-mono"
                       value={cardCvv}
                       onChange={(e) => setCardCvv(e.target.value.replace(/\D/g, ''))}
                     />
@@ -344,6 +351,16 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
                 </div>
               </>
             )}
+
+            <button
+              type="button"
+              onClick={() => onPageChange('cart')}
+              className="cursor-pointer flex items-center justify-center sm:justify-start gap-2 w-full sm:w-auto px-5 py-3.5 text-xs uppercase tracking-widest font-semibold text-champagne-700 hover:text-champagne-600 bg-champagne-50 hover:bg-champagne-100 border border-champagne-100 rounded-sm transition-colors focus:outline-hidden focus-visible:outline-2 focus-visible:outline-champagne-500"
+              aria-label={t('orderConfirmation.continueShopping')}
+            >
+              {dir === 'ltr' ? <ArrowLeft size={14} /> : <ArrowRight size={14} />}
+              <span>{t('orderConfirmation.continueShopping')}</span>
+            </button>
 
             <button
               type="submit"
@@ -358,7 +375,7 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
               ) : (
                 <>
                   {paymentMethod === 'cod' ? t('checkout.confirmCod', { total: formatPrice(total) }) : t('checkout.confirmCard', { total: formatPrice(total) })}
-                  <ArrowRight size={14} />
+                  {dir === 'ltr' ? <ArrowRight size={14} /> : <ArrowLeft size={14} />}
                 </>
               )}
             </button>
