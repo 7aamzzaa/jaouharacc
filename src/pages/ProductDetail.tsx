@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback, lazy, Suspense } from 'react';
-import { Minus, Plus, ShoppingBag, ShieldCheck, Heart, Sparkles, Scale, RefreshCw, ArrowLeft, ArrowRight, ExternalLink, Truck, CreditCard, Lock } from 'lucide-react';
+import { Minus, Plus, ShoppingBag, ShieldCheck, Heart, Sparkles, Scale, RefreshCw, ArrowLeft, ArrowRight, ExternalLink, Truck, CreditCard, Lock, CheckCircle } from 'lucide-react';
 import { Product, Review } from '../types';
 import ProductRating from '../components/ProductRating';
 import ProductCard from '../components/ProductCard';
@@ -577,6 +577,231 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
                 <span className="text-stone-400">{t('productDetail.style')}</span>
                 <span className="text-stone-700 font-medium">{t('productDetail.styleValue')}</span>
               </div>
+            </div>
+          </div>
+
+          {/* Jewelry Care Guide */}
+          <div className="border-t border-champagne-100 pt-6 space-y-4">
+            <h3 className="text-xs tracking-widest uppercase text-stone-800 font-semibold">
+              {t('productDetail.sections.care.heading')}
+            </h3>
+            <p className="text-xs text-stone-500 font-sans">
+              {t('productDetail.sections.care.subtitle')}
+            </p>
+            <div className="rounded-lg border border-stone-200 bg-[#FAF7F2]/40 p-6 space-y-5">
+              <div className="flex items-start gap-4">
+                <CheckCircle size={20} className="text-champagne-500 shrink-0" aria-hidden="true" />
+                <div>
+                  <p className="text-sm font-semibold text-stone-900">{t('productDetail.sections.care.storeTitle')}</p>
+                  <p className="text-sm text-stone-500">{t('productDetail.sections.care.storeDesc')}</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <CheckCircle size={20} className="text-champagne-500 shrink-0" aria-hidden="true" />
+                <div>
+                  <p className="text-sm font-semibold text-stone-900">{t('productDetail.sections.care.chemTitle')}</p>
+                  <p className="text-sm text-stone-500">{t('productDetail.sections.care.chemDesc')}</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <CheckCircle size={20} className="text-champagne-500 shrink-0" aria-hidden="true" />
+                <div>
+                  <p className="text-sm font-semibold text-stone-900">{t('productDetail.sections.care.cleanTitle')}</p>
+                  <p className="text-sm text-stone-500">{t('productDetail.sections.care.cleanDesc')}</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <CheckCircle size={20} className="text-champagne-500 shrink-0" aria-hidden="true" />
+                <div>
+                  <p className="text-sm font-semibold text-stone-900">{t('productDetail.sections.care.waterTitle')}</p>
+                  <p className="text-sm text-stone-500">{t('productDetail.sections.care.waterDesc')}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Style Recommendation */}
+          <div className="border-t border-champagne-100 pt-6 space-y-4">
+            <h3 className="text-xs tracking-widest uppercase text-stone-800 font-semibold">
+              {t('productDetail.sections.style.heading')}
+            </h3>
+            <p className="text-xs text-stone-500 font-sans">
+              {t('productDetail.sections.style.subtitle')}
+            </p>
+            <div className="rounded-lg border border-stone-200 bg-white p-6 space-y-5">
+              <div className="flex items-center gap-3">
+                <Sparkles size={16} className="text-champagne-500 shrink-0" aria-hidden="true" />
+                <p className="text-sm font-medium text-stone-700">{t('productDetail.sections.style.item1')}</p>
+              </div>
+              <div className="flex items-center gap-3">
+                <Sparkles size={16} className="text-champagne-500 shrink-0" aria-hidden="true" />
+                <p className="text-sm font-medium text-stone-700">{t('productDetail.sections.style.item2')}</p>
+              </div>
+              <div className="flex items-center gap-3">
+                <Sparkles size={16} className="text-champagne-500 shrink-0" aria-hidden="true" />
+                <p className="text-sm font-medium text-stone-700">{t('productDetail.sections.style.item3')}</p>
+              </div>
+              <div className="flex justify-center">
+                <button
+                  type="button"
+                  className="cursor-pointer flex items-center justify-center text-center w-full sm:w-auto px-5 py-3.5 text-xs uppercase tracking-widest font-semibold text-champagne-700 hover:text-champagne-600 bg-champagne-50 hover:bg-champagne-100 border border-champagne-100 rounded-sm transition-colors focus:outline-hidden focus-visible:outline-2 focus-visible:outline-champagne-500"
+                >
+                  {t('productDetail.sections.style.button')}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Our Promise */}
+          <div className="border-t border-champagne-100 pt-6 space-y-4">
+            <h3 className="text-xs tracking-widest uppercase text-stone-800 font-semibold">
+              {t('productDetail.sections.promise.heading')}
+            </h3>
+            <p className="text-xs text-stone-500 font-sans">
+              {t('productDetail.sections.promise.subtitle')}
+            </p>
+            <div className="rounded-lg border border-stone-200 bg-[#FAF7F2]/40 p-6 space-y-5">
+              <div className="flex items-start gap-4">
+                <CheckCircle size={20} className="text-champagne-500 shrink-0" aria-hidden="true" />
+                <div>
+                  <p className="text-sm font-semibold text-stone-900">{t('productDetail.sections.promise.materialsTitle')}</p>
+                  <p className="text-sm text-stone-500">{t('productDetail.sections.promise.materialsDesc')}</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <CheckCircle size={20} className="text-champagne-500 shrink-0" aria-hidden="true" />
+                <div>
+                  <p className="text-sm font-semibold text-stone-900">{t('productDetail.sections.promise.handTitle')}</p>
+                  <p className="text-sm text-stone-500">{t('productDetail.sections.promise.handDesc')}</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <CheckCircle size={20} className="text-champagne-500 shrink-0" aria-hidden="true" />
+                <div>
+                  <p className="text-sm font-semibold text-stone-900">{t('productDetail.sections.promise.packagingTitle')}</p>
+                  <p className="text-sm text-stone-500">{t('productDetail.sections.promise.packagingDesc')}</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <CheckCircle size={20} className="text-champagne-500 shrink-0" aria-hidden="true" />
+                <div>
+                  <p className="text-sm font-semibold text-stone-900">{t('productDetail.sections.promise.supportTitle')}</p>
+                  <p className="text-sm text-stone-500">{t('productDetail.sections.promise.supportDesc')}</p>
+                </div>
+              </div>
+              <p className="text-sm text-stone-500 leading-relaxed">
+                {t('productDetail.sections.promise.closing')}
+              </p>
+            </div>
+          </div>
+
+          {/* Estimated Delivery */}
+          <div className="border-t border-champagne-100 pt-6 space-y-4">
+            <h3 className="text-xs tracking-widest uppercase text-stone-800 font-semibold">
+              {t('productDetail.sections.delivery.heading')}
+            </h3>
+            <p className="text-xs text-stone-500 font-sans">
+              {t('productDetail.sections.delivery.subtitle')}
+            </p>
+            <div className="rounded-lg border border-stone-200 bg-white p-6 space-y-5">
+              <div className="flex items-start gap-4">
+                <Truck size={20} className="text-champagne-500 shrink-0" aria-hidden="true" />
+                <div>
+                  <p className="text-sm font-semibold text-stone-900">{t('productDetail.sections.delivery.casablancaTitle')}</p>
+                  <p className="text-sm text-stone-500">{t('productDetail.sections.delivery.casablancaDesc')}</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <Truck size={20} className="text-champagne-500 shrink-0" aria-hidden="true" />
+                <div>
+                  <p className="text-sm font-semibold text-stone-900">{t('productDetail.sections.delivery.otherTitle')}</p>
+                  <p className="text-sm text-stone-500">{t('productDetail.sections.delivery.otherDesc')}</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-4">
+                <Truck size={20} className="text-champagne-500 shrink-0" aria-hidden="true" />
+                <div>
+                  <p className="text-sm font-semibold text-stone-900">{t('productDetail.sections.delivery.trackingTitle')}</p>
+                  <p className="text-sm text-stone-500">{t('productDetail.sections.delivery.trackingDesc')}</p>
+                </div>
+              </div>
+              <div className="rounded-md bg-champagne-50 border border-champagne-100 p-4">
+                <div className="flex items-center gap-3">
+                  <CheckCircle size={20} className="text-champagne-500 shrink-0" aria-hidden="true" />
+                  <p className="text-sm text-stone-600">{t('productDetail.sections.delivery.note')}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Recently Purchased */}
+          <div className="border-t border-champagne-100 pt-6 space-y-4">
+            <h3 className="text-xs tracking-widest uppercase text-stone-800 font-semibold">
+              {t('productDetail.sections.recently.heading')}
+            </h3>
+            <p className="text-xs text-stone-500 font-sans">
+              {t('productDetail.sections.recently.subtitle')}
+            </p>
+            <div className="rounded-lg border border-stone-200 bg-[#FAF7F2]/40 p-6 space-y-4">
+              <div className="rounded-md bg-white border border-stone-100 p-4">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-10 h-10 rounded-full bg-champagne-100 flex items-center justify-center shrink-0">
+                      <span className="text-sm font-semibold text-champagne-700">{t('productDetail.sections.recently.saraInitial')}</span>
+                    </div>
+                    <div className="min-w-0">
+                      <p className="font-semibold text-sm text-stone-800">{t('productDetail.sections.recently.sara')}</p>
+                      <p className="text-xs text-stone-500">{t('productDetail.sections.recently.purchasedItem')}</p>
+                    </div>
+                  </div>
+                  <span className="text-xs text-stone-400 shrink-0">{t('productDetail.sections.recently.hoursAgo', { count: 2 })}</span>
+                </div>
+              </div>
+              <div className="rounded-md bg-white border border-stone-100 p-4">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-10 h-10 rounded-full bg-champagne-100 flex items-center justify-center shrink-0">
+                      <span className="text-sm font-semibold text-champagne-700">{t('productDetail.sections.recently.aminaInitial')}</span>
+                    </div>
+                    <div className="min-w-0">
+                      <p className="font-semibold text-sm text-stone-800 truncate">{t('productDetail.sections.recently.amina')}</p>
+                      <p className="text-xs text-stone-500">{t('productDetail.sections.recently.purchasedItem')}</p>
+                    </div>
+                  </div>
+                  <span className="text-xs text-stone-400 shrink-0">{t('productDetail.sections.recently.today')}</span>
+                </div>
+              </div>
+              <div className="rounded-md bg-white border border-stone-100 p-4">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-10 h-10 rounded-full bg-champagne-100 flex items-center justify-center shrink-0">
+                      <span className="text-sm font-semibold text-champagne-700">{t('productDetail.sections.recently.khadijaInitial')}</span>
+                    </div>
+                    <div className="min-w-0">
+                      <p className="font-semibold text-sm text-stone-800 truncate">{t('productDetail.sections.recently.khadija')}</p>
+                      <p className="text-xs text-stone-500">{t('productDetail.sections.recently.purchasedItem')}</p>
+                    </div>
+                  </div>
+                  <span className="text-xs text-stone-400 shrink-0">{t('productDetail.sections.recently.yesterday')}</span>
+                </div>
+              </div>
+              <div className="rounded-md bg-white border border-stone-100 p-4">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-10 h-10 rounded-full bg-champagne-100 flex items-center justify-center shrink-0">
+                      <span className="text-sm font-semibold text-champagne-700">{t('productDetail.sections.recently.nadiaInitial')}</span>
+                    </div>
+                    <div className="min-w-0">
+                      <p className="font-semibold text-sm text-stone-800 truncate">{t('productDetail.sections.recently.nadia')}</p>
+                      <p className="text-xs text-stone-500">{t('productDetail.sections.recently.purchasedItem')}</p>
+                    </div>
+                  </div>
+                  <span className="text-xs text-stone-400 shrink-0">{t('productDetail.sections.recently.daysAgo', { count: 3 })}</span>
+                </div>
+              </div>
+              <p className="text-xs text-stone-500 text-center leading-relaxed pt-2">
+                {t('productDetail.sections.recently.note')}
+              </p>
             </div>
           </div>
 
