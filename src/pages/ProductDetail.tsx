@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback, lazy, Suspense } from 'react';
-import { Minus, Plus, ShoppingBag, ShieldCheck, Heart, Sparkles, Scale, RefreshCw, ArrowLeft, ArrowRight, ExternalLink, Truck, CreditCard, Lock, CheckCircle } from 'lucide-react';
+import { Minus, Plus, ShoppingBag, ShieldCheck, Heart, Scale, RefreshCw, ArrowLeft, ArrowRight, ExternalLink, Truck, CreditCard, Lock, CheckCircle } from 'lucide-react';
 import { Product, Review } from '../types';
 import ProductRating from '../components/ProductRating';
 import ProductCard from '../components/ProductCard';
@@ -104,6 +104,49 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
     });
   }, [product?.id]);
 
+  // Complete The Look: complementary categories, up to 3 products across distinct categories
+  const completeTheLook = useMemo(() => {
+    if (!product) return [];
+    const complements: Record<string, string[]> = {
+      bracelets: ['necklaces', 'rings', 'earrings'],
+      necklaces: ['bracelets', 'earrings', 'rings'],
+      rings: ['bracelets', 'necklaces', 'earrings'],
+      earrings: ['necklaces', 'bracelets', 'rings'],
+      anklets: ['bracelets', 'necklaces', 'earrings'],
+      jewelry_sets: ['necklaces', 'rings', 'earrings'],
+    };
+    const fallback = ['necklaces', 'rings', 'bracelets', 'earrings', 'anklets'];
+    const order = complements[product.category] || fallback;
+    const picked: Product[] = [];
+    const usedCategories = new Set<string>([product.category]);
+    for (const cat of order) {
+      if (picked.length >= 3) break;
+      const candidate = allProducts.find(p => p.category === cat && p.id !== product.id);
+      if (candidate) {
+        picked.push(candidate);
+        usedCategories.add(cat);
+      }
+    }
+    if (picked.length < 3) {
+      for (const p of allProducts) {
+        if (picked.length >= 3) break;
+        if (p.id === product.id) continue;
+        if (usedCategories.has(p.category)) continue;
+        if (picked.includes(p)) continue;
+        picked.push(p);
+        usedCategories.add(p.category);
+      }
+    }
+    if (picked.length < 3) {
+      for (const p of allProducts) {
+        if (picked.length >= 3) break;
+        if (p.id === product.id || picked.includes(p)) continue;
+        picked.push(p);
+      }
+    }
+    return picked.slice(0, 3);
+  }, [product, allProducts]);
+
   // Recommendations: Other products in same category, up to 4, randomized
   const recommendations = useMemo(() => {
     if (!product) return [];
@@ -199,13 +242,13 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
         {t('productDetail.back')}
       </button>
 
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
         
         {/* Left Aspect: Image Gallery Frame */}
-        <div className="lg:col-span-7 space-y-4">
+        <div className="lg:col-span-7 lg:space-y-4 max-lg:contents">
           
           {/* Mobile Gallery (below 640px) — swipeable snap thumbnail strip */}
-          <div className="sm:hidden space-y-3">
+          <div className="sm:hidden space-y-3 max-lg:order-1">
             <div className="zoom-frame aspect-square bg-stone-50 border border-champagne-100 rounded-lg overflow-hidden relative">
               <img
                 src={product.images[activeImageIndex] || product.images[0]}
@@ -241,7 +284,7 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
           </div>
 
           {/* Desktop / Tablet Gallery (>=640px) — unchanged */}
-          <div className="hidden sm:block space-y-4">
+          <div className="hidden sm:block space-y-4 max-lg:order-1">
             <div className="zoom-frame aspect-square bg-stone-50 border border-champagne-100 rounded-lg overflow-hidden relative">
               <img
                 src={product.images[activeImageIndex] || product.images[0]}
@@ -276,13 +319,147 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
             )}
           </div>
 
+          {/* Complete The Look */}
+          <div className="border-t border-champagne-100 pt-6 space-y-4 max-lg:order-7">
+            <h3 className="text-xs tracking-widest uppercase text-stone-800 font-semibold">
+              {t('productDetail.sections.style.heading')}
+            </h3>
+            <p className="text-xs text-stone-500 font-sans">
+              {t('productDetail.sections.style.subtitle')}
+            </p>
+            {completeTheLook.length > 0 && (
+              <div className="rounded-lg border border-stone-200 bg-white p-6 space-y-5">
+                <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
+                  {completeTheLook.map((rec) => (
+                    <button
+                      key={rec.id}
+                      type="button"
+                      onClick={() => handleViewRelated(rec.id)}
+                      className="cursor-pointer text-left group bg-white border border-stone-100 rounded-sm overflow-hidden transition-colors hover:border-champagne-300 focus:outline-hidden focus-visible:outline-2 focus-visible:outline-champagne-500 flex flex-col"
+                      aria-label={t('productDetail.viewLookItem', { name: rec.name })}
+                    >
+                      <div className="aspect-square bg-[#FFF9F8] overflow-hidden">
+                        <img
+                          src={rec.images[0]}
+                          alt={rec.imageAltText || rec.name}
+                          loading="lazy"
+                          referrerPolicy="no-referrer"
+                          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                        {rec.stock === 0 && (
+                          <span className="text-[9px] bg-stone-900 text-white tracking-widest uppercase font-semibold px-2 py-0.5">
+                            {t('productDetail.soldOut')}
+                          </span>
+                        )}
+                      </div>
+                      <div className="p-3 space-y-1.5 flex flex-col flex-1">
+                        <span className="text-[9px] tracking-widest uppercase font-medium text-champagne-500">
+                          {t(`common.categories.${rec.category}.name`)}
+                        </span>
+                        <p className="font-serif text-sm text-stone-800 font-semibold line-clamp-1 group-hover:text-champagne-500 transition-colors">
+                          {rec.name}
+                        </p>
+                        <div className="mt-auto pt-1">
+                          <ProductRating rating={rec.rating} reviewsCount={rec.reviews} compact />
+                        </div>
+                        <p className="font-serif text-stone-950 font-extrabold text-sm">
+                          {currency === 'MAD' ? `${(rec.price * 10).toLocaleString()} ${t('common.currency')}` : `$${rec.price.toLocaleString()}`}
+                        </p>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+                <div className="flex justify-center">
+                  <button
+                    type="button"
+                    onClick={() => onPageChange('shop')}
+                    className="cursor-pointer flex items-center justify-center text-center w-full sm:w-auto px-5 py-3.5 text-xs uppercase tracking-widest font-semibold text-champagne-700 hover:text-champagne-600 bg-champagne-50 hover:bg-champagne-100 border border-champagne-100 rounded-sm transition-colors focus:outline-hidden focus-visible:outline-2 focus-visible:outline-champagne-500"
+                  >
+                    {t('productDetail.sections.style.button')}
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Recently Purchased */}
+          <div className="border-t border-champagne-100 pt-6 space-y-4 max-lg:order-11">
+            <h3 className="text-xs tracking-widest uppercase text-stone-800 font-semibold">
+              {t('productDetail.sections.recently.heading')}
+            </h3>
+            <p className="text-xs text-stone-500 font-sans">
+              {t('productDetail.sections.recently.subtitle')}
+            </p>
+            <div className="rounded-lg border border-stone-200 bg-[#FAF7F2]/40 p-6 space-y-4">
+              <div className="rounded-md bg-white border border-stone-100 p-4">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-10 h-10 rounded-full bg-champagne-100 flex items-center justify-center shrink-0">
+                      <span className="text-sm font-semibold text-champagne-700">{t('productDetail.sections.recently.saraInitial')}</span>
+                    </div>
+                    <div className="min-w-0">
+                      <p className="font-semibold text-sm text-stone-800">{t('productDetail.sections.recently.sara')}</p>
+                      <p className="text-xs text-stone-500">{t('productDetail.sections.recently.purchasedItem')}</p>
+                    </div>
+                  </div>
+                  <span className="text-xs text-stone-400 shrink-0">{t('productDetail.sections.recently.hoursAgo', { count: 2 })}</span>
+                </div>
+              </div>
+              <div className="rounded-md bg-white border border-stone-100 p-4">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-10 h-10 rounded-full bg-champagne-100 flex items-center justify-center shrink-0">
+                      <span className="text-sm font-semibold text-champagne-700">{t('productDetail.sections.recently.aminaInitial')}</span>
+                    </div>
+                    <div className="min-w-0">
+                      <p className="font-semibold text-sm text-stone-800 truncate">{t('productDetail.sections.recently.amina')}</p>
+                      <p className="text-xs text-stone-500">{t('productDetail.sections.recently.purchasedItem')}</p>
+                    </div>
+                  </div>
+                  <span className="text-xs text-stone-400 shrink-0">{t('productDetail.sections.recently.today')}</span>
+                </div>
+              </div>
+              <div className="rounded-md bg-white border border-stone-100 p-4">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-10 h-10 rounded-full bg-champagne-100 flex items-center justify-center shrink-0">
+                      <span className="text-sm font-semibold text-champagne-700">{t('productDetail.sections.recently.khadijaInitial')}</span>
+                    </div>
+                    <div className="min-w-0">
+                      <p className="font-semibold text-sm text-stone-800 truncate">{t('productDetail.sections.recently.khadija')}</p>
+                      <p className="text-xs text-stone-500">{t('productDetail.sections.recently.purchasedItem')}</p>
+                    </div>
+                  </div>
+                  <span className="text-xs text-stone-400 shrink-0">{t('productDetail.sections.recently.yesterday')}</span>
+                </div>
+              </div>
+              <div className="rounded-md bg-white border border-stone-100 p-4">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-10 h-10 rounded-full bg-champagne-100 flex items-center justify-center shrink-0">
+                      <span className="text-sm font-semibold text-champagne-700">{t('productDetail.sections.recently.nadiaInitial')}</span>
+                    </div>
+                    <div className="min-w-0">
+                      <p className="font-semibold text-sm text-stone-800 truncate">{t('productDetail.sections.recently.nadia')}</p>
+                      <p className="text-xs text-stone-500">{t('productDetail.sections.recently.purchasedItem')}</p>
+                    </div>
+                  </div>
+                  <span className="text-xs text-stone-400 shrink-0">{t('productDetail.sections.recently.daysAgo', { count: 3 })}</span>
+                </div>
+              </div>
+              <p className="text-xs text-stone-500 text-center leading-relaxed pt-2">
+                {t('productDetail.sections.recently.note')}
+              </p>
+            </div>
+          </div>
+
         </div>
 
         {/* Right Aspect: Purchasing Controls Portal */}
-        <div className="lg:col-span-5 space-y-8">
+        <div className="lg:col-span-5 lg:space-y-8 max-lg:contents">
           
           {/* Mobile Header Info (below 640px) — reordered: category, rating, name, price, green In Stock */}
-          <div className="sm:hidden pb-6 border-b border-champagne-100 flex flex-col gap-3">
+          <div className="sm:hidden pb-6 border-b border-champagne-100 flex flex-col gap-3 max-lg:order-2">
             <span className="text-xs tracking-[0.25em] uppercase text-champagne-600 font-semibold font-sans">
               {product.category}
             </span>
@@ -319,7 +496,7 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
           </div>
 
           {/* Desktop / Tablet Header Info (>=640px) — unchanged */}
-          <div className="hidden sm:block space-y-3 pb-6 border-b border-champagne-100">
+          <div className="hidden sm:block space-y-3 pb-6 border-b border-champagne-100 max-lg:order-2">
             <div className="flex justify-between items-center">
               <span className="text-xs tracking-[0.25em] uppercase text-champagne-600 font-semibold font-sans">
                 {product.category}
@@ -352,7 +529,7 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
           </div>
 
           {/* Curated Description */}
-          <div className="space-y-2">
+          <div className="space-y-2 max-lg:order-3">
             <h3 className="text-xs tracking-widest uppercase text-stone-800 font-semibold">{t('productDetail.artisanStory')}</h3>
             <p className="text-stone-600 text-xs sm:text-sm leading-relaxed font-sans font-normal">
               {translatedDescription}
@@ -360,7 +537,7 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
           </div>
 
           {/* Mobile Purchase Section (below 640px) */}
-          <div className="sm:hidden space-y-5">
+          <div className="sm:hidden space-y-5 max-lg:order-4">
             {/* Choose Size */}
             <div className="space-y-3">
               <div className="flex justify-between items-baseline">
@@ -462,7 +639,7 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
           </div>
 
           {/* Size Form Selector (Desktop / Tablet) */}
-          <div className="hidden sm:block space-y-3">
+          <div className="hidden sm:block space-y-3 max-lg:order-4">
             <div className="flex justify-between items-baseline">
               <h3 className="text-xs tracking-widest uppercase text-stone-800 font-semibold">{t('productDetail.sizeHeading')}</h3>
               <a href="#" className="text-[10px] text-champagne-600 hover:underline hover:text-champagne-700 font-semibold">
@@ -489,7 +666,7 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
           </div>
 
           {/* Quantity Controls and Add to Cart Button Block (Desktop / Tablet) */}
-          <div className="hidden sm:block space-y-4 pt-4">
+          <div className="hidden sm:block space-y-4 pt-4 max-lg:order-4">
             
             <div className="flex gap-4 items-center">
               
@@ -551,14 +728,14 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
           </div>
 
           {/* Trust Badges (Desktop / Tablet) */}
-          <div className="hidden sm:block">
+          <div className="hidden sm:block max-lg:order-5">
             <Suspense fallback={<div className="border border-stone-200 rounded-lg p-4 h-[168px] animate-pulse bg-stone-50" />}>
               <TrustBadges />
             </Suspense>
           </div>
 
           {/* Technical Spec List */}
-          <div className="border-t border-champagne-100 pt-6 space-y-4">
+          <div className="border-t border-champagne-100 pt-6 space-y-4 max-lg:order-6">
             <h3 className="text-xs tracking-widest uppercase text-stone-800 font-semibold">{t('productDetail.specs')}</h3>
             <div className="grid grid-cols-2 gap-y-3 gap-x-6 text-xs font-sans">
               <div className="flex justify-between border-b border-stone-50 pb-1.5">
@@ -581,7 +758,7 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
           </div>
 
           {/* Jewelry Care Guide */}
-          <div className="border-t border-champagne-100 pt-6 space-y-4">
+          <div className="border-t border-champagne-100 pt-6 space-y-4 max-lg:order-8">
             <h3 className="text-xs tracking-widest uppercase text-stone-800 font-semibold">
               {t('productDetail.sections.care.heading')}
             </h3>
@@ -620,40 +797,8 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
             </div>
           </div>
 
-          {/* Style Recommendation */}
-          <div className="border-t border-champagne-100 pt-6 space-y-4">
-            <h3 className="text-xs tracking-widest uppercase text-stone-800 font-semibold">
-              {t('productDetail.sections.style.heading')}
-            </h3>
-            <p className="text-xs text-stone-500 font-sans">
-              {t('productDetail.sections.style.subtitle')}
-            </p>
-            <div className="rounded-lg border border-stone-200 bg-white p-6 space-y-5">
-              <div className="flex items-center gap-3">
-                <Sparkles size={16} className="text-champagne-500 shrink-0" aria-hidden="true" />
-                <p className="text-sm font-medium text-stone-700">{t('productDetail.sections.style.item1')}</p>
-              </div>
-              <div className="flex items-center gap-3">
-                <Sparkles size={16} className="text-champagne-500 shrink-0" aria-hidden="true" />
-                <p className="text-sm font-medium text-stone-700">{t('productDetail.sections.style.item2')}</p>
-              </div>
-              <div className="flex items-center gap-3">
-                <Sparkles size={16} className="text-champagne-500 shrink-0" aria-hidden="true" />
-                <p className="text-sm font-medium text-stone-700">{t('productDetail.sections.style.item3')}</p>
-              </div>
-              <div className="flex justify-center">
-                <button
-                  type="button"
-                  className="cursor-pointer flex items-center justify-center text-center w-full sm:w-auto px-5 py-3.5 text-xs uppercase tracking-widest font-semibold text-champagne-700 hover:text-champagne-600 bg-champagne-50 hover:bg-champagne-100 border border-champagne-100 rounded-sm transition-colors focus:outline-hidden focus-visible:outline-2 focus-visible:outline-champagne-500"
-                >
-                  {t('productDetail.sections.style.button')}
-                </button>
-              </div>
-            </div>
-          </div>
-
           {/* Our Promise */}
-          <div className="border-t border-champagne-100 pt-6 space-y-4">
+          <div className="border-t border-champagne-100 pt-6 space-y-4 max-lg:order-9">
             <h3 className="text-xs tracking-widest uppercase text-stone-800 font-semibold">
               {t('productDetail.sections.promise.heading')}
             </h3>
@@ -696,7 +841,7 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
           </div>
 
           {/* Estimated Delivery */}
-          <div className="border-t border-champagne-100 pt-6 space-y-4">
+          <div className="border-t border-champagne-100 pt-6 space-y-4 max-lg:order-10">
             <h3 className="text-xs tracking-widest uppercase text-stone-800 font-semibold">
               {t('productDetail.sections.delivery.heading')}
             </h3>
@@ -731,77 +876,6 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
                   <p className="text-sm text-stone-600">{t('productDetail.sections.delivery.note')}</p>
                 </div>
               </div>
-            </div>
-          </div>
-
-          {/* Recently Purchased */}
-          <div className="border-t border-champagne-100 pt-6 space-y-4">
-            <h3 className="text-xs tracking-widest uppercase text-stone-800 font-semibold">
-              {t('productDetail.sections.recently.heading')}
-            </h3>
-            <p className="text-xs text-stone-500 font-sans">
-              {t('productDetail.sections.recently.subtitle')}
-            </p>
-            <div className="rounded-lg border border-stone-200 bg-[#FAF7F2]/40 p-6 space-y-4">
-              <div className="rounded-md bg-white border border-stone-100 p-4">
-                <div className="flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-10 h-10 rounded-full bg-champagne-100 flex items-center justify-center shrink-0">
-                      <span className="text-sm font-semibold text-champagne-700">{t('productDetail.sections.recently.saraInitial')}</span>
-                    </div>
-                    <div className="min-w-0">
-                      <p className="font-semibold text-sm text-stone-800">{t('productDetail.sections.recently.sara')}</p>
-                      <p className="text-xs text-stone-500">{t('productDetail.sections.recently.purchasedItem')}</p>
-                    </div>
-                  </div>
-                  <span className="text-xs text-stone-400 shrink-0">{t('productDetail.sections.recently.hoursAgo', { count: 2 })}</span>
-                </div>
-              </div>
-              <div className="rounded-md bg-white border border-stone-100 p-4">
-                <div className="flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-10 h-10 rounded-full bg-champagne-100 flex items-center justify-center shrink-0">
-                      <span className="text-sm font-semibold text-champagne-700">{t('productDetail.sections.recently.aminaInitial')}</span>
-                    </div>
-                    <div className="min-w-0">
-                      <p className="font-semibold text-sm text-stone-800 truncate">{t('productDetail.sections.recently.amina')}</p>
-                      <p className="text-xs text-stone-500">{t('productDetail.sections.recently.purchasedItem')}</p>
-                    </div>
-                  </div>
-                  <span className="text-xs text-stone-400 shrink-0">{t('productDetail.sections.recently.today')}</span>
-                </div>
-              </div>
-              <div className="rounded-md bg-white border border-stone-100 p-4">
-                <div className="flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-10 h-10 rounded-full bg-champagne-100 flex items-center justify-center shrink-0">
-                      <span className="text-sm font-semibold text-champagne-700">{t('productDetail.sections.recently.khadijaInitial')}</span>
-                    </div>
-                    <div className="min-w-0">
-                      <p className="font-semibold text-sm text-stone-800 truncate">{t('productDetail.sections.recently.khadija')}</p>
-                      <p className="text-xs text-stone-500">{t('productDetail.sections.recently.purchasedItem')}</p>
-                    </div>
-                  </div>
-                  <span className="text-xs text-stone-400 shrink-0">{t('productDetail.sections.recently.yesterday')}</span>
-                </div>
-              </div>
-              <div className="rounded-md bg-white border border-stone-100 p-4">
-                <div className="flex items-center justify-between gap-4">
-                  <div className="flex items-center gap-3 min-w-0">
-                    <div className="w-10 h-10 rounded-full bg-champagne-100 flex items-center justify-center shrink-0">
-                      <span className="text-sm font-semibold text-champagne-700">{t('productDetail.sections.recently.nadiaInitial')}</span>
-                    </div>
-                    <div className="min-w-0">
-                      <p className="font-semibold text-sm text-stone-800 truncate">{t('productDetail.sections.recently.nadia')}</p>
-                      <p className="text-xs text-stone-500">{t('productDetail.sections.recently.purchasedItem')}</p>
-                    </div>
-                  </div>
-                  <span className="text-xs text-stone-400 shrink-0">{t('productDetail.sections.recently.daysAgo', { count: 3 })}</span>
-                </div>
-              </div>
-              <p className="text-xs text-stone-500 text-center leading-relaxed pt-2">
-                {t('productDetail.sections.recently.note')}
-              </p>
             </div>
           </div>
 

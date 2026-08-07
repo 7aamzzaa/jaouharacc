@@ -223,6 +223,7 @@
     soldOut: '\u00c9puis\u00e9',
     addToCart: 'Ajouter au Panier',
     addToWishlist: 'Ajouter \u00e0 la liste de souhaits',
+    viewLookItem: 'Voir {name}',
     added: 'Votre s\u00e9lection personnalis\u00e9e a \u00e9t\u00e9 ajout\u00e9e \u00e0 votre panier luxueux.',
     specs: 'Sp\u00e9cifications techniques',
     material: 'Mat\u00e9riau :',
@@ -286,12 +287,9 @@
         waterDesc: '\u00c9vitez de nager ou de vous doucher en portant vos bijoux.',
       },
       style: {
-        heading: '\u2728 Recommendation de Style',
-        subtitle: 'S\u2019associe magnifiquement avec cette pi\u00e8ce.',
-        item1: 'Collier Cristal Luna',
-        item2: 'Bague \u00c9l\u00e9gance Or',
-        item3: 'Boucles d\u2019Oreilles Aria Or',
-        button: 'Voir le Look Complet',
+        heading: '\u2728 Compl\u00e9tez le Look',
+        subtitle: 'Associez cette pi\u00e8ce \u00e0 des bijoux compl\u00e9mentaires pour un look complet.',
+        button: 'Explorer Plus de Bijoux',
       },
       promise: {
         heading: '\u2728 Notre Promesse',

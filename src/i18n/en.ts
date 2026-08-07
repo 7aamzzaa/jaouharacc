@@ -223,6 +223,7 @@
     soldOut: 'Sold Out',
     addToCart: 'Place in Shopping Bag',
     addToWishlist: 'Add to wishlist',
+    viewLookItem: 'View {name}',
     added: 'Your custom selection has been added to your luxurious shopping cart.',
     specs: 'Technical specifications',
     material: 'Material:',
@@ -286,12 +287,9 @@
         waterDesc: 'Avoid swimming or showering while wearing your jewelry.',
       },
       style: {
-        heading: '\u2728 Style Recommendation',
-        subtitle: 'Pairs beautifully with this piece.',
-        item1: 'Luna Crystal Necklace',
-        item2: 'Gold Elegance Ring',
-        item3: 'Gold Aria Earrings',
-        button: 'View Complete Look',
+        heading: '\u2728 Complete The Look',
+        subtitle: 'Pair this piece with complementary jewelry for a complete look.',
+        button: 'Explore More Jewelry',
       },
       promise: {
         heading: '\u2728 Our Promise',

@@ -293,42 +293,30 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
           </div>
 
           {/* Tablet / Desktop Trust Bar */}
-          <div className="hidden sm:grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 divide-y lg:divide-y-0 lg:divide-x divide-[#FAF1E6]">
+          <div className="hidden sm:grid grid-cols-4 divide-x divide-[#EFEAE4]">
             
             {/* Trust item 1 */}
-            <div className="flex items-center gap-4 justify-center py-2 lg:py-0">
-              <span className="text-2xl sm:text-3xl filter drop-shadow-xs">🏆</span>
-              <div className="text-start">
-                <h4 className="font-sans font-bold text-stone-850 text-xs sm:text-sm">{t('home.trust')[0].title}</h4>
-                <p className="text-[10px] sm:text-xs text-stone-400 font-medium">{t('home.trust')[0].desc}</p>
-              </div>
+            <div className="flex flex-col items-center justify-center gap-1.5 lg:gap-3 py-3 lg:py-6 px-2 text-center">
+              <Shield size={20} strokeWidth={1.5} className="text-[#D4AF37] shrink-0 w-5 h-5 lg:w-9 lg:h-9" />
+              <h4 className="font-sans font-semibold text-[11px] leading-snug lg:text-base text-[#2B2B2B] text-center line-clamp-2">{t('home.trust')[0].title}</h4>
             </div>
 
             {/* Trust item 2 */}
-            <div className="flex items-center gap-4 justify-center py-2 lg:py-0 pt-4 lg:pt-0">
-              <span className="text-2xl sm:text-3xl filter drop-shadow-xs">🚚</span>
-              <div className="text-start">
-                <h4 className="font-sans font-bold text-stone-850 text-xs sm:text-sm">{t('home.trust')[1].title}</h4>
-                <p className="text-[10px] sm:text-xs text-stone-400 font-medium">{t('home.trust')[1].desc}</p>
-              </div>
+            <div className="flex flex-col items-center justify-center gap-1.5 lg:gap-3 py-3 lg:py-6 px-2 text-center">
+              <Truck size={20} strokeWidth={1.5} className="text-[#D4AF37] shrink-0 w-5 h-5 lg:w-9 lg:h-9" />
+              <h4 className="font-sans font-semibold text-[11px] leading-snug lg:text-base text-[#2B2B2B] text-center line-clamp-2">{t('home.trust')[1].title}</h4>
             </div>
 
             {/* Trust item 3 */}
-            <div className="flex items-center gap-4 justify-center py-2 lg:py-0 pt-4 lg:pt-0">
-              <span className="text-2xl sm:text-3xl filter drop-shadow-xs">🚪</span>
-              <div className="text-start">
-                <h4 className="font-sans font-bold text-stone-850 text-xs sm:text-sm">{t('home.trust')[2].title}</h4>
-                <p className="text-[10px] sm:text-xs text-stone-400 font-medium">{t('home.trust')[2].desc}</p>
-              </div>
+            <div className="flex flex-col items-center justify-center gap-1.5 lg:gap-3 py-3 lg:py-6 px-2 text-center">
+              <CreditCard size={20} strokeWidth={1.5} className="text-[#D4AF37] shrink-0 w-5 h-5 lg:w-9 lg:h-9" />
+              <h4 className="font-sans font-semibold text-[11px] leading-snug lg:text-base text-[#2B2B2B] text-center line-clamp-2">{t('home.trust')[2].title}</h4>
             </div>
 
             {/* Trust item 4 */}
-            <div className="flex items-center gap-4 justify-center py-2 lg:py-0 pt-4 lg:pt-0">
-              <span className="text-2xl sm:text-3xl filter drop-shadow-xs">💎</span>
-              <div className="text-start">
-                <h4 className="font-sans font-bold text-stone-850 text-xs sm:text-sm">{t('home.trust')[3].title}</h4>
-                <p className="text-[10px] sm:text-xs text-stone-400 font-medium">{t('home.trust')[3].desc}</p>
-              </div>
+            <div className="flex flex-col items-center justify-center gap-1.5 lg:gap-3 py-3 lg:py-6 px-2 text-center">
+              <Gem size={20} strokeWidth={1.5} className="text-[#D4AF37] shrink-0 w-5 h-5 lg:w-9 lg:h-9" />
+              <h4 className="font-sans font-semibold text-[11px] leading-snug lg:text-base text-[#2B2B2B] text-center line-clamp-2">{t('home.trust')[3].title}</h4>
             </div>
 
           </div>

@@ -284,7 +284,7 @@ export default function App() {
         />
       </Suspense>
 
-      <main className={`flex-1 ${currentPage === 'home' ? 'pt-0 sm:pt-12 md:pt-16 pb-12 md:pb-16' : 'py-12 md:py-16'}`}>
+      <main className={`flex-1 ${currentPage === 'home' ? 'pt-0 sm:pt-12 md:pt-16 lg:pt-0 pb-12 md:pb-16' : 'py-12 md:py-16'}`}>
         <Suspense fallback={<div className="flex items-center justify-center py-32"><div className="w-6 h-6 border-2 border-champagne-500 border-t-transparent rounded-full animate-spin" /></div>}>
         <Routes>
           <Route path="/" element={<Home products={allProducts} isLoading={loadingProducts} onAddToCartDirect={handleQuickAdd} onPageChange={handlePageChange} wishlist={wishlist} onToggleWishlist={handleToggleWishlist} currency={currency} />} />
