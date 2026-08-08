@@ -177,7 +177,7 @@ export default function BlogArticle({ slug, onPageChange }: BlogArticleProps) {
           <button
             onClick={() => handleShare()}
             className="cursor-pointer w-9 h-9 rounded-full bg-stone-100 hover:bg-champagne-500 hover:text-white border border-stone-200 flex items-center justify-center text-stone-600 transition-all"
-            aria-label="Share"
+            aria-label={t('common.share')}
           >
             <Share2 size={14} />
           </button>

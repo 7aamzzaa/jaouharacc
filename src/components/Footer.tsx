@@ -127,7 +127,7 @@ export default function Footer() {
                     placeholder={t('footer.newsletter.placeholder')}
                     className="bg-transparent text-white placeholder-white/60 text-xs uppercase tracking-widest focus:outline-hidden w-full group-focus-within:border-white transition-all"
                   />
-                  <button type="submit" aria-label="Submit" className="cursor-pointer text-white/70 hover:text-white transition-colors">
+                  <button type="submit" aria-label={t('footer.newsletter.submitLabel')} className="cursor-pointer text-white/70 hover:text-white transition-colors">
                     <ArrowRight size={14} />
                   </button>
                 </div>

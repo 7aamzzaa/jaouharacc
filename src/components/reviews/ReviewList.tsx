@@ -37,7 +37,7 @@ export default function ReviewList({ reviews }: ReviewListProps) {
           onClick={() => setShowCount((c) => c + INITIAL_DISPLAY_COUNT)}
           className="text-xs font-medium text-champagne-600 hover:text-champagne-700 transition-colors font-sans"
         >
-            Show More
+            {t('reviewsPage.showMore')}
         </button>
       )}
     </div>

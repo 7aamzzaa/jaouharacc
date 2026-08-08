@@ -104,7 +104,7 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
       const order = await response.json();
 
       if (!order?.id) {
-        throw new Error('Invalid order response from server');
+        throw new Error(t('cart.invalidOrderResponse'));
       }
 
       onClearCart();

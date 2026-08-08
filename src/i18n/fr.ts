@@ -12,6 +12,8 @@
     toggleMenu: 'Ouvrir le menu',
     viewBag: 'Voir le panier',
     brandLogo: 'ccjaouhara',
+    switchLanguage: 'Changer de langue',
+    wishlist: 'Favoris',
     categories: {
       bracelets: { name: 'Bracelets', desc: 'Bracelets, manchettes et chaînes classiques' },
       rings: { name: 'Bagues', desc: 'Solitaires, bagues classiques et piles de mariage' },
@@ -24,6 +26,8 @@
 
   common: {
     currency: 'MAD',
+    share: 'Partager',
+    close: 'Fermer',
   },
 
   home: {
@@ -349,6 +353,7 @@
     itemPrice: 'Prix :',
     reduceQty: 'R\u00e9duire la quantit\u00e9',
     increaseQty: 'Augmenter la quantit\u00e9',
+    qtyLabel: 'Qt\u00e9\u00a0: {qty}',
     billing: 'R\u00e9capitulatif',
     subtotal: 'Sous-total :',
     discount: 'R\u00e9duction ({code} - {percent}%) :',
@@ -388,6 +393,7 @@
     errorNameEmail: 'Veuillez remplir votre nom complet, num\u00e9ro de t\u00e9l\u00e9phone, ville et adresse postale.',
     errorInit: 'Le protocole d\u2019initialisation du paiement a \u00e9chou\u00e9.',
     errorPayment: 'Le serveur de paiement ne r\u00e9pond pas.',
+    invalidOrderResponse: 'R\u00e9ponse de commande invalide du serveur',
     couponInvalid: 'Code promo invalide ou d\u00e9j\u00e0 utilis\u00e9.',
   },
 
@@ -435,6 +441,7 @@
     estimatedDeliveryLabel: 'Livraison Estim\u00e9e',
     estimatedDelivery: '5\u20137 jours ouvrables',
     missingId: 'Aucun ID de commande fourni.',
+    notFound: 'Commande introuvable',
     loading: 'Chargement des d\u00e9tails de votre commande...',
     error: 'Impossible de charger la commande.',
     continueShopping: 'Continuer mes achats',
@@ -461,6 +468,8 @@
     messagePlaceholder: 'Parlez-nous de votre demande...',
     send: 'Envoyer le Message',
     sending: 'Envoi en cours...',
+    sendError: 'Échec de l\'envoi du message',
+    genericError: 'Une erreur est survenue. Veuillez réessayer.',
     atelier: 'Notre Atelier',
     address: 'Adresse',
     addressValue: 'Casablanca, Maroc',
@@ -480,6 +489,16 @@
     heading: 'Guide des Tailles',
     desc: 'Trouvez la taille parfaite grâce à nos instructions détaillées pour bracelets, bagues, colliers et chevillères.',
     tabs: ['Bracelets', 'Bagues', 'Colliers', 'Chevillères'],
+    headers: {
+      size: 'Taille',
+      wrist: 'Poignet',
+      diameter: 'Diamètre',
+      circumference: 'Circonférence',
+      position: 'Position',
+      ankle: 'Cheville',
+      description: 'Description',
+    },
+    disclaimer: 'Besoin d\'aide pour trouver votre taille ? Contactez notre \u00e9quipe d\'assistance.',
     bracelet: {
       title: 'Taille des Bracelets',
       intro: 'Mesurez la circonférence de votre poignet juste en dessous de l\'os à l\'aide d\'un mètre ruban ou d\'une ficelle.',
@@ -748,6 +767,7 @@
       welcome: 'Bienvenue dans le cercle privé ccjaouhara.',
       placeholder: 'Rejoignez le Cercle Privé',
       note: 'Catalogues Privés Exclusifs ccjaouhara',
+      submitLabel: 'Envoyer',
       alreadySubscribed: 'Cet email est déjà abonné.',
       error: 'Échec de l\'abonnement. Veuillez réessayer.',
     },
@@ -788,6 +808,8 @@
 
   search: {
     placeholder: 'Rechercher des produits...',
+    open: 'Rechercher des produits',
+    clear: 'Effacer la recherche',
     noResults: 'Aucun produit trouv\u00e9',
     tryKeyword: 'Essayez un autre mot-cl\u00e9.',
   },
@@ -823,6 +845,8 @@
     onlyLeft: 'Plus que {stock} en stock',
     viewDetails: 'Voir les D\u00e9tails',
     quickAdd: 'Ajout Rapide au Panier (Moyen)',
+    addToWishlist: 'Ajouter aux favoris',
+    removeFromWishlist: 'Retirer des favoris',
   },
 
   wishlist: {
@@ -843,13 +867,19 @@
     commentLabel: 'Votre Avis',
     commentPlaceholder: 'Partagez votre expérience avec ce produit...',
     successMessage: 'Merci ! Votre avis a bien été envoyé et sera publié après validation.',
-    noReviews: 'Aucun avis pour le moment. Soyez le premier à partager votre expérience !',
+noReviews: 'Aucun avis pour le moment. Soyez le premier à partager votre expérience !',
+    showMore: 'Voir Plus',
+    invalidEmail: 'Format d\'email invalide',
+    submitFailed: 'Échec de l\'envoi de l\'avis',
     averageRating: 'Note Moyenne',
     totalReviews: '{count} avis',
     verifiedPurchase: 'Achat Vérifié',
   },
 
   app: {
+    addToBagToast: 'Ajout\u00e9 au panier \u2713',
+    backendOffline: 'Serveur hors ligne. Fiches de conception locales charg\u00e9es.',
+    mobileNav: 'Navigation mobile',
     marquee: [
       '\u2B50 Vos bijoux, votre d\u00e9claration',
       '\u2022',

@@ -20,13 +20,20 @@ function getNestedValue(obj: TranslationDict, path: string): string | undefined 
   }, obj);
 }
 
-function detectBrowserLang(): Lang {
+function detectCountryByTimezone(): 'MA' | 'FR' | 'OTHER' {
   try {
-    const lang = navigator.language || (navigator as any).languages?.[0] || '';
-    if (lang.startsWith('ar')) return 'ar';
-    if (lang.startsWith('fr')) return 'fr';
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    if (tz === 'Africa/Casablanca' || tz === 'Africa/El_Aaiun') return 'MA';
+    if (tz === 'Europe/Paris') return 'FR';
   } catch {}
-  return 'ar';
+  return 'OTHER';
+}
+
+function detectDefaultLang(): Lang {
+  const country = detectCountryByTimezone();
+  if (country === 'MA') return 'ar';
+  if (country === 'FR') return 'fr';
+  return 'en';
 }
 
 const STORAGE_KEY = 'ccjaouhara_lang_v2';
@@ -38,7 +45,7 @@ function loadInitialLang(): Lang {
     const stored = localStorage.getItem(STORAGE_KEY) as Lang | null;
     if (stored === 'en' || stored === 'fr' || stored === 'ar') return stored;
   } catch {}
-  return detectBrowserLang();
+  return detectDefaultLang();
 }
 
 const loaders: Record<Lang, () => Promise<TranslationDict>> = {
@@ -60,12 +67,15 @@ const dictCache: Record<Lang, TranslationDict | null> = {
 
 export function TranslationProvider({ children }: { children: ReactNode }) {
   const [lang, setLangState] = useState<Lang>(initialLang);
-  const [dict, setDict] = useState<TranslationDict>({});
+  const [dict, setDict] = useState<TranslationDict | null>(null);
 
   useEffect(() => {
     initialLoadPromise.then(d => {
       dictCache[initialLang] = d;
       setDict(d);
+    }).catch(() => {
+      dictCache[initialLang] = {};
+      setDict({});
     });
   }, []);
 
@@ -110,7 +120,7 @@ export function TranslationProvider({ children }: { children: ReactNode }) {
       xDefault.hreflang = 'x-default';
       document.head.appendChild(xDefault);
     }
-    xDefault.href = `${baseUrl}?lang=ar`;
+    xDefault.href = `${baseUrl}?lang=${detectDefaultLang()}`;
   }, [lang]);
 
   const t = (key: string, params?: Record<string, string | number>): any => {
@@ -129,7 +139,7 @@ export function TranslationProvider({ children }: { children: ReactNode }) {
 
   return (
     <TranslationContext.Provider value={{ lang, setLang, t, dir: lang === 'ar' ? 'rtl' : 'ltr' }}>
-      {children}
+      {dict === null ? null : children}
     </TranslationContext.Provider>
   );
 }

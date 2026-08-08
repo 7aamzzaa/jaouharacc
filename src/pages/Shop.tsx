@@ -17,26 +17,6 @@ interface ShopProps {
   currency: 'USD' | 'MAD';
 }
 
-const categoryDisplayNames: Record<string, string> = {
-  all: 'All Collections',
-  bracelets: 'Bracelets',
-  rings: 'Rings',
-  earrings: 'Earrings',
-  anklets: 'Anklets',
-  necklaces: 'Necklaces',
-  jewelry_sets: 'Jewelry Sets'
-};
-
-const categoryDescriptions: Record<string, string> = {
-  all: 'Unlock standard sizes and stack delicate jewelry crafted under our rigorous heritage covenants. Filter below by custom materials, color tones, or price ranges.',
-  bracelets: 'Fine cuffs, luxurious bangles, and dainty link chain wrist assemblies, triple-plated in solid gold and sterling silver.',
-  rings: 'Exquisite diamond solitaires, timeless wedding bands, and custom-crafted stackable rings made for modern elegance.',
-  earrings: 'Dazzling hoops, luxurious studs, and cascading Ethiopian chandelier droplets designed to capture the light of your movements.',
-  anklets: 'Delicate double chains and crystalline figaro link anklets built for understated grace and all-day comfort.',
-  necklaces: 'Masterfully crafted royal crown pendants, chokers, and delicate necklaces styled for luxury layered looks.',
-  jewelry_sets: 'Breathtaking high-jewelry parures, themed suites, and complete sets curated for weddings and grand soirees.'
-};
-
 export default function Shop({
   products,
   isLoading,
@@ -211,7 +191,7 @@ export default function Shop({
           (showMobileFilters || window.innerWidth >= 1024) ? 'lg:col-span-9' : 'lg:col-span-12'
         } w-full`}>
           {isLoading ? (
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-8">
               {[1, 2, 3, 4, 5, 6].map((n) => (
                 <div key={n} className="space-y-4 animate-pulse">
                   <div className="bg-stone-200 aspect-square w-full rounded-lg"></div>
@@ -238,7 +218,7 @@ export default function Shop({
           ) : (
             <motion.div 
               layout 
-              className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8"
+              className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-8"
             >
               <AnimatePresence mode="popLayout">
                 {filteredProducts.map((product) => (

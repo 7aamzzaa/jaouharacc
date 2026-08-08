@@ -24,14 +24,14 @@ export default function Contact() {
       });
       if (!response.ok) {
         const data = await response.json();
-        throw new Error(data.error || 'Failed to send message');
+        throw new Error(data.error || t('contact.sendError'));
       }
       setSubmitted(true);
       setForm({ fullName: '', email: '', phone: '', subject: '', message: '' });
       setTimeout(() => setSubmitted(false), 4000);
     } catch (err: any) {
-      setError(err.message || 'Something went wrong. Please try again.');
-      showToast(err.message || 'Failed to send message', true);
+      setError(err.message || t('contact.genericError'));
+      showToast(err.message || t('contact.sendError'), true);
     } finally {
       setSending(false);
     }

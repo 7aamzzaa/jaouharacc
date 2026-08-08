@@ -53,7 +53,7 @@ const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToC
             onToggleWishlist(product.id);
           }}
           className='absolute top-2 right-2 z-20 p-1.5 rounded-full transition-all duration-200 cursor-pointer hover:scale-110 active:scale-75'
-          aria-label={wishlist.includes(product.id) ? 'Remove from wishlist' : 'Add to wishlist'}
+          aria-label={wishlist.includes(product.id) ? t('productCard.removeFromWishlist') : t('productCard.addToWishlist')}
         >
           <Heart
             size={compact ? 15 : 16}
@@ -137,7 +137,7 @@ const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToC
               setShowShareModal(true);
             }}
             className="cursor-pointer text-stone-400 hover:text-champagne-500 transition-colors duration-200 shrink-0"
-            aria-label="Share"
+            aria-label={t('common.share')}
           >
             <Share2 size={16} />
           </button>

@@ -28,7 +28,7 @@ export default function ReviewForm({ productId, onSuccess, onError }: ReviewForm
     if (!comment.trim()) return;
 
     if (customerEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customerEmail)) {
-      onError?.('Invalid email format');
+      onError?.(t('reviewsPage.invalidEmail'));
       return;
     }
 
@@ -48,7 +48,7 @@ export default function ReviewForm({ productId, onSuccess, onError }: ReviewForm
 
       if (!response.ok) {
         const data = await response.json();
-        throw new Error(data.error || 'Failed to submit review');
+        throw new Error(data.error || t('reviewsPage.submitFailed'));
       }
 
       setSubmitted(true);
@@ -58,7 +58,7 @@ export default function ReviewForm({ productId, onSuccess, onError }: ReviewForm
       setComment('');
       onSuccess?.();
     } catch (err: any) {
-      onError?.(err.message || 'Failed to submit review');
+      onError?.(err.message || t('reviewsPage.submitFailed'));
     } finally {
       setSubmitting(false);
     }

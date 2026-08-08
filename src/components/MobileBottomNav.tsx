@@ -33,7 +33,7 @@ export default function MobileBottomNav({
 
   return (
     <nav
-      aria-label="Mobile navigation"
+      aria-label={t('app.mobileNav')}
       className="fixed bottom-0 inset-x-0 z-40 sm:hidden bg-white/95 backdrop-blur-md border-t border-champagne-150 shadow-[0_-4px_20px_rgba(0,0,0,0.08)]"
       style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
       dir={dir}

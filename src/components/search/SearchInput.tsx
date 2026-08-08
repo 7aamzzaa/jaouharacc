@@ -1,4 +1,5 @@
 import { Search, X } from 'lucide-react';
+import { useTranslation } from '../../i18n';
 
 interface SearchInputProps {
   value: string;
@@ -7,6 +8,7 @@ interface SearchInputProps {
 }
 
 export default function SearchInput({ value, onChange, placeholder }: SearchInputProps) {
+  const { t } = useTranslation();
   return (
     <div className="relative">
       <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-stone-400 pointer-events-none" />
@@ -22,7 +24,7 @@ export default function SearchInput({ value, onChange, placeholder }: SearchInpu
         <button
           onClick={() => onChange('')}
           className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-600 transition-colors cursor-pointer"
-          aria-label="Clear search"
+          aria-label={t('search.clear')}
         >
           <X size={16} />
         </button>

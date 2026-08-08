@@ -12,6 +12,8 @@
     toggleMenu: 'Toggle menu',
     viewBag: 'View shopping bag',
     brandLogo: 'ccjaouhara',
+    switchLanguage: 'Switch language',
+    wishlist: 'Wishlist',
     categories: {
       bracelets: { name: 'Bracelets', desc: 'Bangles, cuffs, and classic chain links' },
       rings: { name: 'Rings', desc: 'Solitaires, classic bands, and wedding stacks' },
@@ -24,6 +26,8 @@
 
   common: {
     currency: 'MAD',
+    share: 'Share',
+    close: 'Close',
   },
 
   home: {
@@ -349,6 +353,7 @@
     itemPrice: 'Item Price:',
     reduceQty: 'Reduce quantity',
     increaseQty: 'Increase quantity',
+    qtyLabel: 'Qty: {qty}',
     billing: 'Billing Breakdown',
     subtotal: 'Subtotal Items:',
     discount: 'Discount ({code} - {percent}%):',
@@ -388,6 +393,7 @@
     errorNameEmail: 'Please fill out your full name, phone number, city, and street address.',
     errorInit: 'Checkout initialization protocol failed',
     errorPayment: 'Payment server failed to respond.',
+    invalidOrderResponse: 'Invalid order response from server',
     couponInvalid: 'Bespoke coupon invalid or already fully redeemed.',
   },
 
@@ -435,6 +441,7 @@
     estimatedDeliveryLabel: 'Estimated Delivery',
     estimatedDelivery: '5\u20137 business days',
     missingId: 'No order ID provided.',
+    notFound: 'Order not found',
     loading: 'Loading your order details...',
     error: 'Could not load order.',
     continueShopping: 'Continue Shopping',
@@ -461,6 +468,8 @@
     messagePlaceholder: 'Tell us about your inquiry...',
     send: 'Send Message',
     sending: 'Sending...',
+    sendError: 'Failed to send message',
+    genericError: 'Something went wrong. Please try again.',
     atelier: 'Our Atelier',
     address: 'Address',
     addressValue: 'Casablanca, Morocco',
@@ -480,6 +489,16 @@
     heading: 'Size Guide',
     desc: 'Find your perfect fit with our detailed sizing instructions for bracelets, rings, necklaces, and anklets.',
     tabs: ['Bracelets', 'Rings', 'Necklaces', 'Anklets'],
+    headers: {
+      size: 'Size',
+      wrist: 'Wrist',
+      diameter: 'Diameter',
+      circumference: 'Circumference',
+      position: 'Position',
+      ankle: 'Ankle',
+      description: 'Description',
+    },
+    disclaimer: 'Need help finding your size? Contact our support team.',
     bracelet: {
       title: 'Bracelet Sizing',
       intro: 'Measure your wrist circumference just below the wrist bone using a flexible tape or a string.',
@@ -748,6 +767,7 @@
       welcome: 'Welcome to ccjaouhara private inner circle.',
       placeholder: 'Join the Inner Circle',
       note: 'ccjaouhara Exclusive Private Catalogs',
+      submitLabel: 'Submit',
       alreadySubscribed: 'This email is already subscribed.',
       error: 'Subscription failed. Please try again.',
     },
@@ -788,6 +808,8 @@
 
   search: {
     placeholder: 'Search products...',
+    open: 'Search products',
+    clear: 'Clear search',
     noResults: 'No products found',
     tryKeyword: 'Try another keyword.',
   },
@@ -823,6 +845,8 @@
     onlyLeft: 'Only {stock} Left',
     viewDetails: 'View Details',
     quickAdd: 'Quick Add to Cart (Medium)',
+    addToWishlist: 'Add to wishlist',
+    removeFromWishlist: 'Remove from wishlist',
   },
 
   wishlist: {
@@ -843,13 +867,19 @@
     commentLabel: 'Your Review',
     commentPlaceholder: 'Share your experience with this product...',
     successMessage: 'Thank you! Your review has been submitted successfully and is awaiting approval before it appears publicly.',
-    noReviews: 'No reviews yet. Be the first to share your experience!',
+noReviews: 'No reviews yet. Be the first to share your experience!',
+    showMore: 'Show More',
+    invalidEmail: 'Invalid email format',
+    submitFailed: 'Failed to submit review',
     averageRating: 'Average Rating',
     totalReviews: '{count} review(s)',
     verifiedPurchase: 'Verified Purchase',
   },
 
   app: {
+    addToBagToast: 'Added to bag \u2713',
+    backendOffline: 'Backend offline. Loaded local design sheets.',
+    mobileNav: 'Mobile navigation',
     marquee: [
       '\u2B50 Your Jewelry, Your Statement',
       '\u2022',

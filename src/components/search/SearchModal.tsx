@@ -25,6 +25,20 @@ export default function SearchModal({ isOpen, onClose, products, onSelectProduct
   const { t } = useTranslation();
   const [query, setQuery] = useState('');
   const panelRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (isOpen) {
+      triggerRef.current = document.activeElement as HTMLElement | null;
+      const input = panelRef.current?.querySelector<HTMLInputElement>('input');
+      input?.focus();
+    } else {
+      const input = panelRef.current?.querySelector<HTMLInputElement>('input');
+      input?.blur();
+      triggerRef.current?.focus();
+      triggerRef.current = null;
+    }
+  }, [isOpen]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -35,7 +49,27 @@ export default function SearchModal({ isOpen, onClose, products, onSelectProduct
   useEffect(() => {
     if (!isOpen) return;
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') {
+        onClose();
+        return;
+      }
+      if (e.key === 'Tab' && panelRef.current) {
+        const focusables = Array.from(
+          panelRef.current.querySelectorAll<HTMLElement>(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          )
+        );
+        if (focusables.length === 0) return;
+        const first = focusables[0];
+        const last = focusables[focusables.length - 1];
+        if (e.shiftKey && document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
     };
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
@@ -67,6 +101,9 @@ export default function SearchModal({ isOpen, onClose, products, onSelectProduct
   return (
     <div className="absolute top-full left-0 right-0 z-50 flex justify-center">
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={t('search.placeholder')}
         ref={panelRef}
         className="w-full max-w-xl mx-4 mt-2 bg-white border border-champagne-150 rounded-xl shadow-2xl overflow-hidden"
         style={{

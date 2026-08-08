@@ -54,6 +54,8 @@ export default function ToastContainer() {
       {toasts.map((toast) => (
         <div
           key={toast.id}
+          role={toast.type === 'success' ? 'status' : 'alert'}
+          aria-live={toast.type === 'success' ? 'polite' : 'assertive'}
           className={`flex items-center gap-3 bg-white border rounded-sm px-4 py-3.5 shadow-lg animate-[slide-in_0.3s_ease-out] border-champagne-300`}
           style={{
             animation: 'slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards',

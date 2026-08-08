@@ -235,7 +235,7 @@ export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOp
               <button
                 onClick={() => setLangOpen(!langOpen)}
                 className={`cursor-pointer p-2 ${mobileIconClass} ${mobileHoverClass} transition-colors duration-300 focus:outline-hidden flex items-center gap-1`}
-                aria-label="Switch language"
+                aria-label={t('nav.switchLanguage')}
               >
                 <Globe size={18} strokeWidth={1.5} />
                 <span className="text-[11px] font-semibold uppercase">{lang.toUpperCase()}</span>
@@ -266,7 +266,7 @@ export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOp
           <button
               onClick={() => onPageChange("wishlist")}
               className={`cursor-pointer relative p-2 ${mobileIconClass} ${mobileHoverClass} transition-colors duration-300 focus:outline-hidden ${isHome ? 'order-2 sm:order-none' : ''}`}
-              aria-label="Wishlist"
+              aria-label={t('nav.wishlist')}
             >
               <Heart size={22} strokeWidth={1.5} className={isHome ? 'w-6 h-6 sm:w-[22px] sm:h-[22px]' : ''} />
               {wishlist.length > 0 && (

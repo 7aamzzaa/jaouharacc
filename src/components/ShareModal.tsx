@@ -78,7 +78,7 @@ export default function ShareModal({ isOpen, onClose, productName, productUrl }:
           <button
             onClick={onClose}
             className="p-1.5 rounded-full hover:bg-stone-100 transition-colors text-stone-400 hover:text-stone-600"
-            aria-label="Close"
+            aria-label={t('common.close')}
           >
             <X size={18} />
           </button>

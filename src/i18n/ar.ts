@@ -12,6 +12,8 @@
     toggleMenu: 'القائمة',
     viewBag: 'عرض حقيبة التسوق',
     brandLogo: 'ccjaouhara',
+    switchLanguage: 'تغيير اللغة',
+    wishlist: 'المفضلة',
     categories: {
       bracelets: { name: 'أساور', desc: 'أسورة، أسورة كاف، وسلاسل كلاسيكية' },
       rings: { name: 'خواتم', desc: 'سوليتير، خواتم كلاسيكية، وأطقم الزفاف' },
@@ -23,7 +25,9 @@
   },
 
   common: {
-    currency: '\u062F\u0631\u0647\u0645',
+    currency: '\u062f\u0631\u0647\u0645',
+    share: '\u0645\u0634\u0627\u0631\u0643\u0629',
+    close: '\u0625\u063a\u0644\u0627\u0642',
   },
 
   home: {
@@ -349,6 +353,7 @@
     itemPrice: 'سعر القطعة:',
     reduceQty: 'تقليل الكمية',
     increaseQty: 'زيادة الكمية',
+    qtyLabel: 'الكمية: {qty}',
     billing: 'تفاصيل الفاتورة',
     subtotal: 'المجموع الفرعي:',
     discount: 'الخصم ({code} - {percent}%):',
@@ -388,6 +393,7 @@
     errorNameEmail: 'يرجى إدخال اسمك الكامل ورقم هاتفك ومدينتك وعنوان الشارع.',
     errorInit: 'فشل بروتوكول تهيئة الدفع',
     errorPayment: 'خادم الدفع لم يستجب.',
+    invalidOrderResponse: 'استجابة طلب غير صالحة من الخادم',
     couponInvalid: 'الكود غير صالح أو تم استهلاكه بالكامل.',
   },
 
@@ -435,6 +441,7 @@
     estimatedDeliveryLabel: 'التوصيل المتوقع',
     estimatedDelivery: '5–7 أيام عمل',
     missingId: 'لم يتم توفير رقم الطلب.',
+    notFound: 'الطلب غير موجود',
     loading: 'جارٍ تحميل تفاصيل طلبك...',
     error: 'تعذر تحميل الطلب.',
     continueShopping: 'متابعة التسوق',
@@ -461,6 +468,8 @@
     messagePlaceholder: 'أخبرينا عن استفسارك...',
     send: 'إرسال الرسالة',
     sending: 'جارٍ الإرسال...',
+    sendError: 'فشل إرسال الرسالة',
+    genericError: 'حدث خطأ ما. يرجى المحاولة مرة أخرى.',
     atelier: 'مشغلنا',
     address: 'العنوان',
     addressValue: 'الدار البيضاء، المغرب',
@@ -480,6 +489,16 @@
     heading: 'دليل المقاسات',
     desc: 'جدي المقاس المثالي مع تعليمات المقاسات التفصيلية للأساور والخواتم والقلائد والخلاخيل.',
     tabs: ['أساور', 'خواتم', 'قلائد', 'خلاخيل'],
+    headers: {
+      size: 'المقاس',
+      wrist: 'المعصم',
+      diameter: 'القطر',
+      circumference: 'المحيط',
+      position: 'الموضع',
+      ankle: 'الكاحل',
+      description: 'الوصف',
+    },
+    disclaimer: 'هل تحتاجين مساعدة للعثور على مقاسك؟ تواصلي مع فريق الدعم.',
     bracelet: {
       title: 'مقاسات الأساور',
       intro: 'قيّسي محيط معصمك أسفل عظم الرسغ مباشرة باستخدام شريط قياس مرن أو خيط.',
@@ -748,6 +767,7 @@
       welcome: 'مرحباً بك في الدائرة الخاصة لـ ccjaouhara.',
       placeholder: 'انضمي إلى الدائرة الخاصة',
       note: 'كتالوجات ccjaouhara الحصرية الخاصة',
+      submitLabel: 'إرسال',
       alreadySubscribed: 'هذا البريد الإلكتروني مشترك بالفعل.',
       error: 'فشل الاشتراك. حاول مرة أخرى.',
     },
@@ -788,6 +808,8 @@
 
   search: {
     placeholder: 'البحث عن المنتجات...',
+    open: 'البحث عن المنتجات',
+    clear: 'مسح البحث',
     noResults: 'لم يتم العثور على منتجات',
     tryKeyword: 'جرب كلمة مفتاحية أخرى.',
   },
@@ -823,6 +845,8 @@
     onlyLeft: 'تبقى {stock} فقط',
     viewDetails: 'عرض التفاصيل',
     quickAdd: 'إضافة سريعة إلى السلة (متوسط)',
+    addToWishlist: 'أضف إلى المفضلة',
+    removeFromWishlist: 'أزل من المفضلة',
   },
 
   wishlist: {
@@ -843,13 +867,19 @@
     commentLabel: 'تقييمك',
     commentPlaceholder: 'شارك تجربتك مع هذا المنتج...',
     successMessage: 'شكراً لك! تم إرسال تقييمك بنجاح، وسيظهر على صفحة المنتج بعد مراجعته والموافقة عليه.',
-    noReviews: 'لا توجد تقييمات بعد. كن أول من يشارك تجربته!',
+noReviews: 'لا توجد تقييمات بعد. كن أول من يشارك تجربته!',
+    showMore: 'عرض المزيد',
+    invalidEmail: 'صيغة البريد الإلكتروني غير صالحة',
+    submitFailed: 'فشل إرسال التقييم',
     averageRating: 'متوسط التقييم',
     totalReviews: '{count} تقييم',
     verifiedPurchase: 'شراء مؤكد',
   },
 
   app: {
+    addToBagToast: '\u0623\u064f\u0636\u064a\u0641 \u0625\u0644\u0649 \u0627\u0644\u062d\u0642\u064a\u0628\u0629 \u2713',
+    backendOffline: '\u0627\u0644\u062e\u0627\u062f\u0645 \u063a\u064a\u0631 \u0645\u062a\u0635\u0644. \u062a\u0645 \u062a\u062d\u0645\u064a\u0644 \u0623\u0648\u0631\u0627\u0642 \u0627\u0644\u062a\u0635\u0645\u064a\u0645 \u0627\u0644\u0645\u062d\u0644\u064a\u0629.',
+    mobileNav: '\u062a\u0646\u0642\u0644 \u0627\u0644\u062c\u0648\u0627\u0644',
     marquee: [
       '⭐ أساورتك كاتحكي عليك',
       '•',

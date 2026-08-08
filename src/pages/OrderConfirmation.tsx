@@ -27,7 +27,7 @@ export default function OrderConfirmation({ onPageChange, currency }: OrderConfi
     }
     fetch(`/api/orders/${orderId}`)
       .then(res => {
-        if (!res.ok) throw new Error('Order not found');
+        if (!res.ok) throw new Error(t('orderConfirmation.notFound'));
         return res.json();
       })
       .then(data => {

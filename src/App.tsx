@@ -112,7 +112,7 @@ export default function App() {
       setAllProducts(data);
     } catch (err) {
       console.warn('[API Fetch Warn] Operating products list on fallback data catalog:', err);
-      showToast('Backend offline. Loaded local design sheets.', true);
+      showToast(t('app.backendOffline'), true);
       const { defaultProducts } = await import('./data/defaultProducts');
       setAllProducts(defaultProducts);
     } finally {
@@ -148,7 +148,7 @@ export default function App() {
         ];
       }
     });
-    showToast('Added to bag âœ“');
+    showToast(t('app.addToBagToast'));
     setIsCartOpen(true);
   };
 
@@ -334,7 +334,7 @@ export default function App() {
                       <div className="flex-1 space-y-1">
                         <span className="font-serif text-xs font-semibold text-stone-900 block line-clamp-1">{item.name}</span>
                         <div className="flex justify-between items-baseline text-[10px] text-stone-400">
-                          <span>Qty: {item.quantity} â€¢ {item.selected_size.split(' ')[0]}</span>
+                          <span>{t('cart.qtyLabel', { qty: item.quantity })} \u2022 {item.selected_size.split(' ')[0]}</span>
                           <span className="font-serif font-semibold text-stone-900">
                             {currency === 'MAD' ? `${((item.price * item.quantity) * 10).toLocaleString()} ${t('common.currency')}` : `$${(item.price * item.quantity).toLocaleString()}`}
                           </span>
@@ -448,12 +448,12 @@ const Marquee = memo(function Marquee({ hideOnMobileHome = false }: { hideOnMobi
       <div className="flex whitespace-nowrap select-none" style={{ width: 'max-content' }}>
         <div className="animate-marquee flex items-center shrink-0 pr-8 gap-8 font-sans">
           {items.map((item, i) => (
-            <span key={i} className={item === 'â€¢' ? 'text-champagne-500 font-bold' : ''}>{item}</span>
+            <span key={i} className={item === '\u2022' ? 'text-champagne-500 font-bold' : ''}>{item}</span>
           ))}
         </div>
         <div className="animate-marquee flex items-center shrink-0 pr-8 gap-8 font-sans" aria-hidden="true">
           {items.map((item, i) => (
-            <span key={i} className={item === 'â€¢' ? 'text-champagne-500 font-bold' : ''}>{item}</span>
+            <span key={i} className={item === '\u2022' ? 'text-champagne-500 font-bold' : ''}>{item}</span>
           ))}
         </div>
       </div>

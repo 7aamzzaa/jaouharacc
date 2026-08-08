@@ -78,10 +78,10 @@ export default function SizeGuide() {
               <tr className="border-b border-champagne-150">
                 {tabData?.sizes?.[0] && Object.keys(tabData.sizes[0]).filter(k => k !== 'desc').map((key: string) => (
                   <th key={key} className="py-3 px-4 text-start text-[10px] uppercase tracking-widest font-bold text-stone-500">
-                    {key === 'label' ? 'Size' : key === 'wrist' ? 'Wrist' : key === 'diameter' ? 'Diameter' : key === 'circumference' ? 'Circumference' : key === 'position' ? 'Position' : key === 'ankle' ? 'Ankle' : key}
+                    {t('sizeGuide.headers.' + (key === 'label' ? 'size' : key)) || key}
                   </th>
                 ))}
-                <th className="py-3 px-4 text-start text-[10px] uppercase tracking-widest font-bold text-stone-500">Description</th>
+                <th className="py-3 px-4 text-start text-[10px] uppercase tracking-widest font-bold text-stone-500">{t('sizeGuide.headers.description')}</th>
               </tr>
             </thead>
             <tbody>
@@ -109,7 +109,7 @@ export default function SizeGuide() {
 
       <div className="text-center space-y-3">
         <p className="text-xs text-stone-400 font-sans">
-          {t('sizeGuide.disclaimer') || 'Need help finding your size? Contact our support team.'}
+          {t('sizeGuide.disclaimer')}
         </p>
       </div>
     </div>
