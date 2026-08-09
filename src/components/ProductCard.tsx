@@ -15,9 +15,10 @@ interface ProductCardProps {
   onToggleWishlist: (id: string) => void;
   currency?: 'USD' | 'MAD';
   compact?: boolean;
+  priority?: boolean;
 }
 
-const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToCartDirect, wishlist, onToggleWishlist, currency = 'USD', compact = false }: ProductCardProps) {
+const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToCartDirect, wishlist, onToggleWishlist, currency = 'USD', compact = false, priority = false }: ProductCardProps) {
   const { t } = useTranslation();
   const [showShareModal, setShowShareModal] = useState(false);
   const isOutOfStock = product.stock === 0;
@@ -44,6 +45,8 @@ const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToC
           src={product.images[0]}
           alt={product.imageAltText || product.name}
           className="zoom-image object-cover w-full h-full"
+          loading={priority ? 'eager' : 'lazy'}
+          fetchPriority={priority ? 'high' : 'auto'}
         />
 
         {/* Wishlist Heart Button */}

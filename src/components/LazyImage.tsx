@@ -5,9 +5,11 @@ interface LazyImageProps {
   src: string;
   alt: string;
   className?: string;
+  loading?: 'lazy' | 'eager';
+  fetchPriority?: 'high' | 'low' | 'auto';
 }
 
-export default function LazyImage({ src, alt, className = '' }: LazyImageProps) {
+export default function LazyImage({ src, alt, className = '', loading = 'lazy', fetchPriority = 'auto' }: LazyImageProps) {
   const { t } = useTranslation();
   const [isLoaded, setIsLoaded] = useState(false);
 
@@ -30,7 +32,8 @@ export default function LazyImage({ src, alt, className = '' }: LazyImageProps) 
         className={`transition-opacity duration-700 ease-in-out ${
           isLoaded ? 'opacity-100' : 'opacity-0'
         } ${className}`}
-        loading="lazy"
+        loading={loading}
+        fetchPriority={fetchPriority}
         referrerPolicy="no-referrer"
       />
     </div>
