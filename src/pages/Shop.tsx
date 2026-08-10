@@ -221,7 +221,7 @@ export default function Shop({
               className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-8"
             >
               <AnimatePresence mode="popLayout">
-                {filteredProducts.map((product) => (
+                {filteredProducts.map((product, index) => (
                   <motion.div
                     key={product.id}
                     layout
@@ -237,6 +237,7 @@ export default function Shop({
                       wishlist={wishlist}
                       onToggleWishlist={onToggleWishlist}
                       currency={currency}
+                      priority={index < 3}
                     />
                   </motion.div>
                 ))}

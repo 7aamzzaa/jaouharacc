@@ -11,6 +11,7 @@ export default function OrderConfirmation({ onPageChange, currency }: OrderConfi
   const { t } = useTranslation();
   const urlParams = new URLSearchParams(window.location.search);
   const orderId = urlParams.get('orderId') || '';
+  const customerEmail = urlParams.get('email') || '';
 
   const [order, setOrder] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -25,7 +26,10 @@ export default function OrderConfirmation({ onPageChange, currency }: OrderConfi
       setLoading(false);
       return;
     }
-    fetch(`/api/orders/${orderId}`)
+    const params = new URLSearchParams();
+    if (customerEmail) params.set('email', customerEmail);
+    const qs = params.toString();
+    fetch(`/api/orders/${orderId}${qs ? `?${qs}` : ''}`)
       .then(res => {
         if (!res.ok) throw new Error(t('orderConfirmation.notFound'));
         return res.json();

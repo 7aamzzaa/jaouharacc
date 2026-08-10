@@ -34,15 +34,16 @@ export default function TrackOrder() {
 
     setLoading(true);
     try {
-      const res = await fetch('/api/orders');
-      if (!res.ok) throw new Error('API error');
-      const orders: Order[] = await res.json();
-      const found = orders.find(o => o.id === ref.trim() && o.customer_email === email.trim());
-      if (!found) {
+      const params = new URLSearchParams();
+      params.set('email', email.trim());
+      const res = await fetch(`/api/orders/${encodeURIComponent(ref.trim())}?${params.toString()}`);
+      if (res.status === 404) {
         setError(t('trackOrder.errorNotFound'));
-      } else {
-        setOrder(found);
+        return;
       }
+      if (!res.ok) throw new Error('API error');
+      const order: Order = await res.json();
+      setOrder(order);
     } catch {
       setError(t('trackOrder.errorGeneric'));
     } finally {

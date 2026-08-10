@@ -21,10 +21,9 @@ export default function AdminDashboard({
   currency
 }: AdminDashboardProps) {
   const { t } = useTranslation();
-  // Session Authentication state
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(() => {
-    return localStorage.getItem('ccjaouhara_admin_session') === 'authenticated';
-  });
+  // Session Authentication state (server-issued, not localStorage)
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [authLoading, setAuthLoading] = useState<boolean>(true);
   const [passcode, setPasscode] = useState('');
   const [loginError, setLoginError] = useState('');
 
@@ -51,6 +50,10 @@ export default function AdminDashboard({
     setLoadingOrders(true);
     try {
       const response = await fetch('/api/orders');
+      if (response.status === 401) {
+        setIsAuthenticated(false);
+        return;
+      }
       if (!response.ok) throw new Error('Server returned error status on orders query');
       const data = await response.json();
       setOrders(data);
@@ -66,6 +69,10 @@ export default function AdminDashboard({
     setLoadingMessages(true);
     try {
       const response = await fetch('/api/messages');
+      if (response.status === 401) {
+        setIsAuthenticated(false);
+        return;
+      }
       if (!response.ok) throw new Error('Server returned error status on messages query');
       const data = await response.json();
       setMessages(data);
@@ -81,6 +88,10 @@ export default function AdminDashboard({
     setLoadingSubscribers(true);
     try {
       const response = await fetch('/api/newsletter');
+      if (response.status === 401) {
+        setIsAuthenticated(false);
+        return;
+      }
       if (!response.ok) throw new Error('Server returned error status on subscribers query');
       const data = await response.json();
       setSubscribers(data);
@@ -96,6 +107,10 @@ export default function AdminDashboard({
     setLoadingReviews(true);
     try {
       const response = await fetch('/api/reviews');
+      if (response.status === 401) {
+        setIsAuthenticated(false);
+        return;
+      }
       if (!response.ok) throw new Error('Server returned error status on reviews query');
       const data = await response.json();
       setReviews(data);
@@ -107,13 +122,34 @@ export default function AdminDashboard({
     }
   };
 
-  // Fetch all admin data on mount
+  // Restore server-issued admin session on mount
   useEffect(() => {
+    const checkSession = async () => {
+      try {
+        const response = await fetch('/api/admin/session', { cache: 'no-store' });
+        if (response.ok) {
+          const body = await response.json();
+          if (body.authenticated) {
+            setIsAuthenticated(true);
+          }
+        }
+      } catch (err) {
+        console.warn('[Admin Session Warn] Could not verify admin session:', err);
+      } finally {
+        setAuthLoading(false);
+      }
+    };
+    checkSession();
+  }, []);
+
+  // Fetch all admin data only once authenticated
+  useEffect(() => {
+    if (!isAuthenticated) return;
     loadOrders();
     loadMessages();
     loadSubscribers();
     loadReviews();
-  }, []);
+  }, [isAuthenticated]);
   
   // Products Management Form State
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
@@ -194,22 +230,42 @@ export default function AdminDashboard({
   const [actionError, setActionError] = useState<string>('');
 
   // Authentication Lock handle
-  const handleLoginSubmit = (e: React.FormEvent) => {
+  const handleLoginSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoginError('');
-    const correctPassword = (import.meta as any).env?.VITE_ADMIN_PASSWORD;
-    if (correctPassword && passcode === correctPassword) {
-      localStorage.setItem('ccjaouhara_admin_session', 'authenticated');
+    try {
+      const response = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: passcode })
+      });
+
+      if (!response.ok) {
+        let message = t('admin.login.error');
+        if (response.status === 429) {
+          message = t('admin.login.error');
+        }
+        setLoginError(message);
+        showToast(t('admin.login.errorToast'), true);
+        return;
+      }
+
       setIsAuthenticated(true);
+      setPasscode('');
       showToast(t('admin.login.successToast'));
-    } else {
+    } catch (err) {
+      console.error('[Admin Login Error]', err);
       setLoginError(t('admin.login.error'));
       showToast(t('admin.login.errorToast'), true);
     }
   };
 
-  const handleLogoutClick = () => {
-    localStorage.removeItem('ccjaouhara_admin_session');
+  const handleLogoutClick = async () => {
+    try {
+      await fetch('/api/admin/logout', { method: 'POST' });
+    } catch (err) {
+      console.warn('[Admin Logout Warn] Server logout call failed:', err);
+    }
     setIsAuthenticated(false);
     showToast(t('admin.dashboard.logoutToast'));
   };
@@ -550,6 +606,14 @@ export default function AdminDashboard({
   }, [products]);
 
   // LOGIN SCREEN IMPLEMENTATION
+  if (authLoading) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center">
+        <div className="w-6 h-6 border-2 border-champagne-500 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
   if (!isAuthenticated) {
     return (
       <div className="max-w-md mx-auto px-6 py-16 sm:py-24 animate-fade-in">

@@ -108,7 +108,7 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
       }
 
       onClearCart();
-      onPageChange('order-confirmation', { orderId: order.id });
+      onPageChange('order-confirmation', { orderId: order.id, email: customerEmail });
     } catch (err: any) {
       console.error('[Order Submit Error]', err);
       setFormError(err.message || t('cart.errorPayment'));

@@ -1,7 +1,20 @@
+import 'dotenv/config';
 import express from 'express';
 import path from 'path';
 import Stripe from 'stripe';
 import { createServer as createViteServer } from 'vite';
+import {
+  createAdminToken,
+  verifyPassword,
+  isAdminRequest,
+  isLoginAllowed,
+  recordLoginFailure,
+  resetLoginFailures,
+  requireAdmin,
+  ADMIN_COOKIE_NAME,
+  SESSION_TTL_MS_VALUE,
+  assertAuthConfigured
+} from './serverAuth';
 import { 
   getProducts, 
   getProductById, 
@@ -33,6 +46,51 @@ const PORT = 3000;
 // Increase JSON size limits to support base64 uploading sequence
 app.use(express.json({ limit: '15mb' }));
 app.use(express.urlencoded({ limit: '15mb', extended: true }));
+
+// ------------------------------------------------------------------------
+// ADMIN AUTHENTICATION
+// ------------------------------------------------------------------------
+
+// Login: verify the artisan password and issue an HMAC-signed session cookie
+app.post('/api/admin/login', (req, res) => {
+  const ip = req.ip || 'unknown';
+  if (!isLoginAllowed(ip)) {
+    res.set('Cache-Control', 'no-store');
+    return res.status(429).json({ error: 'Too many login attempts. Please wait and retry.' });
+  }
+
+  const { password } = req.body || {};
+  if (typeof password !== 'string' || !verifyPassword(password)) {
+    recordLoginFailure(ip);
+    res.set('Cache-Control', 'no-store');
+    return res.status(401).json({ error: 'Unauthorized' });
+  }
+
+  resetLoginFailures(ip);
+  const { token, expiresAt } = createAdminToken();
+  res.cookie(ADMIN_COOKIE_NAME, token, {
+    httpOnly: true,
+    sameSite: 'lax',
+    path: '/',
+    maxAge: SESSION_TTL_MS_VALUE,
+    secure: process.env.NODE_ENV === 'production'
+  });
+  res.set('Cache-Control', 'no-store');
+  res.json({ ok: true, expiresAt });
+});
+
+// Session check: reports whether the current cookie is a valid admin session
+app.get('/api/admin/session', (req, res) => {
+  res.set('Cache-Control', 'no-store');
+  res.json({ authenticated: isAdminRequest(req) });
+});
+
+// Logout: clears the session cookie
+app.post('/api/admin/logout', (req, res) => {
+  res.clearCookie(ADMIN_COOKIE_NAME, { path: '/' });
+  res.set('Cache-Control', 'no-store');
+  res.json({ ok: true });
+});
 
 // Lazy Stripe client initialization
 let stripeClient: Stripe | null = null;
@@ -78,7 +136,7 @@ app.get('/api/products/:id', async (req, res) => {
 });
 
 // Upsert product (Add / Edit) - Admin Area
-app.post('/api/products', async (req, res) => {
+app.post('/api/products', requireAdmin, async (req, res) => {
   try {
     const productData = req.body as Product;
     if (!productData.name || !productData.price) {
@@ -92,7 +150,7 @@ app.post('/api/products', async (req, res) => {
 });
 
 // Delete product - Admin Area
-app.delete('/api/products/:id', async (req, res) => {
+app.delete('/api/products/:id', requireAdmin, async (req, res) => {
   try {
     const success = await deleteProduct(req.params.id);
     if (!success) {
@@ -105,7 +163,7 @@ app.delete('/api/products/:id', async (req, res) => {
 });
 
 // Fetch all orders - Admin Area
-app.get('/api/orders', async (req, res) => {
+app.get('/api/orders', requireAdmin, async (req, res) => {
   try {
     const orders = await getOrders();
     res.json(orders);
@@ -162,12 +220,21 @@ app.post('/api/orders', async (req, res) => {
   }
 });
 
-// Get single order by ID
+// Get single order by ID - Public, email-gated
+// If the order has a stored customer email, an ?email= query param must match it.
+// Orders stored with an empty email resolve by id alone (preserves legacy order confirmation UX).
 app.get('/api/orders/:id', async (req, res) => {
   try {
     const order = await getOrderById(req.params.id);
     if (!order) {
       return res.status(404).json({ error: 'Order not found' });
+    }
+    const storedEmail = (order.customer_email || '').trim().toLowerCase();
+    if (storedEmail) {
+      const queryEmail = (req.query.email as string | undefined || '').trim().toLowerCase();
+      if (!queryEmail || queryEmail !== storedEmail) {
+        return res.status(404).json({ error: 'Order not found' });
+      }
     }
     res.json(order);
   } catch (err: any) {
@@ -176,7 +243,7 @@ app.get('/api/orders/:id', async (req, res) => {
 });
 
 // Patch order status - Admin Area
-app.patch('/api/orders/:id', async (req, res) => {
+app.patch('/api/orders/:id', requireAdmin, async (req, res) => {
   try {
     const { status } = req.body;
     if (!status) {
@@ -197,7 +264,7 @@ app.patch('/api/orders/:id', async (req, res) => {
 });
 
 // Delete order - Admin Area
-app.delete('/api/orders/:id', async (req, res) => {
+app.delete('/api/orders/:id', requireAdmin, async (req, res) => {
   try {
     const success = await deleteOrder(req.params.id);
     if (!success) {
@@ -214,7 +281,7 @@ app.delete('/api/orders/:id', async (req, res) => {
 // ------------------------------------------------------------------------
 
 // Fetch all messages - Admin Area
-app.get('/api/messages', async (req, res) => {
+app.get('/api/messages', requireAdmin, async (req, res) => {
   try {
     const messages = await getMessages();
     res.json(messages);
@@ -244,7 +311,7 @@ app.post('/api/messages', async (req, res) => {
 });
 
 // Mark message as read - Admin Area
-app.patch('/api/messages/:id', async (req, res) => {
+app.patch('/api/messages/:id', requireAdmin, async (req, res) => {
   try {
     const { status } = req.body;
     if (!status || !['new', 'read'].includes(status)) {
@@ -261,7 +328,7 @@ app.patch('/api/messages/:id', async (req, res) => {
 });
 
 // Delete a message - Admin Area
-app.delete('/api/messages/:id', async (req, res) => {
+app.delete('/api/messages/:id', requireAdmin, async (req, res) => {
   try {
     const success = await deleteMessage(req.params.id);
     if (!success) {
@@ -278,7 +345,7 @@ app.delete('/api/messages/:id', async (req, res) => {
 // ------------------------------------------------------------------------
 
 // Fetch all subscribers - Admin Area
-app.get('/api/newsletter', async (req, res) => {
+app.get('/api/newsletter', requireAdmin, async (req, res) => {
   try {
     const subscribers = await getSubscribers();
     res.json(subscribers);
@@ -305,7 +372,7 @@ app.post('/api/newsletter', async (req, res) => {
 });
 
 // Delete a subscriber - Admin Area
-app.delete('/api/newsletter/:id', async (req, res) => {
+app.delete('/api/newsletter/:id', requireAdmin, async (req, res) => {
   try {
     const success = await deleteSubscriber(req.params.id);
     if (!success) {
@@ -328,6 +395,11 @@ app.get('/api/reviews', async (req, res) => {
     const { product_id } = req.query;
     if (product_id && typeof product_id === 'string') {
       return res.json(reviews.filter(r => r.product_id === product_id && r.status === 'approved'));
+    }
+    // No product_id filter: full review list (including pending + customer emails) is admin-only
+    if (!isAdminRequest(req)) {
+      res.set('Cache-Control', 'no-store');
+      return res.status(401).json({ error: 'Unauthorized' });
     }
     res.json(reviews);
   } catch (err: any) {
@@ -359,7 +431,7 @@ app.post('/api/reviews', async (req, res) => {
 });
 
 // Approve or reject a review (admin)
-app.patch('/api/reviews/:id', async (req, res) => {
+app.patch('/api/reviews/:id', requireAdmin, async (req, res) => {
   try {
     const { status } = req.body;
     if (!status || !['approved', 'rejected'].includes(status)) {
@@ -376,7 +448,7 @@ app.patch('/api/reviews/:id', async (req, res) => {
 });
 
 // Delete a review (admin)
-app.delete('/api/reviews/:id', async (req, res) => {
+app.delete('/api/reviews/:id', requireAdmin, async (req, res) => {
   try {
     const success = await deleteReview(req.params.id);
     if (!success) {
@@ -391,7 +463,7 @@ app.delete('/api/reviews/:id', async (req, res) => {
 // ------------------------------------------------------------------------
 // BASE64 IMAGE UPLOAD TO SUPABASE STORAGE
 // ------------------------------------------------------------------------
-app.post('/api/upload', async (req, res) => {
+app.post('/api/upload', requireAdmin, async (req, res) => {
   try {
     const { name, type, base64 } = req.body;
     if (!base64) {
@@ -515,6 +587,9 @@ app.post('/api/checkout/create-session', async (req, res) => {
 // ------------------------------------------------------------------------
 
 async function start() {
+  if (process.env.NODE_ENV === 'production') {
+    assertAuthConfigured();
+  }
   if (process.env.NODE_ENV !== 'production') {
     const vite = await createViteServer({
       server: { middlewareMode: true },

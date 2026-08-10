@@ -30,10 +30,11 @@ export default function LazyImage({ src, alt, className = '', loading = 'lazy', 
         alt={alt}
         onLoad={() => setIsLoaded(true)}
         className={`transition-opacity duration-700 ease-in-out ${
-          isLoaded ? 'opacity-100' : 'opacity-0'
+          loading === 'eager' || isLoaded ? 'opacity-100' : 'opacity-0'
         } ${className}`}
         loading={loading}
         fetchPriority={fetchPriority}
+        decoding="async"
         referrerPolicy="no-referrer"
       />
     </div>

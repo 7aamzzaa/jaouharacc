@@ -256,9 +256,15 @@ export default function App() {
       case 'wishlist':
         navigate('/wishlist');
         break;
-      case 'order-confirmation':
-        if (params?.orderId) navigate(`/order-confirmation?orderId=${params.orderId}`);
+      case 'order-confirmation': {
+        if (params?.orderId) {
+          const confirmParams = new URLSearchParams();
+          confirmParams.set('orderId', params.orderId);
+          if (params?.email) confirmParams.set('email', params.email);
+          navigate(`/order-confirmation?${confirmParams.toString()}`);
+        }
         break;
+      }
       default:
         navigate('/');
     }
