@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Trash2, ShoppingBag, ArrowLeft, ArrowRight, ShieldCheck, Ticket, RefreshCw, Minus, Plus } from 'lucide-react';
 import { CartItem } from '../types';
 import { useTranslation } from '../i18n';
@@ -34,6 +34,9 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
   const [paymentMethod, setPaymentMethod] = useState<string>('cod');
   const [checkoutLoading, setCheckoutLoading] = useState<boolean>(false);
   const [formError, setFormError] = useState<string>('');
+  // Idempotency key: generated once per checkout attempt and reused on retry,
+  // so a duplicate/retried submission maps to the same order server-side.
+  const idempotencyKeyRef = useRef<string>('');
 
   // Calculations
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -74,9 +77,21 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
     setCheckoutLoading(true);
 
     try {
+      // Reuse the same key for this checkout attempt so browser retries and
+      // double-clicks cannot create duplicate orders. Reset after success.
+      if (!idempotencyKeyRef.current) {
+        idempotencyKeyRef.current =
+          typeof crypto !== 'undefined' && crypto.randomUUID
+            ? crypto.randomUUID()
+            : 'ck-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+      }
+
       const response = await fetch('/api/orders', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Idempotency-Key': idempotencyKeyRef.current
+        },
         body: JSON.stringify({
           customer_name: customerName,
           customer_phone: customerPhone,
@@ -87,12 +102,12 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
           customer_apartment: customerApartment,
           payment_method: paymentMethod,
           order_notes: orderNotes,
-          items: cart,
-          subtotal,
-          shipping_cost: 0,
-          discount_amount: discountAmount,
-          discount_code: appliedDiscount?.code || '',
-          total: grandTotal
+          items: cart.map((item) => ({
+            product_id: item.product_id,
+            quantity: item.quantity,
+            selected_size: item.selected_size
+          })),
+          discount_code: appliedDiscount?.code || ''
         })
       });
 
@@ -109,6 +124,7 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
 
       onClearCart();
       onPageChange('order-confirmation', { orderId: order.id, email: customerEmail });
+      idempotencyKeyRef.current = '';
     } catch (err: any) {
       console.error('[Order Submit Error]', err);
       setFormError(err.message || t('cart.errorPayment'));

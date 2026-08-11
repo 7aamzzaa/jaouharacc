@@ -925,6 +925,7 @@ noReviews: 'Aucun avis pour le moment. Soyez le premier à partager votre expér
       passcodeLabel: 'Code d\u2019Acc\u00e8s Artisan',
       passcodePlaceholder: '\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022\u2022',
       error: 'Code d\u2019acc\u00e8s incorrect. Acc\u00e8s bloqu\u00e9.',
+      rateLimited: 'Trop de tentatives de connexion. Veuillez attendre 15 minutes avant de r\u00e9essayer.',
       errorToast: '\u00c9chec de connexion \u2717',
       button: 'Autoriser l\u2019Acc\u00e8s',
       footnote: 'Saisissez le code d\u2019acc\u00e8s configur\u00e9 via la variable d\u2019environnement.',

@@ -4,6 +4,17 @@ import { createClient } from '@supabase/supabase-js';
 import { Product, Order, ContactMessage, Subscriber, Review } from './src/types';
 import { defaultProducts } from './src/data/defaultProducts';
 
+// ------------------------------------------------------------------------
+// In-process async lock (serializes order/stock read-modify-write commits)
+// ------------------------------------------------------------------------
+let lockChain: Promise<unknown> = Promise.resolve();
+
+export function withOrderLock<T>(fn: () => Promise<T>): Promise<T> {
+  const run = lockChain.then(fn, fn);
+  lockChain = run.catch(() => {});
+  return run;
+}
+
 // Setup local fallback directory and file paths
 const DATA_DIR = path.join(process.cwd(), 'data');
 const PRODUCTS_FILE = path.join(DATA_DIR, 'products.json');
@@ -266,6 +277,25 @@ export async function getOrderById(id: string): Promise<Order | null> {
   return orders.find(o => o.id === id) || null;
 }
 
+export async function getOrderByIdempotencyKey(key: string): Promise<Order | null> {
+  if (isSupabaseConnected && supabase) {
+    try {
+      const { data, error } = await supabase
+        .from('orders')
+        .select('*')
+        .eq('idempotency_key', key)
+        .maybeSingle();
+      if (!error && data) {
+        return data as Order;
+      }
+    } catch (err) {
+      console.warn('[DB] Supabase get order by idempotency key query failure:', err);
+    }
+  }
+  const orders = await getOrders();
+  return orders.find(o => o.idempotency_key === key) || null;
+}
+
 export async function createOrder(orderData: Omit<Order, 'created_at' | 'status'> & { status?: Order['status'] }): Promise<Order> {
   const newOrder: Order = {
     ...orderData,
@@ -296,23 +326,41 @@ export async function createOrder(orderData: Omit<Order, 'created_at' | 'status'
   if (!orders.some(o => o.id === newOrder.id)) {
     orders.unshift(newOrder);
     fs.writeFileSync(ORDERS_FILE, JSON.stringify(orders, null, 2), 'utf-8');
-
-    // Decrement stock levels locally
-    try {
-      const products = await getProducts();
-      for (const item of newOrder.items) {
-        const product = products.find(p => p.id === item.product_id);
-        if (product) {
-          product.stock = Math.max(0, product.stock - item.quantity);
-          await upsertProduct(product);
-        }
-      }
-    } catch (err) {
-      console.error('[DB Stock Sync Error] Failed to align stock levels:', err);
-    }
   }
 
   return newOrder;
+}
+
+// ------------------------------------------------------------------------
+// Authoritative stock commit helpers
+// ------------------------------------------------------------------------
+
+// Get the current stock level for a product (authoritative read).
+export async function getProductStock(id: string): Promise<number> {
+  const product = await getProductById(id);
+  return product && typeof product.stock === 'number' ? product.stock : 0;
+}
+
+// Atomically (within the process) decrement a product's stock by qty.
+// The caller MUST hold the order lock and MUST have verified stock >= qty.
+// Returns true on success, false if the product is missing.
+export async function decrementProductStock(id: string, qty: number): Promise<boolean> {
+  const product = await getProductById(id);
+  if (!product) return false;
+  const newStock = Math.max(0, (typeof product.stock === 'number' ? product.stock : 0) - qty);
+  const updated = { ...product, stock: newStock };
+  await upsertProduct(updated);
+  return true;
+}
+
+// Compensating rollback: restore qty units to a product's stock.
+// Only used when an order persisted AFTER a stock decrement fails to write.
+export async function restoreProductStock(id: string, qty: number): Promise<void> {
+  const product = await getProductById(id);
+  if (!product) return;
+  const currentStock = typeof product.stock === 'number' ? product.stock : 0;
+  const updated = { ...product, stock: currentStock + qty };
+  await upsertProduct(updated);
 }
 
 export async function deleteOrder(id: string): Promise<boolean> {

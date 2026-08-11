@@ -1,5 +1,43 @@
 [
   {
+    "id": "ORD-VB71X0P0N",
+    "customer_name": "hamza chrifi",
+    "customer_phone": "+212608864688",
+    "customer_email": "aamzzaachrifi@gmail.com",
+    "customer_country": "Morocco",
+    "customer_city": "AGADIR",
+    "customer_street": "RES AERO IMM 05 APPT 02 BENSRGAO AGADIR",
+    "customer_apartment": "",
+    "payment_method": "cod",
+    "order_notes": "",
+    "items": [
+      {
+        "product_id": "prod-124",
+        "name": "Gold Noble Bracelet",
+        "price": 9.9,
+        "quantity": 2,
+        "selected_size": "Medium (7.0\")",
+        "image": "/images/01.jpg"
+      },
+      {
+        "product_id": "prod-49",
+        "name": "sansla",
+        "price": 15,
+        "quantity": 7,
+        "selected_size": "Large (7.5\")",
+        "image": "/images/snsl.jpg"
+      }
+    ],
+    "subtotal": 124.8,
+    "shipping_cost": 0,
+    "discount_amount": 0,
+    "discount_code": "",
+    "total": 124.8,
+    "idempotency_key": "d4bd72e5-1c70-43a4-b951-1dfe72033f98",
+    "status": "pending",
+    "created_at": "2026-08-11T17:26:04.232Z"
+  },
+  {
     "id": "ORD-P26NTHYBW",
     "customer_name": "hamza chrifi",
     "customer_phone": "+212608864688",

@@ -243,7 +243,7 @@ export default function AdminDashboard({
       if (!response.ok) {
         let message = t('admin.login.error');
         if (response.status === 429) {
-          message = t('admin.login.error');
+          message = t('admin.login.rateLimited');
         }
         setLoginError(message);
         showToast(t('admin.login.errorToast'), true);

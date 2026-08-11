@@ -22,6 +22,7 @@ import {
   deleteProduct, 
   getOrders, 
   getOrderById,
+  getOrderByIdempotencyKey,
   createOrder, 
   updateOrderStatus,
   deleteOrder,
@@ -36,12 +37,53 @@ import {
   createReview,
   updateReviewStatus,
   deleteReview,
-  getSupabaseClient
+  getSupabaseClient,
+  withOrderLock,
+  getProductStock,
+  decrementProductStock,
+  restoreProductStock
 } from './serverDB';
-import { Product, Review } from './src/types';
+import { Product, Review, Order } from './src/types';
 
 const app = express();
 const PORT = 3000;
+
+// ------------------------------------------------------------------------
+// ORDER & PROMO CONFIGURATION (server-authoritative)
+// ------------------------------------------------------------------------
+// Promo codes are validated purely server-side. Clients only submit the code.
+const PROMO_CODES: Record<string, number> = {
+  CCJAOUHARA10: 10,
+  HERITAGE15: 15
+};
+
+const idempotencyTtlMs = 24 * 60 * 60 * 1000;
+// Best-effort in-memory dedupe registry keyed by X-Idempotency-Key.
+// The stored order's idempotency_key is the durable source of truth.
+const idempotencyRegistry = new Map<string, { orderId: string; expiresAt: number }>();
+
+function rememberIdempotency(key: string, orderId: string): void {
+  idempotencyRegistry.set(key, { orderId, expiresAt: Date.now() + idempotencyTtlMs });
+}
+
+function lookupIdempotency(key: string): string | null {
+  const entry = idempotencyRegistry.get(key);
+  if (!entry) return null;
+  if (Date.now() > entry.expiresAt) {
+    idempotencyRegistry.delete(key);
+    return null;
+  }
+  return entry.orderId;
+}
+
+// HTTP error carrying an explicit status code so handlers can map it.
+class HttpError extends Error {
+  status: number;
+  constructor(status: number, message: string) {
+    super(message);
+    this.status = status;
+  }
+}
 
 // Increase JSON size limits to support base64 uploading sequence
 app.use(express.json({ limit: '15mb' }));
@@ -60,6 +102,18 @@ app.post('/api/admin/login', (req, res) => {
   }
 
   const { password } = req.body || {};
+  const diagMatches = typeof password === 'string' && verifyPassword(password);
+  console.log('[LOGIN-DIAG]', JSON.stringify({
+    t: new Date().toISOString(),
+    ip,
+    ua: (req.headers['user-agent'] || '').slice(0, 60),
+    origin: req.headers['origin'] || '',
+    referer: req.headers['referer'] || '',
+    contentType: req.headers['content-type'] || '',
+    pwType: typeof password,
+    pwLen: typeof password === 'string' ? password.length : -1,
+    matches: diagMatches
+  }));
   if (typeof password !== 'string' || !verifyPassword(password)) {
     recordLoginFailure(ip);
     res.set('Cache-Control', 'no-store');
@@ -173,8 +227,16 @@ app.get('/api/orders', requireAdmin, async (req, res) => {
 });
 
 // Create a new order from checkout
+// The server is the sole authority for prices, discounts, shipping and totals.
+// Trusted client input is limited to customer/order info, product ids, quantities
+// and the selected size. Idempotency is enforced with X-Idempotency-Key.
 app.post('/api/orders', async (req, res) => {
   try {
+    const idempotencyKey = (req.headers['x-idempotency-key'] as string | undefined || '').trim();
+    if (!idempotencyKey) {
+      return res.status(400).json({ error: 'X-Idempotency-Key header is required' });
+    }
+
     const {
       customer_name,
       customer_phone,
@@ -186,36 +248,184 @@ app.post('/api/orders', async (req, res) => {
       payment_method,
       order_notes,
       items,
-      subtotal,
-      shipping_cost,
-      discount_amount,
-      discount_code,
-      total
-    } = req.body;
-    if (!customer_name || !customer_phone || !customer_city || !customer_street || !items || !total) {
+      discount_code
+    } = req.body || {};
+
+    // --- Customer field validation -----------------------------------------
+    const str = (v: any, maxLen: number) => (typeof v === 'string' ? v.trim().slice(0, maxLen) : '');
+    const nameField = str(customer_name, 200);
+    const phoneField = str(customer_phone, 50);
+    const cityField = str(customer_city, 120);
+    const streetField = str(customer_street, 300);
+    const countryField = str(customer_country, 120) || 'Morocco 🇲🇦';
+    const apartmentField = str(customer_apartment, 120);
+    const notesField = str(order_notes, 2000);
+    const emailField = str(customer_email, 200);
+
+    if (!nameField || !phoneField || !cityField || !streetField) {
       return res.status(400).json({ error: 'Missing mandatory order fields' });
     }
+    if (emailField && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailField)) {
+      return res.status(400).json({ error: 'Invalid customer email format' });
+    }
+
+    const method = str(payment_method, 20) || 'cod';
+    if (!['cod'].includes(method)) {
+      return res.status(400).json({ error: 'Invalid payment method' });
+    }
+
+    // --- Idempotency check ---------------------------------------------------
+    const existingOrderId = lookupIdempotency(idempotencyKey);
+    if (existingOrderId) {
+      const existing = await getOrderById(existingOrderId);
+      if (existing) {
+        return res.json(existing);
+      }
+    }
+    const persistedDup = await getOrderByIdempotencyKey(idempotencyKey);
+    if (persistedDup) {
+      rememberIdempotency(idempotencyKey, persistedDup.id);
+      return res.json(persistedDup);
+    }
+
+    // --- Item validation ------------------------------------------------------
+    if (!Array.isArray(items) || items.length === 0) {
+      return res.status(400).json({ error: 'Items array is required and cannot be empty' });
+    }
+
+    interface TrustedItem { product_id: string; quantity: number; selected_size: string; }
+    const trustItems: TrustedItem[] = [];
+    for (const raw of items) {
+      const productId = str(raw?.product_id, 200);
+      const selectedSize = str(raw?.selected_size, 120);
+      if (!productId) {
+        return res.status(400).json({ error: 'Each item requires a product_id' });
+      }
+      if (typeof raw?.quantity !== 'number' || !Number.isInteger(raw.quantity) || raw.quantity < 1) {
+        return res.status(400).json({ error: `Invalid quantity for product ${productId}` });
+      }
+      if (raw.quantity > 99) {
+        return res.status(400).json({ error: `Quantity exceeds the maximum of 99 for product ${productId}` });
+      }
+      trustItems.push({ product_id: productId, quantity: raw.quantity, selected_size: selectedSize });
+    }
+
+    // --- Authoritative product resolution --------------------------------------
+    const resolved: { product: Product; quantity: number; selected_size: string }[] = [];
+    const quantityByProduct = new Map<string, number>();
+    for (const item of trustItems) {
+      const product = await getProductById(item.product_id);
+      if (!product || typeof product.price !== 'number' || product.price <= 0) {
+        return res.status(404).json({ error: `Product not found: ${item.product_id}` });
+      }
+      resolved.push({ product, quantity: item.quantity, selected_size: item.selected_size });
+      quantityByProduct.set(item.product_id, (quantityByProduct.get(item.product_id) || 0) + item.quantity);
+    }
+
+    // --- Server-side pricing (promo, shipping, total) --------------------------
+    const subtotal = resolved.reduce((sum, r) => sum + r.product.price * r.quantity, 0);
+
+    let discountAmount = 0;
+    let normalizedDiscountCode = '';
+    const promoCode = str(discount_code, 40).toUpperCase();
+    if (promoCode) {
+      const percent = PROMO_CODES[promoCode];
+      if (typeof percent === 'number' && percent > 0) {
+        normalizedDiscountCode = promoCode;
+        discountAmount = (subtotal * percent) / 100;
+      }
+    }
+
+    const shippingCost = 0; // shipping is free by business rule
+    const total = Math.max(0, subtotal - discountAmount + shippingCost);
+
     const orderId = 'ORD-' + Math.random().toString(36).substr(2, 9).toUpperCase();
-    const created = await createOrder({
-      id: orderId,
-      customer_name,
-      customer_phone: customer_phone || '',
-      customer_email: customer_email || '',
-      customer_country: customer_country || 'Morocco 🇲🇦',
-      customer_city,
-      customer_street,
-      customer_apartment: customer_apartment || '',
-      payment_method: payment_method || 'cod',
-      order_notes: order_notes || '',
-      items,
-      subtotal: subtotal || 0,
-      shipping_cost: shipping_cost || 0,
-      discount_amount: discount_amount || 0,
-      discount_code: discount_code || '',
-      total
+
+    const orderItems: Order['items'] = resolved.map(r => ({
+      product_id: r.product.id,
+      name: r.product.name,
+      price: r.product.price,
+      quantity: r.quantity,
+      selected_size: r.selected_size,
+      image: (r.product.images && r.product.images[0]) || ''
+    }));
+
+    // --- Serialized commit: lock -> stock check -> decrement -> create ----------
+    const created = await withOrderLock(async () => {
+      // Re-check idempotency under the lock (guards simultaneous duplicate posts).
+      const lockExistingOrderId = lookupIdempotency(idempotencyKey);
+      if (lockExistingOrderId) {
+        const prior = await getOrderById(lockExistingOrderId);
+        if (prior) return prior;
+      }
+      const lockDup = await getOrderByIdempotencyKey(idempotencyKey);
+      if (lockDup) {
+        rememberIdempotency(idempotencyKey, lockDup.id);
+        return lockDup;
+      }
+
+      // Fresh authoritative stock read under the lock.
+      for (const { product_id, quantity } of trustItems) {
+        const available = await getProductStock(product_id);
+        if (available < quantity) {
+          const prod = await getProductById(product_id);
+          throw new HttpError(409, `Insufficient stock for ${prod?.name || product_id}`);
+        }
+      }
+
+      // Decrement all stock, tracking what we changed for rollback on failure.
+      const decremented: { product_id: string; quantity: number }[] = [];
+      try {
+        for (const { product_id, quantity } of trustItems) {
+          await decrementProductStock(product_id, quantity);
+          decremented.push({ product_id, quantity });
+        }
+      } catch (err) {
+        console.error('[Order Rollback] Stock decrement failed, restoring:', err);
+        for (const d of decremented) {
+          await restoreProductStock(d.product_id, d.quantity);
+        }
+        throw new HttpError(500, 'Failed to reserve stock for the order');
+      }
+
+      let saved: Order;
+      try {
+        saved = await createOrder({
+          id: orderId,
+          customer_name: nameField,
+          customer_phone: phoneField,
+          customer_email: emailField,
+          customer_country: countryField,
+          customer_city: cityField,
+          customer_street: streetField,
+          customer_apartment: apartmentField,
+          payment_method: method,
+          order_notes: notesField,
+          items: orderItems,
+          subtotal,
+          shipping_cost: shippingCost,
+          discount_amount: discountAmount,
+          discount_code: normalizedDiscountCode,
+          total,
+          idempotency_key: idempotencyKey
+        });
+      } catch (err) {
+        console.error('[Order Rollback] Order creation failed, restoring stock:', err);
+        for (const d of decremented) {
+          await restoreProductStock(d.product_id, d.quantity);
+        }
+        throw new HttpError(500, 'Failed to register order');
+      }
+
+      rememberIdempotency(idempotencyKey, saved.id);
+      return saved;
     });
-    res.json(created);
+
+    return res.json(created);
   } catch (err: any) {
+    if (err instanceof HttpError) {
+      return res.status(err.status).json({ error: err.message });
+    }
     res.status(500).json({ error: 'Failed to register order', details: err.message });
   }
 });

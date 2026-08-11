@@ -45,6 +45,7 @@ export interface Order {
   discount_amount: number;
   discount_code?: string;
   total: number;
+  idempotency_key?: string;
   status: 'pending' | 'confirmed' | 'shipped' | 'delivered' | 'cancelled';
   created_at: string;
 }
