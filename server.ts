@@ -24,6 +24,8 @@ import {
   getOrderById,
   getOrderByIdempotencyKey,
   createOrder, 
+  createOrderWithStock,
+  supabaseMode,
   updateOrderStatus,
   deleteOrder,
   getMessages,
@@ -362,6 +364,42 @@ app.post('/api/orders', async (req, res) => {
       if (lockDup) {
         rememberIdempotency(idempotencyKey, lockDup.id);
         return lockDup;
+      }
+
+      // Supabase mode: one atomic RPC validates stock, decrements it and inserts
+      // the order inside a single PostgreSQL transaction. Idempotency is still
+      // re-checked inside the RPC, so correctness no longer depends on this lock
+      // or on the local read-stock -> decrement -> create -> restore sequence.
+      if (supabaseMode) {
+        try {
+          const saved = await createOrderWithStock({
+            id: orderId,
+            customer_name: nameField,
+            customer_phone: phoneField,
+            customer_email: emailField,
+            customer_country: countryField,
+            customer_city: cityField,
+            customer_street: streetField,
+            customer_apartment: apartmentField,
+            payment_method: method,
+            order_notes: notesField,
+            items: orderItems,
+            subtotal,
+            shipping_cost: shippingCost,
+            discount_amount: discountAmount,
+            discount_code: normalizedDiscountCode,
+            total,
+            idempotency_key: idempotencyKey,
+            status: 'pending'
+          });
+          rememberIdempotency(idempotencyKey, saved.id);
+          return saved;
+        } catch (err: any) {
+          if (err && err.isInsufficientStock) {
+            throw new HttpError(409, 'Insufficient stock for one or more items');
+          }
+          throw err;
+        }
       }
 
       // Fresh authoritative stock read under the lock.

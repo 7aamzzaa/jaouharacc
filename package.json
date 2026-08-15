@@ -9,7 +9,9 @@
     "start": "node dist/server.cjs",
     "preview": "set NODE_ENV=production&&node dist/server.cjs",
     "clean": "rm -rf dist server.js",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "db:migrate": "supabase db push",
+    "db:migrate:data": "tsx scripts/migrate-to-supabase.ts"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",

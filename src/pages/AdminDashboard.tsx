@@ -1733,7 +1733,7 @@ export default function AdminDashboard({
               const filtered = reviews.filter(r => {
                 if (!reviewsSearch) return true;
                 const q = reviewsSearch.toLowerCase();
-                return (r.reviewer_name || '').toLowerCase().includes(q) ||
+                return (r.customerName || '').toLowerCase().includes(q) ||
                   (r.comment || '').toLowerCase().includes(q) ||
                   (r.product_id || '').toLowerCase().includes(q);
               });
@@ -1760,8 +1760,8 @@ export default function AdminDashboard({
                       {filtered.map((r) => (
                         <tr key={r.id} className={`hover:bg-luxe-pink-50/20 ${r.status === 'pending' ? 'bg-champagne-50/30' : ''}`}>
                           <td className="p-4">
-                            <span className="font-semibold text-stone-900 block text-sm">{r.reviewer_name}</span>
-                            <span className="text-stone-400 block font-mono text-[10px]">{new Date(r.created_at).toLocaleDateString()}</span>
+                            <span className="font-semibold text-stone-900 block text-sm">{r.customerName}</span>
+                            <span className="text-stone-400 block font-mono text-[10px]">{new Date(r.createdAt).toLocaleDateString()}</span>
                           </td>
                           <td className="p-4 text-stone-600 font-medium max-w-[200px]">
                             <span className="line-clamp-1 font-mono text-[11px]">{r.product_id}</span>
@@ -1788,9 +1788,9 @@ export default function AdminDashboard({
                             </span>
                           </td>
                           <td className="p-4 text-stone-500 font-mono text-[11px] whitespace-nowrap">
-                            {new Date(r.created_at).toLocaleDateString(undefined, { dateStyle: 'medium' })}
+                            {new Date(r.createdAt).toLocaleDateString(undefined, { dateStyle: 'medium' })}
                             <br />
-                            <span className="text-[10px] text-stone-400">{new Date(r.created_at).toLocaleTimeString(undefined, { timeStyle: 'short' })}</span>
+                            <span className="text-[10px] text-stone-400">{new Date(r.createdAt).toLocaleTimeString(undefined, { timeStyle: 'short' })}</span>
                           </td>
                           <td className="p-4 text-end">
                             <div className="flex items-center justify-end gap-2">
