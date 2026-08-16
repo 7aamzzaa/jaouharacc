@@ -64,7 +64,7 @@ interface OrderDbRow {
   id: string;
   customer_name: string;
   customer_phone: string;
-  customer_email: string;
+  customer_email: string | null;
   customer_country: string;
   customer_city: string;
   customer_street: string;
@@ -143,7 +143,7 @@ function orderToDb(o: Order): OrderDbRow {
     id: o.id,
     customer_name: o.customer_name,
     customer_phone: o.customer_phone,
-    customer_email: o.customer_email,
+    customer_email: (typeof o.customer_email === 'string' && o.customer_email.trim()) || null,
     customer_country: o.customer_country,
     customer_city: o.customer_city,
     customer_street: o.customer_street,
@@ -277,7 +277,7 @@ function preflight(datasets: {
   );
   problems.push(
     ...assertRequiredFields('orders', datasets.orders as unknown as Record<string, unknown>[], [
-      'id', 'customer_name', 'customer_phone', 'customer_email', 'customer_country',
+      'id', 'customer_name', 'customer_phone', 'customer_country',
       'customer_city', 'customer_street', 'payment_method', 'items', 'subtotal',
       'shipping_cost', 'discount_amount', 'total', 'status', 'created_at'
     ])
