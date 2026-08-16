@@ -179,8 +179,6 @@ insert into storage.buckets (id, name, public)
 values ('ccjaouhara-images', 'ccjaouhara-images', true)
 on conflict (id) do nothing;
 
-alter table storage.objects enable row level security;
-
 create policy "storage_ccjaouhara_images_public_read"
   on storage.objects
   for select

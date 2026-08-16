@@ -106,6 +106,7 @@ async function mirrorOrdersToDisk(): Promise<void> {
 // Auto-seed Supabase database table 'products' if connected and empty
 export async function seedProductsIfEmpty() {
   if (!supabaseMode) return;
+  if (process.env.NODE_ENV === 'production') return;
   try {
     console.log('[DB] Querying products table to check if seeding is needed...');
     const { data, error } = await supabase
