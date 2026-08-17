@@ -41,6 +41,7 @@ import {
   deleteReview,
   getSupabaseClient,
   withOrderLock,
+  initializeSupabaseStartup,
   getProductStock,
   decrementProductStock,
   restoreProductStock
@@ -853,6 +854,10 @@ async function start() {
     });
     console.log('[Production] Static dist content serving active.');
   }
+
+  initializeSupabaseStartup().catch(err => {
+    console.warn('[DB] Startup seed/mirror failed:', err?.message || err);
+  });
 
   app.listen(PORT, () => {
     console.log(`[ccjaouhara Server] Live on network interface http://localhost:${PORT}`);

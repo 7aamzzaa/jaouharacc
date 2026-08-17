@@ -138,17 +138,14 @@ export async function seedProductsIfEmpty() {
   }
 }
 
-// Call seed verification on startup, then refresh the local JSON mirror so it
-// stays an accurate backup of the authoritative store while Supabase is up.
-seedProductsIfEmpty()
-  .then(() => {
-    if (supabaseMode) {
-      return Promise.all([mirrorProductsToDisk(), mirrorOrdersToDisk()]);
-    }
-  })
-  .catch(err => {
-    console.warn('[DB] Startup mirror refresh failed:', err?.message || err);
-  });
+// Seed + mirror must be called explicitly at server startup (not at import
+// time) to avoid writing to data/*.json when the module is merely imported.
+export async function initializeSupabaseStartup(): Promise<void> {
+  await seedProductsIfEmpty();
+  if (supabaseMode) {
+    await Promise.all([mirrorProductsToDisk(), mirrorOrdersToDisk()]);
+  }
+}
 
 // ------------------------------------------------------------------------
 // Get Supabase Client Instance (for external storage upload)
