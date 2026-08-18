@@ -450,7 +450,10 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
               <ProductCard
                 key={product.id}
                 product={product}
-                onViewDetails={(id) => onPageChange('product', { id })}
+                onViewDetails={(id) => {
+                  const p = products.find(x => x.id === id);
+                  onPageChange('product', { slug: p?.slug, id });
+                }}
                 onAddToCartDirect={onAddToCartDirect}
                 wishlist={wishlist}
                 onToggleWishlist={onToggleWishlist}
@@ -525,7 +528,10 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
               <ProductCard
                 key={product.id}
                 product={product}
-                onViewDetails={(id) => onPageChange('product', { id })}
+                onViewDetails={(id) => {
+                  const p = products.find(x => x.id === id);
+                  onPageChange('product', { slug: p?.slug, id });
+                }}
                 onAddToCartDirect={onAddToCartDirect}
                 wishlist={wishlist}
                 onToggleWishlist={onToggleWishlist}

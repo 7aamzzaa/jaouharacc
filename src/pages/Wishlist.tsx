@@ -41,7 +41,10 @@ export default function Wishlist({ wishlist, allProducts, onToggleWishlist, onPa
             <ProductCard
               key={product.id}
               product={product}
-              onViewDetails={(id) => onPageChange('product', { id })}
+              onViewDetails={(id) => {
+                const p = allProducts.find(x => x.id === id);
+                onPageChange('product', { slug: p?.slug, id });
+              }}
               onAddToCartDirect={onAddToCartDirect}
               wishlist={wishlist}
               onToggleWishlist={onToggleWishlist}

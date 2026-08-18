@@ -13,7 +13,7 @@ const ReviewList = lazy(() => import('../components/reviews/ReviewList'));
 const ReviewForm = lazy(() => import('../components/reviews/ReviewForm'));
 
 interface ProductDetailProps {
-  productId: string;
+  productParam: string;
   allProducts: Product[];
   onAddToCart: (product: Product, quantity: number, size: string) => void;
   wishlist: string[];
@@ -22,7 +22,7 @@ interface ProductDetailProps {
   currency: 'USD' | 'MAD';
 }
 
-export default function ProductDetail({ productId, allProducts, onAddToCart, wishlist, onToggleWishlist, onPageChange, currency }: ProductDetailProps) {
+export default function ProductDetail({ productParam, allProducts, onAddToCart, wishlist, onToggleWishlist, onPageChange, currency }: ProductDetailProps) {
   const [product, setProduct] = useState<Product | null>(null);
   const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
   const [selectedSize, setSelectedSize] = useState<string>('Medium (7.0")');
@@ -78,9 +78,10 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
     });
   }, []);
 
-  // Load product criteria
+  // Load product: try slug first, then fall back to ID for backward compatibility
   useEffect(() => {
-    const found = allProducts.find(p => p.id === productId);
+    const found = allProducts.find(p => p.slug && p.slug === productParam)
+      || allProducts.find(p => p.id === productParam);
     if (found) {
       setProduct(found);
       setActiveImageIndex(0);
@@ -88,7 +89,113 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
     }
     // Scroll to top on load
     window.scrollTo(0, 0);
-  }, [productId, allProducts]);
+  }, [productParam, allProducts]);
+
+  // Dynamic SEO Meta tags injection
+  useEffect(() => {
+    if (!product) return;
+
+    const prevTitle = document.title;
+    const title = product.seoTitle || `${product.name} | CCJAOUHARA`;
+    document.title = title;
+
+    const metaDesc = product.metaDescription || product.description?.slice(0, 160) || '';
+    const url = typeof window !== 'undefined' ? window.location.origin + '/product/' + (product.slug || product.id) : '';
+
+    // meta description
+    let elDescription = document.querySelector<HTMLMetaElement>('meta[name="description"]');
+    const prevDescription = elDescription?.getAttribute('content') || '';
+    if (!elDescription) {
+      elDescription = document.createElement('meta');
+      elDescription.setAttribute('name', 'description');
+      document.head.appendChild(elDescription);
+    }
+    elDescription.setAttribute('content', metaDesc);
+
+    // canonical link
+    let elCanonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
+    const prevCanonical = elCanonical?.getAttribute('href') || '';
+    if (!elCanonical) {
+      elCanonical = document.createElement('link');
+      elCanonical.setAttribute('rel', 'canonical');
+      document.head.appendChild(elCanonical);
+    }
+    elCanonical.setAttribute('href', url);
+
+    // Open Graph tags
+    const ogTags: [string, string][] = [
+      ['og:title', title],
+      ['og:description', metaDesc],
+      ['og:image', product.images?.[0] || ''],
+      ['og:url', url],
+      ['og:type', 'product'],
+    ];
+    const prevOg: [HTMLMetaElement, string][] = [];
+    for (const [property, content] of ogTags) {
+      let el = document.querySelector<HTMLMetaElement>(`meta[property="${property}"]`);
+      const prev = el?.getAttribute('content') || '';
+      if (!el) {
+        el = document.createElement('meta');
+        el.setAttribute('property', property);
+        document.head.appendChild(el);
+      }
+      el.setAttribute('content', content);
+      prevOg.push([el, prev]);
+    }
+
+    // Twitter Card tags
+    const twitterTags: [string, string][] = [
+      ['twitter:card', 'summary_large_image'],
+      ['twitter:title', title],
+      ['twitter:description', metaDesc],
+      ['twitter:image', product.images?.[0] || ''],
+    ];
+    const prevTwitter: [HTMLMetaElement, string][] = [];
+    for (const [name, content] of twitterTags) {
+      let el = document.querySelector<HTMLMetaElement>(`meta[name="${name}"]`);
+      const prev = el?.getAttribute('content') || '';
+      if (!el) {
+        el = document.createElement('meta');
+        el.setAttribute('name', name);
+        document.head.appendChild(el);
+      }
+      el.setAttribute('content', content);
+      prevTwitter.push([el, prev]);
+    }
+
+    return () => {
+      document.title = prevTitle;
+
+      if (elDescription) {
+        if (prevDescription) {
+          elDescription.setAttribute('content', prevDescription);
+        } else {
+          elDescription.remove();
+        }
+      }
+      if (elCanonical) {
+        if (prevCanonical) {
+          elCanonical.setAttribute('href', prevCanonical);
+        } else {
+          elCanonical.remove();
+        }
+      }
+      for (const [el, prev] of prevOg) {
+        if (prev) {
+          el.setAttribute('content', prev);
+        } else {
+          el.remove();
+        }
+      }
+      for (const [el, prev] of prevTwitter) {
+        if (prev) {
+          el.setAttribute('content', prev);
+        } else {
+          el.remove();
+        }
+      }
+    };
+  }, [product]);
 
   // Save current product to recently viewed
   useEffect(() => {
@@ -157,7 +264,7 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
     return shuffled.slice(0, 4);
-  }, [productId, allProducts, product]);
+  }, [productParam, allProducts, product]);
 
   // Recently viewed products from localStorage
   const recentlyViewedProducts = useMemo(() => {
@@ -175,8 +282,9 @@ export default function ProductDetail({ productId, allProducts, onAddToCart, wis
   }, [onAddToCart]);
 
   const handleViewRelated = useCallback((id: string) => {
-    onPageChange('product', { id });
-  }, [onPageChange]);
+    const related = allProducts.find(p => p.id === id);
+    onPageChange('product', { slug: related?.slug, id });
+  }, [onPageChange, allProducts]);
 
   const productSchema = useMemo(() => {
     if (!product) return null;

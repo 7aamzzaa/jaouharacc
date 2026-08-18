@@ -151,7 +151,7 @@ const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToC
         isOpen={showShareModal}
         onClose={() => setShowShareModal(false)}
         productName={product.name}
-        productUrl={typeof window !== 'undefined' ? `${window.location.origin}/product/${product.id}` : ''}
+        productUrl={typeof window !== 'undefined' ? `${window.location.origin}/product/${product.slug || product.id}` : ''}
       />
 
     </div>

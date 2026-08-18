@@ -212,7 +212,8 @@ export default function App() {
         }
         break;
       case 'product':
-        if (params?.id) navigate(`/product/${params.id}`);
+        if (params?.slug) navigate(`/product/${params.slug}`);
+        else if (params?.id) navigate(`/product/${params.id}`);
         break;
       case 'blog':
         navigate('/blog');
@@ -295,7 +296,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<Home products={allProducts} isLoading={loadingProducts} onAddToCartDirect={handleQuickAdd} onPageChange={handlePageChange} wishlist={wishlist} onToggleWishlist={handleToggleWishlist} currency={currency} />} />
           <Route path="/shop" element={<ShopWithParams products={allProducts} isLoading={loadingProducts} onAddToCartDirect={handleQuickAdd} onPageChange={handlePageChange} wishlist={wishlist} onToggleWishlist={handleToggleWishlist} currency={currency} />} />
-          <Route path="/product/:id" element={<ProductDetailWithParams allProducts={allProducts} onAddToCart={handleAddToCart} onPageChange={handlePageChange} wishlist={wishlist} onToggleWishlist={handleToggleWishlist} currency={currency} />} />
+          <Route path="/product/:slug" element={<ProductDetailWithParams allProducts={allProducts} onAddToCart={handleAddToCart} onPageChange={handlePageChange} wishlist={wishlist} onToggleWishlist={handleToggleWishlist} currency={currency} />} />
           <Route path="/cart" element={<Cart cart={cart} onUpdateQuantity={handleUpdateCartQuantity} onRemoveItem={handleRemoveCartItem} onPageChange={handlePageChange} onClearCart={handleClearCart} currency={currency} />} />
           <Route path="/checkout" element={<CheckoutSimulation onClearCart={handleClearCart} onPageChange={handlePageChange} currency={currency} />} />
           <Route path="/order-confirmation" element={<OrderConfirmation onPageChange={handlePageChange} currency={currency} />} />
@@ -437,8 +438,8 @@ function ShopWithParams(props: any) {
 }
 
 function ProductDetailWithParams(props: any) {
-  const { id } = useParams();
-  return <ProductDetail {...props} productId={id || ''} />;
+  const { slug } = useParams();
+  return <ProductDetail {...props} productParam={slug || ''} />;
 }
 
 function BlogArticleWithParams(props: any) {

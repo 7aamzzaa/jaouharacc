@@ -447,7 +447,10 @@ export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOp
           isOpen={searchOpen}
           onClose={() => setSearchOpen(false)}
           products={allProducts}
-          onSelectProduct={(id) => onPageChange('product', { id })}
+          onSelectProduct={(id) => {
+            const p = allProducts.find(x => x.id === id);
+            onPageChange('product', { slug: p?.slug, id });
+          }}
           currency={currency}
         />
       </Suspense>

@@ -193,12 +193,104 @@ app.get('/api/products/:id', async (req, res) => {
 });
 
 // Upsert product (Add / Edit) - Admin Area
+const VALID_PRODUCT_CATEGORIES = ['bracelets', 'rings', 'earrings', 'anklets', 'necklaces', 'jewelry_sets'];
+
 app.post('/api/products', requireAdmin, async (req, res) => {
   try {
-    const productData = req.body as Product;
-    if (!productData.name || !productData.price) {
-      return res.status(400).json({ error: 'Product name and price are required' });
+    const raw = req.body || {};
+
+    // --- Validate and normalize fields ----------------------------------------
+    const name = typeof raw.name === 'string' ? raw.name.trim() : '';
+    if (!name) {
+      return res.status(400).json({ error: 'Product name is required' });
     }
+
+    const description = typeof raw.description === 'string' ? raw.description.trim() : '';
+    if (!description) {
+      return res.status(400).json({ error: 'Product description is required' });
+    }
+
+    const price = Number(raw.price);
+    if (!Number.isFinite(price) || price <= 0) {
+      return res.status(400).json({ error: 'Product price must be a positive number' });
+    }
+
+    const stock = Number(raw.stock);
+    if (!Number.isFinite(stock) || stock < 0 || !Number.isInteger(stock)) {
+      return res.status(400).json({ error: 'Stock must be a non-negative integer' });
+    }
+
+    const category = typeof raw.category === 'string' ? raw.category.trim() : '';
+    if (!VALID_PRODUCT_CATEGORIES.includes(category)) {
+      return res.status(400).json({ error: `Invalid category. Allowed: ${VALID_PRODUCT_CATEGORIES.join(', ')}` });
+    }
+
+    // Images: must be a non-empty array, max 10, each a non-empty string
+    let images: string[] = [];
+    if (Array.isArray(raw.images)) {
+      images = raw.images
+        .filter((u: any) => typeof u === 'string' && u.trim().length > 0)
+        .map((u: string) => u.trim());
+    } else if (typeof raw.images === 'string') {
+      // Allow comma-separated string from the admin form
+      images = raw.images.split(',').map((u: string) => u.trim()).filter((u: string) => u.length > 0);
+    }
+    if (images.length === 0) {
+      return res.status(400).json({ error: 'At least one product image is required' });
+    }
+    if (images.length > 10) {
+      return res.status(400).json({ error: 'Maximum 10 images allowed' });
+    }
+
+    const materialNorm = typeof raw.material === 'string' ? raw.material.trim() : '';
+    const colorNorm = typeof raw.color === 'string' ? raw.color.trim() : '';
+
+    // --- Determine if this is a new product or an edit -----------------------
+    const isEdit = typeof raw.id === 'string' && raw.id.trim().length > 0;
+    const productId = isEdit ? raw.id.trim() : 'prod-' + Date.now();
+
+    // For edits, preserve existing rating/reviews if the client did not send them
+    let existingRating = 0;
+    let existingReviews = 0;
+    if (isEdit) {
+      const existing = await getProductById(productId);
+      if (existing) {
+        existingRating = typeof existing.rating === 'number' ? existing.rating : 0;
+        existingReviews = typeof existing.reviews === 'number' ? existing.reviews : 0;
+      }
+    }
+
+    // --- Auto-generate slug from name when not provided ----------------------
+    const slug = typeof raw.slug === 'string' && raw.slug.trim()
+      ? raw.slug.trim()
+      : name.toLowerCase().trim()
+          .replace(/[^a-z0-9\s-]/g, '')
+          .replace(/\s+/g, '-')
+          .replace(/-+/g, '-')
+          .replace(/^-|-$/g, '');
+
+    // --- Build the trusted product object ------------------------------------
+    const productData: Product = {
+      id: productId,
+      name,
+      description,
+      price,
+      images,
+      stock,
+      category,
+      material: materialNorm,
+      color: colorNorm,
+      rating: typeof raw.rating === 'number' ? raw.rating : existingRating,
+      reviews: typeof raw.reviews === 'number' ? raw.reviews : existingReviews,
+      seoTitle: typeof raw.seoTitle === 'string' && raw.seoTitle.trim() ? raw.seoTitle.trim() : undefined,
+      metaDescription: typeof raw.metaDescription === 'string' && raw.metaDescription.trim() ? raw.metaDescription.trim() : undefined,
+      slug: slug || undefined,
+      imageAltText: typeof raw.imageAltText === 'string' && raw.imageAltText.trim() ? raw.imageAltText.trim() : undefined,
+      tags: Array.isArray(raw.tags) ? raw.tags.filter((t: any) => typeof t === 'string' && t.trim()) : undefined,
+      primaryKeyword: typeof raw.primaryKeyword === 'string' && raw.primaryKeyword.trim() ? raw.primaryKeyword.trim() : undefined,
+      secondaryKeywords: Array.isArray(raw.secondaryKeywords) ? raw.secondaryKeywords.filter((k: any) => typeof k === 'string' && k.trim()) : undefined
+    };
+
     const saved = await upsertProduct(productData);
     res.json(saved);
   } catch (err: any) {
