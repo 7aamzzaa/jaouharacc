@@ -778,30 +778,49 @@ app.post('/api/upload', requireAdmin, async (req, res) => {
 });
 
 // Stripe checkout sessions router
+// NEVER trust client-provided prices — resolve every product from the DB.
 app.post('/api/checkout/create-session', async (req, res) => {
   try {
-    const { items, customer_name, customer_email, total } = req.body;
+    const { items, customer_name, customer_email } = req.body;
 
-    if (!items || items.length === 0) {
+    if (!Array.isArray(items) || items.length === 0) {
       return res.status(400).json({ error: 'Your cart is completely empty.' });
     }
 
     const appUrl = process.env.APP_URL || 'http://localhost:3000';
-
-    // ALWAYS use/initialize Stripe as requested: "Replace CheckoutSimulation page with real Stripe Checkout Session"
     const stripe = getStripe();
 
-    const lineItems = items.map((item: any) => ({
+    // --- Validate items and resolve prices from the database -----------------
+    const resolved: { product: Product; quantity: number; selected_size: string }[] = [];
+    for (const raw of items) {
+      const productId = typeof raw?.product_id === 'string' ? raw.product_id.trim().slice(0, 200) : '';
+      if (!productId) {
+        return res.status(400).json({ error: 'Each item requires a product_id' });
+      }
+      if (typeof raw?.quantity !== 'number' || !Number.isInteger(raw.quantity) || raw.quantity < 1 || raw.quantity > 99) {
+        return res.status(400).json({ error: `Invalid quantity for product ${productId}` });
+      }
+      const product = await getProductById(productId);
+      if (!product || typeof product.price !== 'number' || product.price <= 0) {
+        return res.status(404).json({ error: `Product not found: ${productId}` });
+      }
+      resolved.push({ product, quantity: raw.quantity, selected_size: typeof raw?.selected_size === 'string' ? raw.selected_size.trim().slice(0, 120) : '' });
+    }
+
+    const subtotal = resolved.reduce((sum, r) => sum + r.product.price * r.quantity, 0);
+    const total = Math.max(0, subtotal);
+
+    const lineItems = resolved.map(r => ({
       price_data: {
         currency: 'usd',
         product_data: {
-          name: item.name,
-          images: item.image ? [item.image] : [],
-          description: `Size: ${item.selected_size}`,
+          name: r.product.name,
+          images: r.product.images?.[0] ? [r.product.images[0]] : [],
+          description: r.selected_size ? `Size: ${r.selected_size}` : undefined,
         },
-        unit_amount: Math.round(item.price * 100), // in cents
+        unit_amount: Math.round(r.product.price * 100),
       },
-      quantity: item.quantity,
+      quantity: r.quantity,
     }));
 
     const orderId = 'ORD-' + Math.random().toString(36).substr(2, 9).toUpperCase();
@@ -810,13 +829,13 @@ app.post('/api/checkout/create-session', async (req, res) => {
       payment_method_types: ['card'],
       line_items: lineItems,
       mode: 'payment',
-      success_url: `${appUrl}/order-confirmation?status=success&orderId=${orderId}&email=${encodeURIComponent(customer_email)}&name=${encodeURIComponent(customer_name)}&total=${total}&items=${encodeURIComponent(JSON.stringify(items))}`,
+      success_url: `${appUrl}/order-confirmation?status=success&orderId=${orderId}&email=${encodeURIComponent(customer_email || '')}`,
       cancel_url: `${appUrl}/cart`,
       customer_email: customer_email,
       metadata: {
         orderId,
-        customer_name,
-        customer_email,
+        customer_name: customer_name || '',
+        customer_email: customer_email || '',
         totalString: String(total)
       }
     });

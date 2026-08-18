@@ -138,13 +138,12 @@ export async function seedProductsIfEmpty() {
   }
 }
 
-// Seed + mirror must be called explicitly at server startup (not at import
-// time) to avoid writing to data/*.json when the module is merely imported.
+// Seed Supabase products table if empty (only during initial setup).
+// Mirror functions are NOT called here — they run after individual writes
+// (upsertProduct, createOrder, etc.) and must never execute at startup
+// because they overwrite data/products.json and data/orders.json.
 export async function initializeSupabaseStartup(): Promise<void> {
   await seedProductsIfEmpty();
-  if (supabaseMode) {
-    await Promise.all([mirrorProductsToDisk(), mirrorOrdersToDisk()]);
-  }
 }
 
 // ------------------------------------------------------------------------
