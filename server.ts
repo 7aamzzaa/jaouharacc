@@ -195,106 +195,168 @@ app.get('/api/products/:id', async (req, res) => {
 // Upsert product (Add / Edit) - Admin Area
 const VALID_PRODUCT_CATEGORIES = ['bracelets', 'rings', 'earrings', 'anklets', 'necklaces', 'jewelry_sets'];
 
+function validateOneProduct(raw: any, index?: number): { status: 'ok'; product: Product } | { status: 'error'; error: string } {
+  const prefix = index !== undefined ? `[Product ${index}] ` : '';
+
+  const name = typeof raw.name === 'string' ? raw.name.trim() : '';
+  if (!name) return { status: 'error', error: `${prefix}Product name is required` };
+
+  const description = typeof raw.description === 'string' ? raw.description.trim() : '';
+  if (!description) return { status: 'error', error: `${prefix}Product description is required` };
+
+  const price = Number(raw.price);
+  if (!Number.isFinite(price) || price <= 0) return { status: 'error', error: `${prefix}Product price must be a positive number` };
+
+  const stock = Number(raw.stock);
+  if (!Number.isFinite(stock) || stock < 0 || !Number.isInteger(stock)) return { status: 'error', error: `${prefix}Stock must be a non-negative integer` };
+
+  const category = typeof raw.category === 'string' ? raw.category.trim() : '';
+  if (!VALID_PRODUCT_CATEGORIES.includes(category)) return { status: 'error', error: `${prefix}Invalid category. Allowed: ${VALID_PRODUCT_CATEGORIES.join(', ')}` };
+
+  let images: string[] = [];
+  if (Array.isArray(raw.images)) {
+    images = raw.images
+      .filter((u: any) => typeof u === 'string' && u.trim().length > 0)
+      .map((u: string) => u.trim());
+  } else if (typeof raw.images === 'string') {
+    images = raw.images.split(',').map((u: string) => u.trim()).filter((u: string) => u.length > 0);
+  }
+  if (images.length === 0) return { status: 'error', error: `${prefix}At least one product image is required` };
+  if (images.length > 10) return { status: 'error', error: `${prefix}Maximum 10 images allowed` };
+
+  const materialNorm = typeof raw.material === 'string' ? raw.material.trim() : '';
+  const colorNorm = typeof raw.color === 'string' ? raw.color.trim() : '';
+
+  const slug = typeof raw.slug === 'string' && raw.slug.trim()
+    ? raw.slug.trim()
+    : name.toLowerCase().trim()
+        .replace(/[^a-z0-9\s-]/g, '')
+        .replace(/\s+/g, '-')
+        .replace(/-+/g, '-')
+        .replace(/^-|-$/g, '');
+
+  const product: Product = {
+    id: typeof raw.id === 'string' && raw.id.trim() ? raw.id.trim() : 'prod-' + Date.now() + (index !== undefined ? `-${index}` : ''),
+    name,
+    description,
+    price,
+    images,
+    stock,
+    category,
+    material: materialNorm,
+    color: colorNorm,
+    rating: 0,
+    reviews: 0,
+    seoTitle: typeof raw.seoTitle === 'string' && raw.seoTitle.trim() ? raw.seoTitle.trim() : undefined,
+    metaDescription: typeof raw.metaDescription === 'string' && raw.metaDescription.trim() ? raw.metaDescription.trim() : undefined,
+    slug: slug || undefined,
+    imageAltText: typeof raw.imageAltText === 'string' && raw.imageAltText.trim() ? raw.imageAltText.trim() : undefined,
+    tags: Array.isArray(raw.tags) ? raw.tags.filter((t: any) => typeof t === 'string' && t.trim()) : undefined,
+    primaryKeyword: typeof raw.primaryKeyword === 'string' && raw.primaryKeyword.trim() ? raw.primaryKeyword.trim() : undefined,
+    secondaryKeywords: Array.isArray(raw.secondaryKeywords) ? raw.secondaryKeywords.filter((k: any) => typeof k === 'string' && k.trim()) : undefined
+  };
+
+  return { status: 'ok', product };
+}
+
 app.post('/api/products', requireAdmin, async (req, res) => {
   try {
     const raw = req.body || {};
-
-    // --- Validate and normalize fields ----------------------------------------
-    const name = typeof raw.name === 'string' ? raw.name.trim() : '';
-    if (!name) {
-      return res.status(400).json({ error: 'Product name is required' });
-    }
-
-    const description = typeof raw.description === 'string' ? raw.description.trim() : '';
-    if (!description) {
-      return res.status(400).json({ error: 'Product description is required' });
-    }
-
-    const price = Number(raw.price);
-    if (!Number.isFinite(price) || price <= 0) {
-      return res.status(400).json({ error: 'Product price must be a positive number' });
-    }
-
-    const stock = Number(raw.stock);
-    if (!Number.isFinite(stock) || stock < 0 || !Number.isInteger(stock)) {
-      return res.status(400).json({ error: 'Stock must be a non-negative integer' });
-    }
-
-    const category = typeof raw.category === 'string' ? raw.category.trim() : '';
-    if (!VALID_PRODUCT_CATEGORIES.includes(category)) {
-      return res.status(400).json({ error: `Invalid category. Allowed: ${VALID_PRODUCT_CATEGORIES.join(', ')}` });
-    }
-
-    // Images: must be a non-empty array, max 10, each a non-empty string
-    let images: string[] = [];
-    if (Array.isArray(raw.images)) {
-      images = raw.images
-        .filter((u: any) => typeof u === 'string' && u.trim().length > 0)
-        .map((u: string) => u.trim());
-    } else if (typeof raw.images === 'string') {
-      // Allow comma-separated string from the admin form
-      images = raw.images.split(',').map((u: string) => u.trim()).filter((u: string) => u.length > 0);
-    }
-    if (images.length === 0) {
-      return res.status(400).json({ error: 'At least one product image is required' });
-    }
-    if (images.length > 10) {
-      return res.status(400).json({ error: 'Maximum 10 images allowed' });
-    }
-
-    const materialNorm = typeof raw.material === 'string' ? raw.material.trim() : '';
-    const colorNorm = typeof raw.color === 'string' ? raw.color.trim() : '';
-
-    // --- Determine if this is a new product or an edit -----------------------
     const isEdit = typeof raw.id === 'string' && raw.id.trim().length > 0;
-    const productId = isEdit ? raw.id.trim() : 'prod-' + Date.now();
 
-    // For edits, preserve existing rating/reviews if the client did not send them
-    let existingRating = 0;
-    let existingReviews = 0;
+    const result = validateOneProduct(raw);
+    if (result.status === 'error') {
+      return res.status(400).json({ error: result.error });
+    }
+
+    const productData = result.product;
+
+    // For edits, overwrite the id with the original and preserve existing rating/reviews
     if (isEdit) {
-      const existing = await getProductById(productId);
+      productData.id = raw.id.trim();
+      const existing = await getProductById(productData.id);
       if (existing) {
-        existingRating = typeof existing.rating === 'number' ? existing.rating : 0;
-        existingReviews = typeof existing.reviews === 'number' ? existing.reviews : 0;
+        productData.rating = typeof existing.rating === 'number' ? existing.rating : 0;
+        productData.reviews = typeof existing.reviews === 'number' ? existing.reviews : 0;
       }
     }
-
-    // --- Auto-generate slug from name when not provided ----------------------
-    const slug = typeof raw.slug === 'string' && raw.slug.trim()
-      ? raw.slug.trim()
-      : name.toLowerCase().trim()
-          .replace(/[^a-z0-9\s-]/g, '')
-          .replace(/\s+/g, '-')
-          .replace(/-+/g, '-')
-          .replace(/^-|-$/g, '');
-
-    // --- Build the trusted product object ------------------------------------
-    const productData: Product = {
-      id: productId,
-      name,
-      description,
-      price,
-      images,
-      stock,
-      category,
-      material: materialNorm,
-      color: colorNorm,
-      rating: typeof raw.rating === 'number' ? raw.rating : existingRating,
-      reviews: typeof raw.reviews === 'number' ? raw.reviews : existingReviews,
-      seoTitle: typeof raw.seoTitle === 'string' && raw.seoTitle.trim() ? raw.seoTitle.trim() : undefined,
-      metaDescription: typeof raw.metaDescription === 'string' && raw.metaDescription.trim() ? raw.metaDescription.trim() : undefined,
-      slug: slug || undefined,
-      imageAltText: typeof raw.imageAltText === 'string' && raw.imageAltText.trim() ? raw.imageAltText.trim() : undefined,
-      tags: Array.isArray(raw.tags) ? raw.tags.filter((t: any) => typeof t === 'string' && t.trim()) : undefined,
-      primaryKeyword: typeof raw.primaryKeyword === 'string' && raw.primaryKeyword.trim() ? raw.primaryKeyword.trim() : undefined,
-      secondaryKeywords: Array.isArray(raw.secondaryKeywords) ? raw.secondaryKeywords.filter((k: any) => typeof k === 'string' && k.trim()) : undefined
-    };
 
     const saved = await upsertProduct(productData);
     res.json(saved);
   } catch (err: any) {
     res.status(500).json({ error: 'Failed to save product', details: err.message });
+  }
+});
+
+// Bulk import products - Admin Area
+app.post('/api/products/bulk', requireAdmin, async (req, res) => {
+  try {
+    const body = req.body || {};
+    const incoming = Array.isArray(body.products) ? body.products : null;
+
+    if (!incoming) {
+      return res.status(400).json({ error: 'Request body must contain a "products" array' });
+    }
+    if (incoming.length === 0) {
+      return res.status(400).json({ error: 'Products array must not be empty' });
+    }
+    if (incoming.length > 100) {
+      return res.status(400).json({ error: 'Maximum 100 products per request' });
+    }
+
+    // Validate every product and collect results
+    const validated: Product[] = [];
+    for (let i = 0; i < incoming.length; i++) {
+      const result = validateOneProduct(incoming[i], i);
+      if (result.status === 'error') {
+        return res.status(400).json({ error: result.error });
+      }
+      validated.push(result.product);
+    }
+
+    // Duplicate ID check within the batch
+    const seenIds = new Set<string>();
+    for (let i = 0; i < validated.length; i++) {
+      if (seenIds.has(validated[i].id)) {
+        return res.status(400).json({ error: `Duplicate product ID "${validated[i].id}" at index ${i}` });
+      }
+      seenIds.add(validated[i].id);
+    }
+
+    // Duplicate slug check within the batch
+    const seenSlugs = new Set<string>();
+    for (let i = 0; i < validated.length; i++) {
+      const slug = validated[i].slug;
+      if (slug && seenSlugs.has(slug)) {
+        return res.status(400).json({ error: `Duplicate slug "${slug}" at index ${i}` });
+      }
+      if (slug) seenSlugs.add(slug);
+    }
+
+    // Check existing products so new batch cannot collide with existing IDs or slugs
+    const existingProducts = await getProducts();
+    const existingIds = new Set(existingProducts.map(p => p.id));
+    const existingSlugs = new Set(existingProducts.filter(p => p.slug).map(p => p.slug!));
+
+    for (let i = 0; i < validated.length; i++) {
+      if (existingIds.has(validated[i].id)) {
+        return res.status(409).json({ error: `Product ID "${validated[i].id}" already exists (index ${i})` });
+      }
+      if (validated[i].slug && existingSlugs.has(validated[i].slug!)) {
+        return res.status(409).json({ error: `Slug "${validated[i].slug}" already exists (index ${i})` });
+      }
+    }
+
+    // All validation passed — persist each product
+    const saved: Product[] = [];
+    for (const p of validated) {
+      const result = await upsertProduct(p);
+      saved.push(result);
+    }
+
+    res.status(201).json({ success: true, count: saved.length, products: saved });
+  } catch (err: any) {
+    res.status(500).json({ error: 'Bulk product import failed', details: err.message });
   }
 });
 
