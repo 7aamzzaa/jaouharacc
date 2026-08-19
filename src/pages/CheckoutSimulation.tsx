@@ -71,16 +71,28 @@ export default function CheckoutSimulation({ onPageChange, onClearCart, currency
     setCardExpiry(val);
   };
 
+  const idempotencyKeyRef = React.useRef<string>('');
+
   // Process Interactive Checkout Payment and record ORDER in DB
   const handleCompletePayment = async (e: React.FormEvent) => {
     e.preventDefault();
     setProcessing(true);
 
     try {
+      if (!idempotencyKeyRef.current) {
+        idempotencyKeyRef.current =
+          typeof crypto !== 'undefined' && crypto.randomUUID
+            ? crypto.randomUUID()
+            : `${Date.now()}-${Math.random().toString(36).slice(2)}-${Math.random().toString(36).slice(2)}`;
+      }
+
       // 1. Post to Express DB /api/orders
       const response = await fetch('/api/orders', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Idempotency-Key': idempotencyKeyRef.current
+        },
         body: JSON.stringify({
           customer_name: name,
           customer_email: email,

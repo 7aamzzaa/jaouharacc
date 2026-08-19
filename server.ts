@@ -93,6 +93,38 @@ app.use(express.json({ limit: '15mb' }));
 app.use(express.urlencoded({ limit: '15mb', extended: true }));
 
 // ------------------------------------------------------------------------
+// RATE LIMITING (simple in-memory per-IP counter)
+// ------------------------------------------------------------------------
+const rateLimitBuckets = new Map<string, { count: number; windowStart: number }>();
+
+function rateLimit(maxRequests: number, windowMs: number) {
+  return (req: express.Request, res: express.Response, next: express.NextFunction) => {
+    const ip = req.ip || req.socket.remoteAddress || 'unknown';
+    const now = Date.now();
+    const rec = rateLimitBuckets.get(ip);
+    if (!rec || now - rec.windowStart >= windowMs) {
+      rateLimitBuckets.set(ip, { count: 1, windowStart: now });
+      return next();
+    }
+    rec.count += 1;
+    if (rec.count > maxRequests) {
+      return res.status(429).json({ error: 'Too many requests. Please try again later.' });
+    }
+    next();
+  };
+}
+
+// Prune stale entries every 5 minutes to prevent unbounded memory growth
+setInterval(() => {
+  const now = Date.now();
+  for (const [ip, rec] of rateLimitBuckets) {
+    if (now - rec.windowStart >= 15 * 60 * 1000) {
+      rateLimitBuckets.delete(ip);
+    }
+  }
+}, 5 * 60 * 1000).unref();
+
+// ------------------------------------------------------------------------
 // ADMIN AUTHENTICATION
 // ------------------------------------------------------------------------
 
@@ -387,7 +419,7 @@ app.get('/api/orders', requireAdmin, async (req, res) => {
 // The server is the sole authority for prices, discounts, shipping and totals.
 // Trusted client input is limited to customer/order info, product ids, quantities
 // and the selected size. Idempotency is enforced with X-Idempotency-Key.
-app.post('/api/orders', async (req, res) => {
+app.post('/api/orders', rateLimit(20, 15 * 60 * 1000), async (req, res) => {
   try {
     const idempotencyKey = (req.headers['x-idempotency-key'] as string | undefined || '').trim();
     if (!idempotencyKey) {
@@ -694,18 +726,19 @@ app.get('/api/messages', requireAdmin, async (req, res) => {
 });
 
 // Submit a contact message from the public form
-app.post('/api/messages', async (req, res) => {
+app.post('/api/messages', rateLimit(10, 15 * 60 * 1000), async (req, res) => {
   try {
     const { fullName, email, phone, subject, message } = req.body;
     if (!fullName || !email || !message) {
       return res.status(400).json({ error: 'fullName, email, and message are required' });
     }
+    const truncate = (v: unknown, max: number) => (typeof v === 'string' ? v.trim().slice(0, max) : '');
     const created = await createMessage({
-      fullName,
-      email,
-      phone: phone || '',
-      subject: subject || '',
-      message
+      fullName: truncate(fullName, 200),
+      email: truncate(email, 200),
+      phone: truncate(phone, 50),
+      subject: truncate(subject, 200),
+      message: truncate(message, 5000)
     });
     res.json(created);
   } catch (err: any) {
@@ -758,13 +791,14 @@ app.get('/api/newsletter', requireAdmin, async (req, res) => {
 });
 
 // Subscribe a new email (public form)
-app.post('/api/newsletter', async (req, res) => {
+app.post('/api/newsletter', rateLimit(5, 15 * 60 * 1000), async (req, res) => {
   try {
     const { email } = req.body;
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return res.status(400).json({ error: 'A valid email address is required' });
     }
-    const created = await createSubscriber(email);
+    const safeEmail = (typeof email === 'string' ? email.trim().slice(0, 200) : '').trim();
+    const created = await createSubscriber(safeEmail);
     if (!created) {
       return res.status(409).json({ error: 'This email is already subscribed' });
     }
@@ -811,7 +845,7 @@ app.get('/api/reviews', async (req, res) => {
 });
 
 // Submit a new review (public) — stored as pending
-app.post('/api/reviews', async (req, res) => {
+app.post('/api/reviews', rateLimit(10, 15 * 60 * 1000), async (req, res) => {
   try {
     const { product_id, customerName, customerEmail, rating, comment } = req.body;
     if (!product_id || !customerName || rating == null || !comment) {
@@ -824,8 +858,13 @@ app.post('/api/reviews', async (req, res) => {
     if (customerEmail && typeof customerEmail === 'string' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customerEmail)) {
       return res.status(400).json({ error: 'Invalid email format' });
     }
+    const truncate = (v: unknown, max: number) => (typeof v === 'string' ? v.trim().slice(0, max) : '');
     const created = await createReview({
-      product_id, customerName, customerEmail: customerEmail || undefined, rating: ratingNum, comment
+      product_id: truncate(product_id, 50),
+      customerName: truncate(customerName, 200),
+      customerEmail: customerEmail ? truncate(customerEmail, 200) : undefined,
+      rating: ratingNum,
+      comment: truncate(comment, 2000)
     });
     res.json(created);
   } catch (err: any) {
@@ -1021,6 +1060,13 @@ async function start() {
     console.log('[Vite] Middleware injected. Direct browser compilation running.');
   } else {
     const distPath = path.join(process.cwd(), 'dist');
+    // Block access to source maps (prevent server code leakage)
+    app.use((req, res, next) => {
+      if (req.path.endsWith('.map')) {
+        return res.status(404).json({ error: 'Not found' });
+      }
+      next();
+    });
     app.use(express.static(distPath));
     app.get('*', (req, res) => {
       res.sendFile(path.join(distPath, 'index.html'));
