@@ -9,7 +9,6 @@ interface SearchModalProps {
   onClose: () => void;
   products: Product[];
   onSelectProduct: (productId: string) => void;
-  currency?: 'USD' | 'MAD';
 }
 
 function matchesQuery(product: Product, query: string): boolean {
@@ -21,7 +20,7 @@ function matchesQuery(product: Product, query: string): boolean {
   );
 }
 
-export default function SearchModal({ isOpen, onClose, products, onSelectProduct, currency }: SearchModalProps) {
+export default function SearchModal({ isOpen, onClose, products, onSelectProduct }: SearchModalProps) {
   const { t } = useTranslation();
   const [query, setQuery] = useState('');
   const panelRef = useRef<HTMLDivElement>(null);
@@ -121,7 +120,6 @@ export default function SearchModal({ isOpen, onClose, products, onSelectProduct
           results={results}
           query={query}
           onSelect={handleSelect}
-          currency={currency}
         />
       </div>
       <style>{`

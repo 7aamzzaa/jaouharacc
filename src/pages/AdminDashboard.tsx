@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect, useRef } from 'react';
 import { useTranslation } from '../i18n';
+import { useCurrency } from '../CurrencyContext';
 import { 
   Database, Plus, Edit, Trash2, ShoppingBag, DollarSign, ListOrdered, 
   Layers, Hammer, Archive, Sparkles, RefreshCw, X, Loader2, LogOut, Lock, Upload, Mail, Check, AlertTriangle, Star, Menu, Package, MessageSquare
@@ -11,16 +12,15 @@ interface AdminDashboardProps {
   products: Product[];
   isLoadingProducts: boolean;
   onRefreshProducts: () => void;
-  currency: 'USD' | 'MAD';
 }
 
 export default function AdminDashboard({
   products,
   isLoadingProducts,
   onRefreshProducts,
-  currency
 }: AdminDashboardProps) {
   const { t } = useTranslation();
+  const { formatPrice } = useCurrency();
   // Session Authentication state (server-issued, not localStorage)
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
   const [authLoading, setAuthLoading] = useState<boolean>(true);
@@ -815,9 +815,7 @@ export default function AdminDashboard({
           <div>
             <span className="text-[10px] uppercase font-semibold text-stone-400 block font-sans">{t('admin.kpi.revenue')}</span>
             <span className="font-serif text-lg sm:text-xl font-bold text-stone-900">
-              {currency === 'MAD' 
-                ? `${(stats.grossSales * 10).toLocaleString()} ${t('common.currency')}`
-                : `$${stats.grossSales.toLocaleString()}`}
+              {formatPrice(stats.grossSales)}
             </span>
           </div>
         </div>
@@ -1372,7 +1370,7 @@ export default function AdminDashboard({
                           </span>
                         </td>
                         <td className="p-4 font-serif font-bold text-stone-900 text-sm">
-                          {currency === 'MAD' ? `${((p.price ?? 0) * 10).toLocaleString()} ${t('common.currency')}` : `$${(p.price ?? 0).toLocaleString()}`}
+                          {formatPrice(p.price ?? 0)}
                         </td>
                         <td className="p-4 text-end">
                           <div className="flex items-center justify-end gap-2">
@@ -1500,9 +1498,7 @@ export default function AdminDashboard({
                                   </div>
                                 </td>
                                 <td className="p-4 font-serif font-bold text-stone-900 text-sm">
-                                  {currency === 'MAD' 
-                                    ? `${((o.total || 0) * 10).toLocaleString()} ${t('common.currency')}` 
-                                    : `$${(o.total || 0).toLocaleString()}`}
+                                  {formatPrice(o.total || 0)}
                                 </td>
                                 <td className="p-4">
                                   <span className={`inline-flex items-center px-2 py-1 text-xs font-semibold rounded-md border text-[10px] uppercase font-sans tracking-wide ${statusColors[o.status] || 'bg-stone-50 text-stone-500'}`}>
@@ -1565,9 +1561,9 @@ export default function AdminDashboard({
                                       </div>
                                       <div className="space-y-1">
                                         <h4 className="text-[10px] uppercase tracking-widest font-semibold text-stone-500">{t('admin.ordersTable.pricing')}</h4>
-                                        <p className="text-stone-600">{t('admin.ordersTable.subtotal')}: {currency === 'MAD' ? `${((o.subtotal || 0) * 10).toLocaleString()} ${t('common.currency')}` : `$${(o.subtotal || 0).toLocaleString()}`}</p>
-                                        {o.discount_amount > 0 && <p className="text-emerald-600">{t('admin.ordersTable.discount')}: -{currency === 'MAD' ? `${((o.discount_amount || 0) * 10).toLocaleString()} ${t('common.currency')}` : `$${(o.discount_amount || 0).toLocaleString()}`} {o.discount_code ? `(${o.discount_code})` : ''}</p>}
-                                        <p className="text-stone-900 font-semibold">{t('admin.ordersTable.total')}: {currency === 'MAD' ? `${((o.total || 0) * 10).toLocaleString()} ${t('common.currency')}` : `$${(o.total || 0).toLocaleString()}`}</p>
+                                        <p className="text-stone-600">{t('admin.ordersTable.subtotal')}: {formatPrice(o.subtotal || 0)}</p>
+                                        {o.discount_amount > 0 && <p className="text-emerald-600">{t('admin.ordersTable.discount')}: -{formatPrice(o.discount_amount || 0)} {o.discount_code ? `(${o.discount_code})` : ''}</p>}
+                                        <p className="text-stone-900 font-semibold">{t('admin.ordersTable.total')}: {formatPrice(o.total || 0)}</p>
                                       </div>
                                       <div className="space-y-1">
                                         <h4 className="text-[10px] uppercase tracking-widest font-semibold text-stone-500">{t('admin.ordersTable.payment')}</h4>

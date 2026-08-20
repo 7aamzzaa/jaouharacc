@@ -4,6 +4,7 @@ import { ShoppingBag, ArrowRight, ArrowLeft, X, ShieldCheck, Gem, Heart } from '
 
 import { Product, CartItem } from './types';
 import { useTranslation } from './i18n';
+import { CurrencyProvider, useCurrency } from './CurrencyContext';
 import MobileBottomNav from './components/MobileBottomNav';
 import ToastContainer, { showToast } from './components/ToastContainer';
 
@@ -33,9 +34,7 @@ export default function App() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const [currency] = useState<'USD' | 'MAD'>('MAD');
-
-  const handleCurrencyToggle = () => {};
+  const { formatPrice } = useCurrency();
 
   const [allProducts, setAllProducts] = useState<Product[]>([]);
 
@@ -285,8 +284,6 @@ export default function App() {
           cart={cart}
           wishlist={wishlist}
           onOpenCart={() => setIsCartOpen(true)}
-          currency={currency}
-          onCurrencyToggle={handleCurrencyToggle}
           allProducts={allProducts}
         />
       </Suspense>
@@ -294,14 +291,14 @@ export default function App() {
       <main className={`flex-1 ${currentPage === 'home' ? 'pt-0 sm:pt-12 md:pt-16 lg:pt-0 pb-12 md:pb-16' : 'py-12 md:py-16'}`}>
         <Suspense fallback={<div className="flex items-center justify-center py-32"><div className="w-6 h-6 border-2 border-champagne-500 border-t-transparent rounded-full animate-spin" /></div>}>
         <Routes>
-          <Route path="/" element={<Home products={allProducts} isLoading={loadingProducts} onAddToCartDirect={handleQuickAdd} onPageChange={handlePageChange} wishlist={wishlist} onToggleWishlist={handleToggleWishlist} currency={currency} />} />
-          <Route path="/shop" element={<ShopWithParams products={allProducts} isLoading={loadingProducts} onAddToCartDirect={handleQuickAdd} onPageChange={handlePageChange} wishlist={wishlist} onToggleWishlist={handleToggleWishlist} currency={currency} />} />
-          <Route path="/product/:slug" element={<ProductDetailWithParams allProducts={allProducts} onAddToCart={handleAddToCart} onPageChange={handlePageChange} wishlist={wishlist} onToggleWishlist={handleToggleWishlist} currency={currency} />} />
-          <Route path="/cart" element={<Cart cart={cart} onUpdateQuantity={handleUpdateCartQuantity} onRemoveItem={handleRemoveCartItem} onPageChange={handlePageChange} onClearCart={handleClearCart} currency={currency} />} />
-          <Route path="/checkout" element={<CheckoutSimulation onClearCart={handleClearCart} onPageChange={handlePageChange} currency={currency} />} />
-          <Route path="/order-confirmation" element={<OrderConfirmation onPageChange={handlePageChange} currency={currency} />} />
-          <Route path="/blog" element={<Blog onPageChange={handlePageChange} currency={currency} />} />
-          <Route path="/blog/:slug" element={<BlogArticleWithParams onPageChange={handlePageChange} currency={currency} />} />
+          <Route path="/" element={<Home products={allProducts} isLoading={loadingProducts} onAddToCartDirect={handleQuickAdd} onPageChange={handlePageChange} wishlist={wishlist} onToggleWishlist={handleToggleWishlist} />} />
+          <Route path="/shop" element={<ShopWithParams products={allProducts} isLoading={loadingProducts} onAddToCartDirect={handleQuickAdd} onPageChange={handlePageChange} wishlist={wishlist} onToggleWishlist={handleToggleWishlist} />} />
+          <Route path="/product/:slug" element={<ProductDetailWithParams allProducts={allProducts} onAddToCart={handleAddToCart} onPageChange={handlePageChange} wishlist={wishlist} onToggleWishlist={handleToggleWishlist} />} />
+          <Route path="/cart" element={<Cart cart={cart} onUpdateQuantity={handleUpdateCartQuantity} onRemoveItem={handleRemoveCartItem} onPageChange={handlePageChange} onClearCart={handleClearCart} />} />
+          <Route path="/checkout" element={<CheckoutSimulation onClearCart={handleClearCart} onPageChange={handlePageChange} />} />
+          <Route path="/order-confirmation" element={<OrderConfirmation onPageChange={handlePageChange} />} />
+          <Route path="/blog" element={<Blog onPageChange={handlePageChange} />} />
+          <Route path="/blog/:slug" element={<BlogArticleWithParams onPageChange={handlePageChange} />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/size-guide" element={<SizeGuide />} />
           <Route path="/track-order" element={<TrackOrder />} />
@@ -309,8 +306,8 @@ export default function App() {
           <Route path="/about" element={<About />} />
           <Route path="/press" element={<Press />} />
           <Route path="/contact" element={<Contact />} />
-          <Route path="/wishlist" element={<Wishlist wishlist={wishlist} allProducts={allProducts} onToggleWishlist={handleToggleWishlist} onPageChange={handlePageChange} onAddToCartDirect={handleQuickAdd} currency={currency} />} />
-          <Route path="/admin" element={<AdminDashboard products={allProducts} isLoadingProducts={loadingProducts} onRefreshProducts={fetchProductsList} currency={currency} />} />
+          <Route path="/wishlist" element={<Wishlist wishlist={wishlist} allProducts={allProducts} onToggleWishlist={handleToggleWishlist} onPageChange={handlePageChange} onAddToCartDirect={handleQuickAdd} />} />
+          <Route path="/admin" element={<AdminDashboard products={allProducts} isLoadingProducts={loadingProducts} onRefreshProducts={fetchProductsList} />} />
           <Route path="*" element={<NotFound onPageChange={handlePageChange} />} />
         </Routes>
         </Suspense>
@@ -343,7 +340,7 @@ export default function App() {
                         <div className="flex justify-between items-baseline text-[10px] text-stone-400">
                           <span>{t('cart.qtyLabel', { qty: item.quantity })} \u2022 {item.selected_size.split(' ')[0]}</span>
                           <span className="font-serif font-semibold text-stone-900">
-                            {currency === 'MAD' ? `${((item.price * item.quantity) * 10).toLocaleString()} ${t('common.currency')}` : `$${(item.price * item.quantity).toLocaleString()}`}
+                            {formatPrice(item.price * item.quantity)}
                           </span>
                         </div>
                       </div>
@@ -356,7 +353,7 @@ export default function App() {
                   <div className="flex justify-between items-baseline text-xs pb-2">
                     <span className="text-stone-500">{t('app.cart.subtotal')}</span>
                     <span className="font-serif text-base font-bold text-stone-900">
-                      {currency === 'MAD' ? `${(cartSubtotal * 10).toLocaleString()} ${t('common.currency')}` : `$${cartSubtotal.toLocaleString()}`}
+                      {formatPrice(cartSubtotal)}
                     </span>
                   </div>
                   <button

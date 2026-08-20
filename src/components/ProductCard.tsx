@@ -4,6 +4,7 @@ import { Product } from '../types';
 import LazyImage from './LazyImage';
 import ProductRating from './ProductRating';
 import { useTranslation } from '../i18n';
+import { useCurrency } from '../CurrencyContext';
 import ShareModal from './ShareModal';
 
 interface ProductCardProps {
@@ -13,13 +14,13 @@ interface ProductCardProps {
   onAddToCartDirect: (product: Product, size: string) => void;
   wishlist: string[];
   onToggleWishlist: (id: string) => void;
-  currency?: 'USD' | 'MAD';
   compact?: boolean;
   priority?: boolean;
 }
 
-const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToCartDirect, wishlist, onToggleWishlist, currency = 'USD', compact = false, priority = false }: ProductCardProps) {
+const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToCartDirect, wishlist, onToggleWishlist, compact = false, priority = false }: ProductCardProps) {
   const { t } = useTranslation();
+  const { formatPrice } = useCurrency();
   const [showShareModal, setShowShareModal] = useState(false);
   const isOutOfStock = product.stock === 0;
 
@@ -132,7 +133,7 @@ const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToC
 
         <div className={`flex items-center justify-between border-t border-champagne-105 ${compact ? 'mt-3 pt-3 sm:mt-4 sm:pt-4' : 'mt-4 pt-4'}`}>
           <span className={`font-serif text-stone-950 font-extrabold ${compact ? 'text-sm sm:text-base' : 'text-base'}`}>
-            {currency === 'MAD' ? `${(product.price * 10).toLocaleString()} ${t('common.currency')}` : `$${product.price.toLocaleString()}`}
+            {formatPrice(product.price)}
           </span>
           <button
             onClick={(e) => {

@@ -6,10 +6,9 @@ interface SearchResultsProps {
   results: Product[];
   query: string;
   onSelect: (productId: string) => void;
-  currency?: 'USD' | 'MAD';
 }
 
-export default function SearchResults({ results, query, onSelect, currency }: SearchResultsProps) {
+export default function SearchResults({ results, query, onSelect }: SearchResultsProps) {
   const { t } = useTranslation();
 
   if (!query) return null;
@@ -30,7 +29,6 @@ export default function SearchResults({ results, query, onSelect, currency }: Se
           key={product.id}
           product={product}
           onClick={() => onSelect(product.id)}
-          currency={currency}
         />
       ))}
     </div>

@@ -9,10 +9,9 @@ interface WishlistProps {
   onToggleWishlist: (id: string) => void;
   onPageChange: (page: string, params?: any) => void;
   onAddToCartDirect: (product: Product, size: string) => void;
-  currency: 'USD' | 'MAD';
 }
 
-export default function Wishlist({ wishlist, allProducts, onToggleWishlist, onPageChange, onAddToCartDirect, currency }: WishlistProps) {
+export default function Wishlist({ wishlist, allProducts, onToggleWishlist, onPageChange, onAddToCartDirect }: WishlistProps) {
   const { t } = useTranslation();
   const items = allProducts.filter(p => wishlist.includes(p.id));
 
@@ -48,7 +47,6 @@ export default function Wishlist({ wishlist, allProducts, onToggleWishlist, onPa
               onAddToCartDirect={onAddToCartDirect}
               wishlist={wishlist}
               onToggleWishlist={onToggleWishlist}
-              currency={currency}
             />
           ))}
         </div>

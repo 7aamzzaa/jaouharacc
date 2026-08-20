@@ -1,6 +1,7 @@
 import { useState, FormEvent } from 'react';
 import { Package, Search, CheckCircle2, Circle, Clock, Truck, XCircle, AlertCircle, ArrowRight, ArrowLeft } from 'lucide-react';
 import { useTranslation } from '../i18n';
+import { useCurrency } from '../CurrencyContext';
 import { useNavigate } from 'react-router-dom';
 import type { Order } from '../types';
 
@@ -15,6 +16,7 @@ function getCurrentStep(status: string): number {
 
 export default function TrackOrder() {
   const { t, dir } = useTranslation();
+  const { formatPrice } = useCurrency();
   const navigate = useNavigate();
   const [ref, setRef] = useState('');
   const [email, setEmail] = useState('');
@@ -156,7 +158,7 @@ export default function TrackOrder() {
                       <p className="text-[10px] text-stone-500 font-sans">{t('productDetail.sizes.medium')} × {item.quantity}</p>
                     </div>
                     <span className="text-xs font-bold text-stone-900 font-sans shrink-0">
-                      {((item.price * item.quantity) * 10).toLocaleString()} {t('common.currency')}
+                      {formatPrice(item.price * item.quantity)}
                     </span>
                   </div>
                 ))}
@@ -166,7 +168,7 @@ export default function TrackOrder() {
             <div className="border-t border-champagne-150 pt-4 flex justify-between items-center">
               <span className="text-xs font-bold text-stone-700 uppercase tracking-widest font-sans">{t('trackOrder.total')}</span>
               <span className="font-serif text-lg font-bold text-stone-900">
-                {(order.total * 10).toLocaleString()} {t('common.currency')}
+                {formatPrice(order.total)}
               </span>
             </div>
           </div>

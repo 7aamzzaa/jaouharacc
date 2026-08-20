@@ -2,6 +2,7 @@ import { ShoppingBag, Menu, X, ChevronDown, CircleDot, Sparkles, Heart, Crown, G
 import { useState, lazy, Suspense } from 'react';
 import { CartItem, Product } from '../types';
 import { useTranslation, type Lang } from '../i18n';
+import { useCurrency, type CurrencyCode } from '../CurrencyContext';
 import SearchButton from './search/SearchButton';
 
 const SearchModal = lazy(() => import('./search/SearchModal'));
@@ -12,17 +13,17 @@ interface NavbarProps {
   cart: CartItem[];
   onOpenCart: () => void;
   wishlist: string[];
-  currency: 'USD' | 'MAD';
-  onCurrencyToggle: () => void;
   allProducts: Product[];
 }
 
-export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOpenCart, currency, onCurrencyToggle, allProducts }: NavbarProps) {
+export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOpenCart, allProducts }: NavbarProps) {
   const { t, lang, setLang, dir } = useTranslation();
+  const { currency, setCurrency } = useCurrency();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileCollectionsOpen, setMobileCollectionsOpen] = useState(false);
   const [mobileGiftOpen, setMobileGiftOpen] = useState(false);
   const [langOpen, setLangOpen] = useState(false);
+  const [currOpen, setCurrOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
 
   const totalItemsCount = cart.reduce((acc, item) => acc + item.quantity, 0);
@@ -263,6 +264,39 @@ export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOp
               )}
             </div>
 
+            {/* Currency Switcher */}
+            <div className={`relative ${isHome ? 'hidden sm:block' : ''}`}>
+              <button
+                onClick={() => setCurrOpen(!currOpen)}
+                className={`cursor-pointer p-2 ${mobileIconClass} ${mobileHoverClass} transition-colors duration-300 focus:outline-hidden flex items-center gap-1`}
+                aria-label="Select currency"
+              >
+                <span className="text-[11px] font-semibold uppercase">{currency}</span>
+                <ChevronDown size={12} className={`transition-transform duration-200 ${currOpen ? 'rotate-180' : ''}`} />
+              </button>
+
+              {currOpen && (
+                <>
+                  <div className="fixed inset-0 z-40" onClick={() => setCurrOpen(false)} />
+                  <div className="absolute right-0 top-full mt-2 bg-white border border-champagne-150 rounded-lg shadow-xl z-50 min-w-[100px] py-1">
+                    {(['MAD', 'EUR', 'USD'] as CurrencyCode[]).map((c) => (
+                      <button
+                        key={c}
+                        onClick={() => { setCurrency(c); setCurrOpen(false); }}
+                        className={`w-full text-start px-4 py-2 text-xs tracking-widest uppercase font-medium transition-colors ${
+                          currency === c
+                            ? 'text-champagne-500 bg-champagne-50 font-semibold'
+                            : 'text-stone-600 hover:bg-champagne-50 hover:text-champagne-500'
+                        }`}
+                      >
+                        {c}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              )}
+            </div>
+
           <button
               onClick={() => onPageChange("wishlist")}
               className={`cursor-pointer relative p-2 ${mobileIconClass} ${mobileHoverClass} transition-colors duration-300 focus:outline-hidden ${isHome ? 'order-2 sm:order-none' : ''}`}
@@ -439,6 +473,25 @@ export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOp
               ))}
             </div>
           </div>
+
+          {/* Mobile Currency Switcher */}
+          <div className="pt-3">
+            <div className="flex gap-2">
+              {(['MAD', 'EUR', 'USD'] as CurrencyCode[]).map((c) => (
+                <button
+                  key={c}
+                  onClick={() => { setCurrency(c); setMobileMenuOpen(false); }}
+                  className={`flex-1 py-2 px-3 rounded-md text-xs tracking-widest uppercase font-bold text-center transition-colors ${
+                    currency === c
+                      ? 'bg-champagne-500 text-white'
+                      : 'bg-stone-100 text-stone-600 hover:bg-champagne-50 hover:text-champagne-600'
+                  }`}
+                >
+                  {c}
+                </button>
+              ))}
+            </div>
+          </div>
         </div>
       )}
 
@@ -451,7 +504,6 @@ export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOp
             const p = allProducts.find(x => x.id === id);
             onPageChange('product', { slug: p?.slug, id });
           }}
-          currency={currency}
         />
       </Suspense>
     </header>

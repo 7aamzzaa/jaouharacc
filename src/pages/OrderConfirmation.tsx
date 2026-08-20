@@ -4,10 +4,9 @@ import { useTranslation } from '../i18n';
 
 interface OrderConfirmationProps {
   onPageChange: (pageName: string, params?: any) => void;
-  currency: 'USD' | 'MAD';
 }
 
-export default function OrderConfirmation({ onPageChange, currency }: OrderConfirmationProps) {
+export default function OrderConfirmation({ onPageChange }: OrderConfirmationProps) {
   const { t } = useTranslation();
   const urlParams = new URLSearchParams(window.location.search);
   const orderId = urlParams.get('orderId') || '';

@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Trash2, ShoppingBag, ArrowLeft, ArrowRight, ShieldCheck, Ticket, RefreshCw, Minus, Plus } from 'lucide-react';
 import { CartItem } from '../types';
 import { useTranslation } from '../i18n';
+import { useCurrency } from '../CurrencyContext';
 
 interface CartProps {
   cart: CartItem[];
@@ -9,16 +10,10 @@ interface CartProps {
   onRemoveItem: (id: string) => void;
   onPageChange: (pageName: string, params?: any) => void;
   onClearCart: () => void;
-  currency: 'USD' | 'MAD';
 }
 
-export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChange, onClearCart, currency }: CartProps) {
-  const formatPrice = (priceUSD: number) => {
-    if (currency === 'MAD') {
-      return `${(priceUSD * 10).toLocaleString()} ${t('common.currency')}`;
-    }
-    return `$${priceUSD.toLocaleString()}`;
-  };
+export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChange, onClearCart }: CartProps) {
+  const { formatPrice } = useCurrency();
   const { t, dir } = useTranslation();
   const [promoCode, setPromoCode] = useState<string>('');
   const [appliedDiscount, setAppliedDiscount] = useState<{ code: string; percent: number } | null>(null);

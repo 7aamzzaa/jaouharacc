@@ -4,6 +4,7 @@ import { Product, Review } from '../types';
 import ProductRating from '../components/ProductRating';
 import ProductCard from '../components/ProductCard';
 import { useTranslation } from '../i18n';
+import { useCurrency } from '../CurrencyContext';
 
 const FAQAccordion = lazy(() => import('../components/FAQAccordion'));
 const ShareModal = lazy(() => import('../components/ShareModal'));
@@ -19,10 +20,10 @@ interface ProductDetailProps {
   wishlist: string[];
   onToggleWishlist: (id: string) => void;
   onPageChange: (pageName: string, params?: any) => void;
-  currency: 'USD' | 'MAD';
 }
 
-export default function ProductDetail({ productParam, allProducts, onAddToCart, wishlist, onToggleWishlist, onPageChange, currency }: ProductDetailProps) {
+export default function ProductDetail({ productParam, allProducts, onAddToCart, wishlist, onToggleWishlist, onPageChange }: ProductDetailProps) {
+  const { formatPrice } = useCurrency();
   const [product, setProduct] = useState<Product | null>(null);
   const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
   const [selectedSize, setSelectedSize] = useState<string>('Medium (7.0")');
@@ -471,7 +472,7 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
                           <ProductRating rating={rec.rating} reviewsCount={rec.reviews} compact />
                         </div>
                         <p className="font-serif text-stone-950 font-extrabold text-sm">
-                          {currency === 'MAD' ? `${(rec.price * 10).toLocaleString()} ${t('common.currency')}` : `$${rec.price.toLocaleString()}`}
+                          {formatPrice(rec.price)}
                         </p>
                       </div>
                     </button>
@@ -578,8 +579,8 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
               {product.name}
             </h1>
             <div className="flex items-center justify-between pt-0.5">
-              <p className="font-serif text-2xl text-stone-900 font-medium font-bold">
-                {currency === 'MAD' ? `${(product.price * 10).toLocaleString()} ${t('common.currency')}` : `$${product.price.toLocaleString()}`}
+                <p className="font-serif text-2xl text-stone-900 font-medium font-bold">
+                {formatPrice(product.price)}
               </p>
               <button
                 onClick={() => setShowShareModal(true)}
@@ -624,7 +625,7 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
             
             <div className="flex items-center justify-between pt-2">
               <p className="font-serif text-2xl text-stone-900 font-medium font-bold">
-                {currency === 'MAD' ? `${(product.price * 10).toLocaleString()} ${t('common.currency')}` : `$${product.price.toLocaleString()}`}
+                {formatPrice(product.price)}
               </p>
               <button
                 onClick={() => setShowShareModal(true)}
@@ -1048,7 +1049,6 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
                 onAddToCartDirect={handleQuickAdd}
                 wishlist={wishlist}
                 onToggleWishlist={onToggleWishlist}
-                currency={currency}
               />
             ))}
           </div>
@@ -1073,7 +1073,6 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
                 onAddToCartDirect={handleQuickAdd}
                 wishlist={wishlist}
                 onToggleWishlist={onToggleWishlist}
-                currency={currency}
               />
             ))}
           </div>

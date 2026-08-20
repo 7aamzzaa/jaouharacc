@@ -6,7 +6,6 @@ import { defaultBlogPosts } from '../data/defaultBlogPosts';
 
 interface BlogProps {
   onPageChange: (pageName: string, params?: any) => void;
-  currency: 'USD' | 'MAD';
 }
 
 const POSTS_PER_PAGE = 6;

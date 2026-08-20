@@ -7,7 +7,6 @@ import { defaultBlogPosts } from '../data/defaultBlogPosts';
 interface BlogArticleProps {
   slug: string;
   onPageChange: (pageName: string, params?: any) => void;
-  currency: 'USD' | 'MAD';
 }
 
 export default function BlogArticle({ slug, onPageChange }: BlogArticleProps) {

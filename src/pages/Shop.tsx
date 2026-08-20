@@ -14,7 +14,6 @@ interface ShopProps {
   onClearInitialCategory: () => void;
   wishlist: string[];
   onToggleWishlist: (id: string) => void;
-  currency: 'USD' | 'MAD';
 }
 
 export default function Shop({
@@ -26,7 +25,6 @@ export default function Shop({
   onClearInitialCategory,
   wishlist,
   onToggleWishlist,
-  currency
 }: ShopProps) {
   const { t } = useTranslation();
 
@@ -239,7 +237,6 @@ export default function Shop({
                       onAddToCartDirect={onAddToCartDirect}
                       wishlist={wishlist}
                       onToggleWishlist={onToggleWishlist}
-                      currency={currency}
                       priority={index < 3}
                     />
                   </motion.div>

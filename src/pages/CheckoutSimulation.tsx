@@ -1,20 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { CreditCard, EyeOff, ShieldCheck, Heart, ArrowRight, CornerDownLeft, RefreshCw } from 'lucide-react';
 import { useTranslation } from '../i18n';
+import { useCurrency } from '../CurrencyContext';
 
 interface CheckoutSimulationProps {
   onPageChange: (pageName: string, params?: any) => void;
   onClearCart: () => void;
-  currency: 'USD' | 'MAD';
 }
 
-export default function CheckoutSimulation({ onPageChange, onClearCart, currency }: CheckoutSimulationProps) {
-  const formatPrice = (priceUSD: number) => {
-    if (currency === 'MAD') {
-      return `${(priceUSD * 10).toLocaleString()} ${t('common.currency')}`;
-    }
-    return `$${priceUSD.toLocaleString()}`;
-  };
+export default function CheckoutSimulation({ onPageChange, onClearCart }: CheckoutSimulationProps) {
+  const { formatPrice } = useCurrency();
 
   const { t, dir } = useTranslation();
 
