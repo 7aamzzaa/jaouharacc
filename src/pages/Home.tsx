@@ -5,20 +5,18 @@ import {
   Compass, 
   Shield, 
   Gem, 
-  Award, 
   Truck, 
   Lock, 
   Gift, 
   Star, 
   Sparkles,
   Check,
-  Copy,
-  RefreshCcw,
-  CreditCard
+  Copy
 } from 'lucide-react';
 
 import { Product } from '../types';
 import ProductCard from '../components/ProductCard';
+import TrustBadges from '../components/TrustBadges';
 import { useTranslation } from '../i18n';
 import { showToast } from '../components/ToastContainer';
 
@@ -263,62 +261,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
       {/* 2. TRUST BAR */}
       <section className="bg-white border-y border-champagne-105 py-4 sm:py-8 md:py-10 shadow-3xs" dir={dir}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Mobile Trust Bar (below 640px) */}
-          <div className="sm:hidden grid grid-cols-4 divide-x divide-[#EFEAE4] h-[96px]">
-            <div className="flex flex-col items-center justify-center gap-2 px-1 trust-bar-item">
-              <Shield size={22} strokeWidth={1.5} className="text-[#D4AF37] shrink-0" />
-              <div className="w-full min-h-[33px] flex items-center justify-center px-0.5">
-                <h4 className="font-sans font-semibold text-[12px] leading-snug text-[#2B2B2B] text-center line-clamp-2">{t('trust.quality')}</h4>
-              </div>
-            </div>
-            <div className="flex flex-col items-center justify-center gap-2 px-1 trust-bar-item">
-              <Truck size={22} strokeWidth={1.5} className="text-[#D4AF37] shrink-0" />
-              <div className="w-full min-h-[33px] flex items-center justify-center px-0.5">
-                <h4 className="font-sans font-semibold text-[12px] leading-snug text-[#2B2B2B] text-center line-clamp-2">{t('trust.delivery')}</h4>
-              </div>
-            </div>
-            <div className="flex flex-col items-center justify-center gap-2 px-1 trust-bar-item">
-              <RefreshCcw size={22} strokeWidth={1.5} className="text-[#D4AF37] shrink-0" />
-              <div className="w-full min-h-[33px] flex items-center justify-center px-0.5">
-                <h4 className="font-sans font-semibold text-[12px] leading-snug text-[#2B2B2B] text-center line-clamp-2">{t('trust.returns')}</h4>
-              </div>
-            </div>
-            <div className="flex flex-col items-center justify-center gap-2 px-1 trust-bar-item">
-              <CreditCard size={22} strokeWidth={1.5} className="text-[#D4AF37] shrink-0" />
-              <div className="w-full min-h-[33px] flex items-center justify-center px-0.5">
-                <h4 className="font-sans font-semibold text-[12px] leading-snug text-[#2B2B2B] text-center line-clamp-2">{t('trust.checkout')}</h4>
-              </div>
-            </div>
-          </div>
-
-          {/* Tablet / Desktop Trust Bar */}
-          <div className="hidden sm:grid grid-cols-4 divide-x divide-[#EFEAE4]">
-            
-            {/* Trust item 1 */}
-            <div className="flex flex-col items-center justify-center gap-1.5 lg:gap-3 py-3 lg:py-6 px-2 text-center">
-              <Shield size={20} strokeWidth={1.5} className="text-[#D4AF37] shrink-0 w-5 h-5 lg:w-9 lg:h-9" />
-              <h4 className="font-sans font-semibold text-[11px] leading-snug lg:text-base text-[#2B2B2B] text-center line-clamp-2">{t('home.trust')[0].title}</h4>
-            </div>
-
-            {/* Trust item 2 */}
-            <div className="flex flex-col items-center justify-center gap-1.5 lg:gap-3 py-3 lg:py-6 px-2 text-center">
-              <Truck size={20} strokeWidth={1.5} className="text-[#D4AF37] shrink-0 w-5 h-5 lg:w-9 lg:h-9" />
-              <h4 className="font-sans font-semibold text-[11px] leading-snug lg:text-base text-[#2B2B2B] text-center line-clamp-2">{t('home.trust')[1].title}</h4>
-            </div>
-
-            {/* Trust item 3 */}
-            <div className="flex flex-col items-center justify-center gap-1.5 lg:gap-3 py-3 lg:py-6 px-2 text-center">
-              <CreditCard size={20} strokeWidth={1.5} className="text-[#D4AF37] shrink-0 w-5 h-5 lg:w-9 lg:h-9" />
-              <h4 className="font-sans font-semibold text-[11px] leading-snug lg:text-base text-[#2B2B2B] text-center line-clamp-2">{t('home.trust')[2].title}</h4>
-            </div>
-
-            {/* Trust item 4 */}
-            <div className="flex flex-col items-center justify-center gap-1.5 lg:gap-3 py-3 lg:py-6 px-2 text-center">
-              <Gem size={20} strokeWidth={1.5} className="text-[#D4AF37] shrink-0 w-5 h-5 lg:w-9 lg:h-9" />
-              <h4 className="font-sans font-semibold text-[11px] leading-snug lg:text-base text-[#2B2B2B] text-center line-clamp-2">{t('home.trust')[3].title}</h4>
-            </div>
-
-          </div>
+          <TrustBadges />
         </div>
       </section>
 

@@ -15,9 +15,9 @@ export default function TrustBadges() {
       {BADGES.map((key) => {
         const Icon = ICONS[key];
         return (
-          <div key={key} className="flex flex-col items-center justify-center gap-1.5 lg:gap-3 px-1 py-3 lg:py-6 text-center">
-            <Icon size={20} strokeWidth={1.5} aria-hidden="true" className="text-champagne-500 shrink-0 w-5 h-5 lg:w-9 lg:h-9" />
-            <span className="font-sans font-semibold text-[11px] leading-snug lg:text-base text-stone-800 text-center line-clamp-2">
+          <div key={key} className="flex flex-col items-center justify-center gap-2 sm:gap-1.5 lg:gap-3 px-1 sm:px-2 py-3 lg:py-6 text-center">
+            <Icon size={22} strokeWidth={1.5} aria-hidden="true" className="text-champagne-500 shrink-0 sm:w-5 sm:h-5 lg:w-9 lg:h-9" />
+            <span className="font-sans font-semibold text-[12px] sm:text-[11px] lg:text-base leading-snug text-stone-800 text-center line-clamp-2">
               {t(`trust.${key}`)}
             </span>
           </div>
