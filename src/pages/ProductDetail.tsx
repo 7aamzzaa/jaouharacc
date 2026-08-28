@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback, lazy, Suspense } from 'react';
-import { Minus, Plus, ShoppingBag, ShieldCheck, Heart, Scale, RefreshCw, ArrowLeft, ArrowRight, ExternalLink, Truck, CreditCard, Lock, CheckCircle } from 'lucide-react';
+import { Minus, Plus, ShoppingBag, Heart, Scale, RefreshCw, ArrowLeft, ArrowRight, ExternalLink, Truck, CheckCircle } from 'lucide-react';
 import { Product, Review } from '../types';
 import ProductRating from '../components/ProductRating';
 import ProductCard from '../components/ProductCard';
@@ -610,9 +610,15 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
               <span className="text-xs tracking-[0.25em] uppercase text-champagne-600 font-semibold font-sans">
                 {product.category}
               </span>
-              <span className="text-[10px] uppercase font-mono tracking-wider font-semibold text-stone-400 bg-stone-100 px-2 py-1 rounded-sm">
-                {t('productDetail.inStock', { count: product.stock })}
-              </span>
+              {isOutOfStock ? (
+                <span className="text-[10px] uppercase font-mono tracking-wider font-semibold text-stone-500 bg-stone-100 px-2 py-1 rounded-sm">
+                  {t('productDetail.soldOut')}
+                </span>
+              ) : (
+                <span className="text-[10px] uppercase font-mono tracking-wider font-semibold text-stone-400 bg-stone-100 px-2 py-1 rounded-sm">
+                  {t('productDetail.inStock', { count: product.stock })}
+                </span>
+              )}
             </div>
             
             <h1 className="font-serif text-3xl sm:text-4xl text-stone-950 font-medium leading-tight">
@@ -725,26 +731,6 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
                 {t('productDetail.added')}
               </div>
             )}
-
-            {/* Trust list */}
-            <div className="space-y-2.5 pt-1">
-              <div className="flex items-center gap-2.5">
-                <Truck size={15} className="text-champagne-500 shrink-0" />
-                <span className="text-xs text-stone-600 font-sans font-medium">{t('trust.delivery')}</span>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <CreditCard size={15} className="text-champagne-500 shrink-0" />
-                <span className="text-xs text-stone-600 font-sans font-medium">{t('cart.cashOnDelivery')}</span>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <Lock size={15} className="text-champagne-500 shrink-0" />
-                <span className="text-xs text-stone-600 font-sans font-medium">{t('trust.checkout')}</span>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <ShieldCheck size={15} className="text-champagne-500 shrink-0" />
-                <span className="text-xs text-stone-600 font-sans font-medium">{t('trust.quality')}</span>
-              </div>
-            </div>
           </div>
 
           {/* Size Form Selector (Desktop / Tablet) */}
@@ -836,8 +822,8 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
 
           </div>
 
-          {/* Trust Badges (Desktop / Tablet) */}
-          <div className="hidden sm:block max-lg:order-5">
+          {/* Trust Badges */}
+          <div className="max-lg:order-5">
             <Suspense fallback={<div className="border border-stone-200 rounded-lg p-4 h-[168px] animate-pulse bg-stone-50" />}>
               <TrustBadges />
             </Suspense>
