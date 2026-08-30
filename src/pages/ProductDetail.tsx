@@ -339,6 +339,13 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
     }, 3000);
   };
 
+  // Handle buy now action: add to cart and proceed directly to checkout
+  const handleBuyNow = () => {
+    if (isOutOfStock) return;
+    onAddToCart(product, quantity, selectedSize);
+    onPageChange('cart');
+  };
+
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
       
@@ -726,6 +733,21 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
               {isOutOfStock ? t('productDetail.soldOut') : t('productDetail.addToCart')}
             </button>
 
+            {/* Buy Now — full width */}
+            {!isOutOfStock && (
+              <button
+                onClick={handleBuyNow}
+                className={`cursor-pointer w-full min-h-[56px] px-6 tracking-widest text-xs uppercase font-medium shadow-md transition-all duration-300 flex items-center justify-center gap-2 focus:outline-hidden active:scale-[0.99] ${
+                  isOutOfStock
+                    ? 'bg-stone-200 text-stone-400 cursor-not-allowed'
+                    : 'bg-champagne-500 hover:bg-champagne-600 text-white'
+                }`}
+              >
+                <ShoppingBag size={16} />
+                {t('productDetail.buyNow')}
+              </button>
+            )}
+
             {addedMessage && (
               <div className="text-center bg-emerald-50 text-emerald-800 text-xs py-2 rounded-sm border border-emerald-100 font-sans tracking-wide">
                 {t('productDetail.added')}
@@ -799,6 +821,21 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
                 <ShoppingBag size={14} />
                 {isOutOfStock ? t('productDetail.soldOut') : t('productDetail.addToCart')}
               </button>
+
+              {/* Buy Now Trigger */}
+              {!isOutOfStock && (
+                <button
+                  onClick={handleBuyNow}
+                  className={`cursor-pointer flex-1 py-4 px-6 tracking-widest text-xs uppercase font-medium shadow-md transition-all duration-300 flex items-center justify-center gap-2 focus:outline-hidden ${
+                    isOutOfStock
+                      ? 'bg-stone-200 text-stone-400 cursor-not-allowed'
+                      : 'bg-champagne-500 hover:bg-champagne-600 text-white'
+                  }`}
+                >
+                  <ShoppingBag size={14} />
+                  {t('productDetail.buyNow')}
+                </button>
+              )}
 
               {/* Add to Wishlist Toggle */}
               <button
