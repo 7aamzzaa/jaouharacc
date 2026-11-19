@@ -29,7 +29,7 @@ export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOp
   const totalItemsCount = cart.reduce((acc, item) => acc + item.quantity, 0);
 
   const isHome = currentPage === 'home';
-  const mobileIconClass = isHome ? 'text-white sm:text-stone-700' : 'text-stone-700';
+  const mobileIconClass = isHome ? 'text-[#302820] sm:text-stone-700' : 'text-stone-700';
   const mobileHoverClass = isHome ? 'hover:text-champagne-400 sm:hover:text-champagne-500' : 'hover:text-champagne-500';
 
   const languages: { code: Lang; label: string }[] = [
@@ -45,20 +45,19 @@ export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOp
     <header
       className={
         isHome
-          ? 'absolute top-0 left-0 right-0 z-[100] bg-transparent sm:sticky sm:z-40 sm:bg-white/80 sm:backdrop-blur-md sm:border-b sm:border-champagne-100 sm:shadow-xs'
+          ? 'sticky top-0 z-40 bg-[#FAF7F2] border-b border-champagne-150 shadow-xs pt-[env(safe-area-inset-top)] sm:z-40 sm:bg-white/80 sm:backdrop-blur-md sm:border-b sm:border-champagne-100 sm:pt-0'
           : 'sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-champagne-100 shadow-xs relative'
       }
-      style={isHome ? { paddingTop: 'calc(env(safe-area-inset-top) + 14px)' } : undefined}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className={isHome ? 'grid grid-cols-[1fr_auto_1fr] items-center h-[72px] sm:flex sm:justify-between sm:items-center sm:h-20' : 'flex justify-between items-center h-20'}>
+        <div className={isHome ? 'grid grid-cols-[1fr_auto_1fr] items-center h-[80px] sm:flex sm:justify-between sm:items-center sm:h-20' : 'flex justify-between items-center h-20'}>
           
           {/* Mobile menu button */}
-          <div className="flex items-center md:hidden">
+          <div className="flex min-w-0 items-center md:hidden">
             <button
               id="mobile-menu-toggle"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className={`cursor-pointer ${mobileIconClass} ${mobileHoverClass} p-2 focus:outline-hidden`}
+              className={`cursor-pointer ${mobileIconClass} ${mobileHoverClass} p-2 max-[419px]:p-1.5 max-[359px]:p-1 focus:outline-hidden`}
               aria-label={t('nav.toggleMenu')}
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -66,7 +65,7 @@ export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOp
           </div>
 
           {/* Luxury Brand Typography */}
-          <div className={`${isHome ? 'justify-self-center mt-2 sm:mt-0 sm:flex sm:flex-none' : 'flex-1 flex md:flex-none'} justify-center md:justify-start`}>
+          <div className={`${isHome ? 'justify-self-center sm:mt-0 sm:flex sm:flex-none' : 'flex-1 flex md:flex-none'} justify-center md:justify-start`}>
             <button
               onClick={() => {
                 onPageChange('home');
@@ -79,9 +78,9 @@ export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOp
                 src="/images/diamond-logo.png"
                 alt=""
                 aria-hidden="true"
-                className={`block shrink-0 w-[48px] h-auto mb-1.5 ${isHome ? 'sm:hidden' : 'hidden'}`}
+                className={`block shrink-0 w-10 h-auto mb-1 sm:mb-1.5 ${isHome ? 'sm:hidden' : 'hidden'}`}
               />
-              <span className={`font-serif ${isHome ? 'text-[21px] sm:text-3xl text-white sm:text-champagne-500' : 'text-2xl sm:text-3xl text-champagne-500'} tracking-[0.3em] font-bold italic uppercase transition-all duration-300 group-hover:opacity-80`}>
+              <span className={`font-serif ${isHome ? 'text-[21px] max-[419px]:text-[18px] sm:text-3xl text-champagne-700 sm:text-champagne-500' : 'text-2xl sm:text-3xl text-champagne-500'} tracking-[0.3em] ${isHome ? 'max-[419px]:tracking-[0.18em]' : ''} font-bold italic uppercase transition-all duration-300 group-hover:opacity-80`}>
                 ccjaouhara
               </span>
               <span className={`text-[8px] tracking-[0.4em] uppercase font-sans -mt-0.5 font-semibold ${isHome ? 'hidden sm:block text-champagne-400 sm:text-stone-400' : 'text-stone-400'}`}>
@@ -230,7 +229,7 @@ export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOp
           </nav>
 
           {/* Cart + Language Switcher */}
-          <div className={`flex items-center ${isHome ? 'gap-2 justify-self-end' : 'space-x-2'}`}>
+          <div className={`flex min-w-0 items-center ${isHome ? 'gap-2 max-[419px]:gap-1 max-[359px]:gap-0 justify-self-end' : 'space-x-2'}`}>
             {/* Language Switcher */}
             <div className={`relative ${isHome ? 'hidden sm:block' : ''}`}>
               <button
@@ -299,7 +298,7 @@ export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOp
 
           <button
               onClick={() => onPageChange("wishlist")}
-              className={`cursor-pointer relative p-2 ${mobileIconClass} ${mobileHoverClass} transition-colors duration-300 focus:outline-hidden ${isHome ? 'order-2 sm:order-none' : ''}`}
+              className={`cursor-pointer relative p-2 max-[419px]:p-1.5 max-[359px]:p-1 ${mobileIconClass} ${mobileHoverClass} transition-colors duration-300 focus:outline-hidden ${isHome ? 'order-2 sm:order-none' : ''}`}
               aria-label={t('nav.wishlist')}
             >
               <Heart size={22} strokeWidth={1.5} className={isHome ? 'w-6 h-6 sm:w-[22px] sm:h-[22px]' : ''} />
@@ -310,12 +309,12 @@ export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOp
               )}
             </button>
 
-            <SearchButton onClick={() => setSearchOpen(true)} className={`${mobileIconClass} ${mobileHoverClass} ${isHome ? 'order-1 sm:order-none' : ''}`} iconClassName={isHome ? 'w-6 h-6 sm:w-[22px] sm:h-[22px]' : ''} />
+            <SearchButton onClick={() => setSearchOpen(true)} className={`max-[419px]:p-1.5 max-[359px]:p-1 ${mobileIconClass} ${mobileHoverClass} ${isHome ? 'order-1 sm:order-none' : ''}`} iconClassName={isHome ? 'w-6 h-6 sm:w-[22px] sm:h-[22px]' : ''} />
 
             <button
               id="desktop-cart-trigger"
               onClick={onOpenCart}
-              className={`cursor-pointer relative p-2 ${mobileIconClass} ${mobileHoverClass} transition-colors duration-300 focus:outline-hidden ${isHome ? 'order-3 sm:order-none' : ''}`}
+              className={`cursor-pointer relative p-2 hidden md:block ${mobileIconClass} ${mobileHoverClass} transition-colors duration-300 focus:outline-hidden ${isHome ? 'order-3 sm:order-none' : ''}`}
               aria-label={t('nav.viewBag')}
             >
               <ShoppingBag size={22} strokeWidth={1.5} className={isHome ? 'w-6 h-6 sm:w-[22px] sm:h-[22px]' : ''} />

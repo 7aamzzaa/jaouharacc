@@ -406,7 +406,7 @@ export default function App() {
             navigate('/shop');
           }
         }}
-        className={`fixed bottom-[calc(6rem+env(safe-area-inset-bottom))] sm:bottom-6 left-1/2 -translate-x-1/2 md:bottom-24 md:right-6 md:left-auto md:translate-x-0 z-50 bg-[#C5A059] text-white font-serif text-sm font-semibold tracking-widest uppercase rounded-full px-7 py-3.5 shadow-lg flex items-center gap-2 justify-center hover:scale-105 hover:brightness-110 active:scale-95 transition-all duration-300 cursor-pointer animate-floating-btn min-w-[160px] md:min-w-0 ${isCartOpen || location.pathname.startsWith('/product') ? 'hidden' : ''}`}
+        className={`fixed bottom-[calc(6rem+env(safe-area-inset-bottom))] sm:bottom-6 left-1/2 -translate-x-1/2 md:bottom-24 md:right-6 md:left-auto md:translate-x-0 z-50 bg-[#C5A059] text-white font-serif text-sm font-semibold tracking-widest uppercase rounded-full px-5 py-3.5 sm:px-7 shadow-lg flex items-center gap-2 justify-center hover:scale-105 hover:brightness-110 active:scale-95 transition-all duration-300 cursor-pointer animate-floating-btn min-w-[140px] sm:min-w-[160px] md:min-w-0 ${isCartOpen || location.pathname.startsWith('/product') ? 'hidden' : ''}`}
         aria-label={t('app.floating.orderNow')}
       >
         <Gem className="w-4 h-4" />

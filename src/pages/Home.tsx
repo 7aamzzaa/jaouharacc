@@ -166,7 +166,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
     <div className="space-y-16 sm:space-y-24 bg-[#FAF7F2]/30 overflow-x-hidden">
       
       {/* 1. HERO SECTION */}
-      <section className="relative h-screen sm:h-auto min-h-0 sm:min-h-[85vh] lg:h-[90vh] flex items-end sm:items-center bg-gradient-to-tr from-[#FFF9F5] via-[#FFFDFB] to-[#FFF3EB] overflow-hidden pt-0 pb-[calc(env(safe-area-inset-bottom)+2.5rem)] sm:pt-12 sm:pb-12 md:py-20 lg:py-0 border-b-0 sm:border-b border-champagne-150 relative">
+      <section className="relative flex flex-col sm:flex-row sm:items-center sm:min-h-[85vh] lg:h-[90vh] bg-gradient-to-tr from-[#FFF9F5] via-[#FFFDFB] to-[#FFF3EB] overflow-hidden pt-0 pb-[calc(7rem+env(safe-area-inset-bottom))] sm:pt-12 sm:pb-12 md:py-20 lg:py-0 border-b-0 sm:border-b border-champagne-150">
         <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-champagne-300/10 to-transparent -skew-x-12 transform origin-top-right hidden"></div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_35%,rgba(197,160,89,0.1),transparent_60%)]"></div>
 
@@ -186,59 +186,52 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
           ></div>
         </div>
 
-        {/* Mobile full-background image with cinematic overlays */}
-        <div className="sm:hidden absolute inset-0 z-0"
-          style={{
-            backgroundImage: "url('/images/hero-mobile.webp')",
-            backgroundSize: 'cover',
-            backgroundPosition: 'center right',
-            backgroundRepeat: 'no-repeat',
-          }}
-        >
-          <div className="absolute inset-0"
-            style={{
-              background: 'linear-gradient(90deg, rgba(0,0,0,.74) 0%, rgba(0,0,0,.55) 35%, rgba(0,0,0,.22) 70%, rgba(0,0,0,0) 100%)',
-            }}
-          ></div>
-          <div className="absolute inset-0"
-            style={{
-              background: 'linear-gradient(180deg, rgba(0,0,0,.30) 0%, transparent 25%)',
-            }}
-          ></div>
-        </div>
-
-        <div className="max-w-7xl mx-auto px-6 sm:px-6 lg:px-16 lg:max-w-none lg:self-stretch relative z-10 w-full">
+        <div className="max-w-7xl mx-auto px-0 sm:px-6 lg:px-16 lg:max-w-none lg:self-stretch relative z-10 w-full">
           <div className="grid grid-cols-1 lg:flex lg:items-center lg:h-full gap-8 sm:gap-12 lg:gap-20 items-center">
-            
+
+            {/* Mobile hero image — 4:5 portrait, text sits below it on phones */}
+            <div className="sm:hidden w-full relative z-10">
+              <div className="relative w-full aspect-[4/5] overflow-hidden rounded-none bg-champagne-100 sm:rounded-[18px] sm:shadow-[0_18px_45px_-24px_rgba(120,86,30,0.45)] sm:ring-1 sm:ring-champagne-200/70">
+                <img
+                  src="/images/ccjaouhara-hero-mobile.webp"
+                  alt="Modèle CCJAOUHARA portant des bijoux dorés"
+                  className="w-full h-full object-cover object-[center_70%]"
+                  loading="eager"
+                  fetchPriority="high"
+                />
+                <div className="pointer-events-none absolute inset-0 rounded-none sm:rounded-[18px] sm:ring-1 sm:ring-inset sm:ring-white/25"></div>
+              </div>
+            </div>
+
             {/* Left/Text Column */}
-            <div className="lg:w-[50%] max-w-[290px] sm:max-w-none space-y-0 sm:space-y-6 lg:space-y-8 text-start sm:text-center lg:text-start flex flex-col items-start sm:items-center lg:items-start justify-center hero-stagger hero-fade" dir={dir}>
-              <h1 className="font-serif text-[clamp(34px,9.5vw,42px)] sm:text-5xl md:text-6xl lg:text-[70px] leading-[1.05] sm:leading-[1.1] font-black text-white sm:text-stone-900 lg:text-white tracking-tight">
+            <div className="lg:w-[50%] w-full max-w-md sm:max-w-none space-y-0 sm:space-y-6 lg:space-y-8 text-start sm:text-center lg:text-start flex flex-col items-start sm:items-center lg:items-start justify-center hero-stagger hero-fade" dir={dir}>
+              <h1 className="hidden md:block font-serif text-[clamp(34px,9.5vw,42px)] sm:text-5xl md:text-6xl lg:text-[70px] leading-[1.05] sm:leading-[1.1] font-black text-stone-900 lg:text-white tracking-tight">
                 {t('home.hero.title')} <br />
-                <span className="text-champagne-400 sm:text-champagne-600 lg:text-champagne-400 italic font-medium leading-normal">{t('home.hero.titleHighlight')}</span>
+                <span className="text-champagne-600 lg:text-champagne-400 italic font-medium leading-normal">{t('home.hero.titleHighlight')}</span>
               </h1>
               
-              <p className="text-white/90 sm:text-stone-600 lg:text-white/85 text-sm sm:text-base leading-relaxed max-w-xl font-medium font-sans mt-6 sm:mt-0">
+              <p className="hidden md:block text-stone-600 lg:text-white/85 text-sm sm:text-base leading-relaxed max-w-xl font-medium font-sans mt-4 sm:mt-0">
                 {t('home.hero.desc')}
               </p>
               
-              <div className="flex flex-col sm:flex-row items-center gap-4 pt-0 sm:pt-4 lg:pt-6 w-full sm:w-auto max-w-[290px] sm:max-w-none mt-8 sm:mt-0">
+              <div className="flex flex-col sm:flex-row items-center gap-4 pt-0 sm:pt-4 lg:pt-6 w-full sm:w-auto max-w-md sm:max-w-none">
                 <button
                   onClick={() => onPageChange('shop')}
-                  className="cursor-pointer w-full sm:w-auto h-14 sm:h-auto bg-champagne-400 text-white sm:bg-stone-900 px-8 py-4 text-xs uppercase tracking-widest font-bold hover:bg-champagne-500 hover:-translate-y-0.5 transition-all shadow-md active:scale-95 flex items-center justify-center gap-2 rounded-[14px] sm:rounded-xs font-sans"
+                  className="cursor-pointer w-full sm:w-auto h-14 sm:h-auto bg-champagne-600 text-white sm:bg-stone-900 px-8 py-4 text-xs uppercase tracking-widest font-bold hover:bg-champagne-700 hover:-translate-y-0.5 transition-all shadow-md active:scale-95 flex items-center justify-center gap-2 rounded-[14px] sm:rounded-xs font-sans"
                 >
                   {t('home.hero.cta')}
                   {dir === 'ltr' ? <ArrowRight size={14} /> : <ArrowLeft size={14} />}
                 </button>
                 <button
                   onClick={() => onPageChange('shop')}
-                  className="cursor-pointer w-full sm:w-auto h-14 sm:h-auto bg-transparent text-white sm:text-champagne-700 lg:text-champagne-400 border border-champagne-400 sm:border-2 sm:border-champagne-500/40 lg:border-champagne-400/50 hover:border-champagne-500 px-8 py-3.5 text-xs uppercase tracking-widest font-bold hover:bg-champagne-500/5 hover:-translate-y-0.5 transition-all active:scale-95 flex items-center justify-center gap-2 rounded-[14px] sm:rounded-xs font-sans"
+                  className="cursor-pointer w-full sm:w-auto h-14 sm:h-auto bg-transparent text-champagne-700 lg:text-champagne-400 border border-champagne-500 sm:border-2 sm:border-champagne-500/40 lg:border-champagne-400/50 hover:border-champagne-700 px-8 py-3.5 text-xs uppercase tracking-widest font-bold hover:bg-champagne-500/5 hover:-translate-y-0.5 transition-all active:scale-95 flex items-center justify-center gap-2 rounded-[14px] sm:rounded-xs font-sans"
                 >
                   {t('home.hero.secondaryCta')}
                 </button>
               </div>
             </div>
 
-            {/* Right/Image Column — tablet only (mobile & desktop use full-background image) */}
+            {/* Right/Image Column — tablet only (mobile uses its own portrait image, desktop uses full-background) */}
             <div className="relative hidden sm:flex items-center justify-center h-[480px] lg:hidden">
 
               {/* Back elegant geometry outline */}
