@@ -115,6 +115,18 @@ body {
   }
 }
 
+/* Mobile group is positioned by its flex container, so it must not inherit the -50% X offset. */
+@keyframes floatBtnFadeInMobile {
+  0% {
+    opacity: 0;
+    transform: translate(0, 1rem);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+}
+
 .animate-floating-btn {
   opacity: 0;
   animation: floatBtnFadeIn 1s cubic-bezier(0.16, 1, 0.3, 1) 1.5s forwards, floatGlow 2s infinite alternate ease-in-out;
@@ -123,6 +135,48 @@ body {
 @media (min-width: 768px) {
   .animate-floating-btn {
     animation: floatBtnFadeInDesktop 1s cubic-bezier(0.16, 1, 0.3, 1) 1.5s forwards, floatGlow 2s infinite alternate ease-in-out;
+  }
+}
+
+/* ── Mobile floating action group ── */
+/* Measured height of the fixed MobileBottomNav (content only; safe-area is added separately). */
+:root {
+  --mobile-bottom-nav-height: 62px;
+}
+
+@media (max-width: 639px) {
+  .mobile-floating-actions {
+    position: fixed;
+    right: 16px;
+    bottom: calc(var(--mobile-bottom-nav-height, 64px) + env(safe-area-inset-bottom, 0px) + 16px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    z-index: 1000;
+  }
+
+  .mobile-floating-actions > button,
+  .mobile-floating-actions > a {
+    width: 54px;
+    height: 54px;
+    min-width: 54px;
+    min-height: 54px;
+    border-radius: 50%;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: none;
+  }
+
+  .mobile-floating-actions > .animate-floating-btn {
+    animation: floatBtnFadeInMobile 1s cubic-bezier(0.16, 1, 0.3, 1) 1.5s forwards, floatGlow 2s infinite alternate ease-in-out;
+  }
+
+  .mobile-floating-actions > button:active,
+  .mobile-floating-actions > a:active {
+    filter: brightness(0.92);
   }
 }
 

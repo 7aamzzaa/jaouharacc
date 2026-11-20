@@ -187,7 +187,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
         </div>
 
         <div className="max-w-7xl mx-auto px-0 sm:px-6 lg:px-16 lg:max-w-none lg:self-stretch relative z-10 w-full">
-          <div className="grid grid-cols-1 lg:flex lg:items-center lg:h-full gap-8 sm:gap-12 lg:gap-20 items-center">
+          <div className="relative grid grid-cols-1 lg:flex lg:items-center lg:h-full gap-8 sm:gap-12 lg:gap-20 items-center">
 
             {/* Mobile hero image — 4:5 portrait, text sits below it on phones */}
             <div className="sm:hidden w-full relative z-10">
@@ -204,7 +204,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
             </div>
 
             {/* Left/Text Column */}
-            <div className="lg:w-[50%] w-full max-w-md sm:max-w-none space-y-0 sm:space-y-6 lg:space-y-8 text-start sm:text-center lg:text-start flex flex-col items-start sm:items-center lg:items-start justify-center hero-stagger hero-fade" dir={dir}>
+            <div className="absolute bottom-5 left-4 z-20 w-[210px] max-w-[calc(100%-32px)] sm:static sm:z-auto sm:w-auto lg:w-[50%] sm:max-w-none sm:space-y-6 lg:space-y-8 text-start sm:text-center lg:text-start flex flex-col items-start sm:items-center lg:items-start sm:justify-center hero-stagger hero-fade" dir={dir}>
               <h1 className="hidden md:block font-serif text-[clamp(34px,9.5vw,42px)] sm:text-5xl md:text-6xl lg:text-[70px] leading-[1.05] sm:leading-[1.1] font-black text-stone-900 lg:text-white tracking-tight">
                 {t('home.hero.title')} <br />
                 <span className="text-champagne-600 lg:text-champagne-400 italic font-medium leading-normal">{t('home.hero.titleHighlight')}</span>
@@ -214,17 +214,17 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
                 {t('home.hero.desc')}
               </p>
               
-              <div className="flex flex-col sm:flex-row items-center gap-4 pt-0 sm:pt-4 lg:pt-6 w-full sm:w-auto max-w-md sm:max-w-none">
+              <div className="flex w-full flex-col items-stretch gap-2 sm:w-auto sm:flex-row sm:items-center sm:gap-4 sm:pt-4 lg:pt-6">
                 <button
                   onClick={() => onPageChange('shop')}
-                  className="cursor-pointer w-full sm:w-auto h-14 sm:h-auto bg-champagne-600 text-white sm:bg-stone-900 px-8 py-4 text-xs uppercase tracking-widest font-bold hover:bg-champagne-700 hover:-translate-y-0.5 transition-all shadow-md active:scale-95 flex items-center justify-center gap-2 rounded-[14px] sm:rounded-xs font-sans"
+                  className="cursor-pointer w-full sm:w-auto h-11 sm:h-auto px-4 py-0 sm:px-8 sm:py-4 bg-[#B7934F] text-white sm:bg-stone-900 text-[11px] sm:text-xs uppercase tracking-[0.18em] sm:tracking-widest font-bold hover:bg-[#A67E42] sm:hover:bg-champagne-700 hover:-translate-y-0.5 transition-all duration-300 shadow-[0_6px_18px_-6px_rgba(80,55,15,0.55)] active:scale-[0.98] flex items-center justify-center gap-2 rounded-[10px] sm:rounded-xs font-sans"
                 >
                   {t('home.hero.cta')}
                   {dir === 'ltr' ? <ArrowRight size={14} /> : <ArrowLeft size={14} />}
                 </button>
                 <button
                   onClick={() => onPageChange('shop')}
-                  className="cursor-pointer w-full sm:w-auto h-14 sm:h-auto bg-transparent text-champagne-700 lg:text-champagne-400 border border-champagne-500 sm:border-2 sm:border-champagne-500/40 lg:border-champagne-400/50 hover:border-champagne-700 px-8 py-3.5 text-xs uppercase tracking-widest font-bold hover:bg-champagne-500/5 hover:-translate-y-0.5 transition-all active:scale-95 flex items-center justify-center gap-2 rounded-[14px] sm:rounded-xs font-sans"
+                  className="cursor-pointer w-full sm:w-auto h-11 sm:h-auto px-4 py-0 sm:px-8 sm:py-3.5 bg-white/80 sm:bg-transparent backdrop-blur-[2px] sm:backdrop-blur-none border border-[#B7934F]/70 sm:border-2 sm:border-champagne-500/40 lg:border-champagne-400/50 text-[#7A5C27] sm:text-champagne-700 lg:text-champagne-400 text-[11px] sm:text-xs uppercase tracking-[0.18em] sm:tracking-widest font-bold hover:bg-white/90 sm:hover:bg-champagne-500/5 hover:border-[#B7934F] sm:hover:border-champagne-700 hover:-translate-y-0.5 transition-all duration-300 active:scale-[0.98] flex items-center justify-center gap-2 rounded-[10px] sm:rounded-xs font-sans"
                 >
                   {t('home.hero.secondaryCta')}
                 </button>

@@ -384,12 +384,13 @@ export default function App() {
       </Suspense>
       <ToastContainer />
 
+      <div className="mobile-floating-actions sm:contents">
       <a
         id="floating-whatsapp-button"
         href={`https://wa.me/212605091987?text=${encodeURIComponent(t('app.floating.whatsappText'))}`}
         target="_blank"
         rel="noopener noreferrer"
-        className={`fixed bottom-[calc(6rem+env(safe-area-inset-bottom))] sm:bottom-6 right-6 z-50 bg-[#25D366] text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-all duration-300 hover:scale-110 active:scale-95 cursor-pointer ${isCartOpen ? 'invisible' : ''}`}
+        className={`order-2 rounded-full bg-[#25D366] text-white shadow-lg transition-all duration-300 cursor-pointer sm:fixed sm:bottom-6 sm:right-6 sm:z-50 sm:h-14 sm:w-14 sm:flex sm:items-center sm:justify-center sm:hover:scale-110 sm:active:scale-95 ${isCartOpen ? 'invisible' : ''}`}
         aria-label={t('app.floating.whatsappAria')}
       >
         <svg className="w-7 h-7 fill-white" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -406,12 +407,13 @@ export default function App() {
             navigate('/shop');
           }
         }}
-        className={`fixed bottom-[calc(6rem+env(safe-area-inset-bottom))] sm:bottom-6 left-1/2 -translate-x-1/2 md:bottom-24 md:right-6 md:left-auto md:translate-x-0 z-50 bg-[#C5A059] text-white font-serif text-sm font-semibold tracking-widest uppercase rounded-full px-5 py-3.5 sm:px-7 shadow-lg flex items-center gap-2 justify-center hover:scale-105 hover:brightness-110 active:scale-95 transition-all duration-300 cursor-pointer animate-floating-btn min-w-[140px] sm:min-w-[160px] md:min-w-0 ${isCartOpen || location.pathname.startsWith('/product') ? 'hidden' : ''}`}
+        className={`order-1 rounded-full bg-[#C5A059] text-white font-serif text-sm font-semibold tracking-widest uppercase shadow-[0_8px_22px_-8px_rgba(80,55,15,0.55)] transition-all duration-300 hover:brightness-110 cursor-pointer animate-floating-btn sm:fixed sm:bottom-6 sm:left-1/2 sm:z-50 sm:h-auto sm:w-auto sm:-translate-x-1/2 sm:flex sm:items-center sm:justify-center sm:gap-2 sm:px-7 sm:py-3.5 sm:shadow-lg sm:hover:scale-105 sm:active:scale-95 sm:min-w-[160px] md:bottom-24 md:right-6 md:left-auto md:translate-x-0 md:min-w-0 ${isCartOpen || location.pathname.startsWith('/product') ? 'hidden' : ''}`}
         aria-label={t('app.floating.orderNow')}
       >
-        <Gem className="w-4 h-4" />
-        <span className="font-sans font-bold">{t('app.floating.orderNow')}</span>
+        <Gem className="h-6 w-6 sm:h-4 sm:w-4" />
+        <span className="hidden font-sans font-bold sm:inline">{t('app.floating.orderNow')}</span>
       </button>
+      </div>
 
     </div>
   );
