@@ -2,22 +2,39 @@ import { Star } from 'lucide-react';
 import { useTranslation } from '../../i18n';
 
 interface ReviewSummaryProps {
-  averageRating: number;
-  totalReviews: number;
+  averageRating?: unknown;
+  totalReviews?: unknown;
+}
+
+function toFiniteNumber(value: unknown): number | null {
+  if (typeof value === 'number') {
+    return Number.isFinite(value) ? value : null;
+  }
+  if (typeof value === 'string' && value.trim() !== '') {
+    const parsed = Number(value);
+    return Number.isFinite(parsed) ? parsed : null;
+  }
+  return null;
 }
 
 export default function ReviewSummary({ averageRating, totalReviews }: ReviewSummaryProps) {
   const { t } = useTranslation();
 
-  const fullStars = Math.floor(averageRating);
-  const hasHalf = averageRating - fullStars >= 0.25;
+  const rawRating = toFiniteNumber(averageRating);
+  const hasRating = rawRating !== null && rawRating > 0 && rawRating <= 5;
+  const safeRating = hasRating ? Math.min(5, Math.max(0, rawRating ?? 0)) : 0;
+  const fullStars = hasRating ? Math.floor(safeRating) : 0;
+  const hasHalf = hasRating && safeRating - fullStars >= 0.25;
   const emptyStars = 5 - fullStars - (hasHalf ? 1 : 0);
+
+  const rawTotal = toFiniteNumber(totalReviews);
+  const safeTotal = rawTotal !== null && Number.isInteger(rawTotal) && rawTotal >= 0 ? rawTotal : 0;
 
   return (
     <div className="flex items-center gap-4 flex-wrap">
       <div className="flex items-center gap-2">
         <span className="text-3xl font-bold text-stone-900 font-sans leading-none">
-          {averageRating.toFixed(1)}
+          {hasRating ? safeRating.toFixed(1) : '—'}
         </span>
         <div className="flex items-center gap-0.5">
           {Array.from({ length: fullStars }).map((_, i) => (
@@ -29,7 +46,7 @@ export default function ReviewSummary({ averageRating, totalReviews }: ReviewSum
           ))}
           {hasHalf && (
             <div className="relative" style={{ width: 16, height: 16 }}>
-              <Star size={16} className="absolute inset-0 text-stone-300" />
+              <Star size={16} className="text-stone-300" />
               <div className="absolute inset-0 overflow-hidden" style={{ width: '50%' }}>
                 <Star size={16} className="text-stone-300 fill-champagne-500" />
               </div>
@@ -45,7 +62,7 @@ export default function ReviewSummary({ averageRating, totalReviews }: ReviewSum
         </div>
       </div>
       <p className="text-sm text-stone-500 font-sans">
-        {t('reviewsPage.totalReviews', { count: totalReviews })}
+        {t('reviewsPage.totalReviews', { count: safeTotal })}
       </p>
     </div>
   );

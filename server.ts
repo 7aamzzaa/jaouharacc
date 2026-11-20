@@ -204,7 +204,7 @@ function getStripe(): Stripe {
 app.get('/api/products', async (req, res) => {
   try {
     const products = await getProducts();
-    res.json(products);
+    res.json(products.map(sanitizeProductForResponse));
   } catch (err: any) {
     res.status(500).json({ error: 'Failed to retrieve products', details: err.message });
   }
@@ -225,6 +225,20 @@ app.get('/api/products/:id', async (req, res) => {
 
 // Upsert product (Add / Edit) - Admin Area
 const VALID_PRODUCT_CATEGORIES = ['bracelets', 'rings', 'earrings', 'anklets', 'necklaces', 'jewelry_sets'];
+
+// Normalize optional rating/review fields at the API boundary. Missing or
+// invalid values become null so the UI can show an unrated state instead of
+// inventing customer feedback or crashing on undefined.toFixed().
+function sanitizeProductForResponse(product: Product): Record<string, unknown> {
+  const rawRating = Number((product as any).rating);
+  const rawReviews = Number((product as any).reviews);
+
+  return {
+    ...product,
+    rating: Number.isFinite(rawRating) && rawRating >= 0 && rawRating <= 5 ? rawRating : null,
+    reviews: Number.isInteger(rawReviews) && rawReviews >= 0 ? rawReviews : null
+  };
+}
 
 function validateOneProduct(raw: any, index?: number): { status: 'ok'; product: Product } | { status: 'error'; error: string } {
   const prefix = index !== undefined ? `[Product ${index}] ` : '';

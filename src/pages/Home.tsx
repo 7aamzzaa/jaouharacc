@@ -104,9 +104,9 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
     { name: t('home.categories.items')[0], image: categoryProduct('bracelets')?.images?.[0] || '/images/09.jpg', id: 'bracelets' },
     { name: t('home.categories.items')[1], image: categoryProduct('rings')?.images?.[0] || '/images/01.jpg', id: 'rings' },
     { name: t('home.categories.items')[2], image: categoryProduct('earrings')?.images?.[0] || '/images/A1.jpg', id: 'earrings' },
-    { name: t('home.categories.items')[3], image: categoryProduct('anklets')?.images?.[0] || '/images/anklet1.jpg', id: 'anklets' },
-    { name: t('home.categories.items')[4], image: categoryProduct('necklaces')?.images?.[0] || '/images/necklace1.jpg', id: 'necklaces' },
-    { name: t('home.categories.items')[5], image: categoryProduct('jewelry_sets')?.images?.[0] || '/images/set1.jpg', id: 'jewelry_sets' },
+    { name: t('home.categories.items')[3], image: categoryProduct('anklets')?.images?.[0] || '/images/A.jpg', id: 'anklets' },
+    { name: t('home.categories.items')[4], image: categoryProduct('necklaces')?.images?.[0] || '/images/snsl.jpg', id: 'necklaces' },
+    { name: t('home.categories.items')[5], image: categoryProduct('jewelry_sets')?.images?.[0] || '/images/B1.jpg', id: 'jewelry_sets' },
   ];
 
   // Compact mobile-only category slider: every category, real product thumbnails, localized names.

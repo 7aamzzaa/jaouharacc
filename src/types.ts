@@ -8,8 +8,8 @@
   category: string;
   material: string;
   color: string;
-  rating: number;
-  reviews: number;
+  rating?: number | null;
+  reviews?: number | null;
   seoTitle?: string;
   metaDescription?: string;
   slug?: string;
