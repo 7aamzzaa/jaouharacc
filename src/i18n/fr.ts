@@ -58,6 +58,10 @@
       cta: 'D\u00e9couvrir maintenant',
       items: ['Bracelets', 'Bagues', 'Boucles d\u2019oreilles', 'Chevill\u00e8res', 'Colliers', 'Parures de bijoux'],
     },
+    mobileCategories: {
+      label: "L'UNIVERS CCJAOUHARA",
+      heading: 'Trouvez votre \u00e9clat',
+    },
     bestsellers: {
       label: 'Les plus populaires et adapt\u00e9s pour vous',
       heading: 'Les plus vendus',

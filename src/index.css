@@ -180,6 +180,35 @@ body {
   }
 }
 
+/* ── Mobile category infinite carousel ── */
+.mobile-carousel-viewport {
+  overflow: hidden;
+  touch-action: pan-y;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.mobile-carousel-track {
+  display: flex;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* ── Mobile home spacing: reclaim the blank gap between hero CTAs and trust bar ── */
+@media (max-width: 767.98px) {
+  .home-hero-section {
+    margin-bottom: 0 !important;
+  }
+
+  .home-mobile-rail {
+    margin-bottom: 8px !important;
+  }
+
+  .home-trust-bar {
+    margin-bottom: 24px !important;
+  }
+}
+
 /* ── Hero Placeholder ── */
 @keyframes shimmer {
   0% { background-position: -200% 0; }

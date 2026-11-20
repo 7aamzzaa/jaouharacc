@@ -58,6 +58,10 @@
       cta: 'Explore Now',
       items: ['Bracelets', 'Rings', 'Earrings', 'Anklets', 'Necklaces', 'Jewelry Sets'],
     },
+    mobileCategories: {
+      label: 'THE CCJAOUHARA UNIVERSE',
+      heading: 'Find your sparkle',
+    },
     bestsellers: {
       label: 'Trending & Made for You',
       heading: 'Best Sellers',

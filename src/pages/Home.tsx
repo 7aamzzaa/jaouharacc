@@ -109,6 +109,54 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
     { name: t('home.categories.items')[5], image: categoryProduct('jewelry_sets')?.images?.[0] || '/images/set1.jpg', id: 'jewelry_sets' },
   ];
 
+  // Compact mobile-only category slider: every category, real product thumbnails, localized names.
+  const mobileCategories = [
+    { id: 'bracelets', name: t('nav.categories.bracelets.name'), image: categoryProduct('bracelets')?.images?.[0] || '/images/09.jpg' },
+    { id: 'rings', name: t('nav.categories.rings.name'), image: categoryProduct('rings')?.images?.[0] || '/images/01.jpg' },
+    { id: 'necklaces', name: t('nav.categories.necklaces.name'), image: categoryProduct('necklaces')?.images?.[0] || '/images/33.jpg' },
+    { id: 'earrings', name: t('nav.categories.earrings.name'), image: categoryProduct('earrings')?.images?.[0] || '/images/A1.jpg' },
+    { id: 'anklets', name: t('nav.categories.anklets.name'), image: categoryProduct('anklets')?.images?.[0] || '/images/02.jpg' },
+    { id: 'jewelry_sets', name: t('nav.categories.jewelry_sets.name'), image: categoryProduct('jewelry_sets')?.images?.[0] || '/images/10.jpg' },
+  ];
+
+  const carouselViewportRef = useRef<HTMLDivElement>(null);
+  const carouselTrackRef = useRef<HTMLDivElement>(null);
+  const carouselFirstSetRef = useRef<HTMLDivElement>(null);
+
+  // Two identical sets make the loop seamless; the clone is hidden from screen readers and tab order.
+  const renderCategorySet = (primary: boolean) => (
+    <div
+      ref={primary ? carouselFirstSetRef : undefined}
+      className="flex shrink-0 gap-2.5"
+      aria-hidden={primary ? undefined : true}
+    >
+      {mobileCategories.map((cat) => (
+        <button
+          key={`${primary ? 'primary' : 'clone'}-${cat.id}`}
+          type="button"
+          onClick={() => onPageChange('shop', { filterCategory: cat.id })}
+          aria-label={primary ? cat.name : undefined}
+          tabIndex={primary ? 0 : -1}
+          className="group flex w-[72px] shrink-0 flex-col items-center gap-1.5 rounded-lg px-0.5 py-0.5 transition-colors duration-300 hover:bg-white/70 active:scale-[0.97]"
+        >
+          <span className="relative block h-14 w-14">
+            <img
+              src={cat.image}
+              alt=""
+              loading="lazy"
+              draggable={false}
+              className="h-full w-full rounded-full object-cover ring-1 ring-champagne-300/70 shadow-[0_4px_10px_-6px_rgba(120,86,30,0.55)] transition-transform duration-300 group-hover:scale-105"
+            />
+            <span className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-inset ring-white/40" />
+          </span>
+          <span className="min-h-[24px] w-full text-center text-[10px] font-semibold leading-[12px] text-stone-700 transition-colors duration-300 group-hover:text-champagne-700">
+            {cat.name}
+          </span>
+        </button>
+      ))}
+    </div>
+  );
+
   const categoryRef = useRef<HTMLDivElement>(null);
   const [categoryVisible, setCategoryVisible] = useState(false);
   const promoRef = useRef<HTMLDivElement>(null);
@@ -133,6 +181,186 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
       observers.push(o);
     }
     return () => observers.forEach(o => o.disconnect());
+  }, []);
+
+  // Seamless, swipeable right-to-left category carousel (mobile section only).
+  useEffect(() => {
+    const viewport = carouselViewportRef.current;
+    const track = carouselTrackRef.current;
+    const firstSet = carouselFirstSetRef.current;
+    if (!viewport || !track || !firstSet) return;
+
+    const SPEED = 26; // pixels per second
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let offset = 0;
+    let raf = 0;
+    let lastFrame = 0;
+    const initialRect = viewport.getBoundingClientRect();
+    let visible = initialRect.bottom > 0 && initialRect.top < window.innerHeight;
+    let dragging = false;
+    let dragPointerId: number | null = null;
+    let dragStartX = 0;
+    let dragStartOffset = 0;
+    let dragged = false;
+    let resumeTimer = 0;
+
+    const getPeriod = () => {
+      const gap = parseFloat(getComputedStyle(track).columnGap || '0') || 0;
+      return firstSet.getBoundingClientRect().width + gap;
+    };
+
+    const renderOffset = () => {
+      track.style.transform = `translate3d(${offset}px, 0, 0)`;
+    };
+
+    const normalize = () => {
+      const period = getPeriod();
+      if (!period) return;
+      while (offset <= -period) offset += period;
+      while (offset > 0) offset -= period;
+    };
+
+    const shouldAnimate = () => !reducedMotion.matches && visible && !document.hidden && !dragging;
+
+    const stop = () => {
+      if (raf) cancelAnimationFrame(raf);
+      raf = 0;
+      lastFrame = 0;
+    };
+
+    function tick(time: number) {
+      raf = requestAnimationFrame(tick);
+      if (!lastFrame) {
+        lastFrame = time;
+        return;
+      }
+      const delta = Math.min(time - lastFrame, 64);
+      lastFrame = time;
+      if (!shouldAnimate()) return;
+      offset -= (SPEED * delta) / 1000;
+      normalize();
+      renderOffset();
+    }
+
+    const start = () => {
+      if (!raf && shouldAnimate()) raf = requestAnimationFrame(tick);
+    };
+
+    const clearResume = () => {
+      if (resumeTimer) {
+        clearTimeout(resumeTimer);
+        resumeTimer = 0;
+      }
+    };
+
+    const scheduleResume = (delay = 600) => {
+      clearResume();
+      resumeTimer = window.setTimeout(() => start(), delay);
+    };
+
+    const onPointerDown = (event: PointerEvent) => {
+      if (event.pointerType === 'mouse' && event.button !== 0) return;
+      stop();
+      clearResume();
+      dragging = true;
+      dragged = false;
+      dragPointerId = event.pointerId;
+      dragStartX = event.clientX;
+      dragStartOffset = offset;
+      viewport.setPointerCapture(event.pointerId);
+    };
+
+    const onPointerMove = (event: PointerEvent) => {
+      if (!dragging || event.pointerId !== dragPointerId) return;
+      const deltaX = event.clientX - dragStartX;
+      if (Math.abs(deltaX) > 4) dragged = true;
+      offset = dragStartOffset + deltaX;
+      normalize();
+      renderOffset();
+    };
+
+    const onPointerEnd = (event: PointerEvent) => {
+      if (!dragging || event.pointerId !== dragPointerId) return;
+      dragging = false;
+      dragPointerId = null;
+      if (viewport.hasPointerCapture(event.pointerId)) viewport.releasePointerCapture(event.pointerId);
+      scheduleResume();
+    };
+
+    const onClickCapture = (event: MouseEvent) => {
+      if (!dragged) return;
+      event.preventDefault();
+      event.stopPropagation();
+      dragged = false;
+    };
+
+    const onWheel = (event: WheelEvent) => {
+      if (Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
+      stop();
+      clearResume();
+      offset -= event.deltaX;
+      normalize();
+      renderOffset();
+      scheduleResume(700);
+    };
+
+    const onKeyDown = () => {
+      stop();
+      clearResume();
+      scheduleResume(800);
+    };
+
+    const onVisibility = () => {
+      if (document.hidden) stop();
+      else start();
+    };
+
+    const onMotionChange = () => {
+      if (reducedMotion.matches) stop();
+      else start();
+    };
+
+    const onResize = () => {
+      normalize();
+      renderOffset();
+    };
+
+    viewport.addEventListener('pointerdown', onPointerDown);
+    viewport.addEventListener('pointermove', onPointerMove);
+    viewport.addEventListener('pointerup', onPointerEnd);
+    viewport.addEventListener('pointercancel', onPointerEnd);
+    viewport.addEventListener('click', onClickCapture, true);
+    viewport.addEventListener('wheel', onWheel, { passive: true });
+    viewport.addEventListener('keydown', onKeyDown);
+    document.addEventListener('visibilitychange', onVisibility);
+    window.addEventListener('resize', onResize);
+    reducedMotion.addEventListener?.('change', onMotionChange);
+
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      if (visible) start();
+      else stop();
+    }, { threshold: 0.01 });
+    observer.observe(viewport);
+
+    renderOffset();
+    start();
+
+    return () => {
+      stop();
+      clearResume();
+      observer.disconnect();
+      viewport.removeEventListener('pointerdown', onPointerDown);
+      viewport.removeEventListener('pointermove', onPointerMove);
+      viewport.removeEventListener('pointerup', onPointerEnd);
+      viewport.removeEventListener('pointercancel', onPointerEnd);
+      viewport.removeEventListener('click', onClickCapture, true);
+      viewport.removeEventListener('wheel', onWheel);
+      viewport.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener('visibilitychange', onVisibility);
+      window.removeEventListener('resize', onResize);
+      reducedMotion.removeEventListener?.('change', onMotionChange);
+    };
   }, []);
 
   // Newsletter subscription state
@@ -166,7 +394,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
     <div className="space-y-16 sm:space-y-24 bg-[#FAF7F2]/30 overflow-x-hidden">
       
       {/* 1. HERO SECTION */}
-      <section className="relative flex flex-col sm:flex-row sm:items-center sm:min-h-[85vh] lg:h-[90vh] bg-gradient-to-tr from-[#FFF9F5] via-[#FFFDFB] to-[#FFF3EB] overflow-hidden pt-0 pb-[calc(7rem+env(safe-area-inset-bottom))] sm:pt-12 sm:pb-12 md:py-20 lg:py-0 border-b-0 sm:border-b border-champagne-150">
+      <section className="home-hero-section relative flex flex-col sm:flex-row sm:items-center sm:min-h-[85vh] lg:h-[90vh] bg-gradient-to-tr from-[#FFF9F5] via-[#FFFDFB] to-[#FFF3EB] overflow-hidden pt-0 pb-[calc(1rem+env(safe-area-inset-bottom))] sm:pt-12 sm:pb-12 md:py-20 lg:py-0 border-b-0 sm:border-b border-champagne-150">
         <div className="absolute top-0 right-0 w-1/3 h-full bg-gradient-to-l from-champagne-300/10 to-transparent -skew-x-12 transform origin-top-right hidden"></div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_35%,rgba(197,160,89,0.1),transparent_60%)]"></div>
 
@@ -251,8 +479,33 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
         </div>
       </section>
 
+      {/* 1b. MOBILE CATEGORY RAIL — fills the space between the hero CTAs and the trust bar */}
+      <section
+        aria-label={t('home.mobileCategories.label')}
+        className="home-mobile-rail md:hidden bg-[#FAF7F3] [margin-block-start:0px] border-y border-champagne-100 py-3"
+        dir={dir}
+      >
+        <div className="px-4">
+          <div className="mb-2.5 text-center">
+            <span className="block text-[9px] font-bold uppercase tracking-[0.22em] text-champagne-600">
+              {t('home.mobileCategories.label')}
+            </span>
+            <h2 className="mt-0.5 font-serif text-[19px] font-semibold leading-tight text-stone-800">
+              {t('home.mobileCategories.heading')}
+            </h2>
+          </div>
+
+          <div ref={carouselViewportRef} className="mobile-carousel-viewport -mx-1">
+            <div ref={carouselTrackRef} className="mobile-carousel-track gap-2.5">
+              {renderCategorySet(true)}
+              {renderCategorySet(false)}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* 2. TRUST BAR */}
-      <section className="bg-white border-y border-champagne-105 py-4 sm:py-8 md:py-10 shadow-3xs" dir={dir}>
+      <section className="home-trust-bar bg-white border-y border-champagne-105 py-4 sm:py-8 md:py-10 shadow-3xs" dir={dir}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <TrustBadges />
         </div>
@@ -281,7 +534,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
 
       {/* 4. SHOP BY CATEGORY */}
       {/* Mobile pulls the category heading up right below the Trust Bar (space-y gap cancelled via margin-block-start). */}
-      <section className="[margin-block-start:-40px] sm:[margin-block-start:0px] max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Mobile heading (below 640px) */}
         <div className="sm:hidden text-center space-y-4 mb-12">
           <span className="text-xs tracking-widest font-bold uppercase text-champagne-500 block">
