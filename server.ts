@@ -2,7 +2,6 @@ import 'dotenv/config';
 import express from 'express';
 import path from 'path';
 import Stripe from 'stripe';
-import { createServer as createViteServer } from 'vite';
 import {
   createAdminToken,
   verifyPassword,
@@ -48,7 +47,7 @@ import {
 } from './serverDB';
 import { Product, Review, Order } from './src/types';
 
-const app = express();
+export const app = express();
 const PORT = 3000;
 
 // ------------------------------------------------------------------------
@@ -1052,6 +1051,7 @@ async function start() {
     assertAuthConfigured();
   }
   if (process.env.NODE_ENV !== 'production') {
+    const { createServer: createViteServer } = await import('vite');
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: 'spa',
@@ -1083,6 +1083,13 @@ async function start() {
   });
 }
 
-start().catch(err => {
-  console.error('[ccjaouhara Server] Initialization sequence failure:', err);
-});
+export default app;
+
+// Local development / standalone production server only. Vercel Functions
+// import the exported app directly and must not open a listening socket.
+const isVercelRuntime = process.env.VERCEL === '1' || process.env.VERCEL_FUNCTION === '1' || !!process.env.VERCEL_ENV;
+if (!isVercelRuntime) {
+  start().catch(err => {
+    console.error('[ccjaouhara Server] Initialization sequence failure:', err);
+  });
+}
