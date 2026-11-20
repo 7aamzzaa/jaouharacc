@@ -1,10 +1,11 @@
 import { createRequire } from 'node:module';
 
-// npm run build emits dist/server.cjs. Vercel deploys the contents of dist as
-// the deployment root, so the artifact is /var/task/server.cjs. Since this
-// package is ESM, explicitly load the CommonJS bundle and unwrap the app.
+// npm run build emits dist/server.cjs. Vercel includes it in the function
+// bundle via vercel.json functions.includeFiles, preserving the dist/ path.
+// Since this package is ESM, explicitly load the CommonJS bundle and unwrap
+// the app.
 const nodeRequire = createRequire(import.meta.url);
-const serverModule = nodeRequire('../server.cjs');
+const serverModule = nodeRequire('../dist/server.cjs');
 const app = serverModule.default ?? serverModule.app ?? serverModule;
 
 // Vercel invokes Node Functions with Node-compatible request/response objects,
