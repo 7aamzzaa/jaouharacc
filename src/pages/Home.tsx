@@ -119,6 +119,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
     { id: 'jewelry_sets', name: t('nav.categories.jewelry_sets.name'), image: categoryProduct('jewelry_sets')?.images?.[0] || '/images/10.jpg' },
   ];
 
+  const heroVideoRef = useRef<HTMLVideoElement>(null);
   const carouselViewportRef = useRef<HTMLDivElement>(null);
   const carouselTrackRef = useRef<HTMLDivElement>(null);
   const carouselFirstSetRef = useRef<HTMLDivElement>(null);
@@ -181,6 +182,46 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
       observers.push(o);
     }
     return () => observers.forEach(o => o.disconnect());
+  }, []);
+
+  // Mobile hero video: autoplay only while visible, muted, and paused for reduced motion.
+  useEffect(() => {
+    const video = heroVideoRef.current;
+    if (!video) return;
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let visible = false;
+
+    const isOnScreen = () => {
+      const rect = video.getBoundingClientRect();
+      return rect.width > 0 && rect.height > 0 && rect.bottom > 0 && rect.top < window.innerHeight;
+    };
+
+    const syncPlayback = () => {
+      if ((visible || isOnScreen()) && !reducedMotion.matches && !document.hidden) {
+        const playback = video.play();
+        if (playback) playback.catch(() => {});
+      } else {
+        video.pause();
+      }
+    };
+
+    const observer = new IntersectionObserver(([entry]) => {
+      visible = entry.isIntersecting;
+      syncPlayback();
+    }, { threshold: 0.05 });
+    observer.observe(video);
+    syncPlayback();
+
+    document.addEventListener('visibilitychange', syncPlayback);
+    reducedMotion.addEventListener?.('change', syncPlayback);
+
+    return () => {
+      observer.disconnect();
+      document.removeEventListener('visibilitychange', syncPlayback);
+      reducedMotion.removeEventListener?.('change', syncPlayback);
+      video.pause();
+    };
   }, []);
 
   // Seamless, swipeable right-to-left category carousel (mobile section only).
@@ -415,24 +456,29 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
         </div>
 
         <div className="max-w-7xl mx-auto px-0 sm:px-6 lg:px-16 lg:max-w-none lg:self-stretch relative z-10 w-full">
-          <div className="relative grid grid-cols-1 lg:flex lg:items-center lg:h-full gap-8 sm:gap-12 lg:gap-20 items-center">
+          <div className="relative grid grid-cols-1 lg:flex lg:items-center lg:h-full gap-0 sm:gap-12 lg:gap-20 items-center">
 
-            {/* Mobile hero image — 4:5 portrait, text sits below it on phones */}
+            {/* Mobile hero video — 16:9, full viewport width, contained inside the existing hero */}
             <div className="sm:hidden w-full relative z-10">
-              <div className="relative w-full aspect-[4/5] overflow-hidden rounded-none bg-champagne-100 sm:rounded-[18px] sm:shadow-[0_18px_45px_-24px_rgba(120,86,30,0.45)] sm:ring-1 sm:ring-champagne-200/70">
-                <img
-                  src="/images/ccjaouhara-hero-mobile.webp"
-                  alt="Modèle CCJAOUHARA portant des bijoux dorés"
-                  className="w-full h-full object-cover object-[center_70%]"
-                  loading="eager"
-                  fetchPriority="high"
-                />
-                <div className="pointer-events-none absolute inset-0 rounded-none sm:rounded-[18px] sm:ring-1 sm:ring-inset sm:ring-white/25"></div>
+              <div className="relative w-full aspect-[16/9] overflow-hidden bg-champagne-100">
+                <video
+                  ref={heroVideoRef}
+                  className="absolute inset-0 h-full w-full object-contain"
+                  poster="/images/slider-poster.jpg"
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  preload="auto"
+                  aria-label={t('home.hero.title')}
+                >
+                  <source src="/videos/SLIDER.mp4" type="video/mp4" />
+                </video>
               </div>
             </div>
 
             {/* Left/Text Column */}
-            <div className="absolute bottom-5 left-4 z-20 w-[210px] max-w-[calc(100%-32px)] sm:static sm:z-auto sm:w-auto lg:w-[50%] sm:max-w-none sm:space-y-6 lg:space-y-8 text-start sm:text-center lg:text-start flex flex-col items-start sm:items-center lg:items-start sm:justify-center hero-stagger hero-fade" dir={dir}>
+            <div className="relative z-20 w-full px-4 pt-3 sm:static sm:z-auto sm:w-auto sm:px-0 sm:pt-0 lg:w-[50%] sm:max-w-none sm:space-y-6 lg:space-y-8 text-start sm:text-center lg:text-start flex flex-col items-stretch sm:items-center lg:items-start sm:justify-center hero-stagger hero-fade" dir={dir}>
               <h1 className="hidden md:block font-serif text-[clamp(34px,9.5vw,42px)] sm:text-5xl md:text-6xl lg:text-[70px] leading-[1.05] sm:leading-[1.1] font-black text-stone-900 lg:text-white tracking-tight">
                 {t('home.hero.title')} <br />
                 <span className="text-champagne-600 lg:text-champagne-400 italic font-medium leading-normal">{t('home.hero.titleHighlight')}</span>
