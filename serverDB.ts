@@ -15,6 +15,17 @@ export function withOrderLock<T>(fn: () => Promise<T>): Promise<T> {
   return run;
 }
 
+// Vercel Functions have a read-only, ephemeral filesystem. Supabase is the
+// authoritative store there; local JSON files are only for localhost development.
+const isServerless = process.env.VERCEL === '1' || process.env.VERCEL_FUNCTION === '1' || !!process.env.VERCEL_ENV;
+
+function writeLocal(file: string, data: string, encoding: BufferEncoding = 'utf-8'): void {
+  if (isServerless) {
+    throw new Error('Local disk persistence is unavailable in the serverless runtime; configure Supabase.');
+  }
+  fs.writeFileSync(file, data, encoding);
+}
+
 // Setup local fallback directory and file paths
 const DATA_DIR = path.join(process.cwd(), 'data');
 const PRODUCTS_FILE = path.join(DATA_DIR, 'products.json');
@@ -25,27 +36,28 @@ const REVIEWS_FILE = path.join(DATA_DIR, 'reviews.json');
 
 // Ensure fallback database files are initialized
 function initializeLocalDB() {
+  if (isServerless) return;
   if (!fs.existsSync(DATA_DIR)) {
     fs.mkdirSync(DATA_DIR, { recursive: true });
   }
   if (!fs.existsSync(PRODUCTS_FILE)) {
-    fs.writeFileSync(PRODUCTS_FILE, JSON.stringify(defaultProducts, null, 2), 'utf-8');
+    writeLocal(PRODUCTS_FILE, JSON.stringify(defaultProducts, null, 2), 'utf-8');
     console.log('[DB] Local products database initialized with default luxury catalog');
   }
   if (!fs.existsSync(ORDERS_FILE)) {
-    fs.writeFileSync(ORDERS_FILE, JSON.stringify([], null, 2), 'utf-8');
+    writeLocal(ORDERS_FILE, JSON.stringify([], null, 2), 'utf-8');
     console.log('[DB] Local orders database initialized empty');
   }
   if (!fs.existsSync(MESSAGES_FILE)) {
-    fs.writeFileSync(MESSAGES_FILE, JSON.stringify([], null, 2), 'utf-8');
+    writeLocal(MESSAGES_FILE, JSON.stringify([], null, 2), 'utf-8');
     console.log('[DB] Local messages database initialized empty');
   }
   if (!fs.existsSync(SUBSCRIBERS_FILE)) {
-    fs.writeFileSync(SUBSCRIBERS_FILE, JSON.stringify([], null, 2), 'utf-8');
+    writeLocal(SUBSCRIBERS_FILE, JSON.stringify([], null, 2), 'utf-8');
     console.log('[DB] Local subscribers database initialized empty');
   }
   if (!fs.existsSync(REVIEWS_FILE)) {
-    fs.writeFileSync(REVIEWS_FILE, JSON.stringify([], null, 2), 'utf-8');
+    writeLocal(REVIEWS_FILE, JSON.stringify([], null, 2), 'utf-8');
     console.log('[DB] Local reviews database initialized empty');
   }
 }
@@ -86,7 +98,7 @@ async function mirrorProductsToDisk(): Promise<void> {
   try {
     const { data, error } = await supabase.from('products').select('*').order('id', { ascending: true });
     if (error) throw error;
-    fs.writeFileSync(PRODUCTS_FILE, JSON.stringify(data ?? [], null, 2), 'utf-8');
+    writeLocal(PRODUCTS_FILE, JSON.stringify(data ?? [], null, 2), 'utf-8');
   } catch (err: any) {
     console.warn('[DB] Failed to refresh products disk mirror:', err?.message || err);
   }
@@ -97,7 +109,7 @@ async function mirrorOrdersToDisk(): Promise<void> {
   try {
     const { data, error } = await supabase.from('orders').select('*').order('created_at', { ascending: false });
     if (error) throw error;
-    fs.writeFileSync(ORDERS_FILE, JSON.stringify(data ?? [], null, 2), 'utf-8');
+    writeLocal(ORDERS_FILE, JSON.stringify(data ?? [], null, 2), 'utf-8');
   } catch (err: any) {
     console.warn('[DB] Failed to refresh orders disk mirror:', err?.message || err);
   }
@@ -233,7 +245,7 @@ export async function upsertProduct(product: Product): Promise<Product> {
     products.push(product);
   }
 
-  fs.writeFileSync(PRODUCTS_FILE, JSON.stringify(products, null, 2), 'utf-8');
+  writeLocal(PRODUCTS_FILE, JSON.stringify(products, null, 2), 'utf-8');
   return product;
 }
 
@@ -259,7 +271,7 @@ export async function deleteProduct(id: string): Promise<boolean> {
   if (products.length === filtered.length) {
     return false;
   }
-  fs.writeFileSync(PRODUCTS_FILE, JSON.stringify(filtered, null, 2), 'utf-8');
+  writeLocal(PRODUCTS_FILE, JSON.stringify(filtered, null, 2), 'utf-8');
   return true;
 }
 
@@ -362,7 +374,7 @@ export async function createOrder(orderData: Omit<Order, 'created_at' | 'status'
   // Check if order already saved locally to avoid duplicates
   if (!orders.some(o => o.id === newOrder.id)) {
     orders.unshift(newOrder);
-    fs.writeFileSync(ORDERS_FILE, JSON.stringify(orders, null, 2), 'utf-8');
+    writeLocal(ORDERS_FILE, JSON.stringify(orders, null, 2), 'utf-8');
   }
 
   return newOrder;
@@ -480,7 +492,7 @@ export async function deleteOrder(id: string): Promise<boolean> {
   const orders = await getOrders();
   const filtered = orders.filter(o => o.id !== id);
   if (orders.length === filtered.length) return false;
-  fs.writeFileSync(ORDERS_FILE, JSON.stringify(filtered, null, 2), 'utf-8');
+  writeLocal(ORDERS_FILE, JSON.stringify(filtered, null, 2), 'utf-8');
   return true;
 }
 
@@ -511,7 +523,7 @@ export async function updateOrderStatus(id: string, status: Order['status']): Pr
     return null;
   }
   orders[orderIndex].status = status;
-  fs.writeFileSync(ORDERS_FILE, JSON.stringify(orders, null, 2), 'utf-8');
+  writeLocal(ORDERS_FILE, JSON.stringify(orders, null, 2), 'utf-8');
   return orders[orderIndex];
 }
 
@@ -674,7 +686,7 @@ export async function createMessage(msgData: Omit<ContactMessage, 'id' | 'create
 
   const messages = await getMessages();
   messages.unshift(newMsg);
-  fs.writeFileSync(MESSAGES_FILE, JSON.stringify(messages, null, 2), 'utf-8');
+  writeLocal(MESSAGES_FILE, JSON.stringify(messages, null, 2), 'utf-8');
   return newMsg;
 }
 
@@ -702,7 +714,7 @@ export async function updateMessageStatus(id: string, status: 'new' | 'read'): P
   const idx = messages.findIndex(m => m.id === id);
   if (idx === -1) return null;
   messages[idx].status = status;
-  fs.writeFileSync(MESSAGES_FILE, JSON.stringify(messages, null, 2), 'utf-8');
+  writeLocal(MESSAGES_FILE, JSON.stringify(messages, null, 2), 'utf-8');
   return messages[idx];
 }
 
@@ -726,7 +738,7 @@ export async function deleteMessage(id: string): Promise<boolean> {
   const messages = await getMessages();
   const filtered = messages.filter(m => m.id !== id);
   if (messages.length === filtered.length) return false;
-  fs.writeFileSync(MESSAGES_FILE, JSON.stringify(filtered, null, 2), 'utf-8');
+  writeLocal(MESSAGES_FILE, JSON.stringify(filtered, null, 2), 'utf-8');
   return true;
 }
 
@@ -790,7 +802,7 @@ export async function createSubscriber(email: string): Promise<Subscriber | null
   if (existing) return null;
 
   subscribers.unshift(newSub);
-  fs.writeFileSync(SUBSCRIBERS_FILE, JSON.stringify(subscribers, null, 2), 'utf-8');
+  writeLocal(SUBSCRIBERS_FILE, JSON.stringify(subscribers, null, 2), 'utf-8');
   return newSub;
 }
 
@@ -814,7 +826,7 @@ export async function deleteSubscriber(id: string): Promise<boolean> {
   const subscribers = await getSubscribers();
   const filtered = subscribers.filter(s => s.id !== id);
   if (subscribers.length === filtered.length) return false;
-  fs.writeFileSync(SUBSCRIBERS_FILE, JSON.stringify(filtered, null, 2), 'utf-8');
+  writeLocal(SUBSCRIBERS_FILE, JSON.stringify(filtered, null, 2), 'utf-8');
   return true;
 }
 
@@ -871,7 +883,7 @@ export async function createReview(data: Omit<Review, 'id' | 'createdAt' | 'stat
 
   const reviews = await getReviews();
   reviews.unshift(newReview);
-  fs.writeFileSync(REVIEWS_FILE, JSON.stringify(reviews, null, 2), 'utf-8');
+  writeLocal(REVIEWS_FILE, JSON.stringify(reviews, null, 2), 'utf-8');
   return newReview;
 }
 
@@ -899,7 +911,7 @@ export async function updateReviewStatus(id: string, status: 'approved' | 'rejec
   const idx = reviews.findIndex(r => r.id === id);
   if (idx === -1) return null;
   reviews[idx].status = status;
-  fs.writeFileSync(REVIEWS_FILE, JSON.stringify(reviews, null, 2), 'utf-8');
+  writeLocal(REVIEWS_FILE, JSON.stringify(reviews, null, 2), 'utf-8');
   return reviews[idx];
 }
 
@@ -923,6 +935,6 @@ export async function deleteReview(id: string): Promise<boolean> {
   const reviews = await getReviews();
   const filtered = reviews.filter(r => r.id !== id);
   if (reviews.length === filtered.length) return false;
-  fs.writeFileSync(REVIEWS_FILE, JSON.stringify(filtered, null, 2), 'utf-8');
+  writeLocal(REVIEWS_FILE, JSON.stringify(filtered, null, 2), 'utf-8');
   return true;
 }

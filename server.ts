@@ -2,7 +2,6 @@ import 'dotenv/config';
 import express from 'express';
 import path from 'path';
 import Stripe from 'stripe';
-import { createServer as createViteServer } from 'vite';
 import {
   createAdminToken,
   verifyPassword,
@@ -48,7 +47,7 @@ import {
 } from './serverDB';
 import { Product, Review, Order } from './src/types';
 
-const app = express();
+export const app = express();
 const PORT = 3000;
 
 // ------------------------------------------------------------------------
@@ -205,7 +204,7 @@ function getStripe(): Stripe {
 app.get('/api/products', async (req, res) => {
   try {
     const products = await getProducts();
-    res.json(products);
+    res.json(products.map(sanitizeProductForResponse));
   } catch (err: any) {
     res.status(500).json({ error: 'Failed to retrieve products', details: err.message });
   }
@@ -226,6 +225,20 @@ app.get('/api/products/:id', async (req, res) => {
 
 // Upsert product (Add / Edit) - Admin Area
 const VALID_PRODUCT_CATEGORIES = ['bracelets', 'rings', 'earrings', 'anklets', 'necklaces', 'jewelry_sets'];
+
+// Normalize optional rating/review fields at the API boundary. Missing or
+// invalid values become null so the UI can show an unrated state instead of
+// inventing customer feedback or crashing on undefined.toFixed().
+function sanitizeProductForResponse(product: Product): Record<string, unknown> {
+  const rawRating = Number((product as any).rating);
+  const rawReviews = Number((product as any).reviews);
+
+  return {
+    ...product,
+    rating: Number.isFinite(rawRating) && rawRating >= 0 && rawRating <= 5 ? rawRating : null,
+    reviews: Number.isInteger(rawReviews) && rawReviews >= 0 ? rawReviews : null
+  };
+}
 
 function validateOneProduct(raw: any, index?: number): { status: 'ok'; product: Product } | { status: 'error'; error: string } {
   const prefix = index !== undefined ? `[Product ${index}] ` : '';
@@ -1052,6 +1065,7 @@ async function start() {
     assertAuthConfigured();
   }
   if (process.env.NODE_ENV !== 'production') {
+    const { createServer: createViteServer } = await import('vite');
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: 'spa',
@@ -1083,6 +1097,13 @@ async function start() {
   });
 }
 
-start().catch(err => {
-  console.error('[ccjaouhara Server] Initialization sequence failure:', err);
-});
+export default app;
+
+// Local development / standalone production server only. Vercel Functions
+// import the exported app directly and must not open a listening socket.
+const isVercelRuntime = process.env.VERCEL === '1' || process.env.VERCEL_FUNCTION === '1' || !!process.env.VERCEL_ENV;
+if (!isVercelRuntime) {
+  start().catch(err => {
+    console.error('[ccjaouhara Server] Initialization sequence failure:', err);
+  });
+}
