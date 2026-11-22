@@ -1,0 +1,24 @@
+ data/products.json                                 | 644 [32m+++++[m[31m----------------[m
+ .../products/bracelets/CCJ-BRA-001/01-white.webp   | Bin [31m0[m -> [32m171020[m bytes
+ .../products/bracelets/CCJ-BRA-001/02-luxury.webp  | Bin [31m0[m -> [32m273002[m bytes
+ .../products/bracelets/CCJ-BRA-001/03-detail.webp  | Bin [31m0[m -> [32m246204[m bytes
+ .../products/bracelets/CCJ-BRA-001/04-emerald.webp | Bin [31m0[m -> [32m286104[m bytes
+ .../products/bracelets/CCJ-BRA-002/01-white.webp   | Bin [31m0[m -> [32m95908[m bytes
+ .../products/bracelets/CCJ-BRA-002/02-luxury.webp  | Bin [31m0[m -> [32m169226[m bytes
+ .../products/bracelets/CCJ-BRA-002/03-detail.webp  | Bin [31m0[m -> [32m208522[m bytes
+ .../products/bracelets/CCJ-BRA-002/04-emerald.webp | Bin [31m0[m -> [32m221548[m bytes
+ .../bracelets/CCJ-BRA-003/01-white (1).webp        | Bin [31m0[m -> [32m69500[m bytes
+ .../products/bracelets/CCJ-BRA-003/02-luxury.webp  | Bin [31m0[m -> [32m184928[m bytes
+ .../products/bracelets/CCJ-BRA-003/03-detail.webp  | Bin [31m0[m -> [32m165324[m bytes
+ .../products/bracelets/CCJ-BRA-003/04-emerald.webp | Bin [31m0[m -> [32m156572[m bytes
+ .../products/bracelets/CCJ-BRA-004/01-white.webp   | Bin [31m0[m -> [32m64070[m bytes
+ .../bracelets/CCJ-BRA-004/02-luxury (1).webp       | Bin [31m0[m -> [32m169908[m bytes
+ .../products/bracelets/CCJ-BRA-004/03-detail.webp  | Bin [31m0[m -> [32m120646[m bytes
+ .../products/bracelets/CCJ-BRA-004/04-emerald.webp | Bin [31m0[m -> [32m151790[m bytes
+ .../bracelets/CCJ-BRA-005/01-white (1).webp        | Bin [31m0[m -> [32m49206[m bytes
+ .../products/bracelets/CCJ-BRA-005/02-luxury.webp  | Bin [31m0[m -> [32m89860[m bytes
+ .../products/bracelets/CCJ-BRA-005/03-detail.webp  | Bin [31m0[m -> [32m140478[m bytes
+ .../products/bracelets/CCJ-BRA-005/04-emerald.webp | Bin [31m0[m -> [32m105756[m bytes
+ src/data/defaultProducts.ts                        | 576 [32m+++++[m[31m-------------[m
+ src/i18n/productTranslations.ts                    |  25 [32m+[m
+ 23 files changed, 329 insertions(+), 916 deletions(-)

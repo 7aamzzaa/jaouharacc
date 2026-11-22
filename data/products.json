@@ -1080,514 +1080,174 @@
     "reviews": 24
   },
   {
-    "id": "prod-124",
-    "name": "Gold Noble Bracelet",
-    "description": "Discover the Gold Noble Bracelet, a premium stainless steel bracelet with a distinguished gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
+    "id": "CCJ-BRA-001",
+    "name": "Lot de 3 Bracelets Jonc Dorés Femme à Motif Trèfle",
+    "description": "Apportez une touche d'élégance à votre style avec ce lot de 3 bracelets joncs dorés aux délicats motifs trèfle ajourés. Un ensemble chic, raffiné et lumineux, idéal pour sublimer vos tenues au quotidien comme lors des occasions spéciales.",
+    "price": 79,
     "images": [
-      "/images/01.jpg"
-    ],
-    "stock": 1,
-    "category": "bracelets",
-    "material": "Premium Stainless Steel",
-    "color": "gold",
-    "rating": 4.8,
-    "reviews": 37
-  },
-  {
-    "id": "prod-125",
-    "name": "Gold Opus Bracelet",
-    "description": "Discover the Gold Opus Bracelet, a premium stainless steel bracelet with a masterful gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
-    "images": [
-      "/images/02.jpg"
-    ],
-    "stock": 8,
-    "category": "bracelets",
-    "material": "Premium Stainless Steel",
-    "color": "gold",
-    "rating": 4.9,
-    "reviews": 52
-  },
-  {
-    "id": "prod-126",
-    "name": "Gold Oasis Bracelet",
-    "description": "Discover the Gold Oasis Bracelet, a premium stainless steel bracelet with a refreshing gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
-    "images": [
-      "/images/03.jpg"
-    ],
-    "stock": 9,
-    "category": "bracelets",
-    "material": "Premium Stainless Steel",
-    "color": "gold",
-    "rating": 4.5,
-    "reviews": 61
-  },
-  {
-    "id": "prod-127",
-    "name": "Gold Orbit Bracelet",
-    "description": "Discover the Gold Orbit Bracelet, a premium stainless steel bracelet with a radiant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
-    "images": [
-      "/images/04.jpg"
+      "/images/products/bracelets/CCJ-BRA-001/01-white.webp",
+      "/images/products/bracelets/CCJ-BRA-001/02-luxury.webp",
+      "/images/products/bracelets/CCJ-BRA-001/03-detail.webp",
+      "/images/products/bracelets/CCJ-BRA-001/04-emerald.webp"
     ],
     "stock": 10,
     "category": "bracelets",
-    "material": "Premium Stainless Steel",
+    "material": "Gold-tone",
     "color": "gold",
-    "rating": 4.6,
-    "reviews": 78
-  },
-  {
-    "id": "prod-128",
-    "name": "Gold Onyx Bracelet",
-    "description": "Discover the Gold Onyx Bracelet, a premium stainless steel bracelet with a brilliant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
-    "images": [
-      "/images/05.jpg"
+    "seoTitle": "Lot de 3 Bracelets Jonc Dorés Femme | CCJAOUHARA",
+    "metaDescription": "Découvrez notre lot de 3 bracelets joncs dorés pour femme au motif trèfle ajouré. Un ensemble chic et élégant à 79 DH chez CCJAOUHARA.",
+    "slug": "lot-3-bracelets-jonc-dores-motif-trefle",
+    "imageAltText": "Lot de 3 bracelets joncs dorés femme à motifs trèfle ajourés",
+    "tags": [
+      "CCJ-BRA-001",
+      "lot de 3 bracelets dorés",
+      "bracelet jonc doré"
     ],
-    "stock": 9,
-    "category": "bracelets",
-    "material": "Premium Stainless Steel",
-    "color": "gold",
-    "rating": 4.7,
-    "reviews": 84
+    "primaryKeyword": "lot de 3 bracelets dorés femme",
+    "secondaryKeywords": [
+      "bracelet jonc doré femme",
+      "bracelet motif trèfle",
+      "bracelet ajouré femme",
+      "ensemble bracelets femme",
+      "bijoux femme Maroc",
+      "bracelets dorés élégants"
+    ]
   },
   {
-    "id": "prod-129",
-    "name": "Gold Oracle Bracelet",
-    "description": "Discover the Gold Oracle Bracelet, a premium stainless steel bracelet with a luminous gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
+    "id": "CCJ-BRA-002",
+    "name": "Bracelet Jonc Doré Femme à Double Courbe Scintillante",
+    "description": "Sublimez votre poignet avec ce bracelet jonc doré au design géométrique raffiné. Ses doubles courbes entrelacées, associant une finition lisse brillante à des détails texturés scintillants, apportent une touche de modernité et d'élégance à toutes vos tenues.",
+    "price": 79,
     "images": [
-      "/images/06.jpg"
-    ],
-    "stock": 10,
-    "category": "bracelets",
-    "material": "Premium Stainless Steel",
-    "color": "gold",
-    "rating": 4.8,
-    "reviews": 93
-  },
-  {
-    "id": "prod-130",
-    "name": "Gold Ovation Bracelet",
-    "description": "Discover the Gold Ovation Bracelet, a premium stainless steel bracelet with a brilliant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
-    "images": [
-      "/images/07.jpg"
+      "/images/products/bracelets/CCJ-BRA-002/01-white.webp",
+      "/images/products/bracelets/CCJ-BRA-002/02-luxury.webp",
+      "/images/products/bracelets/CCJ-BRA-002/03-detail.webp",
+      "/images/products/bracelets/CCJ-BRA-002/04-emerald.webp"
     ],
     "stock": 10,
     "category": "bracelets",
-    "material": "Premium Stainless Steel",
+    "material": "Gold-tone",
     "color": "gold",
-    "rating": 4.9,
-    "reviews": 105
-  },
-  {
-    "id": "prod-131",
-    "name": "Gold Omega Bracelet",
-    "description": "Discover the Gold Omega Bracelet, a premium stainless steel bracelet with a timeless gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
-    "images": [
-      "/images/08.jpg"
+    "seoTitle": "Bracelet Jonc Doré Femme Design Moderne | CCJAOUHARA",
+    "metaDescription": "Découvrez ce bracelet jonc doré pour femme au design à double courbe scintillante. Un bijou chic et moderne pour sublimer votre style chez CCJAOUHARA.",
+    "slug": "bracelet-jonc-dore-double-courbe-scintillante",
+    "imageAltText": "Bracelet jonc doré femme à double courbe scintillante",
+    "tags": [
+      "CCJ-BRA-002",
+      "bracelet jonc doré femme",
+      "bracelet double courbe"
     ],
-    "stock": 9,
-    "category": "bracelets",
-    "material": "Premium Stainless Steel",
-    "color": "gold",
-    "rating": 5,
-    "reviews": 112
+    "primaryKeyword": "bracelet jonc doré femme",
+    "secondaryKeywords": [
+      "bracelet femme doré",
+      "bracelet doré moderne",
+      "bracelet double courbe",
+      "bracelet géométrique femme",
+      "bijoux femme Maroc",
+      "bracelet chic femme"
+    ]
   },
   {
-    "id": "prod-132",
-    "name": "Gold Origin Bracelet",
-    "description": "Discover the Gold Origin Bracelet, a premium stainless steel bracelet with a pure gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
+    "id": "CCJ-BRA-003",
+    "name": "Bracelet Jonc Doré Femme à Double Extrémité Texturée",
+    "description": "Apportez une touche d'élégance contemporaine à votre poignet avec ce bracelet jonc doré pour femme. Son design ouvert aux deux extrémités courbées et sa finition finement texturée créent un contraste raffiné entre brillance et délicatesse.",
+    "price": 79,
     "images": [
-      "/images/09.jpg"
-    ],
-    "stock": 9,
-    "category": "bracelets",
-    "material": "Premium Stainless Steel",
-    "color": "gold",
-    "rating": 4.5,
-    "reviews": 128
-  },
-  {
-    "id": "prod-133",
-    "name": "Gold Opal Bracelet",
-    "description": "Discover the Gold Opal Bracelet, a premium stainless steel bracelet with a luminous gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
-    "images": [
-      "/images/010.jpg"
-    ],
-    "stock": 9,
-    "category": "bracelets",
-    "material": "Premium Stainless Steel",
-    "color": "gold",
-    "rating": 4.6,
-    "reviews": 136
-  },
-  {
-    "id": "prod-134",
-    "name": "Gold Oasis Bracelet",
-    "description": "Discover the Gold Oasis Bracelet, a premium stainless steel bracelet with a radiant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
-    "images": [
-      "/images/011.jpg"
+      "/images/products/bracelets/CCJ-BRA-003/01-white%20%281%29.webp",
+      "/images/products/bracelets/CCJ-BRA-003/02-luxury.webp",
+      "/images/products/bracelets/CCJ-BRA-003/03-detail.webp",
+      "/images/products/bracelets/CCJ-BRA-003/04-emerald.webp"
     ],
     "stock": 10,
     "category": "bracelets",
-    "material": "Premium Stainless Steel",
+    "material": "Gold-tone",
     "color": "gold",
-    "rating": 4.7,
-    "reviews": 142
+    "seoTitle": "Bracelet Jonc Doré Femme Texturé | CCJAOUHARA",
+    "metaDescription": "Découvrez ce bracelet jonc doré pour femme aux extrémités courbées et texturées. Un bijou chic au design moderne à 79 DH chez CCJAOUHARA.",
+    "slug": "bracelet-jonc-dore-double-extremite-texturee",
+    "imageAltText": "Bracelet jonc doré femme à double extrémité texturée",
+    "tags": [
+      "CCJ-BRA-003",
+      "bracelet jonc doré femme",
+      "bracelet doré texturé"
+    ],
+    "primaryKeyword": "bracelet jonc doré femme",
+    "secondaryKeywords": [
+      "bracelet femme doré",
+      "bracelet jonc moderne",
+      "bracelet doré texturé",
+      "bracelet géométrique femme",
+      "bijoux femme Maroc",
+      "bracelet chic femme"
+    ]
   },
   {
-    "id": "prod-135",
-    "name": "Gold Orbit Bracelet",
-    "description": "Discover the Gold Orbit Bracelet, a premium stainless steel bracelet with a brilliant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
+    "id": "CCJ-BRA-004",
+    "name": "Bracelet Jonc Doré Femme à Motifs Nacrés et Détails Scintillants",
+    "description": "Apportez une touche d'éclat à votre style avec ce bracelet jonc doré au design raffiné. Ses deux délicats motifs blancs à effet nacré et sa rangée de détails scintillants créent une harmonie élégante entre douceur, lumière et modernité.",
+    "price": 79,
     "images": [
-      "/images/012.jpg"
+      "/images/products/bracelets/CCJ-BRA-004/01-white.webp",
+      "/images/products/bracelets/CCJ-BRA-004/02-luxury%20%281%29.webp",
+      "/images/products/bracelets/CCJ-BRA-004/03-detail.webp",
+      "/images/products/bracelets/CCJ-BRA-004/04-emerald.webp"
     ],
     "stock": 10,
     "category": "bracelets",
-    "material": "Premium Stainless Steel",
+    "material": "Gold-tone",
     "color": "gold",
-    "rating": 4.8,
-    "reviews": 22
+    "seoTitle": "Bracelet Jonc Doré Femme Motifs Nacrés | CCJAOUHARA",
+    "metaDescription": "Découvrez ce bracelet jonc doré pour femme aux motifs blancs nacrés et détails scintillants. Un bijou chic et élégant à 79 DH chez CCJAOUHARA.",
+    "slug": "bracelet-jonc-dore-motifs-nacres-scintillants",
+    "imageAltText": "Bracelet jonc doré femme à motifs blancs à effet nacré et détails scintillants",
+    "tags": [
+      "CCJ-BRA-004",
+      "bracelet jonc doré femme",
+      "bracelet effet nacré"
+    ],
+    "primaryKeyword": "bracelet jonc doré femme",
+    "secondaryKeywords": [
+      "bracelet femme doré",
+      "bracelet effet nacré",
+      "bracelet doré scintillant",
+      "bracelet jonc élégant",
+      "bijoux femme Maroc",
+      "bracelet chic femme"
+    ]
   },
   {
-    "id": "prod-136",
-    "name": "Gold Onyx Bracelet",
-    "description": "Discover the Gold Onyx Bracelet, a premium stainless steel bracelet with a striking gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
+    "id": "CCJ-BRA-005",
+    "name": "Bracelet Jonc Doré Femme à Double Anneau Entrelacé Scintillant",
+    "description": "Sublimez votre poignet avec ce bracelet jonc doré au design élégant et contemporain. Ses deux lignes dorées harmonieuses sont sublimées par des anneaux entrelacés aux détails scintillants, créant un bijou raffiné qui apporte une touche de lumière et de sophistication à toutes vos tenues.",
+    "price": 79,
     "images": [
-      "/images/013.jpg"
+      "/images/products/bracelets/CCJ-BRA-005/01-white%20%281%29.webp",
+      "/images/products/bracelets/CCJ-BRA-005/02-luxury.webp",
+      "/images/products/bracelets/CCJ-BRA-005/03-detail.webp",
+      "/images/products/bracelets/CCJ-BRA-005/04-emerald.webp"
     ],
     "stock": 10,
     "category": "bracelets",
-    "material": "Premium Stainless Steel",
+    "material": "Gold-tone",
     "color": "gold",
-    "rating": 4.5,
-    "reviews": 31
-  },
-  {
-    "id": "prod-137",
-    "name": "Gold Oracle Bracelet",
-    "description": "Discover the Gold Oracle Bracelet, a premium stainless steel bracelet with a captivating gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
-    "images": [
-      "/images/014.jpg"
+    "seoTitle": "Bracelet Jonc Doré Femme Anneaux Entrelacés | CCJAOUHARA",
+    "metaDescription": "Découvrez ce bracelet jonc doré pour femme à double anneau entrelacé et détails scintillants. Un bijou chic et élégant à 79 DH chez CCJAOUHARA.",
+    "slug": "bracelet-jonc-dore-double-anneau-entrelace",
+    "imageAltText": "Bracelet jonc doré femme à double anneau entrelacé et détails scintillants",
+    "tags": [
+      "CCJ-BRA-005",
+      "bracelet jonc doré femme",
+      "bracelet anneaux entrelacés"
     ],
-    "stock": 9,
-    "category": "bracelets",
-    "material": "Premium Stainless Steel",
-    "color": "gold",
-    "rating": 4.6,
-    "reviews": 46
-  },
-  {
-    "id": "prod-138",
-    "name": "Gold Ovation Bracelet",
-    "description": "Discover the Gold Ovation Bracelet, a premium stainless steel bracelet with a dazzling gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
-    "images": [
-      "/images/015.jpg"
-    ],
-    "stock": 10,
-    "category": "bracelets",
-    "material": "Premium Stainless Steel",
-    "color": "gold",
-    "rating": 4.7,
-    "reviews": 55
-  },
-  {
-    "id": "prod-139",
-    "name": "Gold Odyssey Bracelet",
-    "description": "Discover the Gold Odyssey Bracelet, a premium stainless steel bracelet with a magnificent gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
-    "images": [
-      "/images/016.jpg"
-    ],
-    "stock": 10,
-    "category": "bracelets",
-    "material": "Premium Stainless Steel",
-    "color": "gold",
-    "rating": 4.8,
-    "reviews": 69
-  },
-  {
-    "id": "prod-140",
-    "name": "Gold Orchid Bracelet",
-    "description": "Discover the Gold Orchid Bracelet, a premium stainless steel bracelet with an elegant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
-    "images": [
-      "/images/017.jpg"
-    ],
-    "stock": 10,
-    "category": "bracelets",
-    "material": "Premium Stainless Steel",
-    "color": "gold",
-    "rating": 4.9,
-    "reviews": 87
-  },
-  {
-    "id": "prod-142",
-    "name": "Gold Obelisk Bracelet",
-    "description": "Discover the Gold Obelisk Bracelet, a premium stainless steel bracelet with a bold gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
-    "images": [
-      "/images/019.jpg"
-    ],
-    "stock": 10,
-    "category": "bracelets",
-    "material": "Premium Stainless Steel",
-    "color": "gold",
-    "rating": 5,
-    "reviews": 95
-  },
-  {
-    "id": "prod-143",
-    "name": "Gold Oculus Bracelet",
-    "description": "Discover the Gold Oculus Bracelet, a premium stainless steel bracelet with a striking gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
-    "images": [
-      "/images/020.jpg"
-    ],
-    "stock": 10,
-    "category": "bracelets",
-    "material": "Premium Stainless Steel",
-    "color": "gold",
-    "rating": 4.5,
-    "reviews": 103
-  },
-  {
-    "id": "prod-144",
-    "name": "Gold Osmium Bracelet",
-    "description": "Discover the Gold Osmium Bracelet, a premium stainless steel bracelet with a brilliant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
-    "images": [
-      "/images/021.jpg"
-    ],
-    "stock": 10,
-    "category": "bracelets",
-    "material": "Premium Stainless Steel",
-    "color": "gold",
-    "rating": 4.6,
-    "reviews": 119
-  },
-  {
-    "id": "prod-146",
-    "name": "Gold Overture Bracelet",
-    "description": "Discover the Gold Overture Bracelet, a premium stainless steel bracelet with a stunning gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
-    "images": [
-      "/images/023.jpg"
-    ],
-    "stock": 10,
-    "category": "bracelets",
-    "material": "Premium Stainless Steel",
-    "color": "gold",
-    "rating": 4.7,
-    "reviews": 127
-  },
-  {
-    "id": "prod-147",
-    "name": "Gold Obsidian Bracelet",
-    "description": "Discover the Gold Obsidian Bracelet, a premium stainless steel bracelet with a sleek gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
-    "images": [
-      "/images/024.jpg"
-    ],
-    "stock": 10,
-    "category": "bracelets",
-    "material": "Premium Stainless Steel",
-    "color": "gold",
-    "rating": 4.8,
-    "reviews": 139
-  },
-  {
-    "id": "prod-148",
-    "name": "Gold Ocean Bracelet",
-    "description": "Discover the Gold Ocean Bracelet, a premium stainless steel bracelet with a fluid gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
-    "images": [
-      "/images/025.jpg"
-    ],
-    "stock": 10,
-    "category": "bracelets",
-    "material": "Premium Stainless Steel",
-    "color": "gold",
-    "rating": 4.9,
-    "reviews": 148
-  },
-  {
-    "id": "prod-149",
-    "name": "Gold Opera Bracelet",
-    "description": "Discover the Gold Opera Bracelet, a premium stainless steel bracelet with a graceful gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
-    "images": [
-      "/images/026.jpg"
-    ],
-    "stock": 10,
-    "category": "bracelets",
-    "material": "Premium Stainless Steel",
-    "color": "gold",
-    "rating": 4.5,
-    "reviews": 28
-  },
-  {
-    "id": "prod-150",
-    "name": "Gold Octave Bracelet",
-    "description": "Discover the Gold Octave Bracelet, a premium stainless steel bracelet with a harmonious gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
-    "images": [
-      "/images/027.jpg"
-    ],
-    "stock": 10,
-    "category": "bracelets",
-    "material": "Premium Stainless Steel",
-    "color": "gold",
-    "rating": 4.6,
-    "reviews": 42
-  },
-  {
-    "id": "prod-151",
-    "name": "Gold Oval Bracelet",
-    "description": "Discover the Gold Oval Bracelet, a premium stainless steel bracelet with a smooth gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
-    "images": [
-      "/images/028.jpg"
-    ],
-    "stock": 10,
-    "category": "bracelets",
-    "material": "Premium Stainless Steel",
-    "color": "gold",
-    "rating": 4.7,
-    "reviews": 59
-  },
-  {
-    "id": "prod-152",
-    "name": "Gold Ornate Bracelet",
-    "description": "Discover the Gold Ornate Bracelet, a premium stainless steel bracelet with an intricate gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
-    "images": [
-      "/images/029.jpg"
-    ],
-    "stock": 10,
-    "category": "bracelets",
-    "material": "Premium Stainless Steel",
-    "color": "gold",
-    "rating": 4.8,
-    "reviews": 66
-  },
-  {
-    "id": "prod-153",
-    "name": "Gold Ombre Bracelet",
-    "description": "Discover the Gold Ombre Bracelet, a premium stainless steel bracelet with a subtle gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
-    "images": [
-      "/images/030.jpg"
-    ],
-    "stock": 10,
-    "category": "bracelets",
-    "material": "Premium Stainless Steel",
-    "color": "gold",
-    "rating": 4.9,
-    "reviews": 73
-  },
-  {
-    "id": "prod-154",
-    "name": "Gold Ornament Bracelet",
-    "description": "Discover the Gold Ornament Bracelet, a premium stainless steel bracelet with a decorative gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
-    "images": [
-      "/images/031.jpg"
-    ],
-    "stock": 10,
-    "category": "bracelets",
-    "material": "Premium Stainless Steel",
-    "color": "gold",
-    "rating": 5,
-    "reviews": 89
-  },
-  {
-    "id": "prod-155",
-    "name": "Gold Oak Bracelet",
-    "description": "Discover the Gold Oak Bracelet, a premium stainless steel bracelet with a sturdy gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
-    "images": [
-      "/images/032.jpg"
-    ],
-    "stock": 10,
-    "category": "bracelets",
-    "material": "Premium Stainless Steel",
-    "color": "gold",
-    "rating": 4.5,
-    "reviews": 96
-  },
-  {
-    "id": "prod-156",
-    "name": "Gold Olive Bracelet",
-    "description": "Discover the Gold Olive Bracelet, a premium stainless steel bracelet with a polished gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
-    "images": [
-      "/images/033.jpg"
-    ],
-    "stock": 10,
-    "category": "bracelets",
-    "material": "Premium Stainless Steel",
-    "color": "gold",
-    "rating": 4.6,
-    "reviews": 108
-  },
-  {
-    "id": "prod-157",
-    "name": "Gold Oration Bracelet",
-    "description": "Discover the Gold Oration Bracelet, a premium stainless steel bracelet with an eloquent gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
-    "images": [
-      "/images/034.jpg"
-    ],
-    "stock": 10,
-    "category": "bracelets",
-    "material": "Premium Stainless Steel",
-    "color": "gold",
-    "rating": 4.7,
-    "reviews": 117
-  },
-  {
-    "id": "prod-158",
-    "name": "Gold Nova Bracelet",
-    "description": "Discover the Gold Nova Bracelet, a premium stainless steel bracelet with a radiant gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
-    "images": [
-      "/images/035.jpg"
-    ],
-    "stock": 10,
-    "category": "bracelets",
-    "material": "Premium Stainless Steel",
-    "color": "gold",
-    "rating": 4.8,
-    "reviews": 131
-  },
-  {
-    "id": "prod-159",
-    "name": "Gold Aura Bracelet",
-    "description": "Discover the Gold Aura Bracelet, a premium stainless steel bracelet with a luminous gold finish. Designed for women who appreciate timeless elegance and everyday sophistication.",
-    "price": 9.9,
-    "images": [
-      "/images/036.jpg"
-    ],
-    "stock": 10,
-    "category": "bracelets",
-    "material": "Premium Stainless Steel",
-    "color": "gold",
-    "rating": 4.5,
-    "reviews": 145
+    "primaryKeyword": "bracelet jonc doré femme",
+    "secondaryKeywords": [
+      "bracelet femme doré",
+      "bracelet anneaux entrelacés",
+      "bracelet jonc élégant",
+      "bracelet doré scintillant",
+      "bracelet double bande femme",
+      "bijoux femme Maroc"
+    ]
   },
   {
     "id": "prod-160",
