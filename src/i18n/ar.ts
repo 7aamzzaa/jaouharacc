@@ -133,7 +133,7 @@
       earrings: { title: 'أقراط نسائية فاخرة | Boucles d\'oreilles de Luxe Maroc', desc: 'أقراط ناعمة مرصعة يدوياً بأحجار الزركون اللامعة. توصيل لكافة مدن المغرب والدفع عند الاستلام.' },
       anklets: { title: 'خلاخيل نسائية فاخرة المغرب | Les Chevillières de Luxe Maroc', desc: 'خلاخيل عصرية وكلاسيكية لإطلالة صيفية ناعمة مطلية بالذهب.' },
       necklaces: { title: 'قلائد وسلاسل ذهبية راقية المغرب | Colliers dorés de Haute Bijouterie', desc: 'قلائد وأطواق ذهبية رائعة مرصعة بأجود الكريستالات. صياغة يدوية فاخرة.' },
-      jewelry_sets: { title: 'أطقم مجوهرات فاخرة للعروس | Parures de Bijoux Maroc', desc: 'أطقم متكاملة من أرقى التصاميم للمناسبات والأعراس. طلاء ذهبي متين.' },
+      jewelry_sets: { title: 'أطقم مجوهرات فاخرة للعروس | Parures de Bijoux Maroc', desc: 'اكتشفي أطقمنا الأنيقة من الفولاذ المقاوم للصدأ، المصممة لإكمال إطلالتك في المناسبات والأوقات المميزة.' },
     },
     header: {
       label: 'مجموعة ccjaouhara',

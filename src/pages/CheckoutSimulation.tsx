@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CreditCard, EyeOff, ShieldCheck, Heart, ArrowRight, CornerDownLeft, RefreshCw } from 'lucide-react';
+import { CreditCard, EyeOff, ShieldCheck, Heart, ArrowLeft, ArrowRight, CornerDownLeft, RefreshCw } from 'lucide-react';
 import { useTranslation } from '../i18n';
 import { useCurrency } from '../CurrencyContext';
 
