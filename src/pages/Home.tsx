@@ -138,9 +138,9 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
           onClick={() => onPageChange('shop', { filterCategory: cat.id })}
           aria-label={primary ? cat.name : undefined}
           tabIndex={primary ? 0 : -1}
-          className="group flex w-[72px] shrink-0 flex-col items-center gap-1.5 rounded-lg px-0.5 py-0.5 transition-colors duration-300 hover:bg-white/70 active:scale-[0.97]"
+          className="group flex w-[82px] shrink-0 flex-col items-center gap-1.5 rounded-lg px-0.5 py-0.5 transition-colors duration-300 hover:bg-white/70 active:scale-[0.97]"
         >
-          <span className="relative block h-14 w-14">
+          <span className="relative block h-16 w-16">
             <img
               src={cat.image}
               alt=""
