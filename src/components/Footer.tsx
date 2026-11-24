@@ -49,7 +49,7 @@ export default function Footer() {
         { label: t('footer.links.shop.bracelets'), href: '/shop?category=bracelets' },
         { label: t('footer.links.shop.rings'), href: '/shop?category=rings' },
         { label: t('footer.links.shop.earrings'), href: '/shop?category=earrings' },
-        { label: t('footer.links.shop.sets'), href: '/shop?category=sets' },
+        { label: t('footer.links.shop.sets'), href: '/shop?category=jewelry_sets' },
       ],
     },
     {
