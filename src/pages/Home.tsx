@@ -123,11 +123,12 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
   const carouselViewportRef = useRef<HTMLDivElement>(null);
   const carouselTrackRef = useRef<HTMLDivElement>(null);
   const carouselFirstSetRef = useRef<HTMLDivElement>(null);
+  const carouselSecondSetRef = useRef<HTMLDivElement>(null);
 
   // Two identical sets make the loop seamless; the clone is hidden from screen readers and tab order.
   const renderCategorySet = (primary: boolean) => (
     <div
-      ref={primary ? carouselFirstSetRef : undefined}
+      ref={primary ? carouselFirstSetRef : carouselSecondSetRef}
       className="flex shrink-0 gap-2.5"
       aria-hidden={primary ? undefined : true}
     >
@@ -150,7 +151,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
             />
             <span className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-inset ring-white/40" />
           </span>
-          <span className="min-h-[24px] w-full text-center text-[10px] font-semibold leading-[12px] text-stone-700 transition-colors duration-300 group-hover:text-champagne-700">
+          <span dir="auto" className="min-h-[24px] w-full text-center text-[10px] font-semibold leading-[12px] text-stone-700 transition-colors duration-300 group-hover:text-champagne-700">
             {cat.name}
           </span>
         </button>
@@ -225,15 +226,19 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
   }, []);
 
   // Seamless, swipeable right-to-left category carousel (mobile section only).
+  // The internal track is forced to physical LTR so the duplicate set is always
+  // to the right of the original, even when the site language is RTL.
   useEffect(() => {
     const viewport = carouselViewportRef.current;
     const track = carouselTrackRef.current;
     const firstSet = carouselFirstSetRef.current;
-    if (!viewport || !track || !firstSet) return;
+    const secondSet = carouselSecondSetRef.current;
+    if (!viewport || !track || !firstSet || !secondSet) return;
 
     const SPEED = 26; // pixels per second
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
     let offset = 0;
+    let period = 0;
     let raf = 0;
     let lastFrame = 0;
     const initialRect = viewport.getBoundingClientRect();
@@ -244,10 +249,16 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
     let dragStartOffset = 0;
     let dragged = false;
     let resumeTimer = 0;
+    let resizeObserver: ResizeObserver | null = null;
 
-    const getPeriod = () => {
+    // Measure the real distance between the two set origins. This includes the
+    // inter-set gap and stays correct regardless of translations or font metrics.
+    const measurePeriod = () => {
       const gap = parseFloat(getComputedStyle(track).columnGap || '0') || 0;
-      return firstSet.getBoundingClientRect().width + gap;
+      const firstRect = firstSet.getBoundingClientRect();
+      const secondRect = secondSet.getBoundingClientRect();
+      const measuredSpacing = Math.abs(secondRect.left - firstRect.left);
+      return measuredSpacing > 0 ? measuredSpacing : firstRect.width + gap;
     };
 
     const renderOffset = () => {
@@ -255,8 +266,9 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
     };
 
     const normalize = () => {
-      const period = getPeriod();
       if (!period) return;
+      // Keep the offset in (-period, 0]. Adding or subtracting one exact
+      // period swaps the two identical sets with no visible change.
       while (offset <= -period) offset += period;
       while (offset > 0) offset -= period;
     };
@@ -270,21 +282,29 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
     };
 
     function tick(time: number) {
-      raf = requestAnimationFrame(tick);
+      raf = 0;
+      if (!shouldAnimate()) {
+        lastFrame = 0;
+        return;
+      }
       if (!lastFrame) {
         lastFrame = time;
+        raf = requestAnimationFrame(tick);
         return;
       }
       const delta = Math.min(time - lastFrame, 64);
       lastFrame = time;
-      if (!shouldAnimate()) return;
       offset -= (SPEED * delta) / 1000;
       normalize();
       renderOffset();
+      raf = requestAnimationFrame(tick);
     }
 
     const start = () => {
-      if (!raf && shouldAnimate()) raf = requestAnimationFrame(tick);
+      if (!raf && shouldAnimate()) {
+        lastFrame = 0;
+        raf = requestAnimationFrame(tick);
+      }
     };
 
     const clearResume = () => {
@@ -353,7 +373,10 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
 
     const onVisibility = () => {
       if (document.hidden) stop();
-      else start();
+      else {
+        period = measurePeriod();
+        start();
+      }
     };
 
     const onMotionChange = () => {
@@ -362,6 +385,13 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
     };
 
     const onResize = () => {
+      const nextPeriod = measurePeriod();
+      if (nextPeriod > 0) {
+        if (period > 0 && nextPeriod !== period) {
+          offset = (offset / period) * nextPeriod;
+        }
+        period = nextPeriod;
+      }
       normalize();
       renderOffset();
     };
@@ -377,19 +407,31 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
     window.addEventListener('resize', onResize);
     reducedMotion.addEventListener?.('change', onMotionChange);
 
+    if (typeof ResizeObserver !== 'undefined') {
+      resizeObserver = new ResizeObserver(onResize);
+      resizeObserver.observe(track);
+    }
+
     const observer = new IntersectionObserver(([entry]) => {
       visible = entry.isIntersecting;
-      if (visible) start();
-      else stop();
+      if (visible) {
+        period = measurePeriod();
+        start();
+      } else {
+        stop();
+      }
     }, { threshold: 0.01 });
     observer.observe(viewport);
 
+    period = measurePeriod();
+    normalize();
     renderOffset();
     start();
 
     return () => {
       stop();
       clearResume();
+      resizeObserver?.disconnect();
       observer.disconnect();
       viewport.removeEventListener('pointerdown', onPointerDown);
       viewport.removeEventListener('pointermove', onPointerMove);
@@ -542,7 +584,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
           </div>
 
           <div ref={carouselViewportRef} className="mobile-carousel-viewport -mx-1">
-            <div ref={carouselTrackRef} className="mobile-carousel-track gap-2.5">
+            <div ref={carouselTrackRef} dir="ltr" className="mobile-carousel-track gap-2.5">
               {renderCategorySet(true)}
               {renderCategorySet(false)}
             </div>
