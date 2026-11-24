@@ -14,6 +14,17 @@ interface AdminDashboardProps {
   onRefreshProducts: () => void;
 }
 
+async function readApiErrorMessage(response: Response): Promise<string> {
+  try {
+    const body = await response.json();
+    return typeof body?.details === 'string'
+      ? body.details
+      : typeof body?.error === 'string' ? body.error : '';
+  } catch {
+    return '';
+  }
+}
+
 export default function AdminDashboard({
   products,
   isLoadingProducts,
@@ -41,6 +52,9 @@ export default function AdminDashboard({
   const [messages, setMessages] = useState<ContactMessage[]>([]);
   const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
   const [loadingOrders, setLoadingOrders] = useState(true);
+  const [ordersError, setOrdersError] = useState('');
+  const [deletingOrderId, setDeletingOrderId] = useState<string | null>(null);
+  const deletingOrderRef = useRef<string | null>(null);
   const [loadingMessages, setLoadingMessages] = useState(true);
   const [loadingSubscribers, setLoadingSubscribers] = useState(true);
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -48,18 +62,25 @@ export default function AdminDashboard({
 
   const loadOrders = async () => {
     setLoadingOrders(true);
+    setOrdersError('');
     try {
-      const response = await fetch('/api/orders');
+      const response = await fetch('/api/orders', { cache: 'no-store', credentials: 'same-origin' });
       if (response.status === 401) {
         setIsAuthenticated(false);
+        setOrders([]);
         return;
       }
-      if (!response.ok) throw new Error('Server returned error status on orders query');
+      if (!response.ok) {
+        const details = await readApiErrorMessage(response);
+        throw new Error(details || 'The order database could not be reached.');
+      }
       const data = await response.json();
-      setOrders(data);
-    } catch (err) {
-      console.warn('[API Fetch Warn] Could not load orders logs from persistence layer:', err);
+      setOrders(Array.isArray(data) ? data : []);
+    } catch (err: any) {
+      console.warn('[Orders Fetch] Authoritative order list unavailable:', err);
+      // Never keep a stale cached list on screen when the database fails.
       setOrders([]);
+      setOrdersError(err?.message || 'The order database could not be reached.');
     } finally {
       setLoadingOrders(false);
     }
@@ -438,16 +459,48 @@ export default function AdminDashboard({
     }
   };
 
-  // Delete an order
+  // Delete an order. Stock is deliberately untouched here.
   const handleDeleteOrder = async (id: string) => {
-    if (!confirm(t('admin.ordersTable.deleteConfirm'))) return;
+    if (!id || deletingOrderRef.current) return;
+    if (!confirm(t('admin.ordersTable.deleteConfirmWithId', { id }))) return;
+
+    // Ref guard closes the window between two rapid clicks; state alone would
+    // still be null on the second click because React batches updates.
+    deletingOrderRef.current = id;
+    setDeletingOrderId(id);
     try {
-      const response = await fetch(`/api/orders/${id}`, { method: 'DELETE' });
-      if (!response.ok) throw new Error('Delete failed');
-      showToast(t('admin.ordersTable.deleteSuccess'));
-      loadOrders();
+      const response = await fetch(`/api/orders/${encodeURIComponent(id)}`, {
+        method: 'DELETE',
+        credentials: 'same-origin'
+      });
+
+      if (response.status === 401) {
+        setIsAuthenticated(false);
+        showToast(t('admin.ordersTable.sessionExpired'), true);
+        return;
+      }
+
+      if (!response.ok) {
+        const details = await readApiErrorMessage(response);
+        if (response.status === 404) {
+          showToast(t('admin.ordersTable.deleteNotFound', { id }), true);
+        } else {
+          showToast(t('admin.ordersTable.deleteDbError', { id, details: details || t('admin.ordersTable.deleteFailed') }), true);
+        }
+        return;
+      }
+
+      if (expandedOrderId === id) setExpandedOrderId(null);
+      showToast(t('admin.ordersTable.deleteSuccessWithId', { id }));
+      await loadOrders();
     } catch (err: any) {
-      showToast(err.message || 'Failed to delete order', true);
+      showToast(t('admin.ordersTable.deleteDbError', {
+        id,
+        details: err?.message || t('admin.ordersTable.deleteFailed')
+      }), true);
+    } finally {
+      deletingOrderRef.current = null;
+      setDeletingOrderId(null);
     }
   };
 
@@ -1424,7 +1477,20 @@ export default function AdminDashboard({
             </select>
           </div>
 
-          {loadingOrders ? (
+          {ordersError && !loadingOrders ? (
+            <div className="m-4 p-4 bg-rose-50 border border-rose-200 rounded-md text-xs text-rose-700 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+              <div className="flex items-start gap-2">
+                <AlertTriangle size={14} className="shrink-0 mt-0.5" />
+                <span>{t('admin.ordersTable.loadError', { details: ordersError })}</span>
+              </div>
+              <button
+                onClick={() => void loadOrders()}
+                className="bg-white border border-rose-200 hover:border-rose-400 text-rose-700 px-3 py-1.5 rounded-sm font-semibold uppercase tracking-wider text-[10px]"
+              >
+                {t('admin.ordersTable.retry')}
+              </button>
+            </div>
+          ) : loadingOrders ? (
             <div className="text-center py-16 text-xs text-stone-405 flex flex-col items-center justify-center gap-2">
               <Loader2 className="animate-spin text-champagne-500" />
               <span>{t('admin.ordersTable.loading')}</span>
@@ -1535,11 +1601,12 @@ export default function AdminDashboard({
                                       <span className="text-[13px] leading-none">💬</span>
                                     </a>
                                     <button
-                                      onClick={(e) => { e.stopPropagation(); handleDeleteOrder(o.id); }}
-                                      className="bg-white border border-stone-200 text-stone-600 hover:text-rose-500 hover:border-rose-350 p-2 rounded-md transition-colors"
-                                      title={t('admin.ordersTable.delete')}
+                                      onClick={(e) => { e.stopPropagation(); void handleDeleteOrder(o.id); }}
+                                      disabled={deletingOrderId === o.id}
+                                      className="bg-white border border-stone-200 text-stone-600 hover:text-rose-500 hover:border-rose-350 p-2 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                      title={deletingOrderId === o.id ? t('admin.ordersTable.deleting') : t('admin.ordersTable.delete')}
                                     >
-                                      <Trash2 size={12} />
+                                      {deletingOrderId === o.id ? <Loader2 size={12} className="animate-spin" /> : <Trash2 size={12} />}
                                     </button>
                                   </div>
                                 </td>

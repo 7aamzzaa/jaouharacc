@@ -12,7 +12,8 @@ import {
   requireAdmin,
   ADMIN_COOKIE_NAME,
   SESSION_TTL_MS_VALUE,
-  assertAuthConfigured
+  assertAuthConfigured,
+  getAuthConfigError
 } from './serverAuth';
 import { 
   getProducts, 
@@ -129,6 +130,15 @@ setInterval(() => {
 
 // Login: verify the artisan password and issue an HMAC-signed session cookie
 app.post('/api/admin/login', (req, res) => {
+  const configError = getAuthConfigError();
+  if (configError) {
+    res.set('Cache-Control', 'no-store');
+    return res.status(503).json({
+      error: 'Admin authentication is not configured on this server.',
+      details: configError
+    });
+  }
+
   const ip = req.ip || 'unknown';
   if (!isLoginAllowed(ip)) {
     res.set('Cache-Control', 'no-store');
@@ -169,7 +179,14 @@ app.post('/api/admin/login', (req, res) => {
 
 // Session check: reports whether the current cookie is a valid admin session
 app.get('/api/admin/session', (req, res) => {
+  const configError = getAuthConfigError();
   res.set('Cache-Control', 'no-store');
+  if (configError) {
+    return res.status(503).json({
+      error: 'Admin authentication is not configured on this server.',
+      details: configError
+    });
+  }
   res.json({ authenticated: isAdminRequest(req) });
 });
 
@@ -422,9 +439,14 @@ app.delete('/api/products/:id', requireAdmin, async (req, res) => {
 app.get('/api/orders', requireAdmin, async (req, res) => {
   try {
     const orders = await getOrders();
+    res.set('Cache-Control', 'no-store');
     res.json(orders);
   } catch (err: any) {
-    res.status(500).json({ error: 'Failed to retrieve orders', details: err.message });
+    console.error('[Orders API] Failed to load authoritative order list:', err);
+    res.status(500).json({
+      error: 'Failed to retrieve orders',
+      details: err.message || 'The order database could not be reached.'
+    });
   }
 });
 
@@ -707,20 +729,35 @@ app.patch('/api/orders/:id', requireAdmin, async (req, res) => {
     }
     res.json(updated);
   } catch (err: any) {
-    res.status(500).json({ error: 'Failed to update order status', details: err.message });
+    console.error('[Orders API] Failed to update order status:', err);
+    res.status(500).json({
+      error: 'Failed to update order status',
+      details: err.message || 'The order database could not be reached.'
+    });
   }
 });
 
-// Delete order - Admin Area
+// Delete order - Admin Area. Stock is intentionally untouched: restoring
+// inventory after a deletion is a separate, explicitly approved operation.
 app.delete('/api/orders/:id', requireAdmin, async (req, res) => {
   try {
-    const success = await deleteOrder(req.params.id);
-    if (!success) {
-      return res.status(404).json({ error: 'Order not found' });
+    const id = (req.params.id || '').trim();
+    if (!id) {
+      return res.status(400).json({ error: 'Order ID is required' });
     }
-    res.json({ message: 'Order deleted successfully', id: req.params.id });
+    const success = await deleteOrder(id);
+    if (!success) {
+      res.set('Cache-Control', 'no-store');
+      return res.status(404).json({ error: 'Order not found', id });
+    }
+    res.set('Cache-Control', 'no-store');
+    res.json({ message: 'Order deleted successfully', id });
   } catch (err: any) {
-    res.status(500).json({ error: 'Failed to delete order', details: err.message });
+    console.error('[Orders API] Failed to delete order:', err);
+    res.status(500).json({
+      error: 'Failed to delete order',
+      details: err.message || 'The order database could not be reached.'
+    });
   }
 });
 
