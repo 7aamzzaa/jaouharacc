@@ -671,10 +671,9 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-8">
             {[1, 2, 3, 4].map((n) => (
               <div key={n} className="space-y-2 sm:space-y-4 animate-pulse">
-                <div className="bg-stone-200 aspect-[4/5] w-full rounded-md"></div>
-                <div className="h-3 sm:h-4 bg-stone-200 w-1/3 mx-auto"></div>
-                <div className="h-4 sm:h-6 bg-stone-200 w-3/4 mx-auto"></div>
-                <div className="h-3 sm:h-4 bg-stone-200 w-1/4 mx-auto"></div>
+                <div className="bg-stone-200 aspect-square w-full rounded-[22px] sm:rounded-md"></div>
+                <div className="h-4 bg-stone-200 w-3/4"></div>
+                <div className="h-4 bg-stone-200 w-1/2"></div>
               </div>
             ))}
           </div>
@@ -748,10 +747,9 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-8">
             {[1, 2, 3, 4].map((n) => (
               <div key={n} className="space-y-2 sm:space-y-4 animate-pulse">
-                <div className="bg-stone-200 aspect-[4/5] w-full rounded-md"></div>
-                <div className="h-3 sm:h-4 bg-stone-200 w-1/3 mx-auto"></div>
-                <div className="h-4 sm:h-6 bg-stone-200 w-3/4 mx-auto"></div>
-                <div className="h-3 sm:h-4 bg-stone-200 w-1/4 mx-auto"></div>
+                <div className="bg-stone-200 aspect-square w-full rounded-[22px] sm:rounded-md"></div>
+                <div className="h-4 bg-stone-200 w-3/4"></div>
+                <div className="h-4 bg-stone-200 w-1/2"></div>
               </div>
             ))}
           </div>
