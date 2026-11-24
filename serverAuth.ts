@@ -33,6 +33,22 @@ export function createAdminToken(): { token: string; expiresAt: number } {
   return { token: signToken(payload), expiresAt };
 }
 
+function isProductionRuntime(): boolean {
+  return process.env.NODE_ENV === 'production'
+    || process.env.VERCEL === '1'
+    || process.env.VERCEL_FUNCTION === '1'
+    || !!process.env.VERCEL_ENV;
+}
+
+// Local development may run without auth env vars. Production and Vercel must
+// never sign or accept sessions with an empty fallback secret.
+export function getAuthConfigError(): string | null {
+  if (!isProductionRuntime()) return null;
+  if (!getAdminPassword()) return 'ADMIN_PASSWORD environment variable is not set.';
+  if (!getSessionSecret()) return 'ADMIN_SESSION_SECRET environment variable is not set.';
+  return null;
+}
+
 export function verifyToken(token: string | undefined): boolean {
   if (!token) return false;
   const parts = token.split('.');
@@ -71,6 +87,15 @@ export function isAdminRequest(req: Request): boolean {
 }
 
 export function requireAdmin(req: Request, res: Response, next: NextFunction): void {
+  const configError = getAuthConfigError();
+  if (configError) {
+    res.set('Cache-Control', 'no-store');
+    res.status(503).json({
+      error: 'Admin authentication is not configured on this server.',
+      details: configError
+    });
+    return;
+  }
   if (!isAdminRequest(req)) {
     res.set('Cache-Control', 'no-store');
     res.status(401).json({ error: 'Unauthorized' });
@@ -115,10 +140,6 @@ export const ADMIN_COOKIE_NAME = COOKIE_NAME;
 export const SESSION_TTL_MS_VALUE = SESSION_TTL_MS;
 
 export function assertAuthConfigured(): void {
-  if (!getAdminPassword()) {
-    throw new Error('ADMIN_PASSWORD environment variable is not set.');
-  }
-  if (!getSessionSecret()) {
-    throw new Error('ADMIN_SESSION_SECRET environment variable is not set.');
-  }
+  const error = getAuthConfigError();
+  if (error) throw new Error(error);
 }

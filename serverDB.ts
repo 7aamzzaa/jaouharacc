@@ -279,23 +279,30 @@ export async function deleteProduct(id: string): Promise<boolean> {
 // Orders DB Access Handlers
 // ------------------------------------------------------------------------
 
+// Supabase is authoritative for orders whenever it is configured. A failed
+// query must surface as an error; silently reading the local mirror would show
+// stale orders and make deletion look successful against the wrong record.
+function requireSupabaseForOrders() {
+  if (!supabaseMode || !supabase) {
+    throw new Error('Supabase order database is not configured');
+  }
+  return supabase;
+}
+
 export async function getOrders(): Promise<Order[]> {
-  if (isSupabaseConnected && supabase) {
-    try {
-      const { data, error } = await supabase
-        .from('orders')
-        .select('*')
-        .order('created_at', { ascending: false });
-      if (!error && data) {
-        return data as Order[];
-      }
-      console.warn('[DB] Supabase orders fetch query failed:', error);
-    } catch (err) {
-      console.warn('[DB] Supabase order query error:', err);
+  if (supabaseMode) {
+    const client = requireSupabaseForOrders();
+    const { data, error } = await client
+      .from('orders')
+      .select('*')
+      .order('created_at', { ascending: false });
+    if (error) {
+      throw new Error('Failed to load orders from Supabase: ' + (error.message || 'unknown database error'));
     }
+    return (data ?? []) as Order[];
   }
 
-  // Fallback DB Load
+  // Local-only mode (Supabase not configured): disk persistence.
   try {
     const fileContent = fs.readFileSync(ORDERS_FILE, 'utf-8');
     return JSON.parse(fileContent) as Order[];
@@ -306,38 +313,34 @@ export async function getOrders(): Promise<Order[]> {
 }
 
 export async function getOrderById(id: string): Promise<Order | null> {
-  if (isSupabaseConnected && supabase) {
-    try {
-      const { data, error } = await supabase
-        .from('orders')
-        .select('*')
-        .eq('id', id)
-        .maybeSingle();
-      if (!error && data) {
-        return data as Order;
-      }
-    } catch (err) {
-      console.warn('[DB] Supabase get order ID query failure:', err);
+  if (supabaseMode) {
+    const client = requireSupabaseForOrders();
+    const { data, error } = await client
+      .from('orders')
+      .select('*')
+      .eq('id', id)
+      .maybeSingle();
+    if (error) {
+      throw new Error('Failed to load order from Supabase: ' + (error.message || 'unknown database error'));
     }
+    return (data as Order | null) ?? null;
   }
   const orders = await getOrders();
   return orders.find(o => o.id === id) || null;
 }
 
 export async function getOrderByIdempotencyKey(key: string): Promise<Order | null> {
-  if (isSupabaseConnected && supabase) {
-    try {
-      const { data, error } = await supabase
-        .from('orders')
-        .select('*')
-        .eq('idempotency_key', key)
-        .maybeSingle();
-      if (!error && data) {
-        return data as Order;
-      }
-    } catch (err) {
-      console.warn('[DB] Supabase get order by idempotency key query failure:', err);
+  if (supabaseMode) {
+    const client = requireSupabaseForOrders();
+    const { data, error } = await client
+      .from('orders')
+      .select('*')
+      .eq('idempotency_key', key)
+      .maybeSingle();
+    if (error) {
+      throw new Error('Failed to load idempotent order from Supabase: ' + (error.message || 'unknown database error'));
     }
+    return (data as Order | null) ?? null;
   }
   const orders = await getOrders();
   return orders.find(o => o.idempotency_key === key) || null;
@@ -475,18 +478,22 @@ export async function restoreProductStock(id: string, qty: number): Promise<void
 
 export async function deleteOrder(id: string): Promise<boolean> {
   if (supabaseMode) {
-    try {
-      const { error } = await supabase
-        .from('orders')
-        .delete()
-        .eq('id', id);
-      if (error) throw new Error(error.message);
-      await mirrorOrdersToDisk();
-      return true;
-    } catch (err: any) {
-      console.error('[DB] Supabase order delete failed. Not silently falling back to disk:', err?.message || err);
-      throw new Error('Order delete failed: ' + (err?.message || err));
+    const client = requireSupabaseForOrders();
+    // .select('id') makes the response report the deleted rows. Without it a
+    // DELETE of a nonexistent id looks identical to a successful deletion.
+    const { data, error } = await client
+      .from('orders')
+      .delete()
+      .eq('id', id)
+      .select('id');
+    if (error) {
+      throw new Error('Order delete failed: ' + (error.message || 'unknown database error'));
     }
+    if (!Array.isArray(data) || data.length === 0) {
+      return false;
+    }
+    await mirrorOrdersToDisk();
+    return true;
   }
 
   const orders = await getOrders();

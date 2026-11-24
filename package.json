@@ -10,6 +10,7 @@
     "preview": "set NODE_ENV=production&&node dist/server.cjs",
     "clean": "rm -rf dist server.js",
     "lint": "tsc --noEmit",
+    "test:admin": "tsx scripts/test-admin-orders.ts",
     "db:migrate": "supabase db push",
     "db:migrate:data": "tsx scripts/migrate-to-supabase.ts"
   },
