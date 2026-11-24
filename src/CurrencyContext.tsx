@@ -1,26 +1,7 @@
 import React, { createContext, useContext, useState, useCallback, useMemo } from 'react';
+import { convertFromBase, CURRENCIES, type CurrencyCode } from './lib/currency';
 
-export type CurrencyCode = 'MAD' | 'USD' | 'EUR';
-
-interface CurrencyInfo {
-  code: CurrencyCode;
-  symbol: string;
-  locale: string;
-}
-
-export const CURRENCIES: Record<CurrencyCode, CurrencyInfo> = {
-  MAD: { code: 'MAD', symbol: 'MAD', locale: 'fr-MA' },
-  EUR: { code: 'EUR', symbol: '\u20AC', locale: 'fr-FR' },
-  USD: { code: 'USD', symbol: '$', locale: 'en-US' },
-};
-
-// Display/conversion rates with USD as the DB base unit (product.price is in USD).
-// 1 USD ≈ 10 MAD, 1 USD ≈ 0.93 EUR. Update when integrating a live FX API.
-const EXCHANGE_RATES: Record<CurrencyCode, number> = {
-  MAD: 10,
-  USD: 1,
-  EUR: 0.93,
-};
+export type { CurrencyCode } from './lib/currency';
 
 const STORAGE_KEY = 'ccjaouhara_currency';
 
@@ -35,8 +16,8 @@ function readStoredCurrency(): CurrencyCode {
 interface CurrencyContextValue {
   currency: CurrencyCode;
   setCurrency: (c: CurrencyCode) => void;
-  formatPrice: (priceInBaseUnit: number) => string;
-  convertPrice: (priceInBaseUnit: number) => number;
+  formatPrice: (amountInMad: number) => string;
+  convertPrice: (amountInMad: number) => number;
 }
 
 const CurrencyContext = createContext<CurrencyContextValue | null>(null);
@@ -49,13 +30,12 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
     try { localStorage.setItem(STORAGE_KEY, c); } catch { /* ignore */ }
   }, []);
 
-  const formatPrice = useCallback((priceInBaseUnit: number): string => {
-    const rate = EXCHANGE_RATES[currency];
-    const converted = Math.round(priceInBaseUnit * rate * 100) / 100;
+  const formatPrice = useCallback((amountInMad: number): string => {
+    const converted = convertFromBase(amountInMad, currency);
     const info = CURRENCIES[currency];
 
     if (currency === 'MAD') {
-      // Preserve the existing CCJAOUHARA MAD format: "249 MAD" / "درهم 249"
+      // Preserve the existing CCJAOUHARA MAD format: "79 MAD" / "درهم 79"
       return `${converted.toLocaleString()} ${info.symbol}`;
     }
 
@@ -68,9 +48,8 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
     }).format(converted);
   }, [currency]);
 
-  const convertPrice = useCallback((priceInBaseUnit: number): number => {
-    const rate = EXCHANGE_RATES[currency];
-    return Math.round(priceInBaseUnit * rate * 100) / 100;
+  const convertPrice = useCallback((amountInMad: number): number => {
+    return convertFromBase(amountInMad, currency);
   }, [currency]);
 
   const value = useMemo(() => ({ currency, setCurrency, formatPrice, convertPrice }), [currency, setCurrency, formatPrice, convertPrice]);

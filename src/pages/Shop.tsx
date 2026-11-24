@@ -89,7 +89,7 @@ export default function Shop({
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+    <div className="max-w-7xl mx-auto px-2.5 sm:px-6 lg:px-8 space-y-12">
       
       {/* Editorial Header */}
       <div className="text-center space-y-4 max-w-xl mx-auto py-6">
@@ -189,13 +189,12 @@ export default function Shop({
           (showMobileFilters || window.innerWidth >= 1024) ? 'lg:col-span-9' : 'lg:col-span-12'
         } w-full`}>
           {isLoading ? (
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-8">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-2 sm:gap-8">
               {[1, 2, 3, 4, 5, 6].map((n) => (
                 <div key={n} className="space-y-4 animate-pulse">
-                  <div className="bg-stone-200 aspect-square w-full rounded-lg"></div>
-                  <div className="h-4 bg-stone-200 w-1/3"></div>
-                  <div className="h-6 bg-stone-200 w-3/4"></div>
-                  <div className="h-4 bg-stone-200 w-1/4"></div>
+                  <div className="bg-stone-200 aspect-square w-full rounded-[22px] sm:rounded-lg"></div>
+                  <div className="h-4 bg-stone-200 w-3/4"></div>
+                  <div className="h-4 bg-stone-200 w-1/2"></div>
                 </div>
               ))}
             </div>
@@ -216,7 +215,7 @@ export default function Shop({
           ) : (
             <motion.div 
               layout 
-              className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-3 sm:gap-8"
+              className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 gap-2 sm:gap-8"
             >
               <AnimatePresence mode="popLayout">
                 {filteredProducts.map((product, index) => (
