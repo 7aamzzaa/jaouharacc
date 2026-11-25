@@ -228,23 +228,31 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
             </h2>
 
             {/* Calculations rows */}
-            <div className="space-y-3.5 text-xs font-sans pb-4 border-b border-stone-50">
-              <div className="flex justify-between text-stone-500">
+            <div className="space-y-3.5 text-xs font-sans">
+              <div className="flex items-baseline justify-between gap-3 text-stone-500">
                 <span>{t('cart.subtotal')}</span>
-                <span className="text-stone-850 font-semibold">{formatPrice(subtotal)}</span>
+                <span aria-hidden="true" className="mx-3 flex-1 self-end border-b border-dotted border-champagne-200/70 mb-1" />
+                <span className="text-stone-850 font-semibold whitespace-nowrap">{formatPrice(subtotal)}</span>
               </div>
 
-              <div className="flex justify-between text-stone-500">
-                <span>{t('trust.delivery')}</span>
-                <span className="text-emerald-600 font-medium">{t('cart.freeFreight')}</span>
+              <div className="flex items-baseline justify-between gap-3 text-stone-500">
+                <span>{t('cart.shippingLabel')}</span>
+                <span aria-hidden="true" className="mx-3 flex-1 self-end border-b border-dotted border-champagne-200/70 mb-1" />
+                <span className="text-emerald-600 font-medium whitespace-nowrap">{t('cart.shippingFree')}</span>
               </div>
             </div>
 
-            <div className="flex justify-between items-baseline pt-2">
-              <span className="font-serif text-lg text-stone-900 font-semibold">{t('cart.grandTotal')}</span>
-              <span className="font-serif text-2xl text-stone-900 font-bold">
-                {formatPrice(grandTotal)}
-              </span>
+            <div className="border-t border-champagne-200/70 pt-5">
+              <div className="flex items-baseline justify-between gap-3">
+                <span className="font-serif text-lg text-stone-900 font-semibold">{t('cart.grandTotal')}</span>
+                <span aria-hidden="true" className="mx-3 flex-1 self-end border-b border-dotted border-champagne-200/70 mb-1.5" />
+                <span className="font-serif text-2xl text-stone-900 font-bold tracking-tight whitespace-nowrap">
+                  {formatPrice(grandTotal)}
+                </span>
+              </div>
+              <p className="mt-3 text-[11px] font-sans tracking-wide text-stone-400 text-center sm:text-start">
+                {t('cart.codAvailableNote')}
+              </p>
             </div>
 
           </div>
