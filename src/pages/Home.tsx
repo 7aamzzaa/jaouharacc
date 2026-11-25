@@ -9,9 +9,7 @@ import {
   Lock, 
   Gift, 
   Star, 
-  Sparkles,
-  Check,
-  Copy
+  Sparkles
 } from 'lucide-react';
 
 import { Product } from '../types';
@@ -30,7 +28,6 @@ interface HomeProps {
 }
 
 export default function Home({ products, isLoading, onPageChange, onAddToCartDirect, wishlist, onToggleWishlist }: HomeProps) {
-  const [copied, setCopied] = useState<boolean>(false);
   const { t, dir } = useTranslation();
 
   // Dynamic SEO Meta tags injection
@@ -76,14 +73,6 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
       }
     };
   }, []);
-
-  const handleCopyCode = () => {
-    navigator.clipboard.writeText(t('home.offer.code'));
-    setCopied(true);
-    setTimeout(() => {
-      setCopied(false);
-    }, 2500);
-  };
 
   // Safe slice of items
   const bestSellers = [
@@ -740,7 +729,7 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
       </section>
 
       {/* 6. LUXURY PROMOTIONAL BANNER */}
-      <section className="bg-stone-900 text-white relative py-16 md:py-20 px-4 md:px-8 overflow-hidden border-y border-champagne-400/25">
+      <section className="hidden md:block bg-stone-900 text-white relative py-16 md:py-20 px-4 md:px-8 overflow-hidden border-y border-champagne-400/25">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_50%,rgba(197,160,89,0.1),transparent_50%)]"></div>
         <div className="absolute inset-0 bg-stone-950/20"></div>
         
@@ -872,56 +861,6 @@ export default function Home({ products, isLoading, onPageChange, onAddToCartDir
               </p>
             </div>
 
-          </div>
-        </div>
-      </section>
-
-      {/* 9. SPECIAL OFFER BANNER */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-gradient-to-r from-champagne-100/30 to-[#FFEFE5] border border-champagne-200 rounded-2xl p-8 md:p-12 shadow-sm relative overflow-hidden" dir={dir}>
-          <div className="absolute top-0 left-0 w-24 h-24 bg-champagne-300/10 rounded-full -translate-x-6 -translate-y-6"></div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center relative z-10">
-            <div className="md:col-span-8 space-y-4 text-center md:text-start">
-              <h3 className="font-serif text-2xl sm:text-3xl font-black text-slate-900 leading-tight">
-                {t('home.offer.heading')}
-              </h3>
-              <p className="text-stone-600 text-xs sm:text-sm max-w-xl leading-relaxed">
-                {t('home.offer.desc')}
-              </p>
-              
-              {/* Copy Coupon Box */}
-              <div className="flex flex-wrap gap-3 items-center justify-center md:justify-start pt-2">
-                <div className="border-2 border-dashed border-champagne-500 bg-white px-5 py-2.5 rounded-md font-mono text-base font-bold tracking-widest text-champagne-750 inline-flex items-center gap-3">
-                  {t('home.offer.code')}
-                </div>
-                <button
-                  onClick={handleCopyCode}
-                  className="cursor-pointer bg-stone-900 text-white px-5 py-3 rounded-md text-xs font-bold hover:bg-stone-800 transition-colors flex items-center gap-1.5 font-sans"
-                >
-                  {copied ? (
-                    <>
-                      <Check size={14} className="text-emerald-400" />
-                      {t('home.offer.copied')}
-                    </>
-                  ) : (
-                    <>
-                      <Copy size={13} />
-                      {t('home.offer.copyBtn')}
-                    </>
-                  )}
-                </button>
-              </div>
-            </div>
-            
-            <div className="md:col-span-4 flex justify-center md:justify-end">
-              <button
-                onClick={() => onPageChange('shop')}
-                className="cursor-pointer bg-champagne-600 text-white font-bold hover:bg-champagne-750 text-xs uppercase tracking-widest px-8 py-4.5 shadow-md hover:shadow-xl transition-all duration-300 rounded-sm font-sans active:scale-95"
-              >
-                {t('home.offer.cta')}
-              </button>
-            </div>
           </div>
         </div>
       </section>
