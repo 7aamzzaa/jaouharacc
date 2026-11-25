@@ -171,6 +171,10 @@ body {
     flex: none;
   }
 
+  #floating-checkout-btn {
+    display: none !important;
+  }
+
   .mobile-floating-actions > .animate-floating-btn {
     animation: floatBtnFadeInMobile 1s cubic-bezier(0.16, 1, 0.3, 1) 1.5s forwards, floatGlow 2s infinite alternate ease-in-out;
   }
