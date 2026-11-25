@@ -862,6 +862,7 @@
 
   lazyImage: {
     loading: 'Luxe Frame',
+    failed: 'Image unavailable',
   },
 
   reviewsPage: {

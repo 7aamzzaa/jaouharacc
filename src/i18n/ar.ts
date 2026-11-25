@@ -862,6 +862,7 @@
 
   lazyImage: {
     loading: 'إطار فاخر',
+    failed: 'الصورة غير متوفرة',
   },
 
   reviewsPage: {
