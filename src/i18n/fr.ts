@@ -362,7 +362,7 @@
     billing: 'R\u00e9capitulatif',
     subtotal: 'Sous-total :',
     discount: 'R\u00e9duction ({code} - {percent}%) :',
-    freeFreight: 'GRATUIT D\u00c8S 200 MAD',
+    freeFreight: 'LIVRAISON OFFERTE',
     grandTotal: 'Total G\u00e9n\u00e9ral :',
     promoHeading: 'Appliquer un Code Promo',
     promoPlaceholder: 'ex. AURELIA10',
@@ -600,7 +600,7 @@
         items: [
           { q: 'Zones de Livraison', a: 'Nous livrons actuellement dans toutes les villes du Maroc, notamment Casablanca, Rabat, Marrakech, Fès, Tanger, Agadir et plus.' },
           { q: 'Délai de Livraison', a: 'Les commandes sont traitées sous 24 heures et livrées sous 2 à 5 jours ouvrés selon votre localisation.' },
-          { q: 'Frais de Livraison', a: 'Livraison offerte pour toute première commande. Des frais de 30 MAD s\'appliquent pour les commandes suivantes.' },
+          { q: 'Frais de Livraison', a: 'La livraison est actuellement offerte sur toutes les commandes.' },
           { q: 'Suivi', a: 'Dès l\'expédition, vous recevrez un numéro de suivi par email et WhatsApp pour suivre votre livraison en temps réel.' },
           { q: 'Paiement à la Livraison', a: 'Nous proposons le paiement à la livraison (COD) dans tout le Maroc. Vous ne payez qu\'à la réception et inspection de votre commande.' },
         ],

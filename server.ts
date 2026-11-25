@@ -47,6 +47,7 @@ import {
   restoreProductStock
 } from './serverDB';
 import { Product, Review, Order } from './src/types';
+import { readStripeMoneyConfig, toStripeMinorUnits } from './src/lib/stripeMoney';
 
 export const app = express();
 const PORT = 3000;
@@ -547,6 +548,7 @@ app.post('/api/orders', rateLimit(20, 15 * 60 * 1000), async (req, res) => {
     }
 
     // --- Server-side pricing (promo, shipping, total) --------------------------
+    // Product.price, subtotal, discount, shipping and total are all in MAD.
     const subtotal = resolved.reduce((sum, r) => sum + r.product.price * r.quantity, 0);
 
     let discountAmount = 0;
@@ -1022,12 +1024,24 @@ app.post('/api/upload', requireAdmin, async (req, res) => {
 
 // Stripe checkout sessions router
 // NEVER trust client-provided prices — resolve every product from the DB.
+// Product prices are MAD. Stripe presentment currency and any FX rate require
+// an explicit operator decision; no silent default is applied to live charges.
 app.post('/api/checkout/create-session', async (req, res) => {
   try {
     const { items, customer_name, customer_email } = req.body;
 
     if (!Array.isArray(items) || items.length === 0) {
       return res.status(400).json({ error: 'Your cart is completely empty.' });
+    }
+
+    let stripeMoneyConfig;
+    try {
+      stripeMoneyConfig = readStripeMoneyConfig();
+    } catch (err: any) {
+      return res.status(503).json({
+        error: 'Stripe payments are not configured',
+        details: err.message
+      });
     }
 
     const appUrl = process.env.APP_URL || 'http://localhost:3000';
@@ -1055,13 +1069,13 @@ app.post('/api/checkout/create-session', async (req, res) => {
 
     const lineItems = resolved.map(r => ({
       price_data: {
-        currency: 'usd',
+        currency: stripeMoneyConfig.currency,
         product_data: {
           name: r.product.name,
           images: r.product.images?.[0] ? [r.product.images[0]] : [],
           description: r.selected_size ? `Size: ${r.selected_size}` : undefined,
         },
-        unit_amount: Math.round(r.product.price * 100),
+        unit_amount: toStripeMinorUnits(r.product.price, stripeMoneyConfig),
       },
       quantity: r.quantity,
     }));
@@ -1079,7 +1093,9 @@ app.post('/api/checkout/create-session', async (req, res) => {
         orderId,
         customer_name: customer_name || '',
         customer_email: customer_email || '',
-        totalString: String(total)
+        totalString: String(total),
+        subtotalMad: String(subtotal),
+        stripeCurrency: stripeMoneyConfig.currency
       }
     });
 
