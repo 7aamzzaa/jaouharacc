@@ -50,10 +50,10 @@ export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOp
       }
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className={isHome ? 'grid grid-cols-[1fr_auto_1fr] items-center h-[80px] sm:flex sm:justify-between sm:items-center sm:h-20' : 'flex justify-between items-center h-20'}>
+        <div className={isHome ? 'grid grid-cols-[1fr_auto_1fr] items-center h-[80px] sm:flex sm:justify-between sm:items-center sm:h-20' : 'grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center h-20 md:flex md:justify-between md:items-center'}>
           
           {/* Mobile menu button */}
-          <div className="flex min-w-0 items-center md:hidden">
+          <div className="flex shrink-0 items-center md:hidden">
             <button
               id="mobile-menu-toggle"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -80,10 +80,10 @@ export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOp
                 aria-hidden="true"
                 className={`block shrink-0 w-10 h-auto mb-1 sm:mb-1.5 ${isHome ? 'sm:hidden' : 'hidden'}`}
               />
-              <span className={`font-serif ${isHome ? 'text-[21px] max-[419px]:text-[18px] sm:text-3xl text-champagne-700 sm:text-champagne-500' : 'text-2xl sm:text-3xl text-champagne-500'} tracking-[0.3em] ${isHome ? 'max-[419px]:tracking-[0.18em]' : ''} font-bold italic uppercase transition-all duration-300 group-hover:opacity-80`}>
+              <span className={`font-serif text-[21px] max-[419px]:text-[18px] sm:text-3xl ${isHome ? 'text-champagne-700 sm:text-champagne-500' : 'text-champagne-500'} tracking-[0.3em] max-[419px]:tracking-[0.18em] font-bold italic uppercase transition-all duration-300 group-hover:opacity-80`}>
                 ccjaouhara
               </span>
-              <span className={`text-[8px] tracking-[0.4em] uppercase font-sans -mt-0.5 font-semibold ${isHome ? 'hidden sm:block text-champagne-400 sm:text-stone-400' : 'text-stone-400'}`}>
+              <span className={`text-[8px] tracking-[0.4em] uppercase font-sans -mt-0.5 font-semibold hidden sm:block ${isHome ? 'text-champagne-400 sm:text-stone-400' : 'text-stone-400'}`}>
                 {t('nav.fineJewelry')}
               </span>
             </button>
@@ -229,9 +229,9 @@ export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOp
           </nav>
 
           {/* Cart + Language Switcher */}
-          <div className={`flex min-w-0 items-center ${isHome ? 'gap-2 max-[419px]:gap-1 max-[359px]:gap-0 justify-self-end' : 'space-x-2'}`}>
+          <div className={`flex shrink-0 items-center justify-self-end ${isHome ? 'gap-2 max-[419px]:gap-1 max-[359px]:gap-0' : 'space-x-2 max-[359px]:space-x-0'}`}>
             {/* Language Switcher */}
-            <div className={`relative ${isHome ? 'hidden sm:block' : ''}`}>
+            <div className="relative hidden md:block">
               <button
                 onClick={() => setLangOpen(!langOpen)}
                 className={`cursor-pointer p-2 ${mobileIconClass} ${mobileHoverClass} transition-colors duration-300 focus:outline-hidden flex items-center gap-1`}
@@ -264,7 +264,7 @@ export default function Navbar({ currentPage, onPageChange, cart, wishlist, onOp
             </div>
 
             {/* Currency Switcher */}
-            <div className={`relative ${isHome ? 'hidden sm:block' : ''}`}>
+            <div className="relative hidden md:block">
               <button
                 onClick={() => setCurrOpen(!currOpen)}
                 className={`cursor-pointer p-2 ${mobileIconClass} ${mobileHoverClass} transition-colors duration-300 focus:outline-hidden flex items-center gap-1`}
