@@ -52,13 +52,9 @@ export const app = express();
 const PORT = 3000;
 
 // ------------------------------------------------------------------------
-// ORDER & PROMO CONFIGURATION (server-authoritative)
+// ORDER CONFIGURATION (server-authoritative)
 // ------------------------------------------------------------------------
-// Promo codes are validated purely server-side. Clients only submit the code.
-const PROMO_CODES: Record<string, number> = {
-  CCJAOUHARA10: 10,
-  HERITAGE15: 15
-};
+// Promotional codes are disabled. Any client-supplied discount_code is ignored.
 
 const idempotencyTtlMs = 24 * 60 * 60 * 1000;
 // Best-effort in-memory dedupe registry keyed by X-Idempotency-Key.
@@ -451,7 +447,7 @@ app.get('/api/orders', requireAdmin, async (req, res) => {
 });
 
 // Create a new order from checkout
-// The server is the sole authority for prices, discounts, shipping and totals.
+// The server is the sole authority for prices, shipping and totals.
 // Trusted client input is limited to customer/order info, product ids, quantities
 // and the selected size. Idempotency is enforced with X-Idempotency-Key.
 app.post('/api/orders', rateLimit(20, 15 * 60 * 1000), async (req, res) => {
@@ -471,8 +467,7 @@ app.post('/api/orders', rateLimit(20, 15 * 60 * 1000), async (req, res) => {
       customer_apartment,
       payment_method,
       order_notes,
-      items,
-      discount_code
+      items
     } = req.body || {};
 
     // --- Customer field validation -----------------------------------------
@@ -546,22 +541,15 @@ app.post('/api/orders', rateLimit(20, 15 * 60 * 1000), async (req, res) => {
       quantityByProduct.set(item.product_id, (quantityByProduct.get(item.product_id) || 0) + item.quantity);
     }
 
-    // --- Server-side pricing (promo, shipping, total) --------------------------
+    // --- Server-side pricing (shipping, total) ------------------------------
     const subtotal = resolved.reduce((sum, r) => sum + r.product.price * r.quantity, 0);
 
-    let discountAmount = 0;
-    let normalizedDiscountCode = '';
-    const promoCode = str(discount_code, 40).toUpperCase();
-    if (promoCode) {
-      const percent = PROMO_CODES[promoCode];
-      if (typeof percent === 'number' && percent > 0) {
-        normalizedDiscountCode = promoCode;
-        discountAmount = (subtotal * percent) / 100;
-      }
-    }
+    // Promotional codes are disabled for all new orders. Client input is ignored.
+    const discountAmount = 0;
+    const normalizedDiscountCode = '';
 
     const shippingCost = 0; // shipping is free by business rule
-    const total = Math.max(0, subtotal - discountAmount + shippingCost);
+    const total = Math.max(0, subtotal + shippingCost);
 
     const orderId = 'ORD-' + Math.random().toString(36).substr(2, 9).toUpperCase();
 

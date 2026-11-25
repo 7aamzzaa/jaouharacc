@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Trash2, ShoppingBag, ArrowLeft, ArrowRight, ShieldCheck, Ticket, RefreshCw, Minus, Plus } from 'lucide-react';
+import { Trash2, ShoppingBag, ArrowLeft, ArrowRight, ShieldCheck, RefreshCw, Minus, Plus } from 'lucide-react';
 import { CartItem } from '../types';
 import { useTranslation } from '../i18n';
 import { useCurrency } from '../CurrencyContext';
@@ -15,9 +15,6 @@ interface CartProps {
 export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChange, onClearCart }: CartProps) {
   const { formatPrice } = useCurrency();
   const { t, dir } = useTranslation();
-  const [promoCode, setPromoCode] = useState<string>('');
-  const [appliedDiscount, setAppliedDiscount] = useState<{ code: string; percent: number } | null>(null);
-  const [promoError, setPromoError] = useState<string>('');
   const [customerName, setCustomerName] = useState<string>('');
   const [customerPhone, setCustomerPhone] = useState<string>('');
   const [customerEmail, setCustomerEmail] = useState<string>('');
@@ -35,25 +32,8 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
 
   // Calculations
   const subtotal = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const discountAmount = appliedDiscount ? (subtotal * appliedDiscount.percent) / 100 : 0;
-  const grandTotal = Math.max(0, subtotal - discountAmount);
-
-  // Promo code validation handler
-  const handleApplyPromo = (e: React.FormEvent) => {
-    e.preventDefault();
-    setPromoError('');
-    const code = promoCode.trim().toUpperCase();
-
-    if (code === 'CCJAOUHARA10') {
-      setAppliedDiscount({ code: 'CCJAOUHARA10', percent: 10 });
-      setPromoCode('');
-    } else if (code === 'HERITAGE15') {
-      setAppliedDiscount({ code: 'HERITAGE15', percent: 15 });
-      setPromoCode('');
-    } else {
-      setPromoError(t('cart.couponInvalid'));
-    }
-  };
+  const shippingCharge = 0; // shipping is free by business rule
+  const grandTotal = subtotal + shippingCharge;
 
   // Submit order directly to database
   const handleCheckoutSubmit = async (e: React.FormEvent) => {
@@ -102,7 +82,6 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
             quantity: item.quantity,
             selected_size: item.selected_size
           })),
-          discount_code: appliedDiscount?.code || ''
         })
       });
 
@@ -259,13 +238,6 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
                 <span>{t('trust.delivery')}</span>
                 <span className="text-emerald-600 font-medium">{t('cart.freeFreight')}</span>
               </div>
-              
-              {appliedDiscount && (
-                <div className="flex justify-between text-emerald-600 font-medium">
-                  <span>{t('cart.discount', { code: appliedDiscount.code, percent: appliedDiscount.percent })}</span>
-                  <span>-{formatPrice(discountAmount)}</span>
-                </div>
-              )}
             </div>
 
             <div className="flex justify-between items-baseline pt-2">
@@ -275,39 +247,6 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
               </span>
             </div>
 
-            {/* Promo code entry input */}
-            <form onSubmit={handleApplyPromo} className="space-y-2 pt-2">
-              <label htmlFor="promo-input" className="text-[11px] uppercase tracking-wider text-stone-500 font-semibold block">
-                {t('cart.promoHeading')}
-              </label>
-              <div className="flex gap-2">
-                <input
-                  id="promo-input"
-                  type="text"
-                  placeholder={t('cart.promoPlaceholder')}
-                  value={promoCode}
-                  onChange={(e) => setPromoCode(e.target.value)}
-                  className="flex-1 min-w-0 bg-stone-50 text-xs px-3 py-3 rounded-sm border border-stone-200 focus:outline-hidden focus:border-champagne-400 placeholder-stone-400 font-mono"
-                />
-                <button
-                  type="submit"
-                  className="cursor-pointer bg-champagne-100 hover:bg-champagne-200 text-champagne-700 px-4 text-xs font-semibold py-3 min-h-[44px] sm:min-h-0 transition-colors flex items-center gap-1 shrink-0 whitespace-nowrap"
-                >
-                  <Ticket size={12} /> {t('cart.promoApply')}
-                </button>
-              </div>
-              
-              {/* Active Coupons Helper panel */}
-              {promoError ? (
-                <p className="text-[10px] text-rose-500 font-sans">{promoError}</p>
-              ) : (
-                <div className="bg-champagne-50/50 p-2.5 rounded-sm border border-champagne-100/50 text-[10px] text-stone-550 space-y-0.5">
-                  <p className="font-semibold text-champagne-700 uppercase tracking-wider">{t('cart.activeCodes')}</p>
-                  <p>{t('cart.code1')}</p>
-                  <p>{t('cart.code2')}</p>
-                </div>
-              )}
-            </form>
           </div>
 
           {/* Secure Identity & Gateway Dispatch Form */}
