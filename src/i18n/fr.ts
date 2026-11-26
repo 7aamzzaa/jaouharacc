@@ -32,9 +32,9 @@
 
   home: {
     seo: {
-      title: '\u0645\u062C\u0648\u0647\u0631\u0627\u062A \u0646\u0633\u0627\u0626\u064A\u0629 \u0631\u0627\u0642\u064A\u0629 \u0628\u0627\u0644\u0645\u063A\u0631\u0628 | ccjaouhara Fine Jewelry',
-      desc: '\u0627\u0643\u062A\u0634\u0641\u064A \u0623\u062C\u0645\u0644 \u0627\u0644\u0645\u062C\u0648\u0647\u0631\u0627\u062A \u0627\u0644\u0646\u0633\u0627\u0626\u064A\u0629 \u0627\u0644\u0631\u0627\u0642\u064A\u0629 \u2014 \u0623\u0633\u0627\u0648\u0631\u060C \u062E\u0648\u0627\u062A\u0645\u060C \u0642\u0644\u0627\u062F\u0627\u062A\u060C \u0623\u0642\u0631\u0627\u0637 \u0645\u0637\u0644\u064A\u0629 \u0628\u0627\u0644\u0630\u0647\u0628. \u062A\u0648\u0635\u064A\u0644 \u0644\u062C\u0645\u064A\u0639 \u0645\u062F\u0646 \u0627\u0644\u0645\u063A\u0631\u0628 \u0648\u0627\u0644\u062F\u0641\u0639 \u0639\u0646\u062F \u0627\u0644\u0627\u0633\u062A\u0644\u0627\u0645.',
-      keywords: 'bijoux maroc, bracelet femme maroc, bague femme maroc, collier femme maroc, \u0645\u062C\u0648\u0647\u0631\u0627\u062A \u0627\u0644\u0645\u063A\u0631\u0628',
+      title: 'Bijoux fantaisie femme au Maroc | ccjaouhara',
+      desc: 'Découvrez les plus beaux bijoux fantaisie pour femme — bracelets, bagues, colliers et boucles d’oreilles en acier inoxydable. Livraison dans toutes les villes du Maroc et paiement à la livraison.',
+      keywords: 'bijoux maroc, bijoux acier inoxydable maroc, bracelet femme maroc, bague femme maroc, collier femme maroc, bijoux fantaisie maroc',
     },
     hero: {
       title: 'Parce que chaque femme m\u00e9rite ',
@@ -43,7 +43,7 @@
       cta: 'Achetez maintenant',
       secondaryCta: 'D\u00e9couvrir la collection',
       badge: 'Offre sp\u00e9ciale',
-      badgeDesc: 'Bijoux plaqu\u00e9s or 18 carats',
+      badgeDesc: 'Bijoux en acier inoxydable',
     },
     trust: [
       { title: 'Qualit\u00e9 garantie 100%', desc: 'Pi\u00e8ces exceptionnelles qui durent et enchantent' },
@@ -127,12 +127,12 @@
 
   shop: {
     seo: {
-      all: { title: '\u0645\u062C\u0648\u0647\u0631\u0627\u062A \u0631\u0627\u0642\u064A\u0629 \u0628\u0627\u0644\u0645\u063A\u0631\u0628 | ccjaouhara Fine Jewelry Maroc', desc: '\u0627\u0643\u062A\u0634\u0641\u064A \u062A\u0634\u0643\u064A\u0644\u0629 \u0645\u062C\u0648\u0647\u0631\u0627\u062A ccjaouhara \u0627\u0644\u0631\u0627\u0642\u064A\u0629 \u0628\u0627\u0644\u0645\u063A\u0631\u0628: \u0623\u0633\u0627\u0648\u0631\u060C \u0623\u0642\u0631\u0627\u0637\u060C \u0642\u0644\u0627\u062F\u0627\u062A \u0645\u0637\u0644\u064A\u0629 \u0628\u0627\u0644\u0630\u0647\u0628. \u062A\u0648\u0635\u064A\u0644 \u0633\u0631\u064A\u0639 \u0648\u0627\u0644\u062F\u0641\u0639 \u0639\u0646\u062F \u0627\u0644\u0627\u0633\u062A\u0644\u0627\u0645 \u0628\u062C\u0645\u064A\u0639 \u0645\u062F\u0646 \u0627\u0644\u0645\u063A\u0631\u0628\u064A\u0629.' },
-      bracelets: { title: '\u0623\u0633\u0627\u0648\u0631 \u0646\u0633\u0627\u0626\u064A\u0629 \u0631\u0627\u0642\u064A\u0629 \u0628\u0627\u0644\u0645\u063A\u0631\u0628 | Bracelets de Luxe Maroc', desc: '\u0623\u0633\u0627\u0648\u0631 \u0648\u0633\u0644\u0627\u0633\u0644 \u0645\u0637\u0644\u064A\u0629 \u0628\u0627\u0644\u0630\u0647\u0628 \u0639\u064A\u0627\u0631 18k \u0648\u0639\u064A\u0627\u0631 14k \u0628\u062A\u0635\u0627\u0645\u064A\u0645 \u0633\u0627\u062D\u0631\u0629. \u062C\u0648\u062F\u0629 \u0645\u0636\u0645\u0648\u0646\u0629 \u0648\u062A\u0648\u0635\u064A\u0644 \u0633\u0631\u064A\u0639 \u0648\u0627\u0644\u062F\u0641\u0639 \u0639\u0646\u062F \u0627\u0644\u0627\u0633\u062A\u0644\u0627\u0645 \u0628\u0627\u0644\u0645\u063A\u0631\u0628.' },
-      rings: { title: '\u062E\u0648\u0627\u062A\u0645 \u0646\u0633\u0627\u0626\u064A\u0629 \u0641\u0627\u062E\u0631\u0629 \u0628\u0627\u0644\u0645\u063A\u0631\u0628 | Bagues de Luxe Maroc', desc: '\u0627\u0643\u062A\u0634\u0641\u064A \u062A\u0634\u0643\u064A\u0644\u0629 \u0627\u0644\u062E\u0648\u0627\u062A\u0645 \u0627\u0644\u0631\u0627\u0642\u064A\u0629 \u0645\u0646 ccjaouhara: \u062E\u0648\u0627\u062A\u0645 \u0633\u0648\u0644\u064A\u062A\u064A\u0631 \u0645\u0631\u0635\u0639\u0629 \u0628\u0627\u0644\u0632\u0631\u0643\u0648\u0646 \u0627\u0644\u0641\u0627\u062E\u0631 \u0648\u0627\u0644\u0623\u062D\u062C\u0627\u0631 \u0627\u0644\u0643\u0631\u064A\u0645\u0629 \u0645\u0637\u0644\u064A\u0629 \u0628\u0627\u0644\u0630\u0647\u0628.' },
-      earrings: { title: '\u0623\u0642\u0631\u0627\u0637 \u0646\u0633\u0627\u0626\u064A\u0629 \u0641\u0627\u062E\u0631\u0629 | Boucles d\'oreilles de Luxe Maroc', desc: '\u0623\u0642\u0631\u0627\u0637 \u0646\u0627\u0639\u0645\u0629 \u0645\u0631\u0635\u0639\u0629 \u064A\u062F\u0648\u064A\u0627\u064B \u0628\u0623\u062D\u062C\u0627\u0631 \u0627\u0644\u0632\u0631\u0643\u0648\u0646 \u0627\u0644\u0644\u0627\u0645\u0639\u0629. \u062A\u0648\u0635\u064A\u0644 \u0644\u0643\u0627\u0641\u0629 \u0645\u062F\u0646 \u0627\u0644\u0645\u063A\u0631\u0628 \u0648\u0627\u0644\u062F\u0641\u0639 \u0639\u0646\u062F \u0627\u0644\u0627\u0633\u062A\u0644\u0627\u0645.' },
-      anklets: { title: '\u062E\u0644\u0627\u062E\u0644 \u0646\u0633\u0627\u0626\u064A\u0629 \u0641\u0627\u062E\u0631\u0629 \u0627\u0644\u0645\u063A\u0631\u0628 | Les Chevill\u00e8res de Luxe Maroc', desc: '\u062E\u0644\u0627\u062E\u0644 \u0639\u0635\u0631\u064A\u0629 \u0648\u0643\u0644\u0627\u0633\u064A\u0643\u064A\u0629 \u0644\u0625\u0637\u0644\u0627\u0644\u0629 \u0635\u064A\u0641\u064A\u0629 \u0646\u0627\u0639\u0645\u0629 \u0645\u0637\u0644\u064A\u0629 \u0628\u0627\u0644\u0630\u0647\u0628.' },
-      necklaces: { title: '\u0642\u0644\u0627\u062F\u0627\u062A \u0648\u0633\u0644\u0627\u0633\u0644 \u0630\u0647\u0628\u064A\u0629 \u0631\u0627\u0642\u064A\u0629 \u0627\u0644\u0645\u063A\u0631\u0628 | Colliers dor\u00e9s de Haute Bijouterie', desc: '\u0642\u0644\u0627\u062F\u0627\u062A \u0648\u0623\u0637\u0648\u0627\u0642 \u0630\u0647\u0628\u064A\u0629 \u0631\u0627\u0626\u0639\u0629 \u0645\u0631\u0635\u0639\u0629 \u0628\u0623\u062C\u0648\u062F \u0627\u0644\u0643\u0631\u064A\u0633\u062A\u0627\u0644\u0627\u062A. \u0635\u064A\u0627\u063A\u0629 \u064A\u062F\u0648\u064A\u0629 \u0641\u0627\u062E\u0631\u0629.' },
+      all: { title: 'Bijoux fantaisie raffinés au Maroc | ccjaouhara', desc: 'Découvrez la collection ccjaouhara au Maroc : bracelets, boucles d’oreilles et colliers en acier inoxydable à finition brillante. Livraison rapide et paiement à la livraison dans toutes les villes du Maroc.' },
+      bracelets: { title: 'Bracelets femme en acier inoxydable | Maroc', desc: 'Manchettes et bracelets en acier inoxydable aux designs élégants et captivants. Qualité garantie, livraison rapide et paiement à la livraison au Maroc.' },
+      rings: { title: 'Bagues fantaisie femme au Maroc | ccjaouhara', desc: 'Découvrez la collection de bagues élégantes ccjaouhara en acier inoxydable, avec des détails scintillants effet cristal.' },
+      earrings: { title: 'Boucles d’oreilles fantaisie femme | Maroc', desc: 'Boucles d’oreilles délicates en acier inoxydable avec détails scintillants. Livraison dans toutes les villes du Maroc et paiement à la livraison.' },
+      anklets: { title: 'Chevillères femme en acier inoxydable | Maroc', desc: 'Chevillères modernes et classiques en acier inoxydable pour une allure estivale nacrée.' },
+      necklaces: { title: 'Colliers femme en acier inoxydable | Maroc', desc: 'Colliers et chaînes en acier inoxydable aux détails cristallins scintillants. Facture raffinée.' },
       jewelry_sets: { title: '\u0623\u0637\u0642\u0645 \u0645\u062C\u0648\u0647\u0631\u0627\u062A \u0641\u0627\u062E\u0631\u0629 \u0644\u0644\u0639\u0631\u0648\u0633 | Parures de Bijoux Maroc', desc: 'Découvrez nos parures élégantes en acier inoxydable, conçues pour compléter vos tenues et vos occasions spéciales.' },
     },
     header: {
@@ -148,7 +148,7 @@
       },
       descriptions: {
         all: 'D\u00e9couvrez des tailles standard et des bijoux d\u00e9licats fabriqu\u00e9s selon nos rigoureux crit\u00e8res artisanaux. Filtrez par mat\u00e9riau, teinte ou gamme de prix.',
-        bracelets: 'Manchettes raffin\u00e9es, bracelets luxueux et cha\u00eenes d\u00e9licates pour poignet, triple-plaqu\u00e9s or massif et argent sterling.',
+        bracelets: 'Manchettes raffinées, bracelets joncs polis et chaînes délicates pour poignet en acier inoxydable, pensés pour une élégance quotidienne.',
         rings: 'Solitaires diamant exceptionnels, alliances intemporelles et bagues superposables con\u00e7ues pour une \u00e9l\u00e9gance moderne.',
         earrings: 'Cr\u00e9oles \u00e9tincelantes, puces luxueuses et gouttes lustre \u00e9thiopiennes en cascade con\u00e7ues pour capturer la lumi\u00e8re de vos mouvements.',
         anklets: 'Cha\u00eenes doubles d\u00e9licates et chevill\u00e8res \u00e0 maillons figaro cristallins con\u00e7ues pour une gr\u00e2ce discr\u00e8te et un confort absolu.',
@@ -239,7 +239,7 @@
     finish: 'Finition :',
     collection: 'Collection :',
     style: 'Style :',
-    materialValue: 'Acier Inoxydable Premium',
+    materialValue: 'Matériau non spécifié',
     finishValue: 'Polissage Premium',
     collectionValue: 'Collection CCJaouhara',
     styleValue: '\u00c9l\u00e9gance Intemporelle',
@@ -649,7 +649,7 @@
     values: {
       title: 'Nos Valeurs',
       items: [
-        { icon: 'Gem', title: 'Qualité', desc: 'Nous utilisons uniquement des matériaux premium — acier inoxydable avec placage or 18k — garantissant beauté et durabilité.' },
+        { icon: 'Gem', title: 'Qualité', desc: 'Nous utilisons uniquement de l’acier inoxydable, un matériau durable et facile d’entretien, choisi pour sa beauté durable.' },
         { icon: 'Heart', title: 'Artisanat', desc: 'Chaque pièce est soigneusement fabriquée par des artisans qualifiés qui mettent leur expertise et leur passion dans chaque design.' },
         { icon: 'Shield', title: 'Confiance', desc: 'Nous garantissons chaque pièce avec une garantie qualité à vie et un engagement envers votre satisfaction.' },
         { icon: 'Globe', title: 'Accessibilité', desc: 'Nous livrons dans tout le Maroc avec paiement à la livraison, rendant la joaillerie fine accessible à chaque femme.' },
@@ -704,7 +704,7 @@
       {
         outlet: 'L\'Officiel Maroc',
         title: 'ccjaouhara Dévoile sa Nouvelle Collection Printemps-Été 2026',
-        excerpt: 'Une collection inspirée par les couleurs et les textures du Maroc, mêlant l\'or, les pierres précieuses et un savoir-faire ancestral.',
+        excerpt: 'Une collection inspirée par les couleurs et les textures du Maroc, mêlant acier inoxydable, détails cristallins et savoir-faire ancestral.',
         url: '#',
         date: '5 Jan 2026',
       },
@@ -725,7 +725,7 @@
     items: [
       {
         q: 'Quels matériaux utilisez-vous pour vos bijoux ?',
-        a: 'Nos bijoux sont fabriqués en acier inoxydable premium avec placage or 18k, garantissant durabilité, résistance au ternissement et une finition luxueuse.',
+        a: 'Nos bijoux sont fabriqués en acier inoxydable, choisi pour sa durabilité, son entretien facile et sa finition brillante.',
       },
       {
         q: 'Proposez-vous le paiement à la livraison ?',

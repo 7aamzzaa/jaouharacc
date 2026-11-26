@@ -32,9 +32,9 @@
 
   home: {
     seo: {
-      title: 'Fine Jewelry Morocco | ccjaouhara Premium Gold & Gemstone Jewellery',
-      desc: 'Discover exquisite fine jewelry at ccjaouhara \u2014 bracelets, rings, necklaces, earrings, and anklets crafted in 18k gold. Fast delivery across Morocco with cash on delivery.',
-      keywords: 'morocco jewelry, gold bracelets morocco, rings morocco, necklaces morocco, fine jewelry morocco, ccjaouhara',
+      title: 'Stainless Steel Jewelry Morocco | ccjaouhara Fashion Jewelry',
+      desc: 'Discover elegant fashion jewelry at ccjaouhara \u2014 bracelets, rings, necklaces, earrings, and anklets crafted in stainless steel. Fast delivery across Morocco with cash on delivery.',
+      keywords: 'morocco jewelry, stainless steel jewelry morocco, bracelets morocco, rings morocco, necklaces morocco, fashion jewelry morocco, ccjaouhara',
     },
     hero: {
       title: 'Because Every Woman Deserves ',
@@ -43,7 +43,7 @@
       cta: 'Shop Now',
       secondaryCta: 'Explore Collection',
       badge: 'Special Offer',
-      badgeDesc: '18k Gold Plated Jewelry',
+      badgeDesc: 'Stainless Steel Jewelry',
     },
     trust: [
       { title: '100% Quality Guarantee', desc: 'Premium pieces that last and delight' },
@@ -127,12 +127,12 @@
 
   shop: {
     seo: {
-      all: { title: '\u0645Ø¬\u0648\u0647Ø±\u0627Øª \u0631\u0627\u0642\u064AØ© Ø¨\u0627Ù\u0644\u0645ØºØ±Ø¨ | ccjaouhara Fine Jewelry Maroc', desc: '\u0627\u0643ØªØ´Ù\u0641\u064A ØªØ´Ù\u064A\u0643Ù\u0629 \u0645Ø¬\u0648\u0647Ø±\u0627Øª ccjaouhara \u0627Ù\u0644Ø±\u0627\u0642\u064AØ© Ø¨\u0627Ù\u0644\u0645ØºØ±Ø¨: Ø£Ø³\u0627\u0648Ø±Ø\u060C Ø£Ù\u0642Ø±\u0627Ø·Ø\u060C Ù\u0644Ø§Ø¯\u0627Øª \u0645Ø·Ù\u064AØ© Ø¨\u0627Ù\u0644Ø°Ù\u0647Ø¨. Øª\u0648Øµ\u064AÙ \u0633Ø±\u064AØ¹ Ù\u0648Ø§Ù\u0644Ø¯Ù\u0641Ø¹ Ø¹Ù\u0646Ø¯ Ø§Ù\u0644Ø§Ø³ØªÙ\u0627Ù \u0628Ø¬Ù\u064AØ¹ Ø§Ù\u0644Ù\u062FÙ\u0646 Ø§Ù\u0644Ù\u063AØ±Ø¨\u064AØ©.' },
-      bracelets: { title: '\u0623Ø³\u0627\u0648Ø± \u0646Ø³\u0627Ø¦\u064AØ© Ø±\u0627\u0642\u064AØ© Ø¨\u0627Ù\u0644\u0645ØºØ±Ø¨ | Bracelets de Luxe Maroc', desc: '\u0623Ø³\u0627\u0648Ø± Ù\u0648Ø³Ù\u0627Ø³Ù \u0645Ø·Ù\u064AØ© Ø¨\u0627Ù\u0644Ø°Ù\u0647Ø¨ Ø¹\u064A\u0627Ø± 18k Ù\u0648Ø¹\u064A\u0627Ø± 14k Ø¨ØªØµ\u0627Ù\u064AÙ \u0633\u0627ØØ±Ø©. Ø¬\u0648Ø¯Ø© \u0645Ø¶Ù\u0648Ù\u0629 Ù\u0648Øª\u0648Øµ\u064AÙ \u0633Ø±\u064AØ¹ Ù\u0648Ø§Ù\u0644Ø¯Ù\u0641Ø¹ Ø¹Ù\u0646Ø¯ Ø§Ù\u0644Ø§Ø³ØªÙ\u0627Ù \u0628Ø§Ù\u0644\u0645ØºØ±Ø¨.' },
-      rings: { title: '\u062E\u0648\u0627ØªÙ \u0646Ø³\u0627Ø¦\u064AØ© Ù\u0641\u0627Ø®Ø±Ø© Ø¨\u0627Ù\u0644\u0645ØºØ±Ø¨ | Bagues de Luxe Maroc', desc: '\u0627\u0643ØªØ´Ù\u0641\u064A ØªØ´Ù\u064A\u0643Ù\u0629 Ø§Ù\u0644Ø®\u0648\u0627ØªÙ \u0627Ù\u0644Ø±\u0627\u0642\u064AØ© Ù\u0645Ù ccjaouhara: Ø®\u0648\u0627ØªÙ \u0633\u0648Ù\u064AØª\u064AØ± \u0645Ø±ØµØ¹Ø© Ø¨\u0627Ù\u0644Ø²Ø±Ù\u0648Ù \u0627Ù\u0644Ù\u0641\u0627Ø®Ø± \u0648Ø§Ù\u0644Ø£ØØ¬\u0627Ø± Ø§Ù\u0643Ø±\u064AÙ\u0629 \u0645Ø·Ù\u064AØ© Ø¨\u0627Ù\u0644Ø°Ù\u0647Ø¨.' },
-      earrings: { title: '\u0623Ù\u0642Ø±\u0627Ø· \u0646Ø³\u0627Ø¦\u064AØ© Ù\u0641\u0627Ø®Ø±Ø© | Boucles d\'oreilles de Luxe Maroc', desc: '\u0623Ù\u0642Ø±\u0627Ø· \u0646\u0627Ø¹Ù\u0629 \u0645Ø±ØµØ¹Ø© \u064AØ¯\u0648\u064A\u0627\u064B Ø¨Ø£ØØ¬\u0627Ø± \u0627Ù\u0644Ø²Ø±Ù\u0648Ù \u0627Ù\u0644Ù\u0627Ù\u0645Ø¹Ø©. Øª\u0648Øµ\u064AÙ \u0644\u0643\u0627Ù\u0629 Ù\u062FÙ\u0646 \u0627Ù\u0644\u0645ØºØ±Ø¨ Ù\u0648Ø§Ù\u0644Ø¯Ù\u0641Ø¹ Ø¹Ù\u0646Ø¯ Ø§Ù\u0644Ø§Ø³ØªÙ\u0627Ù.' },
-      anklets: { title: '\u062EÙ\u0627Ø®Ù \u0646Ø³\u0627Ø¦\u064AØ© Ù\u0641\u0627Ø®Ø±Ø© Ø§Ù\u0644\u0645ØºØ±Ø¨ | Les Chevill\u00E8res de Luxe Maroc', desc: '\u062EÙ\u0627Ø®Ù \u0639ØµØ±\u064AØ© Ù\u0648Ù\u0644\u0627Ø³\u064A\u0643\u064AØ© Ù\u0625Ø·\u0644\u0627Ù\u0629 Øµ\u064AÙ\u064AØ© \u0646\u0627Ø¹Ù\u0629 \u0645Ø·Ù\u064AØ© Ø¨\u0627Ù\u0644Ø°Ù\u0647Ø¨.' },
-      necklaces: { title: '\u0642Ù\u0627Ø¯\u0627Øª Ù\u0648Ø³Ù\u0627Ø³Ù \u0630Ù\u0647Ø¨\u064AØ© Ø±\u0627\u0642\u064AØ© Ø§Ù\u0644\u0645ØºØ±Ø¨ | Colliers dor\u00E9s de Haute Bijouterie', desc: '\u0642Ù\u0627Ø¯\u0627Øª Ù\u0623Ø·\u0648\u0627Ù \u0630Ù\u0647Ø¨\u064AØ© Ø±\u0627Ø¦Ø¹Ø© \u0645Ø±ØµØ¹Ø© Ø¨Ø£Ø¬\u0648Ø¯ Ø§Ù\u0643Ø±\u064AØ³Øª\u0627Ù\u0627Øª. Øµ\u064A\u0627ØºØ© Ù\u064AØ¯\u0648\u064AØ© Ù\u0641\u0627Ø®Ø±Ø©.' },
+      all: { title: 'Elegant Jewelry Morocco | ccjaouhara Fashion Jewelry', desc: 'Discover the ccjaouhara collection in Morocco: stainless steel bracelets, earrings, and necklaces with a polished finish. Fast delivery and cash on delivery across all Moroccan cities.' },
+      bracelets: { title: 'Women’s Stainless Steel Bracelets Morocco | ccjaouhara', desc: 'Stainless steel cuffs and bracelets with elegant, captivating designs. Guaranteed quality, fast delivery and cash on delivery across Morocco.' },
+      rings: { title: 'Women’s Fashion Rings Morocco | ccjaouhara', desc: 'Discover the ccjaouhara collection of elegant stainless steel rings with sparkling, crystal-look details.' },
+      earrings: { title: 'Women’s Fashion Earrings Morocco | ccjaouhara', desc: 'Delicate stainless steel earrings with sparkling accents. Delivery to all Moroccan cities and cash on delivery.' },
+      anklets: { title: 'Women’s Stainless Steel Anklets Morocco | ccjaouhara', desc: 'Modern and classic stainless steel anklets for a soft summer look.' },
+      necklaces: { title: 'Women’s Stainless Steel Necklaces Morocco | ccjaouhara', desc: 'Elegant stainless steel necklaces and chains with sparkling crystal-style details. Refined craftsmanship.' },
       jewelry_sets: { title: 'Elegant Jewelry Sets Morocco | CCJAOUHARA', desc: 'Discover our elegant women\'s stainless steel jewelry sets, designed to complement sophisticated looks and special occasions.' },
     },
     header: {
@@ -148,7 +148,7 @@
       },
       descriptions: {
         all: 'Unlock standard sizes and stack delicate jewelry crafted under our rigorous heritage covenants. Filter below by custom materials, color tones, or price ranges.',
-        bracelets: 'Fine cuffs, luxurious bangles, and dainty link chain wrist assemblies, triple-plated in solid gold and sterling silver.',
+        bracelets: 'Fine cuffs, polished bangle bracelets, and delicate link chain wrist designs in stainless steel, made for everyday elegance.',
         rings: 'Exquisite diamond solitaires, timeless wedding bands, and custom-crafted stackable rings made for modern elegance.',
         earrings: 'Dazzling hoops, luxurious studs, and cascading Ethiopian chandelier droplets designed to capture the light of your movements.',
         anklets: 'Delicate double chains and crystalline figaro link anklets built for understated grace and all-day comfort.',
@@ -239,7 +239,7 @@
     finish: 'Finish:',
     collection: 'Collection:',
     style: 'Style:',
-    materialValue: 'Premium Stainless Steel',
+    materialValue: 'Material not specified',
     finishValue: 'Premium Polished',
     collectionValue: 'CCJaouhara Collection',
     styleValue: 'Timeless Elegance',
@@ -649,7 +649,7 @@
     values: {
       title: 'Our Values',
       items: [
-        { icon: 'Gem', title: 'Quality', desc: 'We use only premium materials — stainless steel with 18k gold plating — ensuring lasting beauty and durability.' },
+        { icon: 'Gem', title: 'Quality', desc: 'We use stainless steel for durability and lasting beauty, with a polished finish designed for everyday wear.' },
         { icon: 'Heart', title: 'Craftsmanship', desc: 'Every piece is carefully crafted by skilled artisans who pour their expertise and passion into each design.' },
         { icon: 'Shield', title: 'Trust', desc: 'We stand behind every piece with a lifetime quality guarantee and a commitment to your satisfaction.' },
         { icon: 'Globe', title: 'Accessibility', desc: 'We deliver across all Morocco with cash on delivery, making fine jewelry accessible to every woman.' },
@@ -704,7 +704,7 @@
       {
         outlet: 'L\'Officiel Maroc',
         title: 'ccjaouhara Dévoile sa Nouvelle Collection Printemps-Été 2026',
-        excerpt: 'Une collection inspirée par les couleurs et les textures du Maroc, mêlant l\'or, les pierres précieuses et un savoir-faire ancestral.',
+        excerpt: 'Une collection inspirée par les couleurs et les textures du Maroc, mêlant acier inoxydable, détails cristallins et savoir-faire ancestral.',
         url: '#',
         date: '2026-01-05',
       },
@@ -725,7 +725,7 @@
     items: [
       {
         q: 'What materials are your jewelry made of?',
-        a: 'Our jewelry is crafted from Premium Stainless Steel with 18k gold plating, ensuring durability, tarnish resistance, and a luxurious finish that lasts.',
+        a: 'Our jewelry is crafted from stainless steel, chosen for durability, easy care, and a polished finish that lasts.',
       },
       {
         q: 'Do you offer cash on delivery?',

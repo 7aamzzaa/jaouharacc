@@ -4,6 +4,7 @@ import { Product, Review } from '../types';
 import ProductRating from '../components/ProductRating';
 import ProductCard from '../components/ProductCard';
 import { useTranslation } from '../i18n';
+import { getLocalizedCategoryLabel, getProductLocalizedFields } from '../i18n/productTranslations';
 import { useCurrency } from '../CurrencyContext';
 
 const FAQAccordion = lazy(() => import('../components/FAQAccordion'));
@@ -40,7 +41,6 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
   const isFavorite = wishlist.includes(product?.id || '');
   const [addedMessage, setAddedMessage] = useState<boolean>(false);
   const [showShareModal, setShowShareModal] = useState(false);
-  const [translationsData, setTranslationsData] = useState<Record<string, any> | null>(null);
   const { t, lang, dir } = useTranslation();
 
   const [reviews, setReviews] = useState<Review[]>([]);
@@ -73,11 +73,17 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
 
   const totalReviews = reviews.length;
 
-  useEffect(() => {
-    import('../i18n/productTranslations').then(mod => {
-      setTranslationsData(mod.productTranslations);
-    });
-  }, []);
+  const localizedProduct = useMemo(
+    () => product
+      ? getProductLocalizedFields(product, lang)
+      : { name: '', description: '', material: '', color: '' },
+    [product, lang]
+  );
+  const getDisplayName = useCallback(
+    (p: Product) => getProductLocalizedFields(p, lang).name,
+    [lang]
+  );
+  const localizedCategory = product ? getLocalizedCategoryLabel(t, product.category) : '';
 
   // Load product: try slug first, then fall back to ID for backward compatibility
   useEffect(() => {
@@ -97,10 +103,15 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
     if (!product) return;
 
     const prevTitle = document.title;
-    const title = product.seoTitle || `${product.name} | CCJAOUHARA`;
+    const title = localizedProduct.name
+      ? `${localizedProduct.name} | CCJAOUHARA`
+      : product.seoTitle || `${product.name} | CCJAOUHARA`;
     document.title = title;
+    // The language provider also writes a generic title on lang changes; defer
+    // this product-specific title so it remains localized after that update.
+    const titleTimeoutId = window.setTimeout(() => { document.title = title; }, 0);
 
-    const metaDesc = product.metaDescription || product.description?.slice(0, 160) || '';
+    const metaDesc = localizedProduct.description?.slice(0, 160) || product.metaDescription || product.description?.slice(0, 160) || '';
     const url = typeof window !== 'undefined' ? window.location.origin + '/product/' + (product.slug || product.id) : '';
 
     // meta description
@@ -165,6 +176,7 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
     }
 
     return () => {
+      window.clearTimeout(titleTimeoutId);
       document.title = prevTitle;
 
       if (elDescription) {
@@ -196,7 +208,7 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
         }
       }
     };
-  }, [product]);
+  }, [product, localizedProduct]);
 
   // Save current product to recently viewed
   useEffect(() => {
@@ -289,12 +301,12 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
 
   const productSchema = useMemo(() => {
     if (!product) return null;
-    const desc = product.metaDescription || product.description || '';
+    const desc = localizedProduct.description || product.description || '';
     const availability = (product.stock ?? 0) > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock';
     return {
       '@context': 'https://schema.org',
       '@type': 'Product',
-      name: product.name,
+      name: localizedProduct.name || product.name,
       description: desc,
       image: product.images?.[0] || '',
       brand: { '@type': 'Brand', name: 'CCJaouhara' },
@@ -307,7 +319,7 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
         availability,
       },
     };
-  }, [product]);
+  }, [product, localizedProduct]);
 
   if (!product) {
     return (
@@ -319,8 +331,8 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
   }
 
   const isOutOfStock = product.stock === 0;
-  const productTranslation = translationsData?.[product.id]?.[lang];
-  const translatedDescription = productTranslation?.description || product.description;
+  const translatedName = localizedProduct.name || product.name;
+  const translatedDescription = localizedProduct.description || product.description;
 
   // Sizes array details
   const sizeOptions = [
@@ -368,7 +380,7 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
             <div className="zoom-frame aspect-square bg-stone-50 border border-champagne-100 rounded-lg overflow-hidden relative">
               <img
                 src={product.images[activeImageIndex] || product.images[0]}
-                alt={product.imageAltText || product.name}
+                alt={translatedName}
                 className="zoom-image object-cover w-full h-full"
               />
               {isOutOfStock && (
@@ -392,7 +404,7 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
                         : 'border-stone-200'
                     }`}
                   >
-                    <img src={imgUrl} loading="lazy" alt={product.imageAltText ? `${product.imageAltText} view ${idx + 1}` : `${product.name} view ${idx + 1}`} className="w-full h-full object-cover" />
+                    <img src={imgUrl} loading="lazy" alt={`${translatedName} view ${idx + 1}`} className="w-full h-full object-cover" />
                   </button>
                 ))}
               </div>
@@ -404,7 +416,7 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
             <div className="zoom-frame aspect-square bg-stone-50 border border-champagne-100 rounded-lg overflow-hidden relative">
               <img
                 src={product.images[activeImageIndex] || product.images[0]}
-                alt={product.imageAltText || product.name}
+                alt={translatedName}
                 className="zoom-image object-cover w-full h-full"
               />
               {isOutOfStock && (
@@ -428,7 +440,7 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
                         : 'border-stone-200 hover:border-stone-400'
                     }`}
                   >
-                    <img src={imgUrl} loading="lazy" alt={product.imageAltText ? `${product.imageAltText} view ${idx + 1}` : `${product.name} view ${idx + 1}`} className="w-full h-full object-cover" />
+                    <img src={imgUrl} loading="lazy" alt={`${translatedName} view ${idx + 1}`} className="w-full h-full object-cover" />
                   </button>
                 ))}
               </div>
@@ -452,12 +464,12 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
                       type="button"
                       onClick={() => handleViewRelated(rec.id)}
                       className="cursor-pointer text-left group bg-white border border-stone-100 rounded-sm overflow-hidden transition-colors hover:border-champagne-300 focus:outline-hidden focus-visible:outline-2 focus-visible:outline-champagne-500 flex flex-col"
-                      aria-label={t('productDetail.viewLookItem', { name: rec.name })}
+                      aria-label={t('productDetail.viewLookItem', { name: getDisplayName(rec) })}
                     >
                       <div className="aspect-square bg-[#FFF9F8] overflow-hidden">
                         <img
                           src={rec.images[0]}
-                          alt={rec.imageAltText || rec.name}
+                          alt={getDisplayName(rec)}
                           loading="lazy"
                           referrerPolicy="no-referrer"
                           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
@@ -470,10 +482,10 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
                       </div>
                       <div className="p-3 space-y-1.5 flex flex-col flex-1">
                         <span className="text-[9px] tracking-widest uppercase font-medium text-champagne-500">
-                          {t(`common.categories.${rec.category}.name`)}
+                          {getLocalizedCategoryLabel(t, rec.category)}
                         </span>
                         <p className="font-serif text-sm text-stone-800 font-semibold line-clamp-1 group-hover:text-champagne-500 transition-colors">
-                          {rec.name}
+                          {getDisplayName(rec)}
                         </p>
                         <div className="mt-auto pt-1">
                           <ProductRating rating={rec.rating} reviewsCount={rec.reviews} compact />
@@ -577,13 +589,13 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
           {/* Mobile Header Info (below 640px) — reordered: category, rating, name, price, green In Stock */}
           <div className="sm:hidden pb-6 border-b border-champagne-100 flex flex-col gap-3 max-lg:order-2">
             <span className="text-xs tracking-[0.25em] uppercase text-champagne-600 font-semibold font-sans">
-              {product.category}
+              {localizedCategory}
             </span>
             <div>
               <ProductRating rating={product.rating} reviewsCount={product.reviews} size={14} />
             </div>
             <h1 className="font-serif text-3xl text-stone-950 font-medium leading-tight">
-              {product.name}
+              {translatedName}
             </h1>
             <div className="flex items-center justify-between pt-0.5">
                 <p className="font-serif text-2xl text-stone-900 font-medium font-bold">
@@ -615,7 +627,7 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
           <div className="hidden sm:block space-y-3 pb-6 border-b border-champagne-100 max-lg:order-2">
             <div className="flex justify-between items-center">
               <span className="text-xs tracking-[0.25em] uppercase text-champagne-600 font-semibold font-sans">
-                {product.category}
+                {localizedCategory}
               </span>
               {isOutOfStock ? (
                 <span className="text-[10px] uppercase font-mono tracking-wider font-semibold text-stone-500 bg-stone-100 px-2 py-1 rounded-sm">
@@ -629,7 +641,7 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
             </div>
             
             <h1 className="font-serif text-3xl sm:text-4xl text-stone-950 font-medium leading-tight">
-              {product.name}
+              {translatedName}
             </h1>
             
             <div className="mt-2">
@@ -872,11 +884,11 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
             <div className="grid grid-cols-2 gap-y-3 gap-x-6 text-xs font-sans">
               <div className="flex justify-between border-b border-stone-50 pb-1.5">
                 <span className="text-stone-400">{t('productDetail.material')}</span>
-                <span className="text-stone-700 font-medium">{t('productDetail.materialValue')}</span>
+                <span className="text-stone-700 font-medium">{localizedProduct.material || t('productDetail.materialValue')}</span>
               </div>
               <div className="flex justify-between border-b border-stone-50 pb-1.5">
                 <span className="text-stone-400">{t('productDetail.finish')}</span>
-                <span className="text-stone-700 font-medium">{t('productDetail.finishValue')}</span>
+                <span className="text-stone-700 font-medium">{localizedProduct.color || t('productDetail.finishValue')}</span>
               </div>
               <div className="flex justify-between border-b border-stone-50 pb-1.5">
                 <span className="text-stone-400">{t('productDetail.collection')}</span>
@@ -1106,7 +1118,7 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
         <ShareModal
           isOpen={showShareModal}
           onClose={() => setShowShareModal(false)}
-          productName={product.name}
+          productName={translatedName}
           productUrl={typeof window !== 'undefined' ? window.location.href : ''}
         />
       </Suspense>
