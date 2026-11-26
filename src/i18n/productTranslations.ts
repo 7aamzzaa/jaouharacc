@@ -8,23 +8,39 @@ export interface ProductTranslation {
   color: string;
 }
 
-/** Customer-facing copy must never claim unsupported precious metals. */
-const PROHIBITED_CLAIM_PATTERNS: Record<Lang, RegExp[]> = {
-  en: [/\bgold[- ]plated\b/gi, /\bgold[- ]tone\b/gi, /\bgold\b/gi, /\bgolden\b/gi, /\b14k\b/gi, /\b18k\b/gi],
-  fr: [/\bplaqu[ée]\s+or\b/gi, /\bdor[ée]s?\b/gi, /\bor\s+18\s*carats?\b/gi, /\bor\s+14\s*carats?\b/gi, /\bor\b/gi],
-  ar: [
-    /\u0645\u0637\u0644\u064a \u0628\u0627\u0644\u0630\u0647\u0628/g,
-    /\u0628\u0627\u0644\u0630\u0647\u0628/g,
-    /\u0627\u0644\u0630\u0647\u0628\u064a\u0629/g,
-    /\u0627\u0644\u0630\u0647\u0628\u064a/g,
-    /\u0630\u0647\u0628\u064a\u0629/g,
-    /\u0630\u0647\u0628\u064a/g,
-    /\u0627\u0644\u0630\u0647\u0628/g,
-    /\u0630\u0647\u0628/g,
-    /عيار\s*14/g,
-    /عيار\s*18/g,
-  ],
-};
+/**
+ * Customer-facing copy must never claim unsupported precious metals.
+ * Source records can be French even when AR/EN is active, so every pattern is
+ * applied to every value regardless of the selected UI language.
+ */
+const PROHIBITED_CLAIM_PATTERNS: Array<[RegExp, string]> = [
+  // English plating / karat claims.
+  [/\bgold[\s-]*(?:plated|tone|filled|vermeil)\b/gi, ' '],
+  [/\bgold\b/gi, ' '],
+  [/\bgolden\b/gi, ' '],
+  [/\b(?:14|18)[\s-]*(?:k|kt|carats?)\b/gi, ' '],
+  // French plating, gold-color and karat claims, including feminine forms.
+  [/\bplaqu(?:é|ée|és|ées)\s+or\b/gi, ' '],
+  [/\bplaque\s+or\b/gi, ' '],
+  [/\bor[\s-]*(?:14|18)[\s-]*(?:carats?|k|kt)\b/gi, ' '],
+  [/\bor\s+(?:massif|fin|rose|jaune|blanc)\b/gi, ' '],
+  [/\b(Collier|Bracelet|Bague|Chaîne|Chaine|Pendentif|Parure|Boucles?|Chevil(?:le|lière))\s+Or\b/g, '$1'],
+  [/\b(collier|bracelet|bague|chaîne|chaine|pendentif|parure|boucles?|chevil(?:le|lière))\s+or\b(?=\s*[.,;:]?\s*$)/gi, '$1'],
+  [/\bdoré(?:e|s|es)?(?!\w)/gi, ' '],
+  [/\bdore(?:e|s|es)?(?!\w)/gi, ' '],
+  // Arabic gold, gilding and karat claims.
+  [/مطلية بالذهب/g, ' '],
+  [/مطلي بالذهب/g, ' '],
+  [/بالذهب/g, ' '],
+  [/الذهبية/g, ' '],
+  [/الذهبي/g, ' '],
+  [/ذهبية/g, ' '],
+  [/ذهبي/g, ' '],
+  [/الذهب/g, ' '],
+  [/ذهب/g, ' '],
+  [/مذهّ?بة?/g, ' '],
+  [/عيار\s*(?:14|18)/g, ' '],
+];
 
 const NEUTRAL_FALLBACK: Record<Lang, ProductTranslation> = {
   en: {
@@ -47,10 +63,15 @@ const NEUTRAL_FALLBACK: Record<Lang, ProductTranslation> = {
   },
 };
 
-function stripProhibitedClaims(value: string | undefined, lang: Lang): string {
+function stripProhibitedClaims(value: string | undefined, _lang: Lang): string {
   if (typeof value !== 'string') return '';
   let cleaned = value;
-  for (const pattern of PROHIBITED_CLAIM_PATTERNS[lang]) cleaned = cleaned.replace(pattern, ' ');
+  for (const [pattern, replacement] of PROHIBITED_CLAIM_PATTERNS) {
+    pattern.lastIndex = 0;
+    cleaned = cleaned.replace(pattern, replacement);
+  }
+  // Standalone French "or" means gold; keep English "or" inside phrases.
+  if (/^\s*or\s*$/i.test(cleaned)) return '';
   return cleaned.replace(/\s+/g, ' ').trim();
 }
 
