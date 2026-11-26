@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { Product } from '../../types';
 import { useTranslation } from '../../i18n';
+import { productMatchesQuery } from '../../i18n/productTranslations';
 import SearchInput from './SearchInput';
 import SearchResults from './SearchResults';
 
@@ -11,17 +12,8 @@ interface SearchModalProps {
   onSelectProduct: (productId: string) => void;
 }
 
-function matchesQuery(product: Product, query: string): boolean {
-  const q = query.toLowerCase();
-  return (
-    product.name.toLowerCase().includes(q) ||
-    product.category.toLowerCase().includes(q) ||
-    product.description.toLowerCase().includes(q)
-  );
-}
-
 export default function SearchModal({ isOpen, onClose, products, onSelectProduct }: SearchModalProps) {
-  const { t } = useTranslation();
+  const { t, lang } = useTranslation();
   const [query, setQuery] = useState('');
   const panelRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
@@ -86,8 +78,8 @@ export default function SearchModal({ isOpen, onClose, products, onSelectProduct
   }, [isOpen, onClose]);
 
   const results = useMemo(
-    () => products.filter((p) => matchesQuery(p, query)),
-    [products, query]
+    () => products.filter((p) => productMatchesQuery(p, query, lang)),
+    [products, query, lang]
   );
 
   const handleSelect = (productId: string) => {

@@ -4,6 +4,7 @@ import { Filter, Eye, SlidersHorizontal, Grid3X3, ArrowUpDown, RefreshCw } from 
 import { motion, AnimatePresence } from 'motion/react';
 import { Product } from '../types';
 import ProductCard from '../components/ProductCard';
+import { getProductLocalizedFields } from '../i18n/productTranslations';
 
 interface ShopProps {
   products: Product[];
@@ -26,7 +27,7 @@ export default function Shop({
   wishlist,
   onToggleWishlist,
 }: ShopProps) {
-  const { t } = useTranslation();
+  const { t, lang } = useTranslation();
 
   // Filters State
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
@@ -77,11 +78,15 @@ export default function Shop({
     } else if (sortBy === 'price-desc') {
       list.sort((a, b) => b.price - a.price);
     } else if (sortBy === 'name-asc') {
-      list.sort((a, b) => a.name.localeCompare(b.name));
+      const collator = new Intl.Collator(lang);
+      list.sort((a, b) => collator.compare(
+        getProductLocalizedFields(a, lang).name,
+        getProductLocalizedFields(b, lang).name
+      ));
     }
 
     return list;
-  }, [products, selectedCategory, sortBy]);
+  }, [products, selectedCategory, sortBy, lang]);
 
   const handleResetFilters = () => {
     setSelectedCategory('All');

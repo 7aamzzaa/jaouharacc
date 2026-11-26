@@ -1,4 +1,4 @@
-﻿import React, { memo, useCallback, useState } from 'react';
+﻿import React, { memo, useCallback, useMemo, useState } from 'react';
 import { Eye, Handbag, Heart, Share2, ShoppingBag } from 'lucide-react';
 import { Product } from '../types';
 import LazyImage from './LazyImage';
@@ -6,6 +6,7 @@ import ProductRating from './ProductRating';
 import { useTranslation } from '../i18n';
 import { useCurrency } from '../CurrencyContext';
 import { getOriginalPrice } from '../data/originalPrices';
+import { getLocalizedCategoryLabel, getProductLocalizedFields } from '../i18n/productTranslations';
 import ShareModal from './ShareModal';
 
 interface ProductCardProps {
@@ -20,8 +21,10 @@ interface ProductCardProps {
 }
 
 const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToCartDirect, wishlist, onToggleWishlist, compact = false, priority = false }: ProductCardProps) {
-  const { t } = useTranslation();
+  const { t, lang } = useTranslation();
   const { formatPrice } = useCurrency();
+  const localized = useMemo(() => getProductLocalizedFields(product, lang), [product, lang]);
+  const categoryLabel = getLocalizedCategoryLabel(t, product.category);
   const [showShareModal, setShowShareModal] = useState(false);
   const isOutOfStock = product.stock === 0;
   const originalPrice = getOriginalPrice(product.id, product.price);
@@ -46,7 +49,7 @@ const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToC
       >
         <LazyImage
           src={product.images[0]}
-          alt={product.imageAltText || product.name}
+          alt={localized.name}
           className="zoom-image h-full w-full object-cover"
           loading={priority ? 'eager' : 'lazy'}
           fetchPriority={priority ? 'high' : 'auto'}
@@ -115,14 +118,14 @@ const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToC
       <div className="flex flex-1 flex-col items-start px-0.5 pb-0 pt-2 sm:p-5">
         <div className="w-full space-y-1">
           <span className="hidden text-[10px] tracking-widest uppercase font-medium text-champagne-500 sm:inline">
-            {product.category}
+            {categoryLabel}
           </span>
 
           <button
             onClick={() => onViewDetails(product.id)}
             className={`cursor-pointer line-clamp-2 min-h-[32px] w-full break-words text-start font-serif font-semibold leading-[16px] text-stone-800 transition-colors group-hover:text-champagne-500 focus:outline-hidden sm:min-h-0 sm:line-clamp-1 sm:leading-normal ${compact ? 'text-[12px] sm:text-sm' : 'text-[13px] sm:text-base'}`}
           >
-            {product.name}
+            {localized.name}
           </button>
 
           <div className="mt-1.5 hidden sm:block">
@@ -155,7 +158,7 @@ const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToC
       <ShareModal
         isOpen={showShareModal}
         onClose={() => setShowShareModal(false)}
-        productName={product.name}
+        productName={localized.name}
         productUrl={typeof window !== 'undefined' ? `${window.location.origin}/product/${product.slug || product.id}` : ''}
       />
 
