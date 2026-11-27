@@ -122,15 +122,18 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
     if (!product) return;
 
     const prevTitle = document.title;
-    const title = localizedProduct.name
-      ? `${localizedProduct.name} | CCJAOUHARA`
-      : product.seoTitle || `${product.name} | CCJAOUHARA`;
+    const title = localizedProduct.seoTitle
+      || (localizedProduct.name ? `${localizedProduct.name} | CCJAOUHARA` : product.seoTitle || `${product.name} | CCJAOUHARA`);
     document.title = title;
     // The language provider also writes a generic title on lang changes; defer
     // this product-specific title so it remains localized after that update.
     const titleTimeoutId = window.setTimeout(() => { document.title = title; }, 0);
 
-    const metaDesc = localizedProduct.description?.slice(0, 160) || product.metaDescription || product.description?.slice(0, 160) || '';
+    const metaDesc = localizedProduct.metaDescription
+      || localizedProduct.description?.slice(0, 160)
+      || product.metaDescription
+      || product.description?.slice(0, 160)
+      || '';
     const url = typeof window !== 'undefined' ? window.location.origin + '/product/' + (product.slug || product.id) : '';
 
     // meta description
@@ -355,6 +358,7 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
 
   const translatedName = localizedProduct.name || product.name;
   const translatedDescription = localizedProduct.description || product.description;
+  const primaryImageAlt = localizedProduct.imageAltText || translatedName;
 
   // Sizes array details (legacy products without variants)
   const sizeOptions = [
@@ -478,7 +482,7 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
             <div className="zoom-frame aspect-square bg-stone-50 border border-champagne-100 rounded-lg overflow-hidden relative">
               <img
                 src={galleryImages[activeImageIndex] || galleryImages[0]}
-                alt={translatedName}
+                alt={primaryImageAlt}
                 className="zoom-image object-cover w-full h-full"
               />
               {isOutOfStock && (
@@ -502,7 +506,7 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
                         : 'border-stone-200'
                     }`}
                   >
-                    <img src={imgUrl} loading="lazy" alt={`${translatedName} view ${idx + 1}`} className="w-full h-full object-cover" />
+                    <img src={imgUrl} loading="lazy" alt={`${primaryImageAlt} view ${idx + 1}`} className="w-full h-full object-cover" />
                   </button>
                 ))}
               </div>
@@ -514,7 +518,7 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
             <div className="zoom-frame aspect-square bg-stone-50 border border-champagne-100 rounded-lg overflow-hidden relative">
               <img
                 src={galleryImages[activeImageIndex] || galleryImages[0]}
-                alt={translatedName}
+                alt={primaryImageAlt}
                 className="zoom-image object-cover w-full h-full"
               />
               {isOutOfStock && (
@@ -538,7 +542,7 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
                         : 'border-stone-200 hover:border-stone-400'
                     }`}
                   >
-                    <img src={imgUrl} loading="lazy" alt={`${translatedName} view ${idx + 1}`} className="w-full h-full object-cover" />
+                    <img src={imgUrl} loading="lazy" alt={`${primaryImageAlt} view ${idx + 1}`} className="w-full h-full object-cover" />
                   </button>
                 ))}
               </div>
@@ -708,14 +712,7 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
               </button>
             </div>
             <div className="pt-0.5 space-y-1">
-              {availabilityToConfirm ? (
-                <>
-                  <span className="inline-flex items-center text-[10px] uppercase font-mono tracking-wider font-semibold text-champagne-700 bg-champagne-50 px-2 py-1 rounded-sm">
-                    {t('productDetail.availabilityToConfirm')}
-                  </span>
-                  <p className="text-[10px] text-stone-400 font-sans">{t('productDetail.availabilityToConfirmNote')}</p>
-                </>
-              ) : isOutOfStock ? (
+              {!availabilityToConfirm && (isOutOfStock ? (
                 <span className="inline-flex items-center text-[10px] uppercase font-mono tracking-wider font-semibold text-stone-500 bg-stone-100 px-2 py-1 rounded-sm">
                   {t('productDetail.soldOut')}
                 </span>
@@ -724,7 +721,7 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
                   {t('productDetail.inStock', { count: product.stock })}
                 </span>
-              )}
+              ))}
             </div>
           </div>
 
@@ -734,11 +731,7 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
               <span className="text-xs tracking-[0.25em] uppercase text-champagne-600 font-semibold font-sans">
                 {localizedCategory}
               </span>
-              {availabilityToConfirm ? (
-                <span className="text-[10px] uppercase font-mono tracking-wider font-semibold text-champagne-700 bg-champagne-50 px-2 py-1 rounded-sm">
-                  {t('productDetail.availabilityToConfirm')}
-                </span>
-              ) : isOutOfStock ? (
+              {!availabilityToConfirm && (isOutOfStock ? (
                 <span className="text-[10px] uppercase font-mono tracking-wider font-semibold text-stone-500 bg-stone-100 px-2 py-1 rounded-sm">
                   {t('productDetail.soldOut')}
                 </span>
@@ -746,11 +739,8 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
                 <span className="text-[10px] uppercase font-mono tracking-wider font-semibold text-stone-400 bg-stone-100 px-2 py-1 rounded-sm">
                   {t('productDetail.inStock', { count: product.stock })}
                 </span>
-              )}
+              ))}
             </div>
-            {availabilityToConfirm && (
-              <p className="text-[10px] text-stone-400 font-sans">{t('productDetail.availabilityToConfirmNote')}</p>
-            )}
             
             <h1 className="font-serif text-3xl sm:text-4xl text-stone-950 font-medium leading-tight">
               {translatedName}

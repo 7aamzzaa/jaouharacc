@@ -184,9 +184,6 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
                       <span>{t('cart.size')} <strong className="text-stone-700">{item.selected_size}</strong></span>
                     )}
                     <span>{t('cart.itemPrice')} <strong className="text-stone-700">{formatPrice(item.price)}</strong></span>
-                    {item.availability_to_confirm && (
-                      <span className="text-champagne-700">{t('cart.availabilityToConfirm')}</span>
-                    )}
                   </div>
 
                 </div>

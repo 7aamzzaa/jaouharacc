@@ -229,8 +229,6 @@
     variantHeading: 'Choisissez votre variante',
     finishHeading: 'Finition (aspect visuel)',
     accentHeading: 'Couleur de l\u2019accent',
-    availabilityToConfirm: 'Disponibilité à confirmer',
-    availabilityToConfirmNote: "Envoyez une demande de commande. Le vendeur confirmera la disponibilité avant d’accepter la commande.",
     variantNote: 'Les noms de finition et de couleur d\u00e9crivent uniquement l\u2019apparence. Aucune teneur en m\u00e9tal pr\u00e9cieux ou en pierre n\u2019est revendiqu\u00e9e.',
     variantSelected: 'S\u00e9lection : {label}',
     finishLabel: {
@@ -373,7 +371,6 @@
     remove: 'Retirer le produit',
     size: 'Taille :',
     variant: 'Variante :',
-    availabilityToConfirm: 'Disponibilit\u00e9 \u00e0 confirmer',
     itemPrice: 'Prix :',
     reduceQty: 'R\u00e9duire la quantit\u00e9',
     increaseQty: 'Augmenter la quantit\u00e9',
