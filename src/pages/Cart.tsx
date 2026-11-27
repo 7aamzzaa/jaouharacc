@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react';
 import { Trash2, ShoppingBag, ArrowLeft, ArrowRight, ShieldCheck, RefreshCw, Minus, Plus } from 'lucide-react';
 import { CartItem } from '../types';
 import { useTranslation } from '../i18n';
+import { getVariantLabelFromFields } from '../i18n/variantLabels';
 import { useCurrency } from '../CurrencyContext';
 
 interface CartProps {
@@ -80,7 +81,13 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
           items: cart.map((item) => ({
             product_id: item.product_id,
             quantity: item.quantity,
-            selected_size: item.selected_size
+            selected_size: item.selected_size,
+            variant_id: item.variant_id,
+            variant_sku: item.variant_sku,
+            variant_finish: item.variant_finish,
+            variant_color: item.variant_color,
+            variant_label: item.variant_label,
+            availability_to_confirm: item.availability_to_confirm
           })),
         })
       });
@@ -171,8 +178,15 @@ export default function Cart({ cart, onUpdateQuantity, onRemoveItem, onPageChang
                   </div>
                   
                   <div className="flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-stone-450">
-                    <span>{t('cart.size')} <strong className="text-stone-700">{item.selected_size}</strong></span>
+                    {getVariantLabelFromFields(item, t) ? (
+                      <span>{t('cart.variant')} <strong className="text-stone-700">{getVariantLabelFromFields(item, t)}</strong></span>
+                    ) : (
+                      <span>{t('cart.size')} <strong className="text-stone-700">{item.selected_size}</strong></span>
+                    )}
                     <span>{t('cart.itemPrice')} <strong className="text-stone-700">{formatPrice(item.price)}</strong></span>
+                    {item.availability_to_confirm && (
+                      <span className="text-champagne-700">{t('cart.availabilityToConfirm')}</span>
+                    )}
                   </div>
 
                 </div>

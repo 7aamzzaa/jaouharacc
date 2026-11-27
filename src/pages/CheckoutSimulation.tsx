@@ -97,7 +97,13 @@ export default function CheckoutSimulation({ onPageChange, onClearCart }: Checko
             price: item.price,
             quantity: item.quantity,
             selected_size: item.selected_size,
-            image: item.image
+            image: item.image,
+            variant_id: item.variant_id,
+            variant_sku: item.variant_sku,
+            variant_finish: item.variant_finish,
+            variant_color: item.variant_color,
+            variant_label: item.variant_label,
+            availability_to_confirm: item.availability_to_confirm
           })),
           total: total
         })

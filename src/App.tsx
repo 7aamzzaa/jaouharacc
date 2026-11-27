@@ -2,8 +2,10 @@ import { useState, useEffect, memo, Suspense, lazy } from 'react';
 import { Routes, Route, useNavigate, useLocation, useSearchParams, useParams } from 'react-router-dom';
 import { ShoppingBag, ArrowRight, ArrowLeft, X, ShieldCheck, Gem, Heart } from 'lucide-react';
 
-import { Product, CartItem } from './types';
+import { Product, CartItem, ProductVariant } from './types';
 import { useTranslation } from './i18n';
+import { getMaxQuantity, isAvailabilityToConfirm, resolveVariantOrDefault } from './data/productOptions';
+import { getVariantLabel, getVariantLabelFromFields } from './i18n/variantLabels';
 import { CurrencyProvider, useCurrency } from './CurrencyContext';
 import MobileBottomNav from './components/MobileBottomNav';
 import ToastContainer, { showToast } from './components/ToastContainer';
@@ -123,13 +125,20 @@ export default function App() {
     fetchProductsList();
   }, []);
 
-  const handleAddToCart = (product: Product, quantity: number, size: string) => {
-    const compositeId = `${product.id}-${size}`;
+  const handleAddToCart = (product: Product, quantity: number, size: string, variant?: ProductVariant) => {
+    const selectedVariant = resolveVariantOrDefault(product, variant?.id);
+    const compositeId = selectedVariant
+      ? `${product.id}::${selectedVariant.id}`
+      : `${product.id}-${size}`;
+    const maxStock = getMaxQuantity(product);
+    const image = selectedVariant?.images?.[0] || product.images[0];
+    const variantLabel = getVariantLabel(selectedVariant, t);
+
     setCart((prev) => {
       const index = prev.findIndex((item) => item.id === compositeId);
       if (index !== -1) {
         const nextCart = [...prev];
-        nextCart[index].quantity = Math.min(product.stock, nextCart[index].quantity + quantity);
+        nextCart[index].quantity = Math.min(maxStock, nextCart[index].quantity + quantity);
         return nextCart;
       } else {
         return [
@@ -140,9 +149,15 @@ export default function App() {
             name: product.name,
             price: product.price,
             quantity: quantity,
-            selected_size: size,
-            image: product.images[0],
-            max_stock: product.stock
+            selected_size: selectedVariant ? '' : size,
+            image,
+            max_stock: maxStock,
+            variant_id: selectedVariant?.id,
+            variant_sku: selectedVariant?.sku,
+            variant_finish: selectedVariant?.finish,
+            variant_color: selectedVariant?.color,
+            variant_label: variantLabel || undefined,
+            availability_to_confirm: isAvailabilityToConfirm(product) || undefined
           }
         ];
       }
@@ -152,7 +167,7 @@ export default function App() {
   };
 
   const handleQuickAdd = (product: Product, size: string) => {
-    handleAddToCart(product, 1, size);
+    handleAddToCart(product, 1, size, resolveVariantOrDefault(product));
   };
 
   const handleUpdateCartQuantity = (id: string, newQty: number) => {
@@ -338,7 +353,7 @@ export default function App() {
                       <div className="flex-1 space-y-1">
                         <span className="font-serif text-xs font-semibold text-stone-900 block line-clamp-1">{item.name}</span>
                         <div className="flex justify-between items-baseline text-[10px] text-stone-400">
-                          <span>{t('cart.qtyLabel', { qty: item.quantity })} \u2022 {item.selected_size.split(' ')[0]}</span>
+                          <span>{t('cart.qtyLabel', { qty: item.quantity })} \u2022 {getVariantLabelFromFields(item, t) || item.selected_size.split(' ')[0]}</span>
                           <span className="font-serif font-semibold text-stone-900">
                             {formatPrice(item.price * item.quantity)}
                           </span>

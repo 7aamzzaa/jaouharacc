@@ -932,5 +932,136 @@ export const defaultProducts: Product[] = [
       "bracelet manchette doré ajouré",
       "bijoux femme arabesques filigrane"
     ]
+  },
+  {
+    "id": "CCJ-NEC-CYGNE",
+    "name": "Swan Necklace with Accent Colours",
+    "description": "A swan-inspired stainless steel necklace with selectable visual finishes and accent colours. Availability is confirmed by the seller after your order request.",
+    "price": 79,
+    "images": [
+      "/images/products/necklaces/CCJ-NEC-CYGNE/00-GOLD-PURPLE/01-white.webp",
+      "/images/products/necklaces/CCJ-NEC-CYGNE/00-GOLD-PURPLE/02-detail.webp",
+      "/images/products/necklaces/CCJ-NEC-CYGNE/00-GOLD-PURPLE/03-emerald.webp"
+    ],
+    "stock": 0,
+    "inventory_policy": "availability_to_confirm",
+    "category": "necklaces",
+    "material": "Stainless steel",
+    "color": "Visual metallic finish with coloured accents",
+    "seoTitle": "Swan Necklace with Accent Colours | CCJAOUHARA",
+    "metaDescription": "A stainless steel swan necklace with eight visual finish and accent colour options. Availability is confirmed after your request.",
+    "slug": "swan-necklace-accent-colours",
+    "imageAltText": "Swan-inspired stainless steel necklace with accent colours",
+    "tags": [
+      "CCJ-NEC-CYGNE",
+      "swan necklace",
+      "stainless-steel",
+      "availability-to-confirm",
+      "variant",
+      "gold-finish-look",
+      "silver-finish-look",
+      "purple-accent",
+      "pink-accent",
+      "white-accent",
+      "black-accent"
+    ],
+    "primaryKeyword": "swan necklace stainless steel",
+    "secondaryKeywords": [
+      "availability to confirm swan necklace",
+      "stainless steel necklace coloured accents",
+      "visual metallic finish necklace",
+      "collier cygne acier inoxydable",
+      "قلادة البجعة الفولاذ المقاوم للصدأ"
+    ],
+    "variants": [
+      {
+        "id": "00-GOLD-PURPLE",
+        "sku": "CCJ-NEC-CYGNE-00-GOLD-PURPLE",
+        "finish": "GOLD",
+        "color": "PURPLE",
+        "images": [
+          "/images/products/necklaces/CCJ-NEC-CYGNE/00-GOLD-PURPLE/01-white.webp",
+          "/images/products/necklaces/CCJ-NEC-CYGNE/00-GOLD-PURPLE/02-detail.webp",
+          "/images/products/necklaces/CCJ-NEC-CYGNE/00-GOLD-PURPLE/03-emerald.webp"
+        ]
+      },
+      {
+        "id": "01-GOLD-PINK",
+        "sku": "CCJ-NEC-CYGNE-01-GOLD-PINK",
+        "finish": "GOLD",
+        "color": "PINK",
+        "images": [
+          "/images/products/necklaces/CCJ-NEC-CYGNE/01-GOLD-PINK/01-white.webp",
+          "/images/products/necklaces/CCJ-NEC-CYGNE/01-GOLD-PINK/02-detail.webp",
+          "/images/products/necklaces/CCJ-NEC-CYGNE/01-GOLD-PINK/03-emerald.webp"
+        ]
+      },
+      {
+        "id": "02-GOLD-WHITE",
+        "sku": "CCJ-NEC-CYGNE-02-GOLD-WHITE",
+        "finish": "GOLD",
+        "color": "WHITE",
+        "images": [
+          "/images/products/necklaces/CCJ-NEC-CYGNE/02-GOLD-WHITE/01-white.webp",
+          "/images/products/necklaces/CCJ-NEC-CYGNE/02-GOLD-WHITE/02-detail.webp",
+          "/images/products/necklaces/CCJ-NEC-CYGNE/02-GOLD-WHITE/03-emerald.webp"
+        ]
+      },
+      {
+        "id": "03-GOLD-BLACK",
+        "sku": "CCJ-NEC-CYGNE-03-GOLD-BLACK",
+        "finish": "GOLD",
+        "color": "BLACK",
+        "images": [
+          "/images/products/necklaces/CCJ-NEC-CYGNE/03-GOLD-BLACK/01-white.webp",
+          "/images/products/necklaces/CCJ-NEC-CYGNE/03-GOLD-BLACK/02-detail.webp",
+          "/images/products/necklaces/CCJ-NEC-CYGNE/03-GOLD-BLACK/03-emerald.webp"
+        ]
+      },
+      {
+        "id": "04-SILVER-WHITE",
+        "sku": "CCJ-NEC-CYGNE-04-SILVER-WHITE",
+        "finish": "SILVER",
+        "color": "WHITE",
+        "images": [
+          "/images/products/necklaces/CCJ-NEC-CYGNE/04-SILVER-WHITE/01-white.webp",
+          "/images/products/necklaces/CCJ-NEC-CYGNE/04-SILVER-WHITE/02-detail.webp",
+          "/images/products/necklaces/CCJ-NEC-CYGNE/04-SILVER-WHITE/03-emerald.webp"
+        ]
+      },
+      {
+        "id": "05-SILVER-BLACK",
+        "sku": "CCJ-NEC-CYGNE-05-SILVER-BLACK",
+        "finish": "SILVER",
+        "color": "BLACK",
+        "images": [
+          "/images/products/necklaces/CCJ-NEC-CYGNE/05-SILVER-BLACK/01-white.webp",
+          "/images/products/necklaces/CCJ-NEC-CYGNE/05-SILVER-BLACK/02-detail.webp",
+          "/images/products/necklaces/CCJ-NEC-CYGNE/05-SILVER-BLACK/03-emerald.webp"
+        ]
+      },
+      {
+        "id": "06-SILVER-PURPLE",
+        "sku": "CCJ-NEC-CYGNE-06-SILVER-PURPLE",
+        "finish": "SILVER",
+        "color": "PURPLE",
+        "images": [
+          "/images/products/necklaces/CCJ-NEC-CYGNE/06-SILVER-PURPLE/01-white.webp",
+          "/images/products/necklaces/CCJ-NEC-CYGNE/06-SILVER-PURPLE/02-detail.webp",
+          "/images/products/necklaces/CCJ-NEC-CYGNE/06-SILVER-PURPLE/03-emerald.webp"
+        ]
+      },
+      {
+        "id": "07-SILVER-PINK",
+        "sku": "CCJ-NEC-CYGNE-07-SILVER-PINK",
+        "finish": "SILVER",
+        "color": "PINK",
+        "images": [
+          "/images/products/necklaces/CCJ-NEC-CYGNE/07-SILVER-PINK/01-white.webp",
+          "/images/products/necklaces/CCJ-NEC-CYGNE/07-SILVER-PINK/02-detail.webp",
+          "/images/products/necklaces/CCJ-NEC-CYGNE/07-SILVER-PINK/03-emerald.webp"
+        ]
+      }
+    ]
   }
 ];

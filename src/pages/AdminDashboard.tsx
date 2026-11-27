@@ -6,6 +6,8 @@ import {
   Layers, Hammer, Archive, Sparkles, RefreshCw, X, Loader2, LogOut, Lock, Upload, Mail, Check, AlertTriangle, Star, Menu, Package, MessageSquare
 } from 'lucide-react';
 import { Product, Order, ContactMessage, Subscriber, Review } from '../types';
+import { isAvailabilityToConfirm } from '../data/productOptions';
+import { getVariantLabelFromFields } from '../i18n/variantLabels';
 import { showToast } from '../components/ToastContainer';
 
 interface AdminDashboardProps {
@@ -409,7 +411,9 @@ export default function AdminDashboard({
       imageAltText: formImageAltText || undefined,
       tags: formTags.length > 0 ? formTags : undefined,
       primaryKeyword: formPrimaryKeyword.trim() || undefined,
-      secondaryKeywords: formSecondaryKeywords.length > 0 ? formSecondaryKeywords : undefined
+      secondaryKeywords: formSecondaryKeywords.length > 0 ? formSecondaryKeywords : undefined,
+      variants: editingProduct?.variants,
+      inventory_policy: editingProduct?.inventory_policy
     };
 
     try {
@@ -625,9 +629,19 @@ export default function AdminDashboard({
     }
   };
 
+  const orderStatusLabels: Record<string, string> = {
+    pending: t('admin.ordersTable.pending'),
+    awaiting_availability: t('admin.ordersTable.awaiting_availability'),
+    confirmed: t('admin.ordersTable.confirmed'),
+    shipped: t('admin.ordersTable.shipped'),
+    delivered: t('admin.ordersTable.delivered'),
+    cancelled: t('admin.ordersTable.cancelled'),
+  };
+
   // Calculations for KPI boards
   const stats = useMemo(() => {
-    const totalRev = orders.reduce((sum, o) => o.status !== 'cancelled' ? sum + o.total : sum, 0);
+    const totalRev = orders.reduce((sum, o) =>
+      o.status !== 'cancelled' && o.status !== 'awaiting_availability' ? sum + o.total : sum, 0);
     const itemsCircu = products.reduce((sum, p) => sum + p.stock, 0);
     return {
       grossSales: totalRev,
@@ -1418,9 +1432,13 @@ export default function AdminDashboard({
                         </td>
                         <td className="p-4 text-stone-600 font-medium">{p.material || '—'}</td>
                         <td className="p-4 font-mono font-medium">
-                          <span className={isLowStock ? 'text-rose-500 font-semibold' : 'text-stone-705'}>
-                            {t('admin.productsTable.units', { count: p.stock ?? 0 })} {(p.stock <= 4) && t('admin.productsTable.lowStock')}
-                          </span>
+                          {isAvailabilityToConfirm(p) ? (
+                            <span className="text-champagne-700 font-semibold">{t('admin.productsTable.availabilityToConfirm')}</span>
+                          ) : (
+                            <span className={isLowStock ? 'text-rose-500 font-semibold' : 'text-stone-705'}>
+                              {t('admin.productsTable.units', { count: p.stock ?? 0 })} {(p.stock <= 4) && t('admin.productsTable.lowStock')}
+                            </span>
+                          )}
                         </td>
                         <td className="p-4 font-serif font-bold text-stone-900 text-sm">
                           {formatPrice(p.price ?? 0)}
@@ -1470,6 +1488,7 @@ export default function AdminDashboard({
             >
               <option value="all">{t('admin.ordersTable.all')}</option>
               <option value="pending">{t('admin.ordersTable.pending')}</option>
+              <option value="awaiting_availability">{t('admin.ordersTable.awaiting_availability')}</option>
               <option value="confirmed">{t('admin.ordersTable.confirmed')}</option>
               <option value="shipped">{t('admin.ordersTable.shipped')}</option>
               <option value="delivered">{t('admin.ordersTable.delivered')}</option>
@@ -1535,6 +1554,7 @@ export default function AdminDashboard({
                         {filtered.map((o) => {
                           const statusColors: Record<string, string> = {
                             pending: 'bg-amber-50 text-amber-700 border-amber-200',
+                            awaiting_availability: 'bg-orange-50 text-orange-700 border-orange-200',
                             confirmed: 'bg-sky-50 text-sky-700 border-sky-200',
                             shipped: 'bg-blue-50 text-blue-700 border-blue-200',
                             delivered: 'bg-emerald-50 text-emerald-700 border-emerald-200',
@@ -1556,9 +1576,23 @@ export default function AdminDashboard({
                                 <td className="p-4">
                                   <div className="space-y-1 max-w-sm">
                                     {o.items?.map((item: any, idx: number) => (
-                                      <div key={idx} className="flex justify-between items-baseline text-[11px] text-stone-600">
-                                        <span className="line-clamp-1">{item.name} <strong className="text-stone-440">x{item.quantity}</strong></span>
-                                        <span className="font-mono font-medium pl-2">{(item.selected_size || '').split(' ')[0]}</span>
+                                      <div key={idx} className="flex justify-between items-baseline gap-2 text-[11px] text-stone-600">
+                                        <span className="line-clamp-1">
+                                          {item.name} <strong className="text-stone-440">x{item.quantity}</strong>
+                                          {item.availability_to_confirm && (
+                                            <span className="block text-[9px] text-champagne-700 uppercase tracking-wide">
+                                              {t('admin.ordersTable.availabilityRequest')}
+                                            </span>
+                                          )}
+                                        </span>
+                                        <span className="text-end shrink-0">
+                                          <span className="block font-medium">
+                                            {getVariantLabelFromFields(item, t) || item.variant_id || (item.selected_size || '').split(' ')[0]}
+                                          </span>
+                                          {item.variant_id && (
+                                            <span className="block font-mono text-[9px] text-stone-400">{item.variant_id}</span>
+                                          )}
+                                        </span>
                                       </div>
                                     ))}
                                   </div>
@@ -1568,23 +1602,45 @@ export default function AdminDashboard({
                                 </td>
                                 <td className="p-4">
                                   <span className={`inline-flex items-center px-2 py-1 text-xs font-semibold rounded-md border text-[10px] uppercase font-sans tracking-wide ${statusColors[o.status] || 'bg-stone-50 text-stone-500'}`}>
-                                    {o.status}
+                                    {orderStatusLabels[o.status] || o.status}
                                   </span>
                                 </td>
                                 <td className="p-4 text-end">
                                   <div className="flex items-center justify-end gap-2">
-                                    <select
-                                      value={o.status}
-                                      onClick={(e) => e.stopPropagation()}
-                                      onChange={(e) => handleStatusUpdate(o.id, e.target.value as Order['status'])}
-                                      className="bg-transparent border border-stone-200 text-[10px] text-stone-700 font-semibold py-1 px-2 focus:outline-hidden focus:border-champagne-400 rounded-sm uppercase tracking-wider"
-                                    >
-                                      <option value="pending">{t('admin.ordersTable.pending')}</option>
-                                      <option value="confirmed">{t('admin.ordersTable.confirmed')}</option>
-                                      <option value="shipped">{t('admin.ordersTable.shipped')}</option>
-                                      <option value="delivered">{t('admin.ordersTable.delivered')}</option>
-                                      <option value="cancelled">{t('admin.ordersTable.cancelled')}</option>
-                                    </select>
+                                    {o.status === 'awaiting_availability' ? (
+                                      <div className="flex items-center gap-2">
+                                        <button
+                                          onClick={(e) => { e.stopPropagation(); void handleStatusUpdate(o.id, 'confirmed'); }}
+                                          className="inline-flex items-center gap-1 bg-emerald-50 border border-emerald-200 text-emerald-700 hover:bg-emerald-100 px-2 py-1 rounded-sm text-[10px] font-semibold"
+                                          title={t('admin.ordersTable.confirmAvailability')}
+                                        >
+                                          <Check size={12} />
+                                          {t('admin.ordersTable.confirmAvailability')}
+                                        </button>
+                                        <button
+                                          onClick={(e) => { e.stopPropagation(); void handleStatusUpdate(o.id, 'cancelled'); }}
+                                          className="inline-flex items-center gap-1 bg-rose-50 border border-rose-200 text-rose-700 hover:bg-rose-100 px-2 py-1 rounded-sm text-[10px] font-semibold"
+                                          title={t('admin.ordersTable.markUnavailable')}
+                                        >
+                                          <X size={12} />
+                                          {t('admin.ordersTable.markUnavailable')}
+                                        </button>
+                                      </div>
+                                    ) : (
+                                      <select
+                                        value={o.status}
+                                        onClick={(e) => e.stopPropagation()}
+                                        onChange={(e) => handleStatusUpdate(o.id, e.target.value as Order['status'])}
+                                        className="bg-transparent border border-stone-200 text-[10px] text-stone-700 font-semibold py-1 px-2 focus:outline-hidden focus:border-champagne-400 rounded-sm uppercase tracking-wider"
+                                      >
+                                        <option value="pending">{t('admin.ordersTable.pending')}</option>
+                                        <option value="awaiting_availability">{t('admin.ordersTable.awaiting_availability')}</option>
+                                        <option value="confirmed">{t('admin.ordersTable.confirmed')}</option>
+                                        <option value="shipped">{t('admin.ordersTable.shipped')}</option>
+                                        <option value="delivered">{t('admin.ordersTable.delivered')}</option>
+                                        <option value="cancelled">{t('admin.ordersTable.cancelled')}</option>
+                                      </select>
+                                    )}
                                     <a
                                       href={`https://wa.me/${(o.customer_phone || '').replace(/[\s+\-()]/g, '')}?text=${encodeURIComponent(
                                         t('admin.ordersTable.contactWhatsappMessage', {
