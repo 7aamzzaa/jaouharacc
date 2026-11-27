@@ -229,8 +229,6 @@
     variantHeading: 'Choose your variation',
     finishHeading: 'Metal finish (visual)',
     accentHeading: 'Accent colour',
-    availabilityToConfirm: 'Availability to confirm',
-    availabilityToConfirmNote: 'Submit an order request. The seller will confirm availability before accepting it for fulfillment.',
     variantNote: 'Finish and colour names describe appearance only. No precious metal or gemstone content is claimed.',
     variantSelected: 'Selected: {label}',
     finishLabel: {
@@ -373,7 +371,6 @@
     remove: 'Remove product',
     size: 'Size:',
     variant: 'Variation:',
-    availabilityToConfirm: 'Availability to confirm',
     itemPrice: 'Item Price:',
     reduceQty: 'Reduce quantity',
     increaseQty: 'Increase quantity',

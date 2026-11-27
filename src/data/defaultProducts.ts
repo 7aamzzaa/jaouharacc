@@ -936,7 +936,7 @@ export const defaultProducts: Product[] = [
   {
     "id": "CCJ-NEC-CYGNE",
     "name": "Swan Necklace with Accent Colours",
-    "description": "A swan-inspired stainless steel necklace with selectable visual finishes and accent colours. Availability is confirmed by the seller after your order request.",
+    "description": "A swan-inspired stainless steel necklace with selectable visual finishes and accent colours.",
     "price": 79,
     "images": [
       "/images/products/necklaces/CCJ-NEC-CYGNE/00-GOLD-PURPLE/01-white.webp",
@@ -949,14 +949,14 @@ export const defaultProducts: Product[] = [
     "material": "Stainless steel",
     "color": "Visual metallic finish with coloured accents",
     "seoTitle": "Swan Necklace with Accent Colours | CCJAOUHARA",
-    "metaDescription": "A stainless steel swan necklace with eight visual finish and accent colour options. Availability is confirmed after your request.",
+    "metaDescription": "A stainless steel swan necklace with eight visual finish and accent colour options.",
     "slug": "swan-necklace-accent-colours",
     "imageAltText": "Swan-inspired stainless steel necklace with accent colours",
     "tags": [
       "CCJ-NEC-CYGNE",
       "swan necklace",
       "stainless-steel",
-      "availability-to-confirm",
+      "accent-colours",
       "variant",
       "gold-finish-look",
       "silver-finish-look",
@@ -967,7 +967,7 @@ export const defaultProducts: Product[] = [
     ],
     "primaryKeyword": "swan necklace stainless steel",
     "secondaryKeywords": [
-      "availability to confirm swan necklace",
+      "eight visual finish options",
       "stainless steel necklace coloured accents",
       "visual metallic finish necklace",
       "collier cygne acier inoxydable",
@@ -1063,5 +1063,276 @@ export const defaultProducts: Product[] = [
         ]
       }
     ]
+  },
+  {
+    "id": "CCJ-NEC-006",
+    "name": "Collier Femme Argenté en V à Pendentif Carré et Éclats Violets",
+    "description": "Affinez votre style avec ce collier femme au design en V et pendentif carré, orné d'éclats décoratifs violets et transparents. Sa finition d'inspiration argentée et ses détails délicats apportent une touche raffinée aux tenues du quotidien comme aux occasions spéciales.",
+    "price": 79,
+    "images": [
+      "/images/products/necklaces/CCJ-NEC-006/01-white.webp",
+      "/images/products/necklaces/CCJ-NEC-006/02-luxury.webp",
+      "/images/products/necklaces/CCJ-NEC-006/03-detail.webp",
+      "/images/products/necklaces/CCJ-NEC-006/04-emerald.webp"
+    ],
+    "stock": 0,
+    "category": "necklaces",
+    "material": "Matière non spécifiée",
+    "color": "Finition d'inspiration argentée avec accents violets",
+    "seoTitle": "Collier Femme Argenté en V à Pendentif Carré et Éclats Violets | CCJAOUHARA",
+    "metaDescription": "Découvrez ce collier femme en V au pendentif carré et aux accents violets, à 79 DH chez CCJAOUHARA.",
+    "slug": "collier-femme-argente-v-pendentif-carre-violet",
+    "imageAltText": "Collier femme en V à pendentif carré avec accents décoratifs violets et transparents",
+    "tags": [
+      "CCJ-NEC-006",
+      "collier femme en V",
+      "collier pendentif carré violet",
+      "collier accents violets"
+    ],
+    "primaryKeyword": "collier femme en V pendentif carré",
+    "secondaryKeywords": [
+      "collier argenté femme",
+      "collier pendentif carré",
+      "collier accents violets",
+      "collier fantaisie femme",
+      "bijou fantaisie Maroc"
+    ],
+    "inventory_policy": "availability_to_confirm"
+  },
+  {
+    "id": "CCJ-NEC-007",
+    "name": "Collier Femme Argenté à Nœud Papillon Rose Scintillant",
+    "description": "Apportez une touche romantique à votre tenue avec ce collier femme à la finition d'inspiration argentée, centré sur un nœud papillon rose aux détails scintillants. Son design léger et féminin s'accorde aussi bien à un look quotidien qu'à une occasion spéciale.",
+    "price": 79,
+    "images": [
+      "/images/products/necklaces/CCJ-NEC-007/02-luxury.webp",
+      "/images/products/necklaces/CCJ-NEC-007/03-detail.webp"
+    ],
+    "stock": 0,
+    "category": "necklaces",
+    "material": "Matière non spécifiée",
+    "color": "Finition d'inspiration argentée avec nœud papillon rose",
+    "seoTitle": "Collier Femme Argenté Nœud Papillon Rose | CCJAOUHARA",
+    "metaDescription": "Découvrez ce collier femme au nœud papillon rose scintillant, à 79 DH chez CCJAOUHARA.",
+    "slug": "collier-femme-argente-noeud-papillon-rose",
+    "imageAltText": "Collier femme à nœud papillon rose scintillant sur chaîne à finition argentée",
+    "tags": [
+      "CCJ-NEC-007",
+      "collier nœud papillon rose",
+      "collier papillon scintillant",
+      "collier femme romantique"
+    ],
+    "primaryKeyword": "collier femme nœud papillon rose",
+    "secondaryKeywords": [
+      "collier nœud rose",
+      "collier fantaisie femme",
+      "pendentif papillon rose",
+      "bijou fantaisie Maroc"
+    ],
+    "inventory_policy": "availability_to_confirm"
+  },
+  {
+    "id": "CCJ-NEC-008",
+    "name": "Collier Femme Argenté à Motif Feuilles et Éclats Roses",
+    "description": "Laissez-vous séduire par ce collier femme à la finition d'inspiration argentée, dont le motif feuilles et branches est agrémenté d'accents décoratifs roses et transparents. Son design botanique délicat offre une allure fraîche et raffinée, idéale pour enrichir vos tenues du quotidien.",
+    "price": 79,
+    "images": [
+      "/images/products/necklaces/CCJ-NEC-008/01-white.webp",
+      "/images/products/necklaces/CCJ-NEC-008/02-luxury.webp",
+      "/images/products/necklaces/CCJ-NEC-008/03-detail.webp",
+      "/images/products/necklaces/CCJ-NEC-008/04-emerald.webp"
+    ],
+    "stock": 0,
+    "category": "necklaces",
+    "material": "Matière non spécifiée",
+    "color": "Finition d'inspiration argentée avec accents roses",
+    "seoTitle": "Collier Femme Argenté Motif Feuilles et Éclats Roses | CCJAOUHARA",
+    "metaDescription": "Découvrez ce collier femme au motif feuilles et aux accents roses, à 79 DH chez CCJAOUHARA.",
+    "slug": "collier-femme-argente-feuilles-roses",
+    "imageAltText": "Collier femme à motifs feuilles et branches avec accents roses et transparents",
+    "tags": [
+      "CCJ-NEC-008",
+      "collier motif feuilles",
+      "collier accents roses",
+      "collier botanique femme"
+    ],
+    "primaryKeyword": "collier femme motif feuilles roses",
+    "secondaryKeywords": [
+      "collier feuilles argenté",
+      "collier accents roses",
+      "collier botanique fantaisie",
+      "bijou fantaisie Maroc"
+    ],
+    "inventory_policy": "availability_to_confirm"
+  },
+  {
+    "id": "CCJ-NEC-009",
+    "name": "Collier Femme Argenté à Pendentif Goutte Rose et Motifs Floraux",
+    "description": "Sublimez votre silhouette avec ce collier femme à la finition d'inspiration argentée, réunissant des motifs floraux délicats et un pendentif goutte rose suspendu. Sa ligne féminine et ses accents colorés créent un contraste harmonieux pour vos looks quotidiens et vos occasions spéciales.",
+    "price": 79,
+    "images": [
+      "/images/products/necklaces/CCJ-NEC-009/01-white.webp",
+      "/images/products/necklaces/CCJ-NEC-009/02-luxury.webp",
+      "/images/products/necklaces/CCJ-NEC-009/03-detail.webp",
+      "/images/products/necklaces/CCJ-NEC-009/04-emerald.webp"
+    ],
+    "stock": 0,
+    "category": "necklaces",
+    "material": "Matière non spécifiée",
+    "color": "Finition d'inspiration argentée avec motif floral et goutte rose",
+    "seoTitle": "Collier Femme Argenté Pendentif Goutte Rose et Motifs Floraux | CCJAOUHARA",
+    "metaDescription": "Découvrez ce collier femme aux motifs floraux et au pendentif goutte rose, à 79 DH chez CCJAOUHARA.",
+    "slug": "collier-femme-argente-pendentif-goutte-rose",
+    "imageAltText": "Collier femme à motifs floraux avec pendentif goutte rose",
+    "tags": [
+      "CCJ-NEC-009",
+      "collier pendentif goutte rose",
+      "collier motifs floraux",
+      "collier femme floral"
+    ],
+    "primaryKeyword": "collier femme pendentif goutte rose",
+    "secondaryKeywords": [
+      "collier floral rose",
+      "collier goutte rose",
+      "collier fantaisie femme",
+      "bijou fantaisie Maroc"
+    ],
+    "inventory_policy": "availability_to_confirm"
+  },
+  {
+    "id": "CCJ-NEC-010",
+    "name": "Collier Femme Argenté à Papillon Bleu Turquoise - Lumineux dans l'obscurité",
+    "description": "En plein jour, ce collier femme à la finition d'inspiration argentée révèle un papillon bleu turquoise au design léger et ludique. Dans l'obscurité, le papillon offre un éclat bleu grâce à un effet phosphorescent authentique, distinct de sa couleur habituelle.",
+    "price": 79,
+    "images": [
+      "/images/products/necklaces/CCJ-NEC-010/01-white.webp",
+      "/images/products/necklaces/CCJ-NEC-010/02-luxury.webp",
+      "/images/products/necklaces/CCJ-NEC-010/03-detail.webp",
+      "/images/products/necklaces/CCJ-NEC-010/04-emerald.webp"
+    ],
+    "stock": 0,
+    "category": "necklaces",
+    "material": "Matière non spécifiée",
+    "color": "Finition d'inspiration argentée ; papillon bleu turquoise en plein jour, bleu lumineux dans l'obscurité",
+    "seoTitle": "Collier Papillon Bleu Turquoise Lumineux dans l'obscurité | CCJAOUHARA",
+    "metaDescription": "Papillon bleu turquoise en plein jour et bleu lumineux dans l'obscurité : découvrez ce collier femme phosphorescent à 79 DH chez CCJAOUHARA.",
+    "slug": "collier-femme-argente-papillon-bleu-turquoise",
+    "imageAltText": "Collier femme avec papillon bleu turquoise en plein jour, bleu lumineux dans l'obscurité",
+    "tags": [
+      "CCJ-NEC-010",
+      "collier papillon bleu turquoise",
+      "collier lumineux dans l'obscurité",
+      "collier phosphorescent bleu"
+    ],
+    "primaryKeyword": "collier papillon bleu turquoise lumineux dans l'obscurité",
+    "secondaryKeywords": [
+      "collier phosphorescent femme",
+      "collier bleu glow in the dark",
+      "collier pendentif papillon",
+      "bijou fantaisie Maroc"
+    ],
+    "inventory_policy": "availability_to_confirm"
+  },
+  {
+    "id": "CCJ-NEC-011",
+    "name": "Collier Femme Doré à Fleur Jaune Phosphorescente avec Pendentif Message",
+    "description": "En plein jour, ce collier femme à la finition métallique chaude associe une fleur jaune à un pendentif gravé \"I will always choose you\". Dans l'obscurité, la fleur devient verte et lumineuse grâce à un effet phosphorescent authentique, distinct de sa couleur habituelle. Son inscription en fait un bijou fantaisie idéal à offrir.",
+    "price": 79,
+    "images": [
+      "/images/products/necklaces/CCJ-NEC-011/01-white.webp",
+      "/images/products/necklaces/CCJ-NEC-011/02-luxury.webp",
+      "/images/products/necklaces/CCJ-NEC-011/03-detail.webp",
+      "/images/products/necklaces/CCJ-NEC-011/04-emerald.webp"
+    ],
+    "stock": 0,
+    "category": "necklaces",
+    "material": "Matière non spécifiée",
+    "color": "Finition métallique chaude ; fleur jaune en plein jour, verte lumineuse dans l'obscurité",
+    "seoTitle": "Collier Femme Fleur Jaune Phosphorescente et Pendentif Message | CCJAOUHARA",
+    "metaDescription": "Fleur jaune en plein jour, verte lumineuse dans l'obscurité : découvrez ce collier femme phosphorescent avec pendentif « I will always choose you » à 79 DH chez CCJAOUHARA.",
+    "slug": "collier-femme-dore-fleur-jaune-pendentif-message",
+    "imageAltText": "Collier femme avec fleur jaune, verte lumineuse dans l'obscurité, et pendentif gravé « I will always choose you »",
+    "tags": [
+      "CCJ-NEC-011",
+      "collier fleur jaune",
+      "collier fleur lumineuse dans l'obscurité",
+      "collier phosphorescent vert"
+    ],
+    "primaryKeyword": "collier femme fleur jaune phosphorescente",
+    "secondaryKeywords": [
+      "collier fleur lumineuse dans l'obscurité",
+      "collier glow in the dark",
+      "pendentif gravé message",
+      "cadeau bijou fantaisie"
+    ],
+    "inventory_policy": "availability_to_confirm"
+  },
+  {
+    "id": "CCJ-BRA-006",
+    "name": "Bracelet Femme Argenté à Nœud de Cœurs Roses Scintillants",
+    "description": "Un délicat bracelet femme à la finition d'inspiration argentée, orné de deux éléments décoratifs en forme de cœur rose scintillant disposés comme un nœud. Une fine rangée d'accents transparents étincelants, un fermoir homard et une chaîne d'extension complètent ce bijou fantaisie romantique.",
+    "price": 79,
+    "images": [
+      "/images/products/bracelets/CCJ-BRA-006/01-white.webp",
+      "/images/products/bracelets/CCJ-BRA-006/02-luxury.webp",
+      "/images/products/bracelets/CCJ-BRA-006/03-detail.webp",
+      "/images/products/bracelets/CCJ-BRA-006/04-emerald.webp"
+    ],
+    "stock": 0,
+    "category": "bracelets",
+    "material": "Matière non spécifiée",
+    "color": "Finition d'inspiration argentée ; cœurs roses scintillants et accents transparents",
+    "seoTitle": "Bracelet Femme Cœurs Roses Scintillants | CCJAOUHARA",
+    "metaDescription": "Découvrez ce bracelet femme argenté aux deux cœurs roses scintillants, entourés de détails lumineux. Un bijou romantique chez CCJAOUHARA.",
+    "slug": "bracelet-femme-argente-noeud-coeurs-roses",
+    "imageAltText": "Bracelet femme à la finition d'inspiration argentée avec deux cœurs roses scintillants en forme de nœud",
+    "tags": [
+      "CCJ-BRA-006",
+      "bracelet femme cœurs roses",
+      "bracelet argenté nœud cœurs",
+      "bijou fantaisie romantique"
+    ],
+    "primaryKeyword": "bracelet femme cœurs roses scintillants",
+    "secondaryKeywords": [
+      "bracelet nœud cœurs roses",
+      "bracelet argenté fantaisie",
+      "bracelet avec extension",
+      "cadeau bijou fantaisie"
+    ],
+    "inventory_policy": "availability_to_confirm"
+  },
+  {
+    "id": "CCJ-BRA-007",
+    "name": "Bracelet-Bague Femme Doré à Double Fleur et Chaîne de Main",
+    "description": "Un élégant bracelet-bague femme à la finition d'inspiration dorée, reliant le poignet à une bague de doigt par une délicate chaîne de main. Il est orné de deux motifs floraux sculptés et de petits accents sphériques, pour un bijou fantaisie au charme floral.",
+    "price": 79,
+    "images": [
+      "/images/products/bracelets/CCJ-BRA-007/01-white.webp",
+      "/images/products/bracelets/CCJ-BRA-007/02-luxury.webp",
+      "/images/products/bracelets/CCJ-BRA-007/03-detail.webp",
+      "/images/products/bracelets/CCJ-BRA-007/04-emerald.webp"
+    ],
+    "stock": 0,
+    "category": "bracelets",
+    "material": "Matière non spécifiée",
+    "color": "Finition d'inspiration dorée ; motifs floraux sculptés et accents sphériques",
+    "seoTitle": "Bracelet-Bague Femme Doré à Fleurs | CCJAOUHARA",
+    "metaDescription": "Découvrez ce bracelet-bague femme doré à double fleur, relié par une délicate chaîne de main. Un bijou floral élégant chez CCJAOUHARA.",
+    "slug": "bracelet-bague-femme-dore-double-fleur-chaine-main",
+    "imageAltText": "Bracelet-bague femme à la finition d'inspiration dorée avec deux motifs floraux et une chaîne de main",
+    "tags": [
+      "CCJ-BRA-007",
+      "bracelet bague femme",
+      "bracelet chaîne de main doré",
+      "bijou fantaisie floral"
+    ],
+    "primaryKeyword": "bracelet bague femme double fleur",
+    "secondaryKeywords": [
+      "bracelet bague chaîne de main",
+      "bracelet doré fantaisie",
+      "bracelet double fleur",
+      "cadeau bijou fantaisie"
+    ],
+    "inventory_policy": "availability_to_confirm"
   }
 ];

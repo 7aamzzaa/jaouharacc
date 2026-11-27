@@ -7,6 +7,9 @@ export interface ProductTranslation {
   description: string;
   material: string;
   color: string;
+  seoTitle?: string;
+  metaDescription?: string;
+  imageAltText?: string;
 }
 
 /**
@@ -43,6 +46,25 @@ const PROHIBITED_CLAIM_PATTERNS: Array<[RegExp, string]> = [
   [/عيار\s*(?:14|18)/g, ' '],
 ];
 
+// Approved appearance-only wording that must survive the claim sanitizer.
+// These strings describe finish/appearance only and never assert material.
+const APPROVED_APPEARANCE_ONLY_STRINGS = new Set([
+  'Bracelet-Bague Femme Doré à Double Fleur et Chaîne de Main',
+  'Bracelet-Bague Femme Doré à Fleurs | CCJAOUHARA',
+  'Découvrez ce bracelet-bague femme doré à double fleur, relié par une délicate chaîne de main. Un bijou floral élégant chez CCJAOUHARA.',
+  'Bracelet-bague femme doré avec deux motifs floraux et une chaîne de main',
+  'Bracelet-bague femme à la finition d\'inspiration dorée avec deux motifs floraux et une chaîne de main',
+]);
+
+// Appearance-only finish phrases are explicitly allowed, unlike gold/metal claims.
+const APPEARANCE_ONLY_PATTERNS: RegExp[] = [
+  /\bgold[\s-]tone\b/gi,
+  /\bsilver[\s-]tone\b/gi,
+  /\b(?:finition\s+)?d['’]inspiration\s+(?:dorée?|argentée?)\b/gi,
+  /مظهر\s+(?:ذهبية|فضية|ذهبي|فضي)/g,
+  /(?:ذهبية|فضية|ذهبي|فضي)\s+المظهر/g,
+];
+
 const NEUTRAL_FALLBACK: Record<Lang, ProductTranslation> = {
   en: {
     name: 'Elegant women’s fashion accessory',
@@ -66,14 +88,31 @@ const NEUTRAL_FALLBACK: Record<Lang, ProductTranslation> = {
 
 function stripProhibitedClaims(value: string | undefined, _lang: Lang): string {
   if (typeof value !== 'string') return '';
+  const trimmed = value.trim();
+  if (APPROVED_APPEARANCE_ONLY_STRINGS.has(trimmed)) return trimmed;
+
+  const placeholders: string[] = [];
   let cleaned = value;
+  for (const pattern of APPEARANCE_ONLY_PATTERNS) {
+    pattern.lastIndex = 0;
+    cleaned = cleaned.replace(pattern, (match) => {
+      const token = `__APPEARANCE_${placeholders.length}__`;
+      placeholders.push(match);
+      return token;
+    });
+  }
+
   for (const [pattern, replacement] of PROHIBITED_CLAIM_PATTERNS) {
     pattern.lastIndex = 0;
     cleaned = cleaned.replace(pattern, replacement);
   }
   // Standalone French "or" means gold; keep English "or" inside phrases.
   if (/^\s*or\s*$/i.test(cleaned)) return '';
-  return cleaned.replace(/\s+/g, ' ').trim();
+  cleaned = cleaned.replace(/\s+/g, ' ').trim();
+  for (let i = placeholders.length - 1; i >= 0; i -= 1) {
+    cleaned = cleaned.split(`__APPEARANCE_${i}__`).join(placeholders[i]);
+  }
+  return cleaned;
 }
 
 type LocalizedField = keyof ProductTranslation;
@@ -97,11 +136,18 @@ function resolveLocalizedValue(
 export function getProductLocalizedFields(product: Product, lang: Lang): ProductTranslation {
   const entry = productTranslations[product.id]?.[lang];
 
+  const translatedSeoTitle = entry?.seoTitle ? stripProhibitedClaims(entry.seoTitle, lang) : '';
+  const translatedMetaDescription = entry?.metaDescription ? stripProhibitedClaims(entry.metaDescription, lang) : '';
+  const translatedImageAltText = entry?.imageAltText ? stripProhibitedClaims(entry.imageAltText, lang) : '';
+
   return {
     name: resolveLocalizedValue(entry?.name, product.name, lang, 'name'),
     description: resolveLocalizedValue(entry?.description, product.description, lang, 'description'),
     material: resolveLocalizedValue(entry?.material, product.material, lang, 'material'),
     color: resolveLocalizedValue(entry?.color, product.color, lang, 'color'),
+    seoTitle: translatedSeoTitle,
+    metaDescription: translatedMetaDescription,
+    imageAltText: translatedImageAltText,
   };
 }
 
@@ -359,9 +405,49 @@ export const productTranslations: Record<string, { en: ProductTranslation; fr: P
     ar: {  name: "أقراط نسائية معدنية لامعة متدلية بزخارف مفرغة وتعليقات مخروطية", description: "أضيفي لمسة من الأناقة الشرقية إلى إطلالتك مع هذا الزوج من الأقراط النسائية المتدلية المصنوعة من الفولاذ المقاوم للصدأ بلمسة معدنية لامعة. تتميز بزخارف زهرية مفرغة وقطع هندسية أنيقة ذات حواف منحنية، تتوسطها تفاصيل بيضاوية شفافة براقة. وتكتمل بتعليقات مخروطية مزخرفة بنقوش معدنية لامعة دقيقة، لتمنحك إطلالة راقية تناسب المناسبات والسهرات.", material: "الفولاذ المقاوم للصدأ", color: "لمسة معدنية لامعة"  },
   },
   "CCJ-NEC-CYGNE": {
-    en: {  name: "Swan Necklace with Accent Colours", description: "A swan-inspired stainless steel necklace offered in eight visual finish and accent colour options. Availability is confirmed by the seller after your order request.", material: "Stainless steel", color: "Visual metallic finish with coloured accents"  },
-    fr: {  name: "Collier Cygne aux Couleurs d’Accent", description: "Un collier en acier inoxydable inspiré du cygne, proposé en huit options visuelles de finition et de couleur d’accent. La disponibilité est confirmée par le vendeur après votre demande de commande.", material: "Acier inoxydable", color: "Finition métallique visuelle avec accents colorés"  },
-    ar: {  name: "قلادة البجعة بألوان اللمسات", description: "قلادة من الفولاذ المقاوم للصدأ مستوحاة من البجعة، تتوفر بثمانية خيارات بصرية للتشطيب ولون اللمسة. يؤكد البائع التوفر بعد تقديم طلبك.", material: "الفولاذ المقاوم للصدأ", color: "تشطيب معدني بصري مع لمسات ملونة"  },
+    en: {  name: "Swan Necklace with Accent Colours", description: "A swan-inspired stainless steel necklace offered in eight visual finish and accent colour options.", material: "Stainless steel", color: "Visual metallic finish with coloured accents"  },
+    fr: {  name: "Collier Cygne aux Couleurs d’Accent", description: "Un collier en acier inoxydable inspiré du cygne, proposé en huit options visuelles de finition et de couleur d’accent.", material: "Acier inoxydable", color: "Finition métallique visuelle avec accents colorés"  },
+    ar: {  name: "قلادة البجعة بألوان اللمسات", description: "قلادة من الفولاذ المقاوم للصدأ مستوحاة من البجعة، تتوفر بثمانية خيارات بصرية للتشطيب ولون اللمسة.", material: "الفولاذ المقاوم للصدأ", color: "تشطيب معدني بصري مع لمسات ملونة"  },
+  },
+  "CCJ-NEC-006": {
+    en: {  name: "Women's Silver-Tone V Necklace with Square Pendant and Purple Accents", description: "A refined V-shaped necklace with a rounded-square pendant and purple and clear decorative accents. The silver-tone finish and delicate details bring polish to everyday outfits and special looks.", material: "Material not specified", color: "Silver-tone finish with purple and clear accents"  },
+    fr: {  name: "Collier femme en V à pendentif carré et accents violets — finition argentée", description: "Collier femme au design en V et pendentif carré, orné d'accents décoratifs violets et transparents. La finition d'inspiration argentée et les détails délicats apportent une touche raffinée aux tenues du quotidien comme aux occasions spéciales.", material: "Matière non spécifiée", color: "Finition d'inspiration argentée avec accents violets et transparents"  },
+    ar: {  name: "قلادة نسائية بتصميم حرف V بتعليقة مربعة ولمسات بنفسجية — لمسة بلون فضي", description: "قلادة نسائية بتصميم على شكل حرف V وتعليقة مربعة الشكل، مع لمسات زخرفية بنفسجية وشفافة. تمنح اللمسة بلون الفضي والتفاصيل الدقيقة إطلالة أنيقة تناسب الإطلالات اليومية والمناسبات الخاصة.", material: "المادة غير محددة", color: "لمسة بلون فضي مع لمسات بنفسجية وشفافة"  },
+  },
+  "CCJ-NEC-007": {
+    en: {  name: "Women's Silver-Tone Pink Bow Necklace with Sparkling Detail", description: "A delicate silver-tone necklace centered on a sparkling pink bow motif. The light, feminine design pairs easily with everyday outfits and dressier occasions.", material: "Material not specified", color: "Silver-tone finish with pink bow detail"  },
+    fr: {  name: "Collier femme à nœud papillon rose scintillant — finition argentée", description: "Collier femme à la finition d'inspiration argentée, centré sur un nœud papillon rose aux détails scintillants. Son design léger et féminin s'accorde aux tenues quotidiennes comme aux occasions spéciales.", material: "Matière non spécifiée", color: "Finition d'inspiration argentée avec nœud papillon rose"  },
+    ar: {  name: "قلادة نسائية بروبطة وردية بتفاصيل براقة — لمسة بلون فضي", description: "قلادة نسائية بلمسة بلون فضي تتوسطها روبطة وردية بتفاصيل براقة. يتميز تصميمها الخفيف والأنثوي بأنه يناسب الإطلالات اليومية والمناسبات الخاصة.", material: "المادة غير محددة", color: "لمسة بلون فضي مع روبطة وردية"  },
+  },
+  "CCJ-NEC-008": {
+    en: {  name: "Women's Silver-Tone Botanical Leaf Necklace with Pink Accents", description: "A silver-tone botanical necklace with leaf and branch detailing, pink and clear decorative accents, and a fresh, refined finish.", material: "Material not specified", color: "Silver-tone finish with pink and clear leaf accents"  },
+    fr: {  name: "Collier femme à motifs feuilles et accents roses — finition argentée", description: "Collier femme à la finition d'inspiration argentée, au motif feuilles et branches agrémenté d'accents décoratifs roses et transparents. Son design botanique délicat offre une allure fraîche et raffinée pour les tenues du quotidien.", material: "Matière non spécifiée", color: "Finition d'inspiration argentée avec accents roses et transparents"  },
+    ar: {  name: "قلادة نسائية بنقوش أوراق ولمسات وردية — لمسة بلون فضي", description: "قلادة نسائية بلمسة بلون فضي بنقوش أوراق وأغصان مع لمسات زخرفية وردية وشفافة. يمنحها تصميمها النباتي الرقيق مظهراً منعشاً وأنيقاً يناسب الإطلالات اليومية.", material: "المادة غير محددة", color: "لمسة بلون فضي مع لمسات وردية وشفافة على شكل أوراق"  },
+  },
+  "CCJ-NEC-009": {
+    en: {  name: "Women's Silver-Tone Floral Necklace with Pink Teardrop Pendant", description: "A silver-tone floral necklace with a hanging pink teardrop pendant. Delicate motifs and soft colour create a feminine look for everyday styling and special occasions.", material: "Material not specified", color: "Silver-tone finish with floral motifs and a pink teardrop"  },
+    fr: {  name: "Collier femme à motifs floraux et pendentif goutte rose — finition argentée", description: "Collier femme à la finition d'inspiration argentée réunissant des motifs floraux délicats et un pendentif goutte rose suspendu. Sa ligne féminine et ses accents colorés créent un contraste harmonieux pour vos looks quotidiens et vos occasions spéciales.", material: "Matière non spécifiée", color: "Finition d'inspiration argentée avec motifs floraux et goutte rose"  },
+    ar: {  name: "قلادة نسائية بنقوش زهرية وتعليقة قطرة وردية — لمسة بلون فضي", description: "قلادة نسائية بلمسة بلون فضي تجمع نقوشاً زهرية رقيقة وتعليقة على شكل قطرة وردية متدلية. يمنحها تصميمها الأنثوي وألوانها الناعمة إطلالة متناسقة للاستخدام اليومي والمناسبات الخاصة.", material: "المادة غير محددة", color: "لمسة بلون فضي مع نقوش زهرية وقطرة وردية"  },
+  },
+  "CCJ-NEC-010": {
+    en: {  name: "Women's Turquoise Blue Butterfly Necklace with Blue Glow in the Dark", description: "By daylight, this silver-tone necklace shows a turquoise blue butterfly with a light, playful silhouette. In darkness, the butterfly glows blue thanks to a genuine glow in the dark effect, a feature distinct from its usual daylight colour.", material: "Material not specified", color: "Silver-tone finish; turquoise blue butterfly by day, blue glow in the dark"  },
+    fr: {  name: "Collier femme à papillon bleu turquoise — lumineux dans l'obscurité", description: "En plein jour, ce collier femme à la finition d'inspiration argentée révèle un papillon bleu turquoise au design léger et ludique. Dans l'obscurité, le papillon offre un éclat bleu grâce à un effet phosphorescent authentique, distinct de sa couleur habituelle.", material: "Matière non spécifiée", color: "Finition d'inspiration argentée ; papillon bleu turquoise en plein jour, bleu lumineux dans l'obscurité"  },
+    ar: {  name: "قلادة نسائية بفراشة زرقاء تركوازية بتأثير مضيء في الظلام", description: "في ضوء النهار، تظهر في هذه القلادة النسائية بلمسة بلون فضي فراشة زرقاء تركوازية بتصميم خفيف ومرح. وفي الظلام، تتوهج الفراشة باللون الأزرق بفضل تأثير حقيقي مضيء في الظلام، وهو مختلف عن لونها المعتاد في النهار.", material: "المادة غير محددة", color: "لمسة بلون فضي؛ فراشة زرقاء تركوازية في ضوء النهار، مضيء في الظلام بالأزرق"  },
+  },
+  "CCJ-NEC-011": {
+    en: {  name: "Women's Yellow Flower Necklace with Green Glow in the Dark and Message Pendant", description: "By daylight, this warm metallic-tone necklace pairs a yellow flower with a pendant engraved \"I will always choose you\". In darkness, the flower turns green and glows thanks to a genuine glow in the dark effect, distinct from its usual colour. A thoughtful fashion-jewellery gift with a delicate sentimental design.", material: "Material not specified", color: "Warm metallic-tone finish; yellow flower by day, green glow in the dark"  },
+    fr: {  name: "Collier femme à fleur jaune phosphorescente et pendentif gravé « I will always choose you »", description: "En plein jour, ce collier femme à la finition métallique chaude associe une fleur jaune à un pendentif gravé « I will always choose you ». Dans l'obscurité, la fleur devient verte et lumineuse grâce à un effet phosphorescent authentique, distinct de sa couleur habituelle. Son inscription en fait un bijou fantaisie idéal à offrir.", material: "Matière non spécifiée", color: "Finition métallique chaude ; fleur jaune en plein jour, verte lumineuse dans l'obscurité"  },
+    ar: {  name: "قلادة نسائية بزهرة صفراء بتأثير مضيء في الظلام وتعليقة برسالة \"I will always choose you\"", description: "في ضوء النهار، تجمع هذه القلادة النسائية بلمسة معدنية دافئة بين زهرة صفراء وتعليقة منقوش عليها \"I will always choose you\". وفي الظلام، تتحول الزهرة إلى الأخضر وتضيء بفضل تأثير حقيقي مضيء في الظلام، مختلف عن لونها المعتاد في النهار.", material: "المادة غير محددة", color: "لمسة معدنية دافئة؛ زهرة صفراء في ضوء النهار، مضيء في الظلام بالأخضر"  },
+  },
+  "CCJ-BRA-006": {
+    en: {  name: "Women's Silver-Tone Bracelet with Sparkling Pink Heart Bow", description: "A delicate silver-tone women's bracelet with two sparkling pink heart-shaped decorative elements arranged like a bow, a fine row of clear shimmering accents, a lobster clasp and an extension chain.", material: "Material not specified", color: "Silver-tone finish; sparkling pink hearts and clear accents", seoTitle: "Women's Silver-Tone Sparkling Pink Heart Bow Bracelet | CCJAOUHARA", metaDescription: "A delicate silver-tone bracelet with two sparkling pink heart accents shaped like a bow, clear shimmering details, a lobster clasp and an extension chain.", imageAltText: "Silver-tone women's bracelet with two sparkling pink hearts arranged like a bow"  },
+    fr: {  name: "Bracelet Femme Argenté à Nœud de Cœurs Roses Scintillants", description: "Un délicat bracelet femme à la finition d'inspiration argentée, orné de deux éléments décoratifs en forme de cœur rose scintillant disposés comme un nœud. Une fine rangée d'accents transparents étincelants, un fermoir homard et une chaîne d'extension complètent ce bijou fantaisie romantique.", material: "Matière non spécifiée", color: "Finition d'inspiration argentée ; cœurs roses scintillants et accents transparents", seoTitle: "Bracelet Femme Cœurs Roses Scintillants | CCJAOUHARA", metaDescription: "Découvrez ce bracelet femme argenté aux deux cœurs roses scintillants, entourés de détails lumineux. Un bijou romantique chez CCJAOUHARA.", imageAltText: "Bracelet femme argenté avec deux cœurs roses scintillants en forme de nœud"  },
+    ar: {  name: "سوار نسائي فضي المظهر بفيونكة من قلبين ورديين لامعين", description: "سوار نسائي رقيق بمظهر فضي، مزين بعنصرين زخرفيين على شكل قلبين ورديين لامعين مرتبين كفيونكة. تكمله صفوف رفيعة من لمعات شفافة واضحة وإبزيم سرطاني وسلسلة تمديد، ليبدو كقطعة مجوهرات خيالية ذات طابع رومانسي.", material: "المادة غير محددة", color: "مظهر فضي؛ قلبان ورديان لامعان ولمعات شفافة", seoTitle: "سوار نسائي فضي المظهر بفيونكة قلبين ورديين لامعين | CCJAOUHARA", metaDescription: "سوار نسائي رقيق بمظهر فضي بفيونكة من قلبين ورديين لامعين ولمعات شفافة وإبزيم سرطاني وسلسلة تمديد.", imageAltText: "سوار نسائي بمظهر فضي وقلبان ورديان لامعان كفيونكة"  },
+  },
+  "CCJ-BRA-007": {
+    en: {  name: "Women's Gold-Tone Double Flower Hand Chain Bracelet Ring", description: "An elegant gold-tone hand-chain bracelet connecting the wrist to a finger ring, decorated with two sculpted floral motifs and small spherical accents.", material: "Material not specified", color: "Gold-tone finish; sculpted floral motifs and spherical accents", seoTitle: "Women's Gold-Tone Double Flower Hand Chain Bracelet Ring | CCJAOUHARA", metaDescription: "An elegant gold-tone hand-chain bracelet connecting the wrist to a finger ring, with two sculpted floral motifs and small spherical accents.", imageAltText: "Gold-tone hand-chain bracelet with two sculpted flowers and a finger ring"  },
+    fr: {  name: "Bracelet-Bague Femme Doré à Double Fleur et Chaîne de Main", description: "Un élégant bracelet-bague femme à la finition d'inspiration dorée, reliant le poignet à une bague de doigt par une délicate chaîne de main. Il est orné de deux motifs floraux sculptés et de petits accents sphériques, pour un bijou fantaisie au charme floral.", material: "Matière non spécifiée", color: "Finition d'inspiration dorée ; motifs floraux sculptés et accents sphériques", seoTitle: "Bracelet-Bague Femme Doré à Fleurs | CCJAOUHARA", metaDescription: "Découvrez ce bracelet-bague femme doré à double fleur, relié par une délicate chaîne de main. Un bijou floral élégant chez CCJAOUHARA.", imageAltText: "Bracelet-bague femme doré avec deux motifs floraux et une chaîne de main"  },
+    ar: {  name: "سوار نسائي ذهبي المظهر متصل بخاتم بتصميم زهرتين", description: "سوار نسائي أنيق بمظهر ذهبي يربط المعصم بخاتم للإصبع عبر سلسلة يد رقيقة، ومزين بزهرتين منحوتتين ونقاط كروية صغيرة، ليبدو كقطعة مجوهرات خيالية بلمسة زهرية.", material: "المادة غير محددة", color: "مظهر ذهبي؛ زهرتان منحوتتان ونقاط كروية صغيرة", seoTitle: "سوار نسائي ذهبي المظهر بزهرتين وسلسلة يد | CCJAOUHARA", metaDescription: "سوار نسائي أنيق بمظهر ذهبي يربط المعصم بخاتم عبر سلسلة يد رقيقة، مع زهرتين منحوتتين ونقاط كروية صغيرة.", imageAltText: "سوار نسائي بمظهر ذهبي بزهرتين وسلسلة يد متصلة بخاتم"  },
   },
   "CCJ-SET-001": {
     en: {  name: "Women's Polished Double-Layer Necklace with Pearl-Look Beads and Rooster Medallions", description: "Add a distinctive touch to your look with this stainless steel double-layer necklace with a polished finish. Delicate chains are accented with oval pearl-look beads and two round rooster-motif medallions inspired by vintage coin designs. The combination of luminous beads and polished details creates a refined, vintage-inspired accessory for everyday styling and dressier occasions.", material: "Stainless steel", color: "Polished metallic finish"  },

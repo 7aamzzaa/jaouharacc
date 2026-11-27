@@ -229,8 +229,6 @@
     variantHeading: 'اختر نسختك',
     finishHeading: 'التشطيب (مظهر بصري)',
     accentHeading: 'لون اللمسة',
-    availabilityToConfirm: 'التوفر قيد التأكيد',
-    availabilityToConfirmNote: "أرسل طلبًا وسيؤكد البائع التوفر قبل قبول الطلب.",
     variantNote: 'أسماء التشطيب والألوان تصف المظهر فقط. لا يُدعى أي محتوى من معدن ثمين أو حجر.',
     variantSelected: 'المختار: {label}',
     finishLabel: {
@@ -373,7 +371,6 @@
     remove: 'إزالة المنتج',
     size: 'المقاس:',
     variant: 'النسخة:',
-    availabilityToConfirm: 'التوفر قيد التأكيد',
     itemPrice: 'سعر القطعة:',
     reduceQty: 'تقليل الكمية',
     increaseQty: 'زيادة الكمية',
