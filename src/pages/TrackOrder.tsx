@@ -1,6 +1,7 @@
 import { useState, FormEvent } from 'react';
 import { Package, Search, CheckCircle2, Circle, Clock, Truck, XCircle, AlertCircle, ArrowRight, ArrowLeft } from 'lucide-react';
 import { useTranslation } from '../i18n';
+import { getVariantLabelFromFields } from '../i18n/variantLabels';
 import { useCurrency } from '../CurrencyContext';
 import { useNavigate } from 'react-router-dom';
 import type { Order } from '../types';
@@ -55,6 +56,17 @@ export default function TrackOrder() {
 
   const statusLabels = t('trackOrder.statusLabels') as unknown as Record<string, string>;
   const statusDescs = t('trackOrder.statusDescriptions') as unknown as Record<string, string>;
+  const isAvailabilityRequest = Boolean(order?.items.some((item) => item.availability_to_confirm));
+  const awaitingAvailability = Boolean(order && isAvailabilityRequest && order.status === 'awaiting_availability');
+  const availabilityUnavailable = Boolean(order && isAvailabilityRequest && order.status === 'cancelled');
+  const availabilityConfirmed = Boolean(order && isAvailabilityRequest && order.status === 'confirmed');
+  const statusValue = awaitingAvailability
+    ? statusLabels.awaiting_availability
+    : availabilityUnavailable
+      ? t('trackOrder.availabilityUnavailableTitle')
+      : availabilityConfirmed
+        ? t('trackOrder.availabilityConfirmedTitle')
+        : statusLabels[order?.status || ''] || order?.status || '';
 
   return (
     <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 space-y-12">
@@ -138,7 +150,7 @@ export default function TrackOrder() {
                 { label: t('trackOrder.reference'), value: order.id },
                 { label: t('trackOrder.email'), value: order.customer_email },
                 { label: t('trackOrder.date'), value: new Date(order.created_at).toLocaleDateString() },
-                { label: t('trackOrder.status'), value: statusLabels[order.status] || order.status },
+                { label: t('trackOrder.status'), value: statusValue },
               ].map(f => (
                 <div key={f.label} className="bg-stone-50 rounded-lg p-3.5 space-y-1">
                   <p className="text-[9px] uppercase tracking-widest font-bold text-stone-500">{f.label}</p>
@@ -155,7 +167,9 @@ export default function TrackOrder() {
                     <img src={item.image} alt={item.name} loading="lazy" className="w-10 h-10 object-cover rounded border border-stone-100 shrink-0" />
                     <div className="flex-1 min-w-0">
                       <p className="text-xs font-medium text-stone-800 truncate font-sans">{item.name}</p>
-                      <p className="text-[10px] text-stone-500 font-sans">{t('productDetail.sizes.medium')} × {item.quantity}</p>
+                      <p className="text-[10px] text-stone-500 font-sans">
+                        {getVariantLabelFromFields(item, t) || item.variant_id || item.selected_size || t('productDetail.sizes.medium')} × {item.quantity}
+                      </p>
                     </div>
                     <span className="text-xs font-bold text-stone-900 font-sans shrink-0">
                       {formatPrice(item.price * item.quantity)}
@@ -175,7 +189,37 @@ export default function TrackOrder() {
 
           <div className="bg-white border border-champagne-150 rounded-xl p-8 md:p-10 shadow-xs">
             <div className="space-y-6">
-              {order.status === 'cancelled' ? (
+              {awaitingAvailability ? (
+                <div className="flex flex-col items-center text-center space-y-3 py-4">
+                  <div className="w-14 h-14 bg-amber-50 border border-amber-200 rounded-full flex items-center justify-center">
+                    <Clock size={28} className="text-amber-500" />
+                  </div>
+                  <div>
+                    <p className="font-serif text-base font-bold text-stone-900">{t('trackOrder.availabilityReviewTitle')}</p>
+                    <p className="text-xs text-stone-500 mt-1 font-sans max-w-md">{t('trackOrder.availabilityReviewDesc')}</p>
+                  </div>
+                </div>
+              ) : availabilityUnavailable ? (
+                <div className="flex flex-col items-center text-center space-y-3 py-4">
+                  <div className="w-14 h-14 bg-red-50 border border-red-200 rounded-full flex items-center justify-center">
+                    <XCircle size={28} className="text-red-500" />
+                  </div>
+                  <div>
+                    <p className="font-serif text-base font-bold text-stone-900">{t('trackOrder.availabilityUnavailableTitle')}</p>
+                    <p className="text-xs text-stone-500 mt-1 font-sans max-w-md">{t('trackOrder.availabilityUnavailableDesc')}</p>
+                  </div>
+                </div>
+              ) : availabilityConfirmed ? (
+                <div className="flex flex-col items-center text-center space-y-3 py-4">
+                  <div className="w-14 h-14 bg-emerald-50 border border-emerald-200 rounded-full flex items-center justify-center">
+                    <CheckCircle2 size={28} className="text-emerald-500" />
+                  </div>
+                  <div>
+                    <p className="font-serif text-base font-bold text-stone-900">{t('trackOrder.availabilityConfirmedTitle')}</p>
+                    <p className="text-xs text-stone-500 mt-1 font-sans max-w-md">{t('trackOrder.availabilityConfirmedDesc')}</p>
+                  </div>
+                </div>
+              ) : order.status === 'cancelled' ? (
                 <div className="flex flex-col items-center text-center space-y-3 py-4">
                   <div className="w-14 h-14 bg-red-50 border border-red-200 rounded-full flex items-center justify-center">
                     <XCircle size={28} className="text-red-500" />

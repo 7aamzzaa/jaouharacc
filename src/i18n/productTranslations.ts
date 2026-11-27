@@ -1,5 +1,6 @@
 import type { Product } from '../types';
 import type { Lang } from './index';
+import { VARIANT_SEARCH_TERMS } from './variantLabels';
 
 export interface ProductTranslation {
   name: string;
@@ -146,6 +147,14 @@ export function productMatchesQuery(product: Product, query: string, lang: Lang)
     product.id,
     product.slug || '',
     ...(product.tags || []),
+    ...(product.variants || []).flatMap((variant) => [
+      variant.id,
+      variant.sku || '',
+      variant.finish,
+      variant.color,
+      ...(VARIANT_SEARCH_TERMS[variant.finish] || []),
+      ...(VARIANT_SEARCH_TERMS[variant.color] || []),
+    ]),
   ].map(normalizeSearchValue);
 
   return haystack.some((value) => value.includes(q));
@@ -348,6 +357,11 @@ export const productTranslations: Record<string, { en: ProductTranslation; fr: P
     en: {  name: "Women's Polished Filigree Drop Earrings with Ornate Cone Pendants", description: "Enhance your look with these Polished stainless steel drop earrings featuring ornate floral openwork, curved geometric medallions and clear oval accents. Delicate cone-shaped filigree pendants complete their elegant, Eastern-inspired silhouette, making this matching pair a sophisticated accessory for special occasions and dressy outfits.", material: "Stainless steel", color: "Polished metallic finish"  },
     fr: {  name: "Boucles d'oreilles pendantes à médaillons ajourés et pampilles coniques — finition brillante", description: "Sublimez votre style avec cette paire de boucles d'oreilles pendantes brillantes en acier inoxydable. Leur design raffiné associe des motifs floraux ajourés, des médaillons géométriques aux lignes délicatement incurvées et des ornements ovales transparents. De fines pampilles coniques aux arabesques brillantes viennent compléter ces bijoux au charme oriental, parfaits pour les occasions spéciales et les tenues élégantes.", material: "Acier inoxydable", color: "Finition métallique brillante"  },
     ar: {  name: "أقراط نسائية معدنية لامعة متدلية بزخارف مفرغة وتعليقات مخروطية", description: "أضيفي لمسة من الأناقة الشرقية إلى إطلالتك مع هذا الزوج من الأقراط النسائية المتدلية المصنوعة من الفولاذ المقاوم للصدأ بلمسة معدنية لامعة. تتميز بزخارف زهرية مفرغة وقطع هندسية أنيقة ذات حواف منحنية، تتوسطها تفاصيل بيضاوية شفافة براقة. وتكتمل بتعليقات مخروطية مزخرفة بنقوش معدنية لامعة دقيقة، لتمنحك إطلالة راقية تناسب المناسبات والسهرات.", material: "الفولاذ المقاوم للصدأ", color: "لمسة معدنية لامعة"  },
+  },
+  "CCJ-NEC-CYGNE": {
+    en: {  name: "Swan Necklace with Accent Colours", description: "A swan-inspired stainless steel necklace offered in eight visual finish and accent colour options. Availability is confirmed by the seller after your order request.", material: "Stainless steel", color: "Visual metallic finish with coloured accents"  },
+    fr: {  name: "Collier Cygne aux Couleurs d’Accent", description: "Un collier en acier inoxydable inspiré du cygne, proposé en huit options visuelles de finition et de couleur d’accent. La disponibilité est confirmée par le vendeur après votre demande de commande.", material: "Acier inoxydable", color: "Finition métallique visuelle avec accents colorés"  },
+    ar: {  name: "قلادة البجعة بألوان اللمسات", description: "قلادة من الفولاذ المقاوم للصدأ مستوحاة من البجعة، تتوفر بثمانية خيارات بصرية للتشطيب ولون اللمسة. يؤكد البائع التوفر بعد تقديم طلبك.", material: "الفولاذ المقاوم للصدأ", color: "تشطيب معدني بصري مع لمسات ملونة"  },
   },
   "CCJ-SET-001": {
     en: {  name: "Women's Polished Double-Layer Necklace with Pearl-Look Beads and Rooster Medallions", description: "Add a distinctive touch to your look with this stainless steel double-layer necklace with a polished finish. Delicate chains are accented with oval pearl-look beads and two round rooster-motif medallions inspired by vintage coin designs. The combination of luminous beads and polished details creates a refined, vintage-inspired accessory for everyday styling and dressier occasions.", material: "Stainless steel", color: "Polished metallic finish"  },

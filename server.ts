@@ -46,7 +46,7 @@ import {
   decrementProductStock,
   restoreProductStock
 } from './serverDB';
-import { Product, Review, Order } from './src/types';
+import { Product, ProductVariant, Review, Order } from './src/types';
 
 export const app = express();
 const PORT = 3000;
@@ -239,6 +239,20 @@ app.get('/api/products/:id', async (req, res) => {
 // Upsert product (Add / Edit) - Admin Area
 const VALID_PRODUCT_CATEGORIES = ['bracelets', 'rings', 'earrings', 'anklets', 'necklaces', 'jewelry_sets'];
 
+const CYGNE_PRODUCT_ID = 'CCJ-NEC-CYGNE';
+const CYGNE_IMAGE_BASE = `/images/products/necklaces/${CYGNE_PRODUCT_ID}/`;
+const CYGNE_IMAGE_FILES = ['01-white.webp', '02-detail.webp', '03-emerald.webp'] as const;
+const CYGNE_VARIANTS = [
+  { id: '00-GOLD-PURPLE', finish: 'GOLD', color: 'PURPLE' },
+  { id: '01-GOLD-PINK', finish: 'GOLD', color: 'PINK' },
+  { id: '02-GOLD-WHITE', finish: 'GOLD', color: 'WHITE' },
+  { id: '03-GOLD-BLACK', finish: 'GOLD', color: 'BLACK' },
+  { id: '04-SILVER-WHITE', finish: 'SILVER', color: 'WHITE' },
+  { id: '05-SILVER-BLACK', finish: 'SILVER', color: 'BLACK' },
+  { id: '06-SILVER-PURPLE', finish: 'SILVER', color: 'PURPLE' },
+  { id: '07-SILVER-PINK', finish: 'SILVER', color: 'PINK' },
+] as const;
+
 // Normalize optional rating/review fields at the API boundary. Missing or
 // invalid values become null so the UI can show an unrated state instead of
 // inventing customer feedback or crashing on undefined.toFixed().
@@ -268,6 +282,53 @@ function validateOneProduct(raw: any, index?: number): { status: 'ok'; product: 
   const stock = Number(raw.stock);
   if (!Number.isFinite(stock) || stock < 0 || !Number.isInteger(stock)) return { status: 'error', error: `${prefix}Stock must be a non-negative integer` };
 
+  const inventoryPolicy = raw.inventory_policy === undefined || raw.inventory_policy === null || raw.inventory_policy === ''
+    ? 'tracked'
+    : raw.inventory_policy;
+  if (inventoryPolicy !== 'tracked' && inventoryPolicy !== 'availability_to_confirm') {
+    return { status: 'error', error: `${prefix}Invalid inventory policy` };
+  }
+
+  let variants: ProductVariant[] | undefined;
+  if (raw.variants !== undefined && raw.variants !== null) {
+    if (!Array.isArray(raw.variants)) return { status: 'error', error: `${prefix}Variants must be an array` };
+    if (raw.variants.length > 50) return { status: 'error', error: `${prefix}Maximum 50 variants allowed` };
+    const seenVariantIds = new Set<string>();
+    variants = [];
+    for (const rawVariant of raw.variants) {
+      const variantId = typeof rawVariant?.id === 'string' ? rawVariant.id.trim() : '';
+      const finish = typeof rawVariant?.finish === 'string' ? rawVariant.finish.trim() : '';
+      const color = typeof rawVariant?.color === 'string' ? rawVariant.color.trim() : '';
+      if (!variantId || !finish || !color) {
+        return { status: 'error', error: `${prefix}Each variant requires id, finish and color` };
+      }
+      if (seenVariantIds.has(variantId)) {
+        return { status: 'error', error: `${prefix}Duplicate variant id "${variantId}"` };
+      }
+      seenVariantIds.add(variantId);
+      const variantImages = Array.isArray(rawVariant.images)
+        ? rawVariant.images.filter((u: any) => typeof u === 'string' && u.trim()).map((u: string) => u.trim())
+        : [];
+      if (variantImages.length === 0 || variantImages.length > 10) {
+        return { status: 'error', error: `${prefix}Variant ${variantId} must have between 1 and 10 images` };
+      }
+      variants.push({
+        id: variantId,
+        sku: typeof rawVariant.sku === 'string' && rawVariant.sku.trim() ? rawVariant.sku.trim() : undefined,
+        finish,
+        color,
+        images: variantImages,
+      });
+    }
+  }
+
+  if (raw.id === CYGNE_PRODUCT_ID) {
+    if (price !== 79) return { status: 'error', error: `${prefix}CCJ-NEC-CYGNE price must be 79 MAD` };
+    if (stock !== 0) return { status: 'error', error: `${prefix}CCJ-NEC-CYGNE stock must be 0 (availability confirmation)` };
+    if ((variants || []).length !== 8) return { status: 'error', error: `${prefix}CCJ-NEC-CYGNE must have exactly 8 variants` };
+    if (inventoryPolicy !== 'availability_to_confirm') return { status: 'error', error: `${prefix}CCJ-NEC-CYGNE must use availability confirmation` };
+  }
+
   const category = typeof raw.category === 'string' ? raw.category.trim() : '';
   if (!VALID_PRODUCT_CATEGORIES.includes(category)) return { status: 'error', error: `${prefix}Invalid category. Allowed: ${VALID_PRODUCT_CATEGORIES.join(', ')}` };
 
@@ -281,6 +342,30 @@ function validateOneProduct(raw: any, index?: number): { status: 'ok'; product: 
   }
   if (images.length === 0) return { status: 'error', error: `${prefix}At least one product image is required` };
   if (images.length > 10) return { status: 'error', error: `${prefix}Maximum 10 images allowed` };
+
+  if (raw.id === CYGNE_PRODUCT_ID) {
+    if (category !== 'necklaces') return { status: 'error', error: `${prefix}CCJ-NEC-CYGNE category must be necklaces` };
+    const expectedIds = CYGNE_VARIANTS.map((variant) => variant.id).sort();
+    const actualIds = (variants || []).map((variant) => variant.id).sort();
+    if (JSON.stringify(actualIds) !== JSON.stringify(expectedIds)) {
+      return { status: 'error', error: `${prefix}CCJ-NEC-CYGNE has an unexpected variant set` };
+    }
+    for (const expected of CYGNE_VARIANTS) {
+      const variant = variants?.find((candidate) => candidate.id === expected.id);
+      if (!variant) return { status: 'error', error: `${prefix}Missing CCJ-NEC-CYGNE variant ${expected.id}` };
+      if (variant.finish !== expected.finish || variant.color !== expected.color) {
+        return { status: 'error', error: `${prefix}Invalid finish/colour for CCJ-NEC-CYGNE variant ${expected.id}` };
+      }
+      const expectedImages = CYGNE_IMAGE_FILES.map((file) => `${CYGNE_IMAGE_BASE}${expected.id}/${file}`);
+      if (variant.images.length !== expectedImages.length || variant.images.some((image, i) => image !== expectedImages[i])) {
+        return { status: 'error', error: `${prefix}Invalid image set for CCJ-NEC-CYGNE variant ${expected.id}` };
+      }
+    }
+    const expectedBaseImages = CYGNE_IMAGE_FILES.map((file) => `${CYGNE_IMAGE_BASE}${CYGNE_VARIANTS[0].id}/${file}`);
+    if (images.length !== expectedBaseImages.length || images.some((image, i) => image !== expectedBaseImages[i])) {
+      return { status: 'error', error: `${prefix}Invalid base images for CCJ-NEC-CYGNE` };
+    }
+  }
 
   const materialNorm = typeof raw.material === 'string' ? raw.material.trim() : '';
   const colorNorm = typeof raw.color === 'string' ? raw.color.trim() : '';
@@ -311,7 +396,9 @@ function validateOneProduct(raw: any, index?: number): { status: 'ok'; product: 
     imageAltText: typeof raw.imageAltText === 'string' && raw.imageAltText.trim() ? raw.imageAltText.trim() : undefined,
     tags: Array.isArray(raw.tags) ? raw.tags.filter((t: any) => typeof t === 'string' && t.trim()) : undefined,
     primaryKeyword: typeof raw.primaryKeyword === 'string' && raw.primaryKeyword.trim() ? raw.primaryKeyword.trim() : undefined,
-    secondaryKeywords: Array.isArray(raw.secondaryKeywords) ? raw.secondaryKeywords.filter((k: any) => typeof k === 'string' && k.trim()) : undefined
+    secondaryKeywords: Array.isArray(raw.secondaryKeywords) ? raw.secondaryKeywords.filter((k: any) => typeof k === 'string' && k.trim()) : undefined,
+    variants,
+    inventory_policy: raw.inventory_policy ? inventoryPolicy : undefined
   };
 
   return { status: 'ok', product };
@@ -336,6 +423,8 @@ app.post('/api/products', requireAdmin, async (req, res) => {
       if (existing) {
         productData.rating = typeof existing.rating === 'number' ? existing.rating : 0;
         productData.reviews = typeof existing.reviews === 'number' ? existing.reviews : 0;
+        if (!productData.variants && existing.variants) productData.variants = existing.variants;
+        if (!productData.inventory_policy && existing.inventory_policy) productData.inventory_policy = existing.inventory_policy;
       }
     }
 
@@ -512,7 +601,16 @@ app.post('/api/orders', rateLimit(20, 15 * 60 * 1000), async (req, res) => {
       return res.status(400).json({ error: 'Items array is required and cannot be empty' });
     }
 
-    interface TrustedItem { product_id: string; quantity: number; selected_size: string; }
+    interface TrustedItem {
+      product_id: string;
+      quantity: number;
+      selected_size: string;
+      variant_id: string;
+      variant_sku: string;
+      variant_finish: string;
+      variant_color: string;
+      variant_label: string;
+    }
     const trustItems: TrustedItem[] = [];
     for (const raw of items) {
       const productId = str(raw?.product_id, 200);
@@ -523,22 +621,62 @@ app.post('/api/orders', rateLimit(20, 15 * 60 * 1000), async (req, res) => {
       if (typeof raw?.quantity !== 'number' || !Number.isInteger(raw.quantity) || raw.quantity < 1) {
         return res.status(400).json({ error: `Invalid quantity for product ${productId}` });
       }
+      // Documented anti-abuse cap. Availability requests reserve no stock, but
+      // this still prevents one request from creating an unlimited order line.
       if (raw.quantity > 99) {
         return res.status(400).json({ error: `Quantity exceeds the maximum of 99 for product ${productId}` });
       }
-      trustItems.push({ product_id: productId, quantity: raw.quantity, selected_size: selectedSize });
+      trustItems.push({
+        product_id: productId,
+        quantity: raw.quantity,
+        selected_size: selectedSize,
+        variant_id: str(raw?.variant_id, 120),
+        variant_sku: str(raw?.variant_sku, 120),
+        variant_finish: str(raw?.variant_finish, 40),
+        variant_color: str(raw?.variant_color, 40),
+        variant_label: str(raw?.variant_label, 120),
+      });
     }
 
     // --- Authoritative product resolution --------------------------------------
-    const resolved: { product: Product; quantity: number; selected_size: string }[] = [];
-    const quantityByProduct = new Map<string, number>();
+    const resolved: {
+      product: Product;
+      quantity: number;
+      selected_size: string;
+      variant?: ProductVariant;
+      variant_label: string;
+      availabilityToConfirm: boolean;
+    }[] = [];
     for (const item of trustItems) {
       const product = await getProductById(item.product_id);
       if (!product || typeof product.price !== 'number' || product.price <= 0) {
         return res.status(404).json({ error: `Product not found: ${item.product_id}` });
       }
-      resolved.push({ product, quantity: item.quantity, selected_size: item.selected_size });
-      quantityByProduct.set(item.product_id, (quantityByProduct.get(item.product_id) || 0) + item.quantity);
+      if (product.id === 'CCJ-NEC-CYGNE' && product.price !== 79) {
+        return res.status(500).json({ error: 'Product pricing configuration is invalid' });
+      }
+
+      let variant: ProductVariant | undefined;
+      if (product.variants?.length) {
+        if (!item.variant_id) {
+          return res.status(400).json({ error: `Variant is required for ${product.id}` });
+        }
+        variant = product.variants.find((candidate) => candidate.id === item.variant_id);
+        if (!variant) {
+          return res.status(400).json({ error: `Invalid variant "${item.variant_id}" for ${product.id}` });
+        }
+      } else if (item.variant_id) {
+        return res.status(400).json({ error: `Variant is not valid for ${product.id}` });
+      }
+
+      resolved.push({
+        product,
+        quantity: item.quantity,
+        selected_size: item.selected_size,
+        variant,
+        variant_label: item.variant_label,
+        availabilityToConfirm: product.inventory_policy === 'availability_to_confirm',
+      });
     }
 
     // --- Server-side pricing (shipping, total) ------------------------------
@@ -552,6 +690,8 @@ app.post('/api/orders', rateLimit(20, 15 * 60 * 1000), async (req, res) => {
     const total = Math.max(0, subtotal + shippingCost);
 
     const orderId = 'ORD-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+    const requiresAvailabilityReview = resolved.some((r) => r.availabilityToConfirm);
+    const initialStatus: Order['status'] = requiresAvailabilityReview ? 'awaiting_availability' : 'pending';
 
     const orderItems: Order['items'] = resolved.map(r => ({
       product_id: r.product.id,
@@ -559,7 +699,13 @@ app.post('/api/orders', rateLimit(20, 15 * 60 * 1000), async (req, res) => {
       price: r.product.price,
       quantity: r.quantity,
       selected_size: r.selected_size,
-      image: (r.product.images && r.product.images[0]) || ''
+      image: (r.variant?.images && r.variant.images[0]) || (r.product.images && r.product.images[0]) || '',
+      variant_id: r.variant?.id,
+      variant_sku: r.variant?.sku,
+      variant_finish: r.variant?.finish,
+      variant_color: r.variant?.color,
+      variant_label: r.variant_label || undefined,
+      availability_to_confirm: r.availabilityToConfirm || undefined
     }));
 
     // --- Serialized commit: lock -> stock check -> decrement -> create ----------
@@ -600,7 +746,7 @@ app.post('/api/orders', rateLimit(20, 15 * 60 * 1000), async (req, res) => {
             discount_code: normalizedDiscountCode,
             total,
             idempotency_key: idempotencyKey,
-            status: 'pending'
+            status: initialStatus
           });
           rememberIdempotency(idempotencyKey, saved.id);
           return saved;
@@ -612,8 +758,18 @@ app.post('/api/orders', rateLimit(20, 15 * 60 * 1000), async (req, res) => {
         }
       }
 
+      // Availability-confirmation requests do not consume ready stock. Aggregate
+      // quantities for tracked products so two variants of one product cannot
+      // oversell it. Stock 0 is only permitted for the explicit policy above.
+      const trackedQuantities = new Map<string, number>();
+      for (const r of resolved) {
+        if (r.availabilityToConfirm) continue;
+        trackedQuantities.set(r.product.id, (trackedQuantities.get(r.product.id) || 0) + r.quantity);
+      }
+      const trackedItems = Array.from(trackedQuantities, ([product_id, quantity]) => ({ product_id, quantity }));
+
       // Fresh authoritative stock read under the lock.
-      for (const { product_id, quantity } of trustItems) {
+      for (const { product_id, quantity } of trackedItems) {
         const available = await getProductStock(product_id);
         if (available < quantity) {
           const prod = await getProductById(product_id);
@@ -621,10 +777,10 @@ app.post('/api/orders', rateLimit(20, 15 * 60 * 1000), async (req, res) => {
         }
       }
 
-      // Decrement all stock, tracking what we changed for rollback on failure.
+      // Decrement tracked stock, tracking what we changed for rollback on failure.
       const decremented: { product_id: string; quantity: number }[] = [];
       try {
-        for (const { product_id, quantity } of trustItems) {
+        for (const { product_id, quantity } of trackedItems) {
           await decrementProductStock(product_id, quantity);
           decremented.push({ product_id, quantity });
         }
@@ -655,7 +811,8 @@ app.post('/api/orders', rateLimit(20, 15 * 60 * 1000), async (req, res) => {
           discount_amount: discountAmount,
           discount_code: normalizedDiscountCode,
           total,
-          idempotency_key: idempotencyKey
+          idempotency_key: idempotencyKey,
+          status: initialStatus
         });
       } catch (err) {
         console.error('[Order Rollback] Order creation failed, restoring stock:', err);
@@ -707,7 +864,7 @@ app.patch('/api/orders/:id', requireAdmin, async (req, res) => {
     if (!status) {
       return res.status(400).json({ error: 'Status is key required' });
     }
-    const validStatuses = ['pending', 'confirmed', 'shipped', 'delivered', 'cancelled'];
+    const validStatuses = ['pending', 'awaiting_availability', 'confirmed', 'shipped', 'delivered', 'cancelled'];
     if (!validStatuses.includes(status)) {
       return res.status(400).json({ error: 'Invalid status value' });
     }

@@ -1,10 +1,12 @@
 import { useState, useEffect, useMemo, useCallback, lazy, Suspense } from 'react';
 import { Minus, Plus, ShoppingBag, Heart, Scale, RefreshCw, ArrowLeft, ArrowRight, ExternalLink, Truck, CheckCircle } from 'lucide-react';
-import { Product, Review } from '../types';
+import { Product, ProductVariant, Review } from '../types';
 import ProductRating from '../components/ProductRating';
 import ProductCard from '../components/ProductCard';
 import { useTranslation } from '../i18n';
 import { getLocalizedCategoryLabel, getProductLocalizedFields } from '../i18n/productTranslations';
+import { ACCENT_LABEL_KEYS, FINISH_LABEL_KEYS, getVariantLabel } from '../i18n/variantLabels';
+import { getDefaultVariant, getMaxQuantity, getVariantById, isAvailabilityToConfirm, resolveVariantOrDefault } from '../data/productOptions';
 import { useCurrency } from '../CurrencyContext';
 
 const FAQAccordion = lazy(() => import('../components/FAQAccordion'));
@@ -17,7 +19,7 @@ const ReviewForm = lazy(() => import('../components/reviews/ReviewForm'));
 interface ProductDetailProps {
   productParam: string;
   allProducts: Product[];
-  onAddToCart: (product: Product, quantity: number, size: string) => void;
+  onAddToCart: (product: Product, quantity: number, size: string, variant?: ProductVariant) => void;
   wishlist: string[];
   onToggleWishlist: (id: string) => void;
   onPageChange: (pageName: string, params?: any) => void;
@@ -28,6 +30,7 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
   const [product, setProduct] = useState<Product | null>(null);
   const [activeImageIndex, setActiveImageIndex] = useState<number>(0);
   const [selectedSize, setSelectedSize] = useState<string>('Medium (7.0")');
+  const [selectedVariantId, setSelectedVariantId] = useState<string>('');
   const [quantity, setQuantity] = useState<number>(1);
   const RECENTLY_VIEWED_KEY = 'ccjaouhara_recently_viewed';
   const [recentlyViewedIds, setRecentlyViewedIds] = useState<string[]>(() => {
@@ -85,18 +88,34 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
   );
   const localizedCategory = product ? getLocalizedCategoryLabel(t, product.category) : '';
 
+  // Variant state is derived before any conditional return so hooks stay stable.
+  const productVariants = product?.variants || [];
+  const selectedVariant = getVariantById(product, selectedVariantId) || getDefaultVariant(product) || null;
+  const galleryImages = selectedVariant?.images?.length ? selectedVariant.images : product?.images || [];
+  const galleryImage = galleryImages[0] || '';
+  const availabilityToConfirm = isAvailabilityToConfirm(product);
+  const maxQuantity = getMaxQuantity(product);
+  const isOutOfStock = product ? !availabilityToConfirm && product.stock === 0 : false;
+  const selectedVariantLabel = getVariantLabel(selectedVariant, t);
+
   // Load product: try slug first, then fall back to ID for backward compatibility
   useEffect(() => {
     const found = allProducts.find(p => p.slug && p.slug === productParam)
       || allProducts.find(p => p.id === productParam);
     if (found) {
       setProduct(found);
+      setSelectedVariantId(found.variants?.[0]?.id || '');
       setActiveImageIndex(0);
       setQuantity(1);
     }
     // Scroll to top on load
     window.scrollTo(0, 0);
   }, [productParam, allProducts]);
+
+  // Reset the gallery when the customer switches variants.
+  useEffect(() => {
+    setActiveImageIndex(0);
+  }, [selectedVariantId]);
 
   // Dynamic SEO Meta tags injection
   useEffect(() => {
@@ -138,7 +157,7 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
     const ogTags: [string, string][] = [
       ['og:title', title],
       ['og:description', metaDesc],
-      ['og:image', product.images?.[0] || ''],
+      ['og:image', galleryImage],
       ['og:url', url],
       ['og:type', 'product'],
     ];
@@ -160,7 +179,7 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
       ['twitter:card', 'summary_large_image'],
       ['twitter:title', title],
       ['twitter:description', metaDesc],
-      ['twitter:image', product.images?.[0] || ''],
+      ['twitter:image', galleryImage],
     ];
     const prevTwitter: [HTMLMetaElement, string][] = [];
     for (const [name, content] of twitterTags) {
@@ -208,7 +227,7 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
         }
       }
     };
-  }, [product, localizedProduct]);
+  }, [product, localizedProduct, galleryImage]);
 
   // Save current product to recently viewed
   useEffect(() => {
@@ -291,7 +310,7 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
   }, [recentlyViewedIds, allProducts, product?.id]);
 
   const handleQuickAdd = useCallback((p: Product, size: string) => {
-    onAddToCart(p, 1, size);
+    onAddToCart(p, 1, size, resolveVariantOrDefault(p) || undefined);
   }, [onAddToCart]);
 
   const handleViewRelated = useCallback((id: string) => {
@@ -302,13 +321,17 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
   const productSchema = useMemo(() => {
     if (!product) return null;
     const desc = localizedProduct.description || product.description || '';
-    const availability = (product.stock ?? 0) > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock';
+    const availability = availabilityToConfirm
+      ? 'https://schema.org/PreOrder'
+      : (product.stock ?? 0) > 0
+        ? 'https://schema.org/InStock'
+        : 'https://schema.org/OutOfStock';
     return {
       '@context': 'https://schema.org',
       '@type': 'Product',
       name: localizedProduct.name || product.name,
       description: desc,
-      image: product.images?.[0] || '',
+      image: galleryImage,
       brand: { '@type': 'Brand', name: 'CCJaouhara' },
       category: product.category,
       sku: product.id,
@@ -319,7 +342,7 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
         availability,
       },
     };
-  }, [product, localizedProduct]);
+  }, [product, localizedProduct, galleryImage, availabilityToConfirm]);
 
   if (!product) {
     return (
@@ -330,21 +353,35 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
     );
   }
 
-  const isOutOfStock = product.stock === 0;
   const translatedName = localizedProduct.name || product.name;
   const translatedDescription = localizedProduct.description || product.description;
 
-  // Sizes array details
+  // Sizes array details (legacy products without variants)
   const sizeOptions = [
     { label: t('productDetail.sizes.small'), desc: t('productDetail.sizes.smallDesc') },
     { label: t('productDetail.sizes.medium'), desc: t('productDetail.sizes.mediumDesc') },
     { label: t('productDetail.sizes.large'), desc: t('productDetail.sizes.largeDesc') },
   ];
 
+  const finishOptions = Array.from(new Set(productVariants.map((variant) => variant.finish)));
+  const accentOptions = Array.from(new Set(productVariants.map((variant) => variant.color)));
+
+  const selectVariantByFinish = (finish: string) => {
+    const variant = productVariants.find((item) => item.finish === finish && item.color === selectedVariant?.color)
+      || productVariants.find((item) => item.finish === finish);
+    if (variant) setSelectedVariantId(variant.id);
+  };
+
+  const selectVariantByColor = (color: string) => {
+    const variant = productVariants.find((item) => item.color === color && item.finish === selectedVariant?.finish)
+      || productVariants.find((item) => item.color === color);
+    if (variant) setSelectedVariantId(variant.id);
+  };
+
   // Handle add to bag action
   const handleAddToBag = () => {
     if (isOutOfStock) return;
-    onAddToCart(product, quantity, selectedSize);
+    onAddToCart(product, quantity, selectedVariant ? '' : selectedSize, selectedVariant || undefined);
     setAddedMessage(true);
     setTimeout(() => {
       setAddedMessage(false);
@@ -354,9 +391,70 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
   // Handle buy now action: add to cart and proceed directly to checkout
   const handleBuyNow = () => {
     if (isOutOfStock) return;
-    onAddToCart(product, quantity, selectedSize);
+    onAddToCart(product, quantity, selectedVariant ? '' : selectedSize, selectedVariant || undefined);
     onPageChange('cart');
   };
+
+  const variantSelector = productVariants.length > 0 ? (
+    <div className="space-y-3" data-testid="product-variant-selector">
+      <div className="flex justify-between items-baseline">
+        <h3 className="text-xs tracking-widest uppercase text-stone-800 font-semibold">{t('productDetail.variantHeading')}</h3>
+      </div>
+
+      <div className="space-y-2">
+        <p className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold">{t('productDetail.finishHeading')}</p>
+        <div className="grid grid-cols-2 gap-2 sm:gap-3">
+          {finishOptions.map((finish) => {
+            const active = selectedVariant?.finish === finish;
+            return (
+              <button
+                key={finish}
+                type="button"
+                aria-pressed={active}
+                onClick={() => selectVariantByFinish(finish)}
+                className={`cursor-pointer p-2.5 sm:p-3 border rounded-md text-center transition-all focus:outline-hidden ${
+                  active
+                    ? 'border-champagne-500 bg-luxe-pink-50 text-champagne-600 font-semibold'
+                    : 'border-stone-200 hover:border-stone-400 text-stone-700 bg-white'
+                }`}
+              >
+                <span className="block text-[11px] sm:text-xs font-semibold">{t(FINISH_LABEL_KEYS[finish] || finish)}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="space-y-2">
+        <p className="text-[10px] uppercase tracking-wider text-stone-500 font-semibold">{t('productDetail.accentHeading')}</p>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+          {accentOptions.map((color) => {
+            const active = selectedVariant?.color === color;
+            return (
+              <button
+                key={color}
+                type="button"
+                aria-pressed={active}
+                onClick={() => selectVariantByColor(color)}
+                className={`cursor-pointer p-2.5 border rounded-md text-center transition-all focus:outline-hidden ${
+                  active
+                    ? 'border-champagne-500 bg-luxe-pink-50 text-champagne-600 font-semibold'
+                    : 'border-stone-200 hover:border-stone-400 text-stone-700 bg-white'
+                }`}
+              >
+                <span className="block text-[11px] font-semibold">{t(ACCENT_LABEL_KEYS[color] || color)}</span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <p className="text-[10px] text-stone-400 font-sans leading-relaxed">{t('productDetail.variantNote')}</p>
+      <p className="text-[11px] text-champagne-700 font-semibold font-sans">
+        {t('productDetail.variantSelected', { label: selectedVariantLabel })}
+      </p>
+    </div>
+  ) : null;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-20">
@@ -379,7 +477,7 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
           <div className="sm:hidden space-y-3 max-lg:order-1">
             <div className="zoom-frame aspect-square bg-stone-50 border border-champagne-100 rounded-lg overflow-hidden relative">
               <img
-                src={product.images[activeImageIndex] || product.images[0]}
+                src={galleryImages[activeImageIndex] || galleryImages[0]}
                 alt={translatedName}
                 className="zoom-image object-cover w-full h-full"
               />
@@ -392,9 +490,9 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
               )}
             </div>
 
-            {product.images.length > 1 && (
+            {galleryImages.length > 1 && (
               <div className="flex gap-3 overflow-x-auto snap-x snap-mandatory pb-1">
-                {product.images.map((imgUrl, idx) => (
+                {galleryImages.map((imgUrl, idx) => (
                   <button
                     key={idx}
                     onClick={() => setActiveImageIndex(idx)}
@@ -415,7 +513,7 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
           <div className="hidden sm:block space-y-4 max-lg:order-1">
             <div className="zoom-frame aspect-square bg-stone-50 border border-champagne-100 rounded-lg overflow-hidden relative">
               <img
-                src={product.images[activeImageIndex] || product.images[0]}
+                src={galleryImages[activeImageIndex] || galleryImages[0]}
                 alt={translatedName}
                 className="zoom-image object-cover w-full h-full"
               />
@@ -428,9 +526,9 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
               )}
             </div>
 
-            {product.images.length > 1 && (
+            {galleryImages.length > 1 && (
               <div className="flex gap-4">
-                {product.images.map((imgUrl, idx) => (
+                {galleryImages.map((imgUrl, idx) => (
                   <button
                     key={idx}
                     onClick={() => setActiveImageIndex(idx)}
@@ -474,7 +572,7 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
                           referrerPolicy="no-referrer"
                           className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                         />
-                        {rec.stock === 0 && (
+                        {rec.stock === 0 && !isAvailabilityToConfirm(rec) && (
                           <span className="text-[9px] bg-stone-900 text-white tracking-widest uppercase font-semibold px-2 py-0.5">
                             {t('productDetail.soldOut')}
                           </span>
@@ -609,8 +707,15 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
                 {t('productDetail.shareButton')}
               </button>
             </div>
-            <div className="pt-0.5">
-              {isOutOfStock ? (
+            <div className="pt-0.5 space-y-1">
+              {availabilityToConfirm ? (
+                <>
+                  <span className="inline-flex items-center text-[10px] uppercase font-mono tracking-wider font-semibold text-champagne-700 bg-champagne-50 px-2 py-1 rounded-sm">
+                    {t('productDetail.availabilityToConfirm')}
+                  </span>
+                  <p className="text-[10px] text-stone-400 font-sans">{t('productDetail.availabilityToConfirmNote')}</p>
+                </>
+              ) : isOutOfStock ? (
                 <span className="inline-flex items-center text-[10px] uppercase font-mono tracking-wider font-semibold text-stone-500 bg-stone-100 px-2 py-1 rounded-sm">
                   {t('productDetail.soldOut')}
                 </span>
@@ -629,7 +734,11 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
               <span className="text-xs tracking-[0.25em] uppercase text-champagne-600 font-semibold font-sans">
                 {localizedCategory}
               </span>
-              {isOutOfStock ? (
+              {availabilityToConfirm ? (
+                <span className="text-[10px] uppercase font-mono tracking-wider font-semibold text-champagne-700 bg-champagne-50 px-2 py-1 rounded-sm">
+                  {t('productDetail.availabilityToConfirm')}
+                </span>
+              ) : isOutOfStock ? (
                 <span className="text-[10px] uppercase font-mono tracking-wider font-semibold text-stone-500 bg-stone-100 px-2 py-1 rounded-sm">
                   {t('productDetail.soldOut')}
                 </span>
@@ -639,6 +748,9 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
                 </span>
               )}
             </div>
+            {availabilityToConfirm && (
+              <p className="text-[10px] text-stone-400 font-sans">{t('productDetail.availabilityToConfirmNote')}</p>
+            )}
             
             <h1 className="font-serif text-3xl sm:text-4xl text-stone-950 font-medium leading-tight">
               {translatedName}
@@ -672,31 +784,33 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
 
           {/* Mobile Purchase Section (below 640px) */}
           <div className="sm:hidden space-y-5 max-lg:order-4">
-            {/* Choose Size */}
-            <div className="space-y-3">
-              <div className="flex justify-between items-baseline">
-                <h3 className="text-xs tracking-widest uppercase text-stone-800 font-semibold">{t('productDetail.sizeHeading')}</h3>
-                <a href="#" className="text-[10px] text-champagne-600 hover:underline hover:text-champagne-700 font-semibold">
-                  {t('productDetail.sizingGuide')}
-                </a>
+            {/* Choose Size or Variant */}
+            {variantSelector || (
+              <div className="space-y-3">
+                <div className="flex justify-between items-baseline">
+                  <h3 className="text-xs tracking-widest uppercase text-stone-800 font-semibold">{t('productDetail.sizeHeading')}</h3>
+                  <a href="#" className="text-[10px] text-champagne-600 hover:underline hover:text-champagne-700 font-semibold">
+                    {t('productDetail.sizingGuide')}
+                  </a>
+                </div>
+                <div className="grid grid-cols-3 gap-3">
+                  {sizeOptions.map((opt) => (
+                    <button
+                      key={opt.label}
+                      onClick={() => setSelectedSize(opt.label)}
+                      className={`cursor-pointer p-3 border rounded-md text-center transition-all focus:outline-hidden ${
+                        selectedSize === opt.label
+                          ? 'border-champagne-500 bg-luxe-pink-50 text-champagne-600 font-semibold'
+                          : 'border-stone-200 hover:border-stone-400 text-stone-700 bg-white'
+                      }`}
+                    >
+                      <span className="block text-xs font-semibold">{opt.label.split(' ')[0]}</span>
+                      <span className="text-[9px] text-stone-400 mt-0.5 block">{opt.label.split(' ')[1]}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
-              <div className="grid grid-cols-3 gap-3">
-                {sizeOptions.map((opt) => (
-                  <button
-                    key={opt.label}
-                    onClick={() => setSelectedSize(opt.label)}
-                    className={`cursor-pointer p-3 border rounded-md text-center transition-all focus:outline-hidden ${
-                      selectedSize === opt.label
-                        ? 'border-champagne-500 bg-luxe-pink-50 text-champagne-600 font-semibold'
-                        : 'border-stone-200 hover:border-stone-400 text-stone-700 bg-white'
-                    }`}
-                  >
-                    <span className="block text-xs font-semibold">{opt.label.split(' ')[0]}</span>
-                    <span className="text-[9px] text-stone-400 mt-0.5 block">{opt.label.split(' ')[1]}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
+            )}
 
             {/* Quantity + Wishlist */}
             <div className="flex items-center justify-between gap-4">
@@ -711,8 +825,8 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
                 </button>
                 <span className="w-8 text-center text-xs font-semibold font-mono">{quantity}</span>
                 <button
-                  onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
-                  disabled={isOutOfStock || quantity >= product.stock}
+                  onClick={() => setQuantity(Math.min(maxQuantity, quantity + 1))}
+                  disabled={isOutOfStock || quantity >= maxQuantity}
                   className="p-2 text-stone-500 hover:text-stone-950 disabled:opacity-30 focus:outline-hidden"
                   aria-label={t('productDetail.increaseQty')}
                 >
@@ -767,31 +881,35 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
             )}
           </div>
 
-          {/* Size Form Selector (Desktop / Tablet) */}
+          {/* Size / Variant Form Selector (Desktop / Tablet) */}
           <div className="hidden sm:block space-y-3 max-lg:order-4">
-            <div className="flex justify-between items-baseline">
-              <h3 className="text-xs tracking-widest uppercase text-stone-800 font-semibold">{t('productDetail.sizeHeading')}</h3>
-              <a href="#" className="text-[10px] text-champagne-600 hover:underline hover:text-champagne-700 font-semibold">
-                {t('productDetail.sizingGuide')}
-              </a>
-            </div>
+            {variantSelector || (
+              <div className="space-y-3">
+                <div className="flex justify-between items-baseline">
+                  <h3 className="text-xs tracking-widest uppercase text-stone-800 font-semibold">{t('productDetail.sizeHeading')}</h3>
+                  <a href="#" className="text-[10px] text-champagne-600 hover:underline hover:text-champagne-700 font-semibold">
+                    {t('productDetail.sizingGuide')}
+                  </a>
+                </div>
 
-            <div className="grid grid-cols-3 gap-3">
-              {sizeOptions.map((opt) => (
-                <button
-                  key={opt.label}
-                  onClick={() => setSelectedSize(opt.label)}
-                  className={`cursor-pointer p-3 border rounded-md text-center transition-all focus:outline-hidden ${
-                    selectedSize === opt.label
-                      ? 'border-champagne-500 bg-luxe-pink-50 text-champagne-600 font-semibold'
-                      : 'border-stone-200 hover:border-stone-400 text-stone-700 bg-white'
-                  }`}
-                >
-                  <span className="block text-xs font-semibold">{opt.label.split(' ')[0]}</span>
-                  <span className="text-[9px] text-stone-400 mt-0.5 block">{opt.label.split(' ')[1]}</span>
-                </button>
-              ))}
-            </div>
+                <div className="grid grid-cols-3 gap-3">
+                  {sizeOptions.map((opt) => (
+                    <button
+                      key={opt.label}
+                      onClick={() => setSelectedSize(opt.label)}
+                      className={`cursor-pointer p-3 border rounded-md text-center transition-all focus:outline-hidden ${
+                        selectedSize === opt.label
+                          ? 'border-champagne-500 bg-luxe-pink-50 text-champagne-600 font-semibold'
+                          : 'border-stone-200 hover:border-stone-400 text-stone-700 bg-white'
+                      }`}
+                    >
+                      <span className="block text-xs font-semibold">{opt.label.split(' ')[0]}</span>
+                      <span className="text-[9px] text-stone-400 mt-0.5 block">{opt.label.split(' ')[1]}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Quantity Controls and Add to Cart Button Block (Desktop / Tablet) */}
@@ -811,8 +929,8 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
                 </button>
                 <span className="w-8 text-center text-xs font-semibold font-mono">{quantity}</span>
                 <button
-                  onClick={() => setQuantity(Math.min(product.stock, quantity + 1))}
-                  disabled={isOutOfStock || quantity >= product.stock}
+                  onClick={() => setQuantity(Math.min(maxQuantity, quantity + 1))}
+                  disabled={isOutOfStock || quantity >= maxQuantity}
                   className="p-2 text-stone-500 hover:text-stone-950 disabled:opacity-30 focus:outline-hidden"
                   aria-label={t('productDetail.increaseQty')}
                 >

@@ -3,6 +3,7 @@ import path from 'path';
 import { createClient } from '@supabase/supabase-js';
 import { Product, Order, ContactMessage, Subscriber, Review } from './src/types';
 import { defaultProducts } from './src/data/defaultProducts';
+import { AVAILABILITY_REQUEST_MAX_QUANTITY, isAvailabilityToConfirm } from './src/data/productOptions';
 
 // ------------------------------------------------------------------------
 // In-process async lock (serializes order/stock read-modify-write commits)
@@ -451,7 +452,9 @@ export async function createOrderWithStock(orderData: Omit<Order, 'created_at' |
 // Get the current stock level for a product (authoritative read).
 export async function getProductStock(id: string): Promise<number> {
   const product = await getProductById(id);
-  return product && typeof product.stock === 'number' ? product.stock : 0;
+  if (!product) return 0;
+  if (isAvailabilityToConfirm(product)) return AVAILABILITY_REQUEST_MAX_QUANTITY;
+  return typeof product.stock === 'number' ? product.stock : 0;
 }
 
 // Atomically (within the process) decrement a product's stock by qty.
@@ -460,6 +463,7 @@ export async function getProductStock(id: string): Promise<number> {
 export async function decrementProductStock(id: string, qty: number): Promise<boolean> {
   const product = await getProductById(id);
   if (!product) return false;
+  if (isAvailabilityToConfirm(product)) return true;
   const newStock = Math.max(0, (typeof product.stock === 'number' ? product.stock : 0) - qty);
   const updated = { ...product, stock: newStock };
   await upsertProduct(updated);
@@ -470,7 +474,7 @@ export async function decrementProductStock(id: string, qty: number): Promise<bo
 // Only used when an order persisted AFTER a stock decrement fails to write.
 export async function restoreProductStock(id: string, qty: number): Promise<void> {
   const product = await getProductById(id);
-  if (!product) return;
+  if (!product || isAvailabilityToConfirm(product)) return;
   const currentStock = typeof product.stock === 'number' ? product.stock : 0;
   const updated = { ...product, stock: currentStock + qty };
   await upsertProduct(updated);

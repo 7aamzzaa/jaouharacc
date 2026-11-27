@@ -7,6 +7,7 @@ import { useTranslation } from '../i18n';
 import { useCurrency } from '../CurrencyContext';
 import { getOriginalPrice } from '../data/originalPrices';
 import { getLocalizedCategoryLabel, getProductLocalizedFields } from '../i18n/productTranslations';
+import { isAvailabilityToConfirm } from '../data/productOptions';
 import ShareModal from './ShareModal';
 
 interface ProductCardProps {
@@ -26,7 +27,8 @@ const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToC
   const localized = useMemo(() => getProductLocalizedFields(product, lang), [product, lang]);
   const categoryLabel = getLocalizedCategoryLabel(t, product.category);
   const [showShareModal, setShowShareModal] = useState(false);
-  const isOutOfStock = product.stock === 0;
+  const availabilityToConfirm = isAvailabilityToConfirm(product);
+  const isOutOfStock = !availabilityToConfirm && product.stock === 0;
   const originalPrice = getOriginalPrice(product.id, product.price);
 
   const handleViewClick = useCallback((e: React.MouseEvent) => {
@@ -74,6 +76,10 @@ const ProductCard = memo(function ProductCard({ product, onViewDetails, onAddToC
         {isOutOfStock ? (
           <span className={`absolute left-2 top-2 z-10 rounded-[6px] bg-stone-900/90 px-2 py-1 text-[8px] font-semibold uppercase tracking-widest text-white sm:left-3 sm:top-3 sm:rounded-none sm:border sm:border-champagne-400 sm:bg-stone-900 sm:text-[9px] sm:px-3 ${compact ? 'sm:px-3' : ''}`}>
             {t('productCard.outOfStock')}
+          </span>
+        ) : availabilityToConfirm ? (
+          <span className={`absolute left-2 top-2 z-10 rounded-[6px] bg-champagne-50/95 px-2 py-1 text-[8px] font-semibold uppercase tracking-widest text-champagne-700 sm:left-3 sm:top-3 sm:rounded-none sm:border sm:border-champagne-300 sm:text-[9px] sm:px-3 ${compact ? 'sm:px-3' : ''}`}>
+            {t('productDetail.availabilityToConfirm')}
           </span>
         ) : product.stock <= 4 ? (
           <span className={`absolute left-2 top-2 z-10 rounded-[6px] bg-stone-900/90 px-2 py-1 text-[8px] font-bold uppercase tracking-widest text-champagne-300 sm:left-3 sm:top-3 sm:rounded-none sm:border sm:border-champagne-400 sm:bg-stone-900 sm:text-[9px] sm:text-champagne-400 sm:px-3 ${compact ? 'sm:px-3' : ''}`}>

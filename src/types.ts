@@ -1,4 +1,14 @@
-﻿export interface Product {
+﻿export type InventoryPolicy = 'tracked' | 'availability_to_confirm';
+
+export interface ProductVariant {
+  id: string;
+  sku?: string;
+  finish: string;
+  color: string;
+  images: string[];
+}
+
+export interface Product {
   id: string;
   name: string;
   description: string;
@@ -17,6 +27,8 @@
   tags?: string[];
   primaryKeyword?: string;
   secondaryKeywords?: string[];
+  variants?: ProductVariant[];
+  inventory_policy?: InventoryPolicy;
 }
 
 export interface OrderItem {
@@ -26,6 +38,12 @@ export interface OrderItem {
   quantity: number;
   selected_size: string;
   image: string;
+  variant_id?: string;
+  variant_sku?: string;
+  variant_finish?: string;
+  variant_color?: string;
+  variant_label?: string;
+  availability_to_confirm?: boolean;
 }
 
 export interface Order {
@@ -46,7 +64,7 @@ export interface Order {
   discount_code?: string;
   total: number;
   idempotency_key?: string;
-  status: 'pending' | 'confirmed' | 'shipped' | 'delivered' | 'cancelled';
+  status: 'pending' | 'awaiting_availability' | 'confirmed' | 'shipped' | 'delivered' | 'cancelled';
   created_at: string;
 }
 
@@ -82,7 +100,7 @@ export interface Subscriber {
 }
 
 export interface CartItem {
-  id: string; // combination of product_id + selected_size
+  id: string; // product_id + variant id for variants, otherwise product_id + selected_size
   product_id: string;
   name: string;
   price: number;
@@ -90,6 +108,12 @@ export interface CartItem {
   selected_size: string;
   image: string;
   max_stock: number;
+  variant_id?: string;
+  variant_sku?: string;
+  variant_finish?: string;
+  variant_color?: string;
+  variant_label?: string;
+  availability_to_confirm?: boolean;
 }
 export interface Review {
   id: string;
