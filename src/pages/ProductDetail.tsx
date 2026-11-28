@@ -134,8 +134,6 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
       || product.metaDescription
       || product.description?.slice(0, 160)
       || '';
-    const url = typeof window !== 'undefined' ? window.location.origin + '/product/' + (product.slug || product.id) : '';
-
     // meta description
     let elDescription = document.querySelector<HTMLMetaElement>('meta[name="description"]');
     const prevDescription = elDescription?.getAttribute('content') || '';
@@ -146,22 +144,11 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
     }
     elDescription.setAttribute('content', metaDesc);
 
-    // canonical link
-    let elCanonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
-    const prevCanonical = elCanonical?.getAttribute('href') || '';
-    if (!elCanonical) {
-      elCanonical = document.createElement('link');
-      elCanonical.setAttribute('rel', 'canonical');
-      document.head.appendChild(elCanonical);
-    }
-    elCanonical.setAttribute('href', url);
-
     // Open Graph tags
     const ogTags: [string, string][] = [
       ['og:title', title],
       ['og:description', metaDesc],
       ['og:image', galleryImage],
-      ['og:url', url],
       ['og:type', 'product'],
     ];
     const prevOg: [HTMLMetaElement, string][] = [];
@@ -206,13 +193,6 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
           elDescription.setAttribute('content', prevDescription);
         } else {
           elDescription.remove();
-        }
-      }
-      if (elCanonical) {
-        if (prevCanonical) {
-          elCanonical.setAttribute('href', prevCanonical);
-        } else {
-          elCanonical.remove();
         }
       }
       for (const [el, prev] of prevOg) {
