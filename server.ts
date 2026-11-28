@@ -46,7 +46,7 @@ import {
   decrementProductStock,
   restoreProductStock
 } from './serverDB';
-import { Product, ProductVariant, Review, Order } from './src/types';
+import { Product, ProductVariant, Review, PublicReview, Order } from './src/types';
 
 export const app = express();
 const PORT = 3000;
@@ -1020,13 +1020,28 @@ app.delete('/api/newsletter/:id', requireAdmin, async (req, res) => {
 // Reviews API Endpoints
 // ------------------------------------------------------------------------
 
+// Explicit allowlist for public responses. Never spread stored review data here:
+// future private fields must not become public by accident.
+function toPublicReview(review: Review): PublicReview {
+  return {
+    id: review.id,
+    product_id: review.product_id,
+    customerName: review.customerName,
+    rating: review.rating,
+    comment: review.comment,
+    createdAt: review.createdAt
+  };
+}
+
 // Get reviews — public: ?product_id=xxx returns approved only; admin: no param returns all
 app.get('/api/reviews', async (req, res) => {
   try {
     const reviews = await getReviews();
     const { product_id } = req.query;
     if (product_id && typeof product_id === 'string') {
-      return res.json(reviews.filter(r => r.product_id === product_id && r.status === 'approved'));
+      return res.json(reviews
+        .filter(r => r.product_id === product_id && r.status === 'approved')
+        .map(toPublicReview));
     }
     // No product_id filter: full review list (including pending + customer emails) is admin-only
     if (!isAdminRequest(req)) {
@@ -1061,7 +1076,7 @@ app.post('/api/reviews', rateLimit(10, 15 * 60 * 1000), async (req, res) => {
       rating: ratingNum,
       comment: truncate(comment, 2000)
     });
-    res.json(created);
+    res.json(toPublicReview(created));
   } catch (err: any) {
     res.status(500).json({ error: 'Failed to save review', details: err.message });
   }

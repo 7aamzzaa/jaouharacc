@@ -12,6 +12,7 @@
     "lint": "tsc --noEmit",
     "generate:sitemap": "tsx scripts/generate-sitemap.ts",
     "test:admin": "tsx scripts/test-admin-orders.ts",
+    "test:reviews": "tsx scripts/test-review-privacy.ts",
     "db:recover-products": "tsx scripts/recover-products.ts",
     "db:migrate": "supabase db push",
     "db:migrate:data": "tsx scripts/migrate-to-supabase.ts"

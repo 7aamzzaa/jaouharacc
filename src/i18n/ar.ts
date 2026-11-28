@@ -903,7 +903,7 @@ noReviews: 'لا توجد تقييمات بعد. كن أول من يشارك ت�
     submitFailed: 'فشل إرسال التقييم',
     averageRating: 'متوسط التقييم',
     totalReviews: '{count} تقييم',
-    verifiedPurchase: 'شراء مؤكد',
+    customerReview: 'تقييم العميل',
   },
 
   app: {

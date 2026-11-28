@@ -1,9 +1,9 @@
 import { Star } from 'lucide-react';
 import { useTranslation } from '../../i18n';
-import type { Review } from '../../types';
+import type { PublicReview } from '../../types';
 
 interface ReviewCardProps {
-  review: Review;
+  review: PublicReview;
 }
 
 export default function ReviewCard({ review }: ReviewCardProps) {
@@ -24,11 +24,9 @@ export default function ReviewCard({ review }: ReviewCardProps) {
         <span className="text-sm font-semibold text-stone-800 font-sans">
           {review.customerName}
         </span>
-        {review.customerEmail && (
-          <span className="text-[10px] text-champagne-600 bg-champagne-50 px-2.5 py-0.5 rounded-full font-medium tracking-wide font-sans whitespace-nowrap">
-            {t('reviewsPage.verifiedPurchase')}
-          </span>
-        )}
+        <span className="text-[10px] text-champagne-600 bg-champagne-50 px-2.5 py-0.5 rounded-full font-medium tracking-wide font-sans whitespace-nowrap">
+          {t('reviewsPage.customerReview')}
+        </span>
       </div>
 
       <div className="flex items-center gap-0.5">

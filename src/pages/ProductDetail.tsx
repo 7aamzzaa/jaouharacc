@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo, useCallback, useRef, lazy, Suspense } from 'react';
 import { Minus, Plus, ShoppingBag, Heart, Scale, RefreshCw, ArrowLeft, ArrowRight, ExternalLink, Truck, CheckCircle } from 'lucide-react';
-import { Product, ProductVariant, Review } from '../types';
+import { Product, ProductVariant, PublicReview } from '../types';
 import ProductRating from '../components/ProductRating';
 import ProductCard from '../components/ProductCard';
 import { useTranslation } from '../i18n';
@@ -48,7 +48,7 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
   const { t, lang, dir } = useTranslation();
   const trackedViewRef = useRef<string | null>(null);
 
-  const [reviews, setReviews] = useState<Review[]>([]);
+  const [reviews, setReviews] = useState<PublicReview[]>([]);
   const [loadingReviews, setLoadingReviews] = useState(false);
 
   const fetchReviews = useCallback(async () => {
@@ -57,7 +57,7 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
     try {
       const response = await fetch(`/api/reviews?product_id=${product.id}`);
       if (response.ok) {
-        const data = await response.json();
+        const data: PublicReview[] = await response.json();
         setReviews(data);
       }
     } catch {

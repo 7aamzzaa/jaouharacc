@@ -125,3 +125,13 @@ export interface Review {
   createdAt: string;
   status: 'pending' | 'approved' | 'rejected';
 }
+
+// Public DTO: never expose customer email or moderation status to shoppers.
+export interface PublicReview {
+  id: string;
+  product_id: string;
+  customerName: string;
+  rating: number;
+  comment: string;
+  createdAt: string;
+}

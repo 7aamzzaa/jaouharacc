@@ -903,7 +903,7 @@ noReviews: 'No reviews yet. Be the first to share your experience!',
     submitFailed: 'Failed to submit review',
     averageRating: 'Average Rating',
     totalReviews: '{count} review(s)',
-    verifiedPurchase: 'Verified Purchase',
+    customerReview: 'Customer Review',
   },
 
   app: {

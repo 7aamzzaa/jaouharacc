@@ -903,7 +903,7 @@ noReviews: 'Aucun avis pour le moment. Soyez le premier à partager votre expér
     submitFailed: 'Échec de l\'envoi de l\'avis',
     averageRating: 'Note Moyenne',
     totalReviews: '{count} avis',
-    verifiedPurchase: 'Achat Vérifié',
+    customerReview: 'Avis Client',
   },
 
   app: {

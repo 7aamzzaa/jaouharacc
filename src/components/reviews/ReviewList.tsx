@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useTranslation } from '../../i18n';
-import type { Review } from '../../types';
+import type { PublicReview } from '../../types';
 import ReviewCard from './ReviewCard';
 
 interface ReviewListProps {
-  reviews: Review[];
+  reviews: PublicReview[];
 }
 
 const INITIAL_DISPLAY_COUNT = 3;
