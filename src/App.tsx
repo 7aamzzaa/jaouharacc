@@ -1,5 +1,5 @@
 import { useState, useEffect, memo, Suspense, lazy } from 'react';
-import { Routes, Route, useNavigate, useLocation, useSearchParams, useParams } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate, useLocation, useSearchParams, useParams } from 'react-router-dom';
 import { ShoppingBag, ArrowRight, ArrowLeft, X, ShieldCheck, Gem, Heart } from 'lucide-react';
 
 import { Product, CartItem, ProductVariant } from './types';
@@ -22,7 +22,6 @@ const Home = lazy(() => import('./pages/Home'));
 const Shop = lazy(() => import('./pages/Shop'));
 const ProductDetail = lazy(() => import('./pages/ProductDetail'));
 const Cart = lazy(() => import('./pages/Cart'));
-const CheckoutSimulation = lazy(() => import('./pages/CheckoutSimulation'));
 const OrderConfirmation = lazy(() => import('./pages/OrderConfirmation'));
 const AdminDashboard = lazy(() => import('./pages/AdminDashboard'));
 const NotFound = lazy(() => import('./pages/NotFound'));
@@ -98,6 +97,8 @@ export default function App() {
   }, [wishlist]);
 
   useEffect(() => {
+    // Legacy /checkout links must never clear the cart or create a confirmation.
+    if (window.location.pathname === '/checkout') return;
     const urlParams = new URLSearchParams(window.location.search);
     const status = urlParams.get('status');
     const orderId = urlParams.get('orderId');
@@ -268,7 +269,7 @@ export default function App() {
         navigate('/cart');
         break;
       case 'checkout':
-        navigate('/checkout');
+        navigate('/cart');
         break;
       case 'press':
         navigate('/press');
@@ -336,7 +337,7 @@ export default function App() {
           <Route path="/shop" element={<ShopWithParams products={allProducts} isLoading={loadingProducts} onAddToCartDirect={handleQuickAdd} onPageChange={handlePageChange} wishlist={wishlist} onToggleWishlist={handleToggleWishlist} />} />
           <Route path="/product/:slug" element={<ProductDetailWithParams allProducts={allProducts} onAddToCart={handleAddToCart} onPageChange={handlePageChange} wishlist={wishlist} onToggleWishlist={handleToggleWishlist} />} />
           <Route path="/cart" element={<Cart cart={cart} onUpdateQuantity={handleUpdateCartQuantity} onRemoveItem={handleRemoveCartItem} onPageChange={handlePageChange} onClearCart={handleClearCart} />} />
-          <Route path="/checkout" element={<CheckoutSimulation onClearCart={handleClearCart} onPageChange={handlePageChange} />} />
+          <Route path="/checkout" element={<Navigate to="/cart" replace />} />
           <Route path="/order-confirmation" element={<OrderConfirmation onPageChange={handlePageChange} />} />
           <Route path="/blog" element={<Blog onPageChange={handlePageChange} />} />
           <Route path="/blog/:slug" element={<BlogArticleWithParams onPageChange={handlePageChange} />} />
