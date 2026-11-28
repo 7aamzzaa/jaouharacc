@@ -9,6 +9,7 @@ import { getVariantLabel, getVariantLabelFromFields } from './i18n/variantLabels
 import { CurrencyProvider, useCurrency } from './CurrencyContext';
 import MobileBottomNav from './components/MobileBottomNav';
 import ToastContainer, { showToast } from './components/ToastContainer';
+import { useRouteSeo } from './seo';
 
 const Navbar = lazy(() => import('./components/Navbar'));
 const Footer = lazy(() => import('./components/Footer'));
@@ -35,6 +36,8 @@ const Wishlist = lazy(() => import('./pages/Wishlist'));
 export default function App() {
   const navigate = useNavigate();
   const location = useLocation();
+
+  useRouteSeo();
 
   const { formatPrice } = useCurrency();
 
