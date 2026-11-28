@@ -9,6 +9,11 @@ import { getVariantLabel, getVariantLabelFromFields } from './i18n/variantLabels
 import { CurrencyProvider, useCurrency } from './CurrencyContext';
 import MobileBottomNav from './components/MobileBottomNav';
 import ToastContainer, { showToast } from './components/ToastContainer';
+import { useRouteSeo } from './seo';
+import { trackAddToCart } from './analytics/ga4';
+import { useRouteTracking } from './analytics/useRouteTracking';
+import CookieConsentBanner from './components/CookieConsentBanner';
+import { getProductLocalizedFields } from './i18n/productTranslations';
 
 const Navbar = lazy(() => import('./components/Navbar'));
 const Footer = lazy(() => import('./components/Footer'));
@@ -24,6 +29,7 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 const Blog = lazy(() => import('./pages/Blog'));
 const BlogArticle = lazy(() => import('./pages/BlogArticle'));
 const Contact = lazy(() => import('./pages/Contact'));
+const PrivacyPolicy = lazy(() => import('./pages/PrivacyPolicy'));
 const FAQ = lazy(() => import('./pages/FAQ'));
 const SizeGuide = lazy(() => import('./pages/SizeGuide'));
 const TrackOrder = lazy(() => import('./pages/TrackOrder'));
@@ -35,6 +41,9 @@ const Wishlist = lazy(() => import('./pages/Wishlist'));
 export default function App() {
   const navigate = useNavigate();
   const location = useLocation();
+
+  useRouteSeo();
+  useRouteTracking();
 
   const { formatPrice } = useCurrency();
 
@@ -60,7 +69,7 @@ export default function App() {
     }
   });
 
-  const { t, dir } = useTranslation();
+  const { t, lang, dir } = useTranslation();
 
   const [isCartOpen, setIsCartOpen] = useState(false);
 
@@ -133,6 +142,23 @@ export default function App() {
     const maxStock = getMaxQuantity(product);
     const image = selectedVariant?.images?.[0] || product.images[0];
     const variantLabel = getVariantLabel(selectedVariant, t);
+
+    const existingCartItem = cart.find((item) => item.id === compositeId);
+    const trackedQuantity = existingCartItem
+      ? Math.max(0, Math.min(Math.floor(quantity), maxStock - existingCartItem.quantity))
+      : Math.max(0, Math.floor(quantity));
+
+    if (trackedQuantity > 0) {
+      trackAddToCart({
+        id: product.id,
+        name: getProductLocalizedFields(product, lang).name || product.name,
+        category: product.category,
+        price: product.price,
+        variantId: selectedVariant?.id,
+        variantLabel: variantLabel || undefined,
+        quantity: trackedQuantity,
+      });
+    }
 
     setCart((prev) => {
       const index = prev.findIndex((item) => item.id === compositeId);
@@ -321,6 +347,7 @@ export default function App() {
           <Route path="/about" element={<About />} />
           <Route path="/press" element={<Press />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/privacy" element={<PrivacyPolicy />} />
           <Route path="/wishlist" element={<Wishlist wishlist={wishlist} allProducts={allProducts} onToggleWishlist={handleToggleWishlist} onPageChange={handlePageChange} onAddToCartDirect={handleQuickAdd} />} />
           <Route path="/admin" element={<AdminDashboard products={allProducts} isLoadingProducts={loadingProducts} onRefreshProducts={fetchProductsList} />} />
           <Route path="*" element={<NotFound onPageChange={handlePageChange} />} />
@@ -398,6 +425,7 @@ export default function App() {
         <Footer />
       </Suspense>
       <ToastContainer />
+      <CookieConsentBanner />
 
       <div className="mobile-floating-actions sm:contents">
       <a

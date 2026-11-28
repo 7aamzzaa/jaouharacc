@@ -1,4 +1,4 @@
-﻿export const en: Record<string, any> = {
+export const en: Record<string, any> = {
   nav: {
     home: 'Home',
     collections: 'Collections',
@@ -485,8 +485,8 @@
     email: 'Email *',
     emailPlaceholder: 'your@email.com',
     phone: 'Phone',
-    phonePlaceholder: '+212 6XX XX XX XX',
-    subject: 'Subject *',
+    phonePlaceholder: 'Optional',
+    subject: 'Subject',
     subjectPlaceholder: 'How can we help?',
     message: 'Message *',
     messagePlaceholder: 'Tell us about your inquiry...',
@@ -496,14 +496,9 @@
     genericError: 'Something went wrong. Please try again.',
     atelier: 'Our Atelier',
     address: 'Address',
-    addressValue: 'Casablanca, Morocco',
-    phoneLabel: 'Phone',
-    phoneValue: '+212 5XX XX XX XX',
+    addressValue: 'Morocco',
     emailLabel: 'Email',
-    emailValue: 'hello@ccjaouhara.ma',
-    hours: 'Hours',
-    hoursValue: 'Mon\u2013Sat: 9:00 AM \u2013 7:00 PM',
-    mapPlaceholder: 'Interactive map coming soon',
+    emailValue: 'help.ccjaouhara@outlook.com',
     backHome: 'Back to Home',
   },
 
@@ -777,7 +772,7 @@
       },
       {
         q: 'How can I contact customer support?',
-        a: 'You can reach us via WhatsApp, email at hello@ccjaouhara.ma, or through the contact form on our website. We respond within 24 hours.',
+        a: 'You can reach us via WhatsApp, email at help.ccjaouhara@outlook.com, or through the contact form on our website. We respond within 24 hours.',
       },
     ],
   },
@@ -833,6 +828,8 @@
         story: 'Our Story',
         blog: 'Blog',
         press: 'Press',
+        privacy: 'Privacy Policy',
+        cookieSettings: 'Cookie Settings',
       },
     },
     payment: 'Secure Payment',
@@ -1182,6 +1179,87 @@ noReviews: 'No reviews yet. Be the first to share your experience!',
       placedOn: 'Placed on',
       contactCustomer: 'Contact Customer',
       contactWhatsappMessage: 'مرحبًا {name}،\n\nشكرًا لاختياركم CCJaouhara 🌸\n\nلقد توصلنا بطلبكم رقم #{orderId} بنجاح، ونعمل حاليًا على مراجعته وتجهيزه.\n\nإذا احتجنا أي معلومات إضافية سنتواصل معكم في أقرب وقت.\n\nشكرًا لثقتكم، ونتمنى لكم تجربة تسوق ممتعة.\n\nفريق CCJaouhara 💎',
+    },
+  },
+  cookie: {
+    banner: {
+      title: 'Your privacy, your choice',
+      desc: 'Essential browser storage keeps the store working. With your permission only, Google Analytics helps us understand visits, product views and add-to-cart actions. No advertising pixels are used.',
+      accept: 'Accept analytics',
+      reject: 'Reject optional tracking',
+      preferences: 'Preferences',
+      essential: 'Essential storage (always on)',
+      analytics: 'Analytics',
+      analyticsDesc: 'Helps us measure visits, product views and add-to-cart actions. It never includes your name, email, phone, address, order IDs or checkout details.',
+      save: 'Save choices',
+      close: 'Close',
+      privacy: 'Read Privacy Policy',
+      notice: 'You can change or withdraw your choice at any time from Cookie Settings in the footer.',
+    },
+  },
+
+  privacy: {
+    seo: {
+      title: `Privacy Policy | CCJAOUHARA Fine Jewelry`,
+      desc: `How CCJAOUHARA handles order, contact, newsletter, review, browser storage and optional analytics data, and how to make privacy requests.`,
+    },
+    title: `Privacy Policy`,
+    intro: `This policy describes how CCJAOUHARA, a jewelry brand based in Morocco, handles information through https://www.ccjaouhara.com. It covers the store, the contact form, newsletter, reviews, essential browser storage and optional Google Analytics. For privacy questions or requests, write to help.ccjaouhara@outlook.com.`,
+    contactEmail: `help.ccjaouhara@outlook.com`,
+    contactLink: `Email us about privacy`,
+    sections: {
+      scope: {
+        title: `Scope of this policy`,
+        body: `CCJAOUHARA is a jewelry brand based in Morocco. This policy applies to https://www.ccjaouhara.com and the storefront, contact, newsletter and review features provided there. It does not describe a legal entity status. If you need privacy information or want to make a request, contact help.ccjaouhara@outlook.com.`,
+      },
+      orders: {
+        title: `Order information`,
+        body: `When you place an order, we process the name, phone, email, country, city, street, apartment, order notes, product IDs, quantities and selected options you submit, together with an order identifier. We use this information to record, prepare and deliver the order and to allow order lookup by order ID and, when an email is stored, a matching email address. Prices and totals are calculated by the server. Order details are not sent to Google Analytics. If a card payment option is used, the payment provider handles the card details; full card numbers are not stored in the store database.`,
+      },
+      messages: {
+        title: `Contact messages`,
+        body: `The contact form collects your full name, email address, optional phone number, subject and message. We store these messages so we can reply to you. Please do not include sensitive information that is not needed for your enquiry.`,
+      },
+      newsletter: {
+        title: `Newsletter`,
+        body: `If you subscribe to the newsletter, we store the email address you provide in a subscriber list so we can send catalogs and updates. You can ask us to remove your address by emailing help.ccjaouhara@outlook.com.`,
+      },
+      reviews: {
+        title: `Product reviews`,
+        body: `The review form collects the product being reviewed, a display name, an optional email address, a rating and your comment. Reviews are stored for moderation. When approved, the display name and comment can be visible to other visitors. Review records may also contain the email address you provided, so please avoid putting private details in the comment. Contact us if you want a review removed.`,
+      },
+      browserStorage: {
+        title: `Essential browser storage`,
+        body: `Your browser stores the cart, wishlist, language, currency, recently viewed products and your consent choice in localStorage so the store works as expected. These are essential or preference storage and do not require analytics consent. Admin users receive a session cookie when signing in to the admin area.`,
+      },
+      analytics: {
+        title: `Optional Google Analytics`,
+        body: `Only after you opt in do we use Google Analytics 4 (measurement ID G-CDFRLYK1W3) to understand site usage. In Phase 1 we send page_view, view_item and add_to_cart events. Page paths are sanitized, checkout/order/tracking query parameters are removed and admin pages are excluded. We do not send purchase events, customer names, email addresses, phone numbers, delivery addresses, order IDs or checkout details to Google Analytics. Ad storage, ad user data and ad personalization remain denied, and no advertising pixels are installed.`,
+      },
+      cookies: {
+        title: `Cookies and consent`,
+        body: `Essential storage is used without consent for the cart, wishlist, language, currency, recently viewed products and the consent record. If you accept analytics, Google Analytics may set _ga and related cookies. If you reject or withdraw consent, we remove the GA script, clear queued GA commands, delete GA cookies and stop future analytics events. Events already sent to Google cannot be recalled. GA cookie lifetimes are controlled by Google; our consent record remains in localStorage until you clear it or change it.`,
+      },
+      providers: {
+        title: `Service providers`,
+        body: `Service providers that may process information are: Google (Google Analytics 4 and font delivery), Supabase (database storage for orders, messages, subscribers, reviews and related records), our hosting provider (serving the site and API and keeping operational logs), and Stripe when a card payment session is used. We do not use these details for advertising and we do not sell personal information.`,
+      },
+      choices: {
+        title: `Your choices`,
+        body: `You can accept or reject analytics in the cookie banner. You can change or withdraw your choice at any time using Cookie Settings in the footer. Rejecting analytics does not affect browsing, cart, checkout, orders, contact messages or reviews.`,
+      },
+      rights: {
+        title: `Privacy requests`,
+        body: `You may contact us to ask about information we hold, request a correction or deletion, ask us to stop a particular use, or withdraw analytics consent. Send your request to help.ccjaouhara@outlook.com. We may need to verify that the request relates to you. We will review requests and respond, but this policy does not promise a specific statutory outcome or timeframe.`,
+      },
+      children: {
+        title: `Children`,
+        body: `The store is not directed at children. We do not intentionally collect analytics data from children. If you believe a child has provided personal information, write to help.ccjaouhara@outlook.com.`,
+      },
+      changes: {
+        title: `Changes to this policy`,
+        body: `We may update this policy as the store or its service providers change. The current version is the one published at /privacy.`,
+      },
     },
   },
 };

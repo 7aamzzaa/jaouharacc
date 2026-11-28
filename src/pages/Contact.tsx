@@ -1,6 +1,6 @@
 import { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { MapPin, Phone, Mail, Clock, Send, Check, ArrowLeft, ArrowRight, Loader2 } from 'lucide-react';
+import { MapPin, Mail, Send, Check, ArrowLeft, ArrowRight, Loader2 } from 'lucide-react';
 import { useTranslation } from '../i18n';
 import { showToast } from '../components/ToastContainer';
 
@@ -153,44 +153,20 @@ export default function Contact() {
                   <p className="text-sm text-stone-800 font-sans">{t('contact.addressValue')}</p>
                 </div>
               </div>
-              <div className="flex items-start gap-4" dir={dir}>
-                <div className="w-10 h-10 bg-champagne-50 border border-champagne-100 rounded-lg flex items-center justify-center text-champagne-600 shrink-0">
-                  <Phone size={16} />
-                </div>
-                <div className="text-start">
-                  <p className="text-[10px] tracking-widest uppercase font-bold text-stone-500 font-sans">{t('contact.phoneLabel')}</p>
-                  <p className="text-sm text-stone-800 font-sans">{t('contact.phoneValue')}</p>
-                </div>
-              </div>
+
               <div className="flex items-start gap-4" dir={dir}>
                 <div className="w-10 h-10 bg-champagne-50 border border-champagne-100 rounded-lg flex items-center justify-center text-champagne-600 shrink-0">
                   <Mail size={16} />
                 </div>
                 <div className="text-start">
                   <p className="text-[10px] tracking-widest uppercase font-bold text-stone-500 font-sans">{t('contact.emailLabel')}</p>
-                  <p className="text-sm text-stone-800 font-sans">{t('contact.emailValue')}</p>
+                  <a href={`mailto:${t('contact.emailValue')}`} className="text-sm text-stone-800 font-sans hover:text-champagne-600 hover:underline">{t('contact.emailValue')}</a>
                 </div>
               </div>
-              <div className="flex items-start gap-4" dir={dir}>
-                <div className="w-10 h-10 bg-champagne-50 border border-champagne-100 rounded-lg flex items-center justify-center text-champagne-600 shrink-0">
-                  <Clock size={16} />
-                </div>
-                <div className="text-start">
-                  <p className="text-[10px] tracking-widest uppercase font-bold text-stone-500 font-sans">{t('contact.hours')}</p>
-                  <p className="text-sm text-stone-800 font-sans">{t('contact.hoursValue')}</p>
-                </div>
-              </div>
+
             </div>
           </div>
 
-          {/* Map placeholder */}
-          <div className="bg-stone-100 border border-champagne-150 rounded-xl h-64 flex items-center justify-center overflow-hidden">
-            <div className="text-center space-y-2">
-              <MapPin size={28} className="text-champagne-500 mx-auto" />
-              <p className="text-xs text-stone-500 font-sans">{t('contact.addressValue')}</p>
-              <p className="text-[9px] text-stone-400 font-sans">{t('contact.mapPlaceholder')}</p>
-            </div>
-          </div>
 
           {/* Quick nav */}
           <button

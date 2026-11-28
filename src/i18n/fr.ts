@@ -1,4 +1,4 @@
-﻿export const fr: Record<string, any> = {
+export const fr: Record<string, any> = {
   nav: {
     home: 'Accueil',
     collections: 'Collections',
@@ -485,8 +485,8 @@
     email: 'Email *',
     emailPlaceholder: 'votre@email.com',
     phone: 'T\u00e9l\u00e9phone',
-    phonePlaceholder: '+212 6XX XX XX XX',
-    subject: 'Sujet *',
+    phonePlaceholder: 'Facultatif',
+    subject: 'Sujet',
     subjectPlaceholder: 'Comment pouvons-nous vous aider ?',
     message: 'Message *',
     messagePlaceholder: 'Parlez-nous de votre demande...',
@@ -496,14 +496,9 @@
     genericError: 'Une erreur est survenue. Veuillez réessayer.',
     atelier: 'Notre Atelier',
     address: 'Adresse',
-    addressValue: 'Casablanca, Maroc',
-    phoneLabel: 'T\u00e9l\u00e9phone',
-    phoneValue: '+212 5XX XX XX XX',
+    addressValue: 'Maroc',
     emailLabel: 'Email',
-    emailValue: 'hello@ccjaouhara.ma',
-    hours: 'Horaires',
-    hoursValue: 'Lun\u2013Sam : 9h00 \u2013 19h00',
-    mapPlaceholder: 'Carte interactive bient\u00f4t disponible',
+    emailValue: 'help.ccjaouhara@outlook.com',
     backHome: 'Retour \u00e0 l\u2019Accueil',
   },
 
@@ -777,7 +772,7 @@
       },
       {
         q: 'Comment contacter le service client ?',
-        a: 'Vous pouvez nous joindre par WhatsApp, email à hello@ccjaouhara.ma, ou via le formulaire de contact sur notre site. Nous répondons sous 24 heures.',
+        a: 'Vous pouvez nous joindre par WhatsApp, email à help.ccjaouhara@outlook.com, ou via le formulaire de contact sur notre site. Nous répondons sous 24 heures.',
       },
     ],
   },
@@ -833,6 +828,8 @@
         story: 'Notre Histoire',
         blog: 'Blog',
         press: 'Presse',
+        privacy: 'Politique de confidentialité',
+        cookieSettings: 'Paramètres des cookies',
       },
     },
     payment: 'Paiement S\u00e9curis\u00e9',
@@ -1168,6 +1165,87 @@ noReviews: 'Aucun avis pour le moment. Soyez le premier à partager votre expér
       placedOn: 'Pass\u00e9e le',
       contactCustomer: 'Contacter le Client',
       contactWhatsappMessage: 'مرحبًا {name}،\n\nشكرًا لاختياركم CCJaouhara 🌸\n\nلقد توصلنا بطلبكم رقم #{orderId} بنجاح، ونعمل حاليًا على مراجعته وتجهيزه.\n\nإذا احتجنا أي معلومات إضافية سنتواصل معكم في أقرب وقت.\n\nشكرًا لثقتكم، ونتمنى لكم تجربة تسوق ممتعة.\n\nفريق CCJaouhara 💎',
+    },
+  },
+  cookie: {
+    banner: {
+      title: 'Votre vie privée, votre choix',
+      desc: 'Le stockage essentiel permet au site de fonctionner. Avec votre autorisation seulement, Google Analytics nous aide à comprendre les visites, les vues de produits et les ajouts au panier. Aucun pixel publicitaire n\'est utilisé.',
+      accept: 'Accepter les analyses',
+      reject: 'Refuser le suivi facultatif',
+      preferences: 'Préférences',
+      essential: 'Stockage essentiel (toujours actif)',
+      analytics: 'Analyses',
+      analyticsDesc: 'Nous aide à mesurer les visites, les vues de produits et les ajouts au panier. N\'inclut jamais votre nom, votre adresse e-mail, votre téléphone, votre adresse, les numéros de commande ni les détails du paiement.',
+      save: 'Enregistrer les choix',
+      close: 'Fermer',
+      privacy: 'Lire la politique de confidentialité',
+      notice: 'Vous pouvez modifier ou retirer votre choix à tout moment depuis Paramètres des cookies dans le pied de page.',
+    },
+  },
+
+  privacy: {
+    seo: {
+      title: `Politique de confidentialité | CCJAOUHARA Fine Jewelry`,
+      desc: `Comment CCJAOUHARA traite les données des commandes, messages, abonnements, avis, du stockage du navigateur et des analyses facultatives, et comment formuler une demande de confidentialité.`,
+    },
+    title: `Politique de confidentialité`,
+    intro: `Cette politique décrit comment CCJAOUHARA, une marque de bijoux basée au Maroc, traite les informations via https://www.ccjaouhara.com. Elle couvre la boutique, le formulaire de contact, la newsletter, les avis, le stockage essentiel du navigateur et Google Analytics facultatif. Pour toute question ou demande relative à la confidentialité, écrivez à help.ccjaouhara@outlook.com.`,
+    contactEmail: `help.ccjaouhara@outlook.com`,
+    contactLink: `Nous écrire au sujet de la confidentialité`,
+    sections: {
+      scope: {
+        title: `Champ d'application`,
+        body: `CCJAOUHARA est une marque de bijoux basée au Maroc. Cette politique s'applique à https://www.ccjaouhara.com ainsi qu'à la boutique, au formulaire de contact, à la newsletter et aux avis proposés sur ce site. Elle ne déclare aucun statut juridique d'entreprise. Pour toute information ou demande relative à la confidentialité, contactez help.ccjaouhara@outlook.com.`,
+      },
+      orders: {
+        title: `Informations de commande`,
+        body: `Lors d'une commande, nous traitons le nom, le téléphone, l'e-mail, le pays, la ville, la rue, l'appartement, les notes de commande, les identifiants de produits, les quantités et les options sélectionnés, ainsi qu'un identifiant de commande. Ces informations servent à enregistrer, préparer et livrer la commande et à permettre une recherche par identifiant de commande et, lorsqu'une adresse e-mail est enregistrée, par e-mail correspondant. Les prix et totaux sont calculés par le serveur. Les détails de commande ne sont pas envoyés à Google Analytics. Si un paiement par carte est utilisé, le prestataire de paiement traite les détails de la carte ; les numéros complets de carte ne sont pas stockés dans la base de la boutique.`,
+      },
+      messages: {
+        title: `Messages de contact`,
+        body: `Le formulaire de contact recueille votre nom complet, votre adresse e-mail, un numéro de téléphone facultatif, le sujet et le message. Nous conservons ces messages afin de pouvoir vous répondre. Veuillez ne pas inclure d'informations sensibles qui ne sont pas nécessaires à votre demande.`,
+      },
+      newsletter: {
+        title: `Newsletter`,
+        body: `Si vous vous abonnez à la newsletter, nous conservons l'adresse e-mail fournie dans une liste d'abonnés afin de vous envoyer des catalogues et des mises à jour. Vous pouvez demander le retrait de votre adresse en écrivant à help.ccjaouhara@outlook.com.`,
+      },
+      reviews: {
+        title: `Avis sur les produits`,
+        body: `Le formulaire d'avis recueille le produit concerné, un nom affiché, une adresse e-mail facultative, une note et votre commentaire. Les avis sont conservés pour modération. Une fois approuvés, le nom affiché et le commentaire peuvent être visibles par les autres visiteurs. Les enregistrements d'avis peuvent également contenir l'adresse e-mail fournie ; évitez donc les informations privées dans le commentaire. Contactez-nous si vous souhaitez retirer un avis.`,
+      },
+      browserStorage: {
+        title: `Stockage essentiel du navigateur`,
+        body: `Votre navigateur conserve le panier, la liste de souhaits, la langue, la devise, les produits récemment consultés et votre choix de consentement dans localStorage pour assurer le fonctionnement du site. Il s'agit d'un stockage essentiel ou de préférence, qui ne nécessite pas le consentement aux analyses. Les administrateurs reçoivent un cookie de session lors de la connexion à l'administration.`,
+      },
+      analytics: {
+        title: `Google Analytics facultatif`,
+        body: `Uniquement après votre consentement, nous utilisons Google Analytics 4 (identifiant de mesure G-CDFRLYK1W3) pour comprendre l'utilisation du site. Dans cette première phase, nous envoyons les événements page_view, view_item et add_to_cart. Les chemins de page sont nettoyés, les paramètres de requête de paiement, de commande et de suivi sont supprimés et les pages d'administration sont exclues. Nous n'envoyons pas d'événements d'achat, de noms de clients, d'adresses e-mail, de numéros de téléphone, d'adresses de livraison, de numéros de commande ni de détails de paiement à Google Analytics. Le stockage publicitaire, les données publicitaires et la personnalisation restent refusés, et aucun pixel publicitaire n'est installé.`,
+      },
+      cookies: {
+        title: `Cookies et consentement`,
+        body: `Le stockage essentiel est utilisé sans consentement pour le panier, la liste de souhaits, la langue, la devise, les produits récemment consultés et l'enregistrement du consentement. Si vous acceptez les analyses, Google Analytics peut déposer des cookies _ga et associés. Si vous refusez ou retirez votre consentement, nous supprimons le script GA, effaçons les commandes GA en attente, supprimons les cookies GA et arrêtons les événements d'analyse futurs. Les événements déjà envoyés à Google ne peuvent pas être rappelés. La durée de vie des cookies GA est définie par Google ; notre enregistrement de consentement reste dans localStorage jusqu'à ce que vous le modifiiez ou effaciez.`,
+      },
+      providers: {
+        title: `Prestataires de services`,
+        body: `Les prestataires susceptibles de traiter des informations sont : Google (Google Analytics 4 et diffusion des polices), Supabase (stockage de données pour les commandes, messages, abonnés, avis et enregistrements associés), notre hébergeur (diffusion du site et de l'API, et journaux opérationnels), et Stripe lorsqu'une session de paiement par carte est utilisée. Nous n'utilisons pas ces informations à des fins publicitaires et ne vendons pas d'informations personnelles.`,
+      },
+      choices: {
+        title: `Vos choix`,
+        body: `Vous pouvez accepter ou refuser les analyses dans la bannière de cookies. Vous pouvez modifier ou retirer votre choix à tout moment via les paramètres de cookies dans le pied de page. Refuser les analyses n'affecte pas la navigation, le panier, le paiement, les commandes, les messages de contact ni les avis.`,
+      },
+      rights: {
+        title: `Demandes de confidentialité`,
+        body: `Vous pouvez nous contacter pour demander quelles informations nous détenons, corriger ou supprimer une information, demander l'arrêt d'un usage particulier ou retirer votre consentement aux analyses. Envoyez votre demande à help.ccjaouhara@outlook.com. Nous pourrions avoir besoin de vérifier que la demande vous concerne. Nous examinerons les demandes et y répondrons, mais cette politique ne promet aucun résultat ni délai légal spécifique.`,
+      },
+      children: {
+        title: `Enfants`,
+        body: `La boutique n'est pas destinée aux enfants. Nous ne recueillons pas intentionnellement de données d'analyse auprès d'enfants. Si vous pensez qu'un enfant a fourni des informations personnelles, écrivez à help.ccjaouhara@outlook.com.`,
+      },
+      changes: {
+        title: `Modifications de cette politique`,
+        body: `Nous pouvons mettre à jour cette politique lorsque la boutique ou ses prestataires évoluent. La version en vigueur est celle publiée sur /privacy.`,
+      },
     },
   },
 };

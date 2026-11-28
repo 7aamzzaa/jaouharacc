@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Instagram, Facebook, Compass, Heart, ArrowRight, ChevronRight } from 'lucide-react';
 import { useTranslation } from '../i18n';
 import { showToast } from './ToastContainer';
+import { openCookiePreferences } from '../analytics/consent';
 
 const SOCIAL_LINKS = {
   instagram: 'https://www.instagram.com/ccjaouhara/',
@@ -41,7 +42,9 @@ export default function Footer() {
     }
   };
 
-  const linkColumns = [
+  type FooterLink = { label: string; href?: string; onClick?: () => void };
+
+  const linkColumns: { title: string; items: FooterLink[] }[] = [
     {
       title: t('footer.links.shop.title'),
       items: [
@@ -68,6 +71,8 @@ export default function Footer() {
         { label: t('footer.links.about.story'), href: '/about' },
         { label: t('footer.links.about.blog'), href: '/blog' },
         { label: t('footer.links.about.press'), href: '/press' },
+        { label: t('footer.links.about.privacy'), href: '/privacy' },
+        { label: t('footer.links.about.cookieSettings'), onClick: openCookiePreferences },
       ],
     },
   ];
@@ -173,13 +178,24 @@ export default function Footer() {
               <ul className="space-y-2">
                 {col.items.map((item) => (
                   <li key={item.label}>
-                    <a
-                      href={item.href}
-                      className="text-xs text-stone-500 hover:text-champagne-500 transition-colors duration-200 inline-flex items-center gap-1"
-                    >
-                      <ChevronRight size={8} className="text-stone-300" />
-                      {item.label}
-                    </a>
+                    {item.href ? (
+                      <a
+                        href={item.href}
+                        className="text-xs text-stone-500 hover:text-champagne-500 transition-colors duration-200 inline-flex items-center gap-1"
+                      >
+                        <ChevronRight size={8} className="text-stone-300" />
+                        {item.label}
+                      </a>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={item.onClick}
+                        className="cursor-pointer text-xs text-stone-500 hover:text-champagne-500 transition-colors duration-200 inline-flex items-center gap-1"
+                      >
+                        <ChevronRight size={8} className="text-stone-300" />
+                        {item.label}
+                      </button>
+                    )}
                   </li>
                 ))}
               </ul>

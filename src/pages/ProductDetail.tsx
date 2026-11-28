@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback, lazy, Suspense } from 'react';
+import { useState, useEffect, useMemo, useCallback, useRef, lazy, Suspense } from 'react';
 import { Minus, Plus, ShoppingBag, Heart, Scale, RefreshCw, ArrowLeft, ArrowRight, ExternalLink, Truck, CheckCircle } from 'lucide-react';
 import { Product, ProductVariant, Review } from '../types';
 import ProductRating from '../components/ProductRating';
@@ -8,6 +8,7 @@ import { getLocalizedCategoryLabel, getProductLocalizedFields } from '../i18n/pr
 import { ACCENT_LABEL_KEYS, FINISH_LABEL_KEYS, getVariantLabel } from '../i18n/variantLabels';
 import { getDefaultVariant, getMaxQuantity, getVariantById, isAvailabilityToConfirm, resolveVariantOrDefault } from '../data/productOptions';
 import { useCurrency } from '../CurrencyContext';
+import { trackViewItem } from '../analytics/ga4';
 
 const FAQAccordion = lazy(() => import('../components/FAQAccordion'));
 const ShareModal = lazy(() => import('../components/ShareModal'));
@@ -45,6 +46,7 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
   const [addedMessage, setAddedMessage] = useState<boolean>(false);
   const [showShareModal, setShowShareModal] = useState(false);
   const { t, lang, dir } = useTranslation();
+  const trackedViewRef = useRef<string | null>(null);
 
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loadingReviews, setLoadingReviews] = useState(false);
@@ -117,6 +119,21 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
     setActiveImageIndex(0);
   }, [selectedVariantId]);
 
+  // Track a single view_item per product view. The wrapper suppresses this
+  // until the customer has explicitly granted analytics consent.
+  useEffect(() => {
+    if (!product || trackedViewRef.current === product.id) return;
+    trackedViewRef.current = product.id;
+    trackViewItem({
+      id: product.id,
+      name: localizedProduct.name || product.name,
+      category: product.category,
+      price: product.price,
+      variantId: selectedVariant?.id,
+      variantLabel: selectedVariantLabel || undefined,
+    });
+  }, [product, localizedProduct.name, selectedVariant?.id, selectedVariantLabel]);
+
   // Dynamic SEO Meta tags injection
   useEffect(() => {
     if (!product) return;
@@ -134,8 +151,6 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
       || product.metaDescription
       || product.description?.slice(0, 160)
       || '';
-    const url = typeof window !== 'undefined' ? window.location.origin + '/product/' + (product.slug || product.id) : '';
-
     // meta description
     let elDescription = document.querySelector<HTMLMetaElement>('meta[name="description"]');
     const prevDescription = elDescription?.getAttribute('content') || '';
@@ -146,22 +161,11 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
     }
     elDescription.setAttribute('content', metaDesc);
 
-    // canonical link
-    let elCanonical = document.querySelector<HTMLLinkElement>('link[rel="canonical"]');
-    const prevCanonical = elCanonical?.getAttribute('href') || '';
-    if (!elCanonical) {
-      elCanonical = document.createElement('link');
-      elCanonical.setAttribute('rel', 'canonical');
-      document.head.appendChild(elCanonical);
-    }
-    elCanonical.setAttribute('href', url);
-
     // Open Graph tags
     const ogTags: [string, string][] = [
       ['og:title', title],
       ['og:description', metaDesc],
       ['og:image', galleryImage],
-      ['og:url', url],
       ['og:type', 'product'],
     ];
     const prevOg: [HTMLMetaElement, string][] = [];
@@ -206,13 +210,6 @@ export default function ProductDetail({ productParam, allProducts, onAddToCart, 
           elDescription.setAttribute('content', prevDescription);
         } else {
           elDescription.remove();
-        }
-      }
-      if (elCanonical) {
-        if (prevCanonical) {
-          elCanonical.setAttribute('href', prevCanonical);
-        } else {
-          elCanonical.remove();
         }
       }
       for (const [el, prev] of prevOg) {
